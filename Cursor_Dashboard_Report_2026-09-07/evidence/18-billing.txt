@@ -1,0 +1,197 @@
+- region "Notifications alt+T"
+- main:
+  - complementary:
+    - link "Back to Agents":
+      - /url: /agents
+    - button "Search (Ctrl+K)":
+      - generic: 
+    - button "User menu":
+      - img "Bohan Xu"
+      - generic: Bohan Xu
+      - generic: Pro
+      - generic: 
+    - navigation:
+      - link "Overview":
+        - /url: /dashboard
+        - generic: 
+        - generic: Overview
+      - link "Settings":
+        - /url: /dashboard/settings
+        - generic: 
+        - generic: Settings
+      - link "Cloud Agents":
+        - /url: /dashboard/cloud-agents
+        - generic: 
+        - generic: Cloud Agents
+      - link "Plugins":
+        - /url: /dashboard/plugins
+        - generic: 
+        - generic: Plugins
+      - link "Integrations":
+        - /url: /dashboard/integrations
+        - generic: 
+        - generic: Integrations
+      - link "API & SSH Keys":
+        - /url: /dashboard/api
+        - generic: 
+        - generic: API & SSH Keys
+      - link "Shared Canvases":
+        - /url: /dashboard/shared-canvases
+        - generic: 
+        - generic: Shared Canvases
+      - link "Members":
+        - /url: /dashboard/members
+        - generic: 
+        - generic: Members
+      - link "Usage":
+        - /url: /dashboard/usage
+        - generic: 
+        - generic: Usage
+      - link "Spending":
+        - /url: /dashboard/spending
+        - generic: 
+        - generic: Spending
+      - link "Billing & Invoices" [active]:
+        - /url: /dashboard/billing
+        - generic: 
+        - generic: Billing & Invoices
+  - text: 
+  - generic: Billing & Invoices
+  - generic: Switch to annual billing and save 20%
+  - button "Upgrade Now"
+  - paragraph: Pro
+  - generic: $20
+  - generic: /mo.
+  - paragraph: Entry-level plan with access to premium models, unlimited Tab completions, and more.
+  - paragraph: Your subscription will auto renew on 2026年10月1日.
+  - button "Adjust plan"
+  - paragraph: Payment
+  - paragraph: Update your payment details
+  - button "Manage in Stripe"
+  - paragraph: Included Usage
+  - paragraph: Sep 1, 2026 - Oct 1, 2026
+  - table:
+    - rowgroup:
+      - row "Item Tokens Usage":
+        - columnheader "Item"
+        - columnheader "Tokens"
+        - columnheader "Usage"
+    - rowgroup:
+      - row "Cursor Models 1.6亿 tokens 1.0%":
+        - cell "Cursor Models":
+          - generic: Cursor Models
+        - cell "1.6亿 tokens":
+          - generic: 1.6亿 tokens
+        - cell "1.0%":
+          - generic: 1.0%
+      - row "grok-bot-default 1.6亿 tokens 0.9%":
+        - cell "grok-bot-default":
+          - generic: grok-bot-default
+        - cell "1.6亿 tokens":
+          - generic: 1.6亿 tokens
+        - cell "0.9%":
+          - generic: 0.9%
+      - row "cursor-grok-4.6-high 170万 tokens 0.0%":
+        - cell "cursor-grok-4.6-high":
+          - generic: cursor-grok-4.6-high
+        - cell "170万 tokens":
+          - generic: 170万 tokens
+        - cell "0.0%":
+          - generic: 0.0%
+      - row "cursor-grok-4.6-xhigh 137.4万 tokens 0.0%":
+        - cell "cursor-grok-4.6-xhigh":
+          - generic: cursor-grok-4.6-xhigh
+        - cell "137.4万 tokens":
+          - generic: 137.4万 tokens
+        - cell "0.0%":
+          - generic: 0.0%
+      - row "cursor-grok-4.6-high-fast 38.3万 tokens 0.0%":
+        - cell "cursor-grok-4.6-high-fast":
+          - generic: cursor-grok-4.6-high-fast
+        - cell "38.3万 tokens":
+          - generic: 38.3万 tokens
+        - cell "0.0%":
+          - generic: 0.0%
+      - row "auto 65.1万 tokens 0.0%":
+        - cell "auto":
+          - generic: auto
+        - cell "65.1万 tokens":
+          - generic: 65.1万 tokens
+        - cell "0.0%":
+          - generic: 0.0%
+      - row "Other Models 884万 tokens 1.5%":
+        - cell "Other Models":
+          - generic: Other Models
+        - cell "884万 tokens":
+          - generic: 884万 tokens
+        - cell "1.5%":
+          - generic: 1.5%
+      - row "claude-opus-4-8-thinking-high 646.7万 tokens 1.3%":
+        - cell "claude-opus-4-8-thinking-high":
+          - generic: claude-opus-4-8-thinking-high
+        - cell "646.7万 tokens":
+          - generic: 646.7万 tokens
+        - cell "1.3%":
+          - generic: 1.3%
+      - row "gemini-2.5-flash 18.8万 tokens 0.2%":
+        - cell "gemini-2.5-flash":
+          - generic: gemini-2.5-flash
+        - cell "18.8万 tokens":
+          - generic: 18.8万 tokens
+        - cell "0.2%":
+          - generic: 0.2%
+      - row "grok-bot-default 218.6万 tokens 0.0%":
+        - cell "grok-bot-default":
+          - generic: grok-bot-default
+        - cell "218.6万 tokens":
+          - generic: 218.6万 tokens
+        - cell "0.0%":
+          - generic: 0.0%
+  - paragraph: On-Demand Usage
+  - button "Cycle Starting 2026年9月1日":
+    - generic: Cycle Starting 2026年9月1日
+    - generic: 
+  - paragraph: 2026年9月1日 - 2026年9月8日
+  - generic: US$0.00
+  - table:
+    - rowgroup:
+      - row "Type Tokens Cost Qty Total":
+        - columnheader "Type"
+        - columnheader "Tokens"
+        - columnheader "Cost"
+        - columnheader "Qty"
+        - columnheader "Total"
+    - rowgroup:
+      - 'row "Subtotal: US$0.00"':
+        - cell "Subtotal:"
+        - cell "US$0.00"
+  - paragraph: Invoices
+  - generic "UTC. Invoice dates and the months you can filter and download are in UTC.": UTC
+  - button "2026年9月":
+    - generic: 2026年9月
+    - generic: 
+  - button "Download":
+    - generic: Download
+    - generic: 
+  - table:
+    - rowgroup:
+      - row "Date (UTC) Description Status Amount Invoice":
+        - columnheader "Date (UTC)"
+        - columnheader "Description"
+        - columnheader "Status"
+        - columnheader "Amount"
+        - columnheader "Invoice"
+    - rowgroup:
+      - row "2026年9月01日 paid 20.00 USD View":
+        - cell "2026年9月01日"
+        - cell
+        - cell "paid"
+        - cell "20.00 USD"
+        - cell "View":
+          - link "View":
+            - /url: [invoice-link-omitted]
+            - text: View
+  - paragraph: Cancel
+  - paragraph: We'll be sad to see you go.
+  - button "Cancel"
+- alert

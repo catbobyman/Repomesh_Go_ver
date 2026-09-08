@@ -1,0 +1,24 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Dependencies and build output
+node_modules/
+__pycache__/
+*.pyc
+bin/
+dist/
+coverage/
+*.test
+*.out
+*.log

@@ -1,0 +1,96 @@
+- region "Notifications alt+T"
+- main:
+  - complementary:
+    - link "Back to Agents":
+      - /url: /agents
+    - button "Search (Ctrl+K)":
+      - generic: 
+    - button "User menu":
+      - img "Bohan Xu"
+      - generic: Bohan Xu
+      - generic: Pro
+      - generic: 
+    - navigation:
+      - link "Overview":
+        - /url: /dashboard
+        - generic: 
+        - generic: Overview
+      - link "Settings":
+        - /url: /dashboard/settings
+        - generic: 
+        - generic: Settings
+      - link "Cloud Agents":
+        - /url: /dashboard/cloud-agents
+        - generic: 
+        - generic: Cloud Agents
+      - link "Plugins":
+        - /url: /dashboard/plugins
+        - generic: 
+        - generic: Plugins
+      - link "Integrations":
+        - /url: /dashboard/integrations
+        - generic: 
+        - generic: Integrations
+      - link "API & SSH Keys":
+        - /url: /dashboard/api
+        - generic: 
+        - generic: API & SSH Keys
+      - link "Shared Canvases":
+        - /url: /dashboard/shared-canvases
+        - generic: 
+        - generic: Shared Canvases
+      - link "Members":
+        - /url: /dashboard/members
+        - generic: 
+        - generic: Members
+      - link "Usage":
+        - /url: /dashboard/usage
+        - generic: 
+        - generic: Usage
+      - link "Spending" [active]:
+        - /url: /dashboard/spending
+        - generic: 
+        - generic: Spending
+      - link "Billing & Invoices":
+        - /url: /dashboard/billing
+        - generic: 
+        - generic: Billing & Invoices
+  - text: 
+  - generic: Spending
+  - generic: Current Plan
+  - paragraph: Pro
+  - paragraph: $20/mo
+  - paragraph: Usage limits reset on 10月1日 (24 days left)
+  - button "Adjust Plan"
+  - generic: Upgrade Available
+  - paragraph: Pro+
+  - paragraph: $60/mo
+  - paragraph: Unlock 3x more usage on Agent & more
+  - button "Upgrade"
+  - button "Copy link to Included in Pro and scroll to section":
+    - generic: Included in Pro
+    - text: 
+  - text: Cursor Models
+  - generic: · Includes Cursor Grok and Composer
+  - generic: 1% used
+  - generic: Additional usage beyond limits consumes Other Models quota or on-demand spend.
+  - generic: Other Models
+  - generic: 1% used
+  - generic: Additional usage beyond limits consumes on-demand spend.
+  - button "Copy link to Grok Bot and scroll to section": Grok Bot 
+  - generic: Weekly usage
+  - generic: 1% used
+  - generic: Resets 9月8日 (8 hours and 50 minutes left)
+  - button "Copy link to On-Demand Usage and scroll to section":
+    - generic: On-Demand Usage
+    - text: 
+  - generic: On-Demand Spending
+  - generic: On-demand spending is currently disabled
+  - generic: Disabled
+  - generic: Monthly Limit
+  - generic: Set a fixed amount or make it unlimited.
+  - button "Disabled":
+    - generic: Disabled
+    - generic: 
+  - button "Save" [disabled]
+- alert

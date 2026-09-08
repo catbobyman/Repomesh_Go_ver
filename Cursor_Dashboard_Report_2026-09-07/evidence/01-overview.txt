@@ -1,0 +1,175 @@
+- region "Notifications alt+T"
+- main:
+  - complementary:
+    - link "Back to Agents":
+      - /url: /agents
+    - button "Search (Ctrl+K)":
+      - generic: 
+    - button "User menu":
+      - img "Bohan Xu"
+      - generic: Bohan Xu
+      - generic: Pro
+      - generic: 
+    - navigation:
+      - link "Overview":
+        - /url: /dashboard
+        - generic: 
+        - generic: Overview
+      - link "Settings":
+        - /url: /dashboard/settings
+        - generic: 
+        - generic: Settings
+      - link "Cloud Agents":
+        - /url: /dashboard/cloud-agents
+        - generic: 
+        - generic: Cloud Agents
+      - link "Plugins":
+        - /url: /dashboard/plugins
+        - generic: 
+        - generic: Plugins
+      - link "Integrations":
+        - /url: /dashboard/integrations
+        - generic: 
+        - generic: Integrations
+      - link "API & SSH Keys":
+        - /url: /dashboard/api
+        - generic: 
+        - generic: API & SSH Keys
+      - link "Shared Canvases":
+        - /url: /dashboard/shared-canvases
+        - generic: 
+        - generic: Shared Canvases
+      - link "Members":
+        - /url: /dashboard/members
+        - generic: 
+        - generic: Members
+      - link "Usage":
+        - /url: /dashboard/usage
+        - generic: 
+        - generic: Usage
+      - link "Spending":
+        - /url: /dashboard/spending
+        - generic: 
+        - generic: Spending
+      - link "Billing & Invoices":
+        - /url: /dashboard/billing
+        - generic: 
+        - generic: Billing & Invoices
+  - text: 
+  - generic: Overview
+  - generic: Getting started
+  - generic: 1/4 Completed
+  - progressbar "Setup progress"
+  - heading "Connect GitHub or GitLab" [level=3]:
+    - button "Connect GitHub or GitLab":
+      - generic: 
+      - generic: Connect GitHub or GitLab
+  - heading "Connect Slack" [level=3]:
+    - button "Connect Slack" [disabled] [expanded]:
+      - generic: 
+      - generic: Connect Slack
+  - button "Skip"
+  - button "Slack Connect":
+    - img "Slack"
+    - text: Connect
+  - region "Connect Slack":
+    - paragraph: Integrate Cursor with Slack. Then tag @Cursor to kick off agents with full context of your thread.
+  - heading "Extend Cursor with plugins" [level=3]:
+    - button "Extend Cursor with plugins":
+      - generic: 
+      - generic: Extend Cursor with plugins
+  - heading "Set up cloud for faster, parallelized agents that verify their work" [level=3]:
+    - button "Set up cloud for faster, parallelized agents that verify their work":
+      - generic: 
+      - generic: Set up cloud for faster, parallelized agents that verify their work
+  - generic: Pro+
+  - generic: $60
+  - generic: /mo.
+  - generic: Get 3x more usage than Pro, unlock higher limits on Agent, and more.
+  - button "Upgrade to Pro+"
+  - generic: Ultra
+  - generic: $200
+  - generic: /mo.
+  - generic: Get maximum value with 20x usage limits and early access to advanced features.
+  - button "Upgrade to Ultra"
+  - generic: Pro
+  - generic: Current
+  - generic: $20
+  - generic: /mo.
+  - generic: Entry-level plan with access to premium models, unlimited Tab completions, and more.
+  - button "Adjust Plan"
+  - generic: On-Demand Usage is Off
+  - generic: Go beyond your plan's included quota with on-demand usage
+  - button "Enable On-Demand Usage"
+  - generic: AI Line Edits
+  - generic: 2,129
+  - button "All"
+  - button "Tab"
+  - button "Agent"
+  - generic: O
+  - generic: "N"
+  - generic: D
+  - generic: J
+  - generic: F
+  - generic: M
+  - generic: A
+  - generic: M
+  - generic: J
+  - generic: J
+  - generic: A
+  - generic: S
+  - generic: M
+  - generic: W
+  - generic: F
+  - generic: Most Active Month
+  - generic: July
+  - generic: Most Active Day
+  - generic: Jul 13, 2026
+  - generic: Longest Streak
+  - generic: 3d
+  - generic: Current Streak
+  - generic: 1d
+  - generic: Fewer
+  - generic: More
+  - button "Copy link to Source Control and scroll to section": Source Control 
+  - button "Add Provider":
+    - generic: Add Provider
+    - generic: 
+  - img "GitHub"
+  - paragraph: GitHub
+  - paragraph: "Connected as catbobyman to repositories accessible in organizations: LBP97541135, catbobyman"
+  - button "Manage":
+    - generic: Manage
+    - generic: 
+  - button "Copy link to Integrations and scroll to section": Integrations 
+  - img "Slack"
+  - paragraph: Slack
+  - paragraph: Work with Cloud Agents from Slack
+  - button "Connect":
+    - text: Connect
+    - generic: 
+  - img "Microsoft Teams"
+  - paragraph: Microsoft Teams
+  - paragraph: Work with Cloud Agents from Microsoft Teams
+  - button "Connect":
+    - text: Connect
+    - generic: 
+  - img "Linear"
+  - paragraph: Linear
+  - paragraph: Connect a Linear workspace to delegate issues to Cloud Agents
+  - button "Connect":
+    - text: Connect
+    - generic: 
+  - img "Jira"
+  - paragraph: Jira
+  - paragraph: Connect a Jira site to delegate issues to Cloud Agents
+  - button "Connect" [disabled]:
+    - text: Connect
+    - generic: 
+  - img "Sentry"
+  - paragraph: Sentry
+  - paragraph: Use Sentry issue events in Automations
+  - button "Connect":
+    - text: Connect
+    - generic: 
+- alert

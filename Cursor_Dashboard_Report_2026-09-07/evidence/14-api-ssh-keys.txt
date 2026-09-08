@@ -1,0 +1,96 @@
+- region "Notifications alt+T"
+- main:
+  - complementary:
+    - link "Back to Agents":
+      - /url: /agents
+    - button "Search (Ctrl+K)":
+      - generic: 
+    - button "User menu":
+      - img "Bohan Xu"
+      - generic: Bohan Xu
+      - generic: Pro
+      - generic: 
+    - navigation:
+      - link "Overview":
+        - /url: /dashboard
+        - generic: 
+        - generic: Overview
+      - link "Settings":
+        - /url: /dashboard/settings
+        - generic: 
+        - generic: Settings
+      - link "Cloud Agents":
+        - /url: /dashboard/cloud-agents
+        - generic: 
+        - generic: Cloud Agents
+      - link "Plugins":
+        - /url: /dashboard/plugins
+        - generic: 
+        - generic: Plugins
+      - link "Integrations":
+        - /url: /dashboard/integrations
+        - generic: 
+        - generic: Integrations
+      - link "API & SSH Keys" [active]:
+        - /url: /dashboard/api
+        - generic: 
+        - generic: API & SSH Keys
+      - link "Shared Canvases":
+        - /url: /dashboard/shared-canvases
+        - generic: 
+        - generic: Shared Canvases
+      - link "Members":
+        - /url: /dashboard/members
+        - generic: 
+        - generic: Members
+      - link "Usage":
+        - /url: /dashboard/usage
+        - generic: 
+        - generic: Usage
+      - link "Spending":
+        - /url: /dashboard/spending
+        - generic: 
+        - generic: Spending
+      - link "Billing & Invoices":
+        - /url: /dashboard/billing
+        - generic: 
+        - generic: Billing & Invoices
+  - text: 
+  - generic: API
+  - generic: Manage API keys and service accounts for programmatic access to Cursor.
+  - link "SDK docs TypeScript and Python SDKs for building with Cursor agents.":
+    - /url: https://cursor.com/docs/api/sdk/typescript
+    - generic: 
+    - text: SDK docs
+    - generic: 
+    - paragraph: TypeScript and Python SDKs for building with Cursor agents.
+  - link "API docs Cloud Agent API reference for programmatic access.":
+    - /url: https://cursor.com/docs/cloud-agent/api/overview
+    - generic: 
+    - text: API docs
+    - generic: 
+    - paragraph: Cloud Agent API reference for programmatic access.
+  - button "Copy link to User API Keys and scroll to section": User API Keys 
+  - text: User API Keys provide secure, programmatic access to your Cursor account, including the headless version of the Cursor Agent CLI and
+  - link "Cloud Agent API":
+    - /url: https://cursor.com/docs/cloud-agent/api/overview
+  - text: ". Treat them like passwords: keep them secure and never share them publicly. Note: The"
+  - link "Cloud Agent API":
+    - /url: https://cursor.com/docs/cloud-agent/api/overview
+  - text: is in beta.
+  - heading "No API Keys Yet" [level=3]
+  - generic: No API Keys have been created yet
+  - button "New API Key":
+    - generic: New API Key
+  - text: 
+  - button "Copy link to Codebase SSH keys and scroll to section": Codebase SSH keys 
+  - text: Manage your keys for SSH authenticated Origin Codebase access. Learn more about connecting to your repos using SSH keys in
+  - link "our docs":
+    - /url: https://docs.cursor.com/codebase/docs/getting-started/overview
+  - text: .
+  - heading "No SSH Keys Yet" [level=3]
+  - generic: No SSH Keys have been created yet
+  - button "New SSH Key":
+    - generic: New SSH Key
+  - text: 
+- alert

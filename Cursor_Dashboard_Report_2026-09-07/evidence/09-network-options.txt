@@ -1,0 +1,190 @@
+- region "Notifications alt+T"
+- main:
+  - complementary:
+    - link "Back to Agents":
+      - /url: /agents
+    - button "Search (Ctrl+K)":
+      - generic: 
+    - button "User menu":
+      - img "Bohan Xu"
+      - generic: Bohan Xu
+      - generic: Pro
+      - generic: 
+    - navigation:
+      - link "Overview":
+        - /url: /dashboard
+        - generic: 
+        - generic: Overview
+      - link "Settings":
+        - /url: /dashboard/settings
+        - generic: 
+        - generic: Settings
+      - link "Cloud Agents":
+        - /url: /dashboard/cloud-agents
+        - generic: 
+        - generic: Cloud Agents
+      - link "Plugins":
+        - /url: /dashboard/plugins
+        - generic: 
+        - generic: Plugins
+      - link "Integrations":
+        - /url: /dashboard/integrations
+        - generic: 
+        - generic: Integrations
+      - link "API & SSH Keys":
+        - /url: /dashboard/api
+        - generic: 
+        - generic: API & SSH Keys
+      - link "Shared Canvases":
+        - /url: /dashboard/shared-canvases
+        - generic: 
+        - generic: Shared Canvases
+      - link "Members":
+        - /url: /dashboard/members
+        - generic: 
+        - generic: Members
+      - link "Usage":
+        - /url: /dashboard/usage
+        - generic: 
+        - generic: Usage
+      - link "Spending":
+        - /url: /dashboard/spending
+        - generic: 
+        - generic: Spending
+      - link "Billing & Invoices":
+        - /url: /dashboard/billing
+        - generic: 
+        - generic: Billing & Invoices
+  - text: 
+  - generic: Cloud Agents
+  - generic: Create Agents to edit and run code, asynchronously
+  - button "7d, Sep 01 - Sep 07":
+    - generic: 7d
+    - generic: Sep 01 - Sep 07
+    - generic: 
+  - button "All Runs":
+    - text: All Runs
+    - generic: 
+  - button "New Run"
+  - generic: Total runs
+  - generic: "5"
+  - generic: Success rate
+  - img "5 success, 0 warning, 0 failure"
+  - generic: 100%
+  - link "Recent runs":
+    - /url: /dashboard/cloud-agents/runs
+    - text: Recent runs
+    - generic: 
+  - group "Run history":
+    - 'generic "Sep 1, 2026: 0 runs"'
+    - 'generic "Sep 2, 2026: 0 runs"'
+    - 'generic "Sep 3, 2026: 0 runs"'
+    - 'generic "Sep 4, 2026: 0 runs"'
+    - 'generic "Sep 5, 2026: 0 runs"'
+    - 'generic "Sep 6, 2026: 3 runs"'
+    - 'generic "Sep 7, 2026: 2 runs"'
+  - button "Copy link to Environments and scroll to section": Environments 
+  - button "New Environment":
+    - generic: New Environment
+  - table "Environments":
+    - row "Name Repositories Scope Updated Actions":
+      - columnheader "Name":
+        - generic: Name
+      - columnheader "Repositories":
+        - generic: Repositories
+      - columnheader "Scope":
+        - generic: Scope
+      - columnheader "Updated":
+        - generic: Updated
+      - columnheader "Actions":
+        - generic: Actions
+    - rowgroup:
+      - row "Clickable row":
+        - link "catbobyman/MultiAgent-Werewolf GitHub catbobyman/MultiAgent-Werewolf Personal 23h":
+          - /url: /dashboard/cloud-agents/environments/e/a3decec9-aa6b-11f1-b532-320a589b8025
+          - cell "catbobyman/MultiAgent-Werewolf":
+            - generic "catbobyman/MultiAgent-Werewolf"
+          - cell "GitHub catbobyman/MultiAgent-Werewolf":
+            - generic: GitHub
+            - generic: catbobyman/MultiAgent-Werewolf
+          - cell "Personal":
+            - generic: Personal
+          - cell "23h":
+            - generic: 23h
+        - cell "View details for catbobyman/MultiAgent-Werewolf Actions for catbobyman/MultiAgent-Werewolf":
+          - link "View details for catbobyman/MultiAgent-Werewolf":
+            - /url: /dashboard/cloud-agents/environments/e/a3decec9-aa6b-11f1-b532-320a589b8025
+            - generic: 
+          - button "Actions for catbobyman/MultiAgent-Werewolf":
+            - generic: 
+  - button "Copy link to Self-hosted Machines and scroll to section": Self-hosted Machines 
+  - generic: Enable Self-hosted Machines
+  - generic: When enabled, Cloud Agents can run on Self-hosted Machines.
+  - switch
+  - button "Copy link to Personal Machines and scroll to section": Personal Machines 
+  - generic: Enable Remote Control
+  - generic: When enabled, all of your local agents can be controlled from mobile and web.
+  - switch
+  - generic: View My Machines
+  - generic: See your connected machines and the CLI commands to connect a new one.
+  - generic: 
+  - button "Copy link to Preferences and scroll to section": Preferences 
+  - generic: Default Model
+  - generic: Used when no model is specified
+  - button "Claude Sonnet 4.5":
+    - generic: Claude Sonnet 4.5
+    - generic: 
+  - generic: Default Repository
+  - generic: Used when no repository is specified
+  - button "Select Repository":
+    - generic: Select Repository
+    - generic: 
+  - generic: Base Branch
+  - generic: When empty, Cloud Agent will use a repository's default branch (recommended)
+  - textbox "Branch name..."
+  - generic: Branch Prefix
+  - generic: Prefix for branch names created by Cloud Agent
+  - textbox "cursor/"
+  - generic: Repository routing
+  - generic: Routing rules to help the Slack bot pick the right repository.
+  - generic: 0 Rules
+  - generic: 
+  - generic: Create PRs
+  - generic: Automatically create a pull request when Cloud Agent completes.
+  - button "For Single Model Runs":
+    - generic: For Single Model Runs
+    - generic: 
+  - generic: Allow Posting Artifacts to GitHub
+  - text: Allow cloud agents to embed images directly in PR descriptions using hard-to-guess public URLs.
+  - link "Learn More":
+    - /url: https://cursor.com/docs/cloud-agent/capabilities#artifacts-in-github
+  - button "Link Only":
+    - generic: Link Only
+    - generic: 
+  - generic: Slack Integration
+  - generic: Run Cloud Agents and get task updates directly in Slack
+  - button "Slack Connect Slack":
+    - img "Slack"
+    - text: Connect Slack
+  - generic: Slack Notifications
+  - generic: Get updates in Slack when Cloud Agents started from Cursor finish or need input
+  - switch [checked]
+  - button "Copy link to Security and scroll to section": Security 
+  - generic: Network Access Settings
+  - generic: Control which network destinations your cloud agents can access
+  - button "Allow All Network Access" [expanded]:
+    - generic: Allow All Network Access
+    - generic: 
+  - generic: My Secrets
+  - generic: Securely set environment variables for your Cloud Agents.
+  - generic: 0 Secrets
+  - generic: 
+- alert
+- menu "Allow All Network Access" [active]:
+  - menu:
+    - menuitem "Defaults + My Allowlist":
+      - generic: Defaults + My Allowlist
+    - menuitem "My Allowlist Only":
+      - generic: My Allowlist Only
+    - menuitem "Allow All Network Access":
+      - generic: Allow All Network Access

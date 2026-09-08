@@ -1,0 +1,102 @@
+- region "Notifications alt+T"
+- main:
+  - complementary:
+    - link "Back to Agents":
+      - /url: /agents
+    - button "Search (Ctrl+K)":
+      - generic: 
+    - button "User menu":
+      - img "Bohan Xu"
+      - generic: Bohan Xu
+      - generic: Pro
+      - generic: 
+    - navigation:
+      - link "Overview":
+        - /url: /dashboard
+        - generic: 
+        - generic: Overview
+      - link "Settings":
+        - /url: /dashboard/settings
+        - generic: 
+        - generic: Settings
+      - link "Cloud Agents":
+        - /url: /dashboard/cloud-agents
+        - generic: 
+        - generic: Cloud Agents
+      - link "Plugins" [active]:
+        - /url: /dashboard/plugins
+        - generic: 
+        - generic: Plugins
+      - link "Integrations":
+        - /url: /dashboard/integrations
+        - generic: 
+        - generic: Integrations
+      - link "API & SSH Keys":
+        - /url: /dashboard/api
+        - generic: 
+        - generic: API & SSH Keys
+      - link "Shared Canvases":
+        - /url: /dashboard/shared-canvases
+        - generic: 
+        - generic: Shared Canvases
+      - link "Members":
+        - /url: /dashboard/members
+        - generic: 
+        - generic: Members
+      - link "Usage":
+        - /url: /dashboard/usage
+        - generic: 
+        - generic: Usage
+      - link "Spending":
+        - /url: /dashboard/spending
+        - generic: 
+        - generic: Spending
+      - link "Billing & Invoices":
+        - /url: /dashboard/billing
+        - generic: 
+        - generic: Billing & Invoices
+  - text: 
+  - generic: Plugins
+  - generic: Extend Cursor with skills, rules, subagents, MCP tools, and hooks
+  - group "Plugin filters":
+    - button "All" [pressed]
+    - button "Required"
+    - button "Optional"
+  - textbox "Search skills, rules, subagents, MCPs, and hooks":
+    - /placeholder: Search plugins
+  - button "Add"
+  - generic: No Plugins
+  - generic: Browse the marketplace or import custom plugins to extend
+  - generic: Cursor with Skills, Rules, Agents, Hooks, and MCPs.
+  - button "Add Plugin":
+    - text: Add Plugin
+    - generic: 
+  - button "Copy link to Suggested and scroll to section": Suggested 
+  - button "Browse Marketplace":
+    - text: Browse Marketplace
+    - generic: 
+  - img "Google Drive"
+  - button "Google Drive Search, read, create, and share files.":
+    - generic: Google Drive
+    - paragraph: Search, read, create, and share files.
+  - button "Add"
+  - button "View"
+  - img "Google Calendar"
+  - button "Google Calendar Search events and schedule meetings.":
+    - generic: Google Calendar
+    - paragraph: Search events and schedule meetings.
+  - button "Add"
+  - button "View"
+  - img "Gmail"
+  - button "Gmail Search, read, draft, and manage email.":
+    - generic: Gmail
+    - paragraph: Search, read, draft, and manage email.
+  - button "Add"
+  - button "View"
+  - img "Granola"
+  - button "Granola Your meetings in your workflow. Granola gives Cursor access to what your team discussed, decided, and committed to.":
+    - generic: Granola
+    - paragraph: Your meetings in your workflow. Granola gives Cursor access to what your team discussed, decided, and committed to.
+  - button "Add"
+  - button "View"
+- alert
