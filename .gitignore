@@ -22,3 +22,6 @@ coverage/
 *.test
 *.out
 *.log
+
+# Local dashboard report
+/Cursor_Dashboard_Report_2026-09-07/
