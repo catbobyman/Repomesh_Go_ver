@@ -1,0 +1,37 @@
+{
+  "executed_at_utc": "2026-09-09T16:34:57.163024+00:00",
+  "phase": "after-restart",
+  "run_id": "21f3caf31d",
+  "transport": "real curl HTTP via docker exec stdin; no mock",
+  "requests": 10,
+  "scope": "Matrix delivery/durability/auth only; not QwenPaw processing, model readiness, RepoMesh Issue authorization or outbox",
+  "cases": [
+    {
+      "id": "ML-06",
+      "status": "PASS_REAL_HTTP",
+      "observed": [
+        {
+          "instance": "a",
+          "started_before": "2026-09-09T16:29:38.960244211Z",
+          "started_after": "2026-09-09T16:34:10.714931276Z",
+          "events_retained": 55,
+          "tx_dedup_persistent": true,
+          "saved_sync_cursor_accepted": true,
+          "thread_event_readable": true,
+          "existing_tokens_accepted": true
+        },
+        {
+          "instance": "b",
+          "started_before": "2026-09-09T16:29:48.740314925Z",
+          "started_after": "2026-09-09T16:34:24.797200338Z",
+          "events_retained": 55,
+          "tx_dedup_persistent": true,
+          "saved_sync_cursor_accepted": true,
+          "thread_event_readable": true,
+          "existing_tokens_accepted": true
+        }
+      ],
+      "elapsed_seconds": 3.485
+    }
+  ]
+}

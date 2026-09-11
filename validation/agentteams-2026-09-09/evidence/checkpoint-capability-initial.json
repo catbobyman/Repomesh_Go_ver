@@ -1,0 +1,57 @@
+{
+  "at_utc": "2026-09-09T17:05:32.760868+00:00",
+  "qwenpaw": "2.0.1",
+  "container_id": "1b8bdff6e607536dc2e6e9a5e01c8134a993486c59bdb4ee2a4946814668eb3c",
+  "image_id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+  "records": [
+    {
+      "kind": "controller-proxy",
+      "url": "http://127.0.0.1:28090/api/v1/workers/live-twin-worker/checkpoints/status",
+      "status": 200,
+      "content_type": "application/json",
+      "bytes": 1073,
+      "sha256": "c8ec29b49d5525861c641a68659db9b38302fd9550563db545213434a0af20fe",
+      "non_json_prefix": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/online.svg\" />\n    <meta\n      name=\"viewport\"\n      content"
+    },
+    {
+      "kind": "direct-runtime",
+      "url": "http://127.0.0.1:17680/workspace/checkpoints/status",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1073,
+      "sha256": "c8ec29b49d5525861c641a68659db9b38302fd9550563db545213434a0af20fe",
+      "non_json_prefix": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/online.svg\" />\n    <meta\n      name=\"viewport\"\n      content"
+    },
+    {
+      "kind": "controller-proxy",
+      "url": "http://127.0.0.1:28090/api/v1/workers/live-twin-worker/checkpoints/graph?limit=5",
+      "status": 200,
+      "content_type": "application/json",
+      "bytes": 1073,
+      "sha256": "c8ec29b49d5525861c641a68659db9b38302fd9550563db545213434a0af20fe",
+      "non_json_prefix": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/online.svg\" />\n    <meta\n      name=\"viewport\"\n      content"
+    },
+    {
+      "kind": "direct-runtime",
+      "url": "http://127.0.0.1:17680/workspace/checkpoints/graph?limit=5",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 1073,
+      "sha256": "c8ec29b49d5525861c641a68659db9b38302fd9550563db545213434a0af20fe",
+      "non_json_prefix": "<!doctype html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <link rel=\"icon\" type=\"image/svg+xml\" href=\"/online.svg\" />\n    <meta\n      name=\"viewport\"\n      content"
+    },
+    {
+      "kind": "openapi",
+      "url": "http://127.0.0.1:17680/openapi.json",
+      "status": 404,
+      "content_type": "application/json",
+      "bytes": 22,
+      "sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+      "json": {
+        "paths": [],
+        "path_count": 0
+      }
+    }
+  ],
+  "scope": "Read-only response shape and route inventory; no snapshot or restoration performed"
+}

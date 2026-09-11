@@ -1,0 +1,10 @@
+{
+  "at_utc": "2026-09-10T10:23:54.168090+00:00",
+  "source_sha": "517caff9280242a00a4d4c06365352b9e41659c6",
+  "renderer_sha256": "c94592b7aabd5f6d8bac5d1f2f497ccc3ce76c11fb4293f67c90c0c98cf37be9",
+  "build_copy_renderer_sha256": "c94592b7aabd5f6d8bac5d1f2f497ccc3ce76c11fb4293f67c90c0c98cf37be9",
+  "helper_sha256": "b879b5762d5babe7030bae9d877393f6a96f883f783f7eac459c73645bae5fe5",
+  "cases_sha256": "a9f4748e7645ecc93f40de83dd9a648377171a736154b3ae30e7cd7e65946084",
+  "mermaid_version": "11.17.2",
+  "scope": "Calls unchanged shared Go renderer from isolated build copy; not yet Controller HTTP evidence."
+}

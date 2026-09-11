@@ -1,0 +1,34 @@
+{
+  "at_utc": "2026-09-09T16:52:22.762313+00:00",
+  "run_id": "32447df06f",
+  "exit_code": 0,
+  "evidence": "control-race-live-32447df06f.stdout.json",
+  "host_source_sha256": "741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d",
+  "source_matches_host": true,
+  "observations": [
+    {
+      "id": "RACE-01",
+      "status": "OBSERVATION_CONFIRMED",
+      "classification": "NATIVE_GAP_REPRODUCED",
+      "error": null
+    },
+    {
+      "id": "RACE-02",
+      "status": "OBSERVATION_CONFIRMED",
+      "classification": "SUPPORTED_RECOVERY_WITH_RETAINED_WORKSPACE",
+      "error": null
+    },
+    {
+      "id": "RACE-03",
+      "status": "OBSERVATION_CONFIRMED",
+      "classification": "NATIVE_GAP_REPRODUCED",
+      "error": null
+    },
+    {
+      "id": "STATE-01",
+      "status": "OBSERVATION_CONFIRMED",
+      "classification": "NATIVE_CONTRACT_AND_PARTIAL_APPLICATION_CONFIRMED",
+      "error": null
+    }
+  ]
+}

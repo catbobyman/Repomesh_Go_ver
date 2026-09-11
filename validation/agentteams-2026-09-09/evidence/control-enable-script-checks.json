@@ -1,0 +1,17 @@
+{
+  "recorded_at_utc": "2026-09-09T16:38:25.370437+00:00",
+  "script": "scripts/enable-managers.py",
+  "syntax": "PASS",
+  "offline_tests": {
+    "expected_layout": "PASS",
+    "wrong_instance_label_rejected": "PASS",
+    "changed_image_rejected": "PASS",
+    "wrong_volume_rejected": "PASS",
+    "home_fallback_rejected": "PASS",
+    "added_env_and_ports_rejected": "PASS",
+    "stale_container_no_docker_call": "PASS"
+  },
+  "real_docker_mutations": false,
+  "enable_script_plan_run": false,
+  "enable_script_apply_run": false
+}

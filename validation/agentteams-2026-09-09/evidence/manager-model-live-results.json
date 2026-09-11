@@ -1,0 +1,95 @@
+{
+  "updated_at_utc": "2026-09-09T16:41:20.789541+00:00",
+  "manager": {
+    "name": "default",
+    "phase": "Running",
+    "model": "deepseek-chat",
+    "runtime": "qwenpaw",
+    "image": "repomesh-validation/manager-qwenpaw:eeaab643",
+    "matrixUserID": "@manager:rv-a.matrix.invalid",
+    "roomID": "!cstiVyQcRNbIj1a5r3:rv-a.matrix.invalid",
+    "version": "repomesh-validation/manager-qwenpaw:eeaab643",
+    "welcomeSent": true
+  },
+  "sender": "@rv-a-admin:rv-a.matrix.invalid",
+  "room": "!cstiVyQcRNbIj1a5r3:rv-a.matrix.invalid",
+  "request_started_utc": "2026-09-09T16:41:11.158635+00:00",
+  "results": [
+    {
+      "kind": "inventory",
+      "manager": {
+        "name": "default",
+        "phase": "Running",
+        "model": "deepseek-chat",
+        "runtime": "qwenpaw",
+        "image": "repomesh-validation/manager-qwenpaw:eeaab643",
+        "matrixUserID": "@manager:rv-a.matrix.invalid",
+        "roomID": "!cstiVyQcRNbIj1a5r3:rv-a.matrix.invalid",
+        "version": "repomesh-validation/manager-qwenpaw:eeaab643",
+        "welcomeSent": true
+      },
+      "authenticated_sender": "@rv-a-admin:rv-a.matrix.invalid"
+    },
+    {
+      "kind": "probe-sent",
+      "tx_id": "manager-validation-probe-7386def8ffc71cf8",
+      "attempted": true,
+      "sent_at_utc": "2026-09-09T16:41:11.778316+00:00",
+      "body": "@manager:rv-a.matrix.invalid Readiness check: reply with the exact text READY. Isolated validation probe.",
+      "event_id": "$Rr0jHqpEmWm_TnfdltuE4rakmGu_C0qbEuKzUnK3b-g"
+    },
+    {
+      "kind": "probe-bot-event",
+      "sender": "@manager:rv-a.matrix.invalid",
+      "room": "!cstiVyQcRNbIj1a5r3:rv-a.matrix.invalid",
+      "event_id": "$4CCIg-aUg77JKjvLzHeMT9H2RfEnWRVUmP06Md-HBtg",
+      "origin_server_ts": 1788972076632,
+      "event_type": "m.room.message",
+      "content": {
+        "body": "READY",
+        "format": "org.matrix.custom.html",
+        "formatted_body": "<p>READY</p>",
+        "msgtype": "m.text"
+      },
+      "expected_match": true,
+      "elapsed_seconds": 4.703
+    },
+    {
+      "kind": "probe-conclusion",
+      "channel_ready_response": true,
+      "model_execution_proven": false
+    },
+    {
+      "kind": "model-sent",
+      "tx_id": "manager-validation-model-4f230a3e65342afe",
+      "attempted": true,
+      "sent_at_utc": "2026-09-09T16:41:17.000692+00:00",
+      "body": "这是隔离验证，只回复 RV_MODEL_A_20260909_becbad5b，不调用工具或创建资源。",
+      "event_id": "$cwiLJPMu4j-ht7B1SUbnBRoe19I80rSk_8SqGsJ0lSI"
+    },
+    {
+      "kind": "model-bot-event",
+      "sender": "@manager:rv-a.matrix.invalid",
+      "room": "!cstiVyQcRNbIj1a5r3:rv-a.matrix.invalid",
+      "event_id": "$6t9jx_biH7eEBHWjCgjHZyHDgWtEJa_ZnHZcPb-3LO8",
+      "origin_server_ts": 1788972080675,
+      "event_type": "m.room.message",
+      "content": {
+        "body": "RV_MODEL_A_20260909_becbad5b",
+        "format": "org.matrix.custom.html",
+        "formatted_body": "<p>RV_MODEL_A_20260909_becbad5b</p>",
+        "msgtype": "m.text"
+      },
+      "expected_match": true,
+      "elapsed_seconds": 3.531
+    },
+    {
+      "kind": "model-conclusion",
+      "expected_unique_marker": "RV_MODEL_A_20260909_becbad5b",
+      "matching_manager_response": true,
+      "send_event_id": "$cwiLJPMu4j-ht7B1SUbnBRoe19I80rSk_8SqGsJ0lSI",
+      "submission_attempts": 1
+    }
+  ],
+  "scope": "Native readiness is separated from real Manager model response; no config edits or restarts"
+}

@@ -1,0 +1,17 @@
+{
+  "at_utc": "2026-09-10T10:26:15.252821+00:00",
+  "checks": [
+    {
+      "kind": "workers",
+      "exit_code": 0,
+      "stderr": "",
+      "count": 0
+    },
+    {
+      "kind": "managers",
+      "exit_code": 0,
+      "stderr": "",
+      "count": 0
+    }
+  ]
+}

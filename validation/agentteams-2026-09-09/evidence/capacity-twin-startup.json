@@ -1,0 +1,1273 @@
+{
+  "started_at": "2026-09-09T16:45:13.513185+00:00",
+  "host": {
+    "ServerVersion": "28.0.4",
+    "NCPU": 16,
+    "MemTotal": 16393781248,
+    "KernelVersion": "5.15.167.4-microsoft-standard-WSL2",
+    "OperatingSystem": "Docker Desktop",
+    "Architecture": "x86_64",
+    "CgroupVersion": "1",
+    "Driver": "overlay2"
+  },
+  "scope": "Observed deployment only; samples are not a maximum-capacity benchmark",
+  "samples": [
+    {
+      "at_utc": "2026-09-09T16:45:13.947929+00:00",
+      "elapsed_seconds": 0.42,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.00%",
+          "Container": "1b8bdff6e607",
+          "ID": "1b8bdff6e607",
+          "MemPerc": "0.00%",
+          "MemUsage": "0B / 0B",
+          "Name": "rv-a-worker-live-twin-worker",
+          "NetIO": "0B / 0B",
+          "PIDs": "0"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "100.17%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "1.78%",
+          "MemUsage": "278.3MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "105kB / 58.9kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "98.94%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "1.84%",
+          "MemUsage": "287.2MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "114kB / 64.6kB",
+          "PIDs": "26"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.69%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.68%",
+          "MemUsage": "418.6MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "710kB / 6.53MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "21.90%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.08%",
+          "MemUsage": "1.844GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "6.89MB / 1.07MB",
+          "PIDs": "851"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.53%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.00%",
+          "MemUsage": "469.4MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "643kB / 682kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "2.01%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.75%",
+          "MemUsage": "429.2MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.26MB / 7.04MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "10.09%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "12.47%",
+          "MemUsage": "1.905GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "7.94MB / 2.36MB",
+          "PIDs": "861"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:45:22.501517+00:00",
+      "elapsed_seconds": 8.98,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "163.75%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.5MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "277kB / 338kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "158.09%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.9MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "286kB / 340kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.46%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.69%",
+          "MemUsage": "420.2MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "923kB / 6.78MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "20.47%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.31%",
+          "MemUsage": "1.88GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.46MB / 1.49MB",
+          "PIDs": "851"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "4.72%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "471.2MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "651kB / 687kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "4.33%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.75%",
+          "MemUsage": "429.2MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.26MB / 7.04MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.30%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "12.52%",
+          "MemUsage": "1.911GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.23MB / 2.55MB",
+          "PIDs": "861"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:45:29.765127+00:00",
+      "elapsed_seconds": 16.25,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.69%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.4MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "462kB / 554kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.43%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "466.4MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "465kB / 552kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "3.38%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.69%",
+          "MemUsage": "420.7MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "923kB / 6.78MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.11%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.39%",
+          "MemUsage": "1.892GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.69MB / 1.69MB",
+          "PIDs": "851"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.54%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.9MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "659kB / 695kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.07%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.74%",
+          "MemUsage": "428.1MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.28MB / 7.05MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "11.42%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "12.62%",
+          "MemUsage": "1.927GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.47MB / 2.76MB",
+          "PIDs": "861"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:45:37.700347+00:00",
+      "elapsed_seconds": 24.19,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.37%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.3MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "468kB / 558kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.19%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "466.2MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "471kB / 557kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "2.93%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.69%",
+          "MemUsage": "420.8MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "940kB / 6.79MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.99%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.46%",
+          "MemUsage": "1.902GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.71MB / 1.72MB",
+          "PIDs": "851"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.44%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.9MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "665kB / 699kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.49%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.76%",
+          "MemUsage": "431.4MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.28MB / 7.05MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "10.12%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "12.63%",
+          "MemUsage": "1.928GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.48MB / 2.78MB",
+          "PIDs": "861"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:45:45.817591+00:00",
+      "elapsed_seconds": 32.3,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.17%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.2MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "472kB / 560kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.38%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "466.2MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "474kB / 559kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "2.94%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.70%",
+          "MemUsage": "422.4MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "942kB / 6.79MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.68%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.48%",
+          "MemUsage": "1.905GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.72MB / 1.73MB",
+          "PIDs": "851"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "11.07%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.9MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "668kB / 702kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.84%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.79%",
+          "MemUsage": "436.4MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.51MB / 7.09MB",
+          "PIDs": "32"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "43.85%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "13.03%",
+          "MemUsage": "1.989GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.53MB / 3.02MB",
+          "PIDs": "866"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:45:53.857905+00:00",
+      "elapsed_seconds": 40.34,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.35%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.1MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "479kB / 566kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.28%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.9MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "482kB / 564kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "10.41%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.73%",
+          "MemUsage": "427.5MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "942kB / 6.79MB",
+          "PIDs": "31"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.32%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.50%",
+          "MemUsage": "1.909GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.73MB / 1.74MB",
+          "PIDs": "851"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.23%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.8MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "681kB / 713kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.55%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.77%",
+          "MemUsage": "433.3MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.53MB / 7.1MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.99%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "13.02%",
+          "MemUsage": "1.987GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.57MB / 3.07MB",
+          "PIDs": "861"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:46:01.911373+00:00",
+      "elapsed_seconds": 48.39,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "5.62%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.2MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "491kB / 576kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "5.10%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.9MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "493kB / 574kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "5.55%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.71%",
+          "MemUsage": "423.2MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "958kB / 6.79MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "13.40%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.53%",
+          "MemUsage": "1.914GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.75MB / 1.77MB",
+          "PIDs": "851"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.18%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.8MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "684kB / 716kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.33%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.77%",
+          "MemUsage": "433.3MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.53MB / 7.1MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.14%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "13.04%",
+          "MemUsage": "1.992GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.58MB / 3.08MB",
+          "PIDs": "861"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:46:09.669489+00:00",
+      "elapsed_seconds": 56.16,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.47%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.2MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "494kB / 578kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.77%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "466MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "497kB / 576kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.15%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.70%",
+          "MemUsage": "422.4MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "958kB / 6.79MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.75%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.53%",
+          "MemUsage": "1.914GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.75MB / 1.78MB",
+          "PIDs": "850"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.55%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "471MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "690kB / 720kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "7.72%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.80%",
+          "MemUsage": "438.5MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.53MB / 7.1MB",
+          "PIDs": "32"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.48%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "13.03%",
+          "MemUsage": "1.99GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.6MB / 3.1MB",
+          "PIDs": "861"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:46:17.702018+00:00",
+      "elapsed_seconds": 64.19,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.39%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.1MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "500kB / 583kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "7.20%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.8MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "503kB / 581kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "22.55%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.76%",
+          "MemUsage": "431.2MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "977kB / 6.79MB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "12.21%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.53%",
+          "MemUsage": "1.914GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.77MB / 1.81MB",
+          "PIDs": "850"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "7.13%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.8MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "696kB / 725kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "5.36%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.77%",
+          "MemUsage": "433.1MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.55MB / 7.11MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "11.50%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "13.11%",
+          "MemUsage": "2.001GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.61MB / 3.13MB",
+          "PIDs": "859"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:46:25.804122+00:00",
+      "elapsed_seconds": 72.28,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.44%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.7MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "511kB / 592kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.30%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.9MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "513kB / 591kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.18%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.72%",
+          "MemUsage": "424.6MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "1.1MB / 6.82MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.21%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.54%",
+          "MemUsage": "1.914GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.81MB / 1.95MB",
+          "PIDs": "850"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.84%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.9MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "706kB / 733kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "5.62%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.77%",
+          "MemUsage": "433.2MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.55MB / 7.11MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "15.20%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "13.13%",
+          "MemUsage": "2.004GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.64MB / 3.16MB",
+          "PIDs": "859"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:46:33.909341+00:00",
+      "elapsed_seconds": 80.39,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.34%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.1MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "517kB / 597kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.38%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.5MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "520kB / 595kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.85%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.72%",
+          "MemUsage": "424.6MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "1.12MB / 6.83MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "13.23%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.54%",
+          "MemUsage": "1.914GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "7.83MB / 1.98MB",
+          "PIDs": "850"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.20%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.9MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "712kB / 738kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.86%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.78%",
+          "MemUsage": "434MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.55MB / 7.11MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "10.00%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "13.14%",
+          "MemUsage": "2.006GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.65MB / 3.17MB",
+          "PIDs": "859"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:46:41.956975+00:00",
+      "elapsed_seconds": 88.44,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.34%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.2MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "523kB / 601kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "4.87%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.5MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "526kB / 600kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "14.27%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.77%",
+          "MemUsage": "433.3MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "1.16MB / 6.97MB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "17.59%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.55%",
+          "MemUsage": "1.916GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "8.01MB / 2.13MB",
+          "PIDs": "850"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.20%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.8MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "715kB / 740kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "4.06%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.80%",
+          "MemUsage": "437MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.6MB / 7.2MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.41%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "13.00%",
+          "MemUsage": "1.985GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.78MB / 3.33MB",
+          "PIDs": "859"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:46:49.856103+00:00",
+      "elapsed_seconds": 96.34,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.49%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.00%",
+          "MemUsage": "469.7MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "526kB / 604kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.37%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.6MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "529kB / 602kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "6.24%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.72%",
+          "MemUsage": "425.7MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "1.17MB / 7.11MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "10.50%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.55%",
+          "MemUsage": "1.916GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "8.16MB / 2.14MB",
+          "PIDs": "850"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.65%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.8MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "721kB / 744kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "2.15%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.79%",
+          "MemUsage": "436.7MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.63MB / 7.38MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "11.80%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "13.01%",
+          "MemUsage": "1.986GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "8.97MB / 3.36MB",
+          "PIDs": "859"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:46:57.711542+00:00",
+      "elapsed_seconds": 104.19,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "0.30%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.00%",
+          "MemUsage": "469.7MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "540kB / 614kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "5.22%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.6MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "542kB / 613kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "5.56%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.73%",
+          "MemUsage": "426.1MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "1.19MB / 7.12MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.41%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.55%",
+          "MemUsage": "1.915GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "8.18MB / 2.17MB",
+          "PIDs": "850"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "4.43%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "471.2MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "735kB / 756kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "8.64%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.79%",
+          "MemUsage": "436.8MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.64MB / 7.38MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.50%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "12.99%",
+          "MemUsage": "1.984GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "9MB / 3.41MB",
+          "PIDs": "859"
+        }
+      ]
+    },
+    {
+      "at_utc": "2026-09-09T16:47:05.791718+00:00",
+      "elapsed_seconds": 112.26,
+      "containers": [
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.38%",
+          "Container": "e27e28dc564d",
+          "ID": "e27e28dc564d",
+          "MemPerc": "3.01%",
+          "MemUsage": "469.8MiB / 15.27GiB",
+          "Name": "rv-b-worker-live-twin-leader",
+          "NetIO": "543kB / 617kB",
+          "PIDs": "43"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.26%",
+          "Container": "4cc82fddf8e2",
+          "ID": "4cc82fddf8e2",
+          "MemPerc": "2.98%",
+          "MemUsage": "465.6MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-twin-leader",
+          "NetIO": "545kB / 615kB",
+          "PIDs": "44"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "10.30%",
+          "Container": "7f69693349d0",
+          "ID": "7f69693349d0",
+          "MemPerc": "2.73%",
+          "MemUsage": "426.5MiB / 15.27GiB",
+          "Name": "rv-b-manager",
+          "NetIO": "1.19MB / 7.12MB",
+          "PIDs": "29"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.14%",
+          "Container": "c4a73487e935",
+          "ID": "c4a73487e935",
+          "MemPerc": "12.51%",
+          "MemUsage": "1.91GiB / 15.27GiB",
+          "Name": "rv-b-controller",
+          "NetIO": "8.18MB / 2.18MB",
+          "PIDs": "850"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "1.19%",
+          "Container": "e51d7a087095",
+          "ID": "e51d7a087095",
+          "MemPerc": "3.01%",
+          "MemUsage": "470.8MiB / 15.27GiB",
+          "Name": "rv-a-worker-live-runtime-worker-a",
+          "NetIO": "738kB / 758kB",
+          "PIDs": "42"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "7.30%",
+          "Container": "90648a5b3863",
+          "ID": "90648a5b3863",
+          "MemPerc": "2.79%",
+          "MemUsage": "436.9MiB / 15.27GiB",
+          "Name": "rv-a-manager",
+          "NetIO": "1.64MB / 7.38MB",
+          "PIDs": "30"
+        },
+        {
+          "BlockIO": "0B / 0B",
+          "CPUPerc": "9.07%",
+          "Container": "b87af2f3f940",
+          "ID": "b87af2f3f940",
+          "MemPerc": "12.98%",
+          "MemUsage": "1.982GiB / 15.27GiB",
+          "Name": "rv-a-controller",
+          "NetIO": "9.02MB / 3.43MB",
+          "PIDs": "860"
+        }
+      ]
+    }
+  ],
+  "finished_at": "2026-09-09T16:47:13.540035+00:00"
+}

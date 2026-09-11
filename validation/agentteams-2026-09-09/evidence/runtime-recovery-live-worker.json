@@ -1,0 +1,3071 @@
+{
+  "name": "rv-a-worker-live-twin-worker",
+  "room": "!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid",
+  "user": "@live-twin-worker:rv-a.matrix.invalid",
+  "marker": "RV_RECOVERY_WORKER_d64b8902c9",
+  "txid": "recovery-worker-6ceddb9f813ebae6",
+  "events": [
+    {
+      "number": 0,
+      "event_id": "$wSA-IgV9dfeo6fv6RG6dzAa10DPh7gDage8n-zYTxQ8",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-0",
+      "body": "隔离恢复验证编号消息 00。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 1,
+      "event_id": "$nVpalWEHH3EmNVjCW9vYY8N1r6WYgx08pCkc15aP3JM",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-1",
+      "body": "隔离恢复验证编号消息 01。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 2,
+      "event_id": "$n3ZpqYa3mEBWUCqlaWtZWqqCgNyoLHIss9NpCi7YuW4",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-2",
+      "body": "隔离恢复验证编号消息 02。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 3,
+      "event_id": "$f7hlRkFToz-a61lFOkkSrtVDhJ7Y-4yIf4tEEyIfq1w",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-3",
+      "body": "隔离恢复验证编号消息 03。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 4,
+      "event_id": "$JNSzoYvPNMvG1vzuguaRCw4NHsx3lxQmgfDZZ9nkZes",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-4",
+      "body": "隔离恢复验证编号消息 04。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 5,
+      "event_id": "$1pn3__Bgg2KdeE9gXSX8F--Z2FF6VLV9lyGlZNX_XVA",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-5",
+      "body": "隔离恢复验证编号消息 05。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 6,
+      "event_id": "$v1DcC2-fiLGRpT0Z1T7pmAX3gg_-3RvE4xF20iTOY84",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-6",
+      "body": "隔离恢复验证编号消息 06。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 7,
+      "event_id": "$gAS0yzERP9DafhzPqibwB-KkJtNp_R4Qux_aOhgVCDY",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-7",
+      "body": "隔离恢复验证编号消息 07。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 8,
+      "event_id": "$tgODtGUlY3sUVO9Lc1wJF2rfHVdP_6kIG4IuZ8RLrl8",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-8",
+      "body": "隔离恢复验证编号消息 08。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 9,
+      "event_id": "$3M9wWVIWHulhJQ9u715njc7WuCivp3JRPYBuGTCklaU",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-9",
+      "body": "隔离恢复验证编号消息 09。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 10,
+      "event_id": "$hGHicyYZqscm9vUcQdtA3psryjk3yvpcL628HFMOUao",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-10",
+      "body": "隔离恢复验证编号消息 10。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 11,
+      "event_id": "$s5ig9plU24lESdYvhCHknWLGGzBAvFWzcNP7vetD5IY",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-11",
+      "body": "隔离恢复验证编号消息 11。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 12,
+      "event_id": "$TP_JGRJ2k79nUoTCgowj5qq_K60-TARzwo-fbxKE8AA",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-12",
+      "body": "隔离恢复验证编号消息 12。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 13,
+      "event_id": "$0OK-QPyzEAGzK8TvnO6FXNgeHVjpFZE6L2jMxlGGjD4",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-13",
+      "body": "隔离恢复验证编号消息 13。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 14,
+      "event_id": "$VygqcNvgo-QOEAOZfiFlW-je1xwadwtxIQuCHxIQKFs",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-14",
+      "body": "隔离恢复验证编号消息 14。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 15,
+      "event_id": "$4J4pYaGvTm2a7dIdSV6gJ7FfCVvplQpbmQcnT_L3JXk",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-15",
+      "body": "隔离恢复验证编号消息 15。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 16,
+      "event_id": "$Y_CdOsrEe9q9dcgVEeDAk2gr1iI6dXAU5kySXDefd2Y",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-16",
+      "body": "隔离恢复验证编号消息 16。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 17,
+      "event_id": "$1a1efVGFuI44zl4IZCYD3aG0lLSdYoEUMM1rQtPzvrM",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-17",
+      "body": "隔离恢复验证编号消息 17。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 18,
+      "event_id": "$H5fNqDlb_uNQPf9zPz2Qak1yCnszAmXPQExeaTaM15M",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-18",
+      "body": "隔离恢复验证编号消息 18。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 19,
+      "event_id": "$gAEKojHPssOhaWOQ0g6JZe4c576KxoGxClJ0xt0H3lg",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-19",
+      "body": "隔离恢复验证编号消息 19。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 20,
+      "event_id": "$bx_yLLSNhRkMwOZZFsvEuL6kxVK2Sc6s9mjc23EUVN8",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-20",
+      "body": "隔离恢复验证编号消息 20。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 21,
+      "event_id": "$pHM9sPZWWaml99ZcID5U3fFKUqllIDVuCITZbXXlHms",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-21",
+      "body": "隔离恢复验证编号消息 21。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 22,
+      "event_id": "$R8bGVXbe-rfc9Sjw49r7egeco9UBjEJ2gmklUAxUO78",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-22",
+      "body": "隔离恢复验证编号消息 22。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 23,
+      "event_id": "$E7aeBwOTAY65Oi9U3uFWg3t2pEsSzwX04ygnVRenHb8",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-23",
+      "body": "隔离恢复验证编号消息 23。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 24,
+      "event_id": "$hbfc4VwReshWbGTTphqFKMuSXqtVv8tboIUD1Z6WS2U",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-24",
+      "body": "隔离恢复验证编号消息 24。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 25,
+      "event_id": "$qn68kdbwAtQ06OtpyzzSZx3PaHb0nS5n3QfXz22SAr4",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-25",
+      "body": "隔离恢复验证编号消息 25。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 26,
+      "event_id": "$hQvnwzvB1SqpUb-0PW-zUYAa9sDXmOSpoSGB442ctgk",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-26",
+      "body": "隔离恢复验证编号消息 26。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 27,
+      "event_id": "$ek1gMfgGaF1kNrhsU9jc66NsaT9DRZV8YTb2DFJ3M3Y",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-27",
+      "body": "隔离恢复验证编号消息 27。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 28,
+      "event_id": "$YccrrgpaaXJ5K5NTH_jxdvKKxzsLjBRKmetMlTfbwRQ",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-28",
+      "body": "隔离恢复验证编号消息 28。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 29,
+      "event_id": "$mBb1wLyPZEciJ7n9ff3BluN9zXQcXhXuOKaOK2vndnQ",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-29",
+      "body": "隔离恢复验证编号消息 29。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 30,
+      "event_id": "$uN_lgHHJoGpTPGVg2VgAxYnoQ2EvJhzX2P4xFqn99eQ",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-30",
+      "body": "隔离恢复验证编号消息 30。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 31,
+      "event_id": "$_5tI4UzjuMzFJayLEXIbxTyWkLI2Cu236EXqhDpd20o",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-31",
+      "body": "隔离恢复验证编号消息 31。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 32,
+      "event_id": "$fL60MtGeMHzZV6xzn83yTHsRUnmBzeKO3xj5BcHUQZA",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-32",
+      "body": "隔离恢复验证编号消息 32。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 33,
+      "event_id": "$yNpzzL7ClpSCARe72ID9JMs0C_F_cgLGY4-ZUPyUOcw",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-33",
+      "body": "隔离恢复验证编号消息 33。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 34,
+      "event_id": "$U99P4p_ErieBXTu0OVaqML9RuG2nxD_iBN_OzgfRJyI",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-34",
+      "body": "隔离恢复验证编号消息 34。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 35,
+      "event_id": "$_kg2SpZkQA3w_qOv8SHgTdBQJkVQ6XM09GXW5hEnmlE",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-35",
+      "body": "隔离恢复验证编号消息 35。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 36,
+      "event_id": "$UoLesnVrxo-cj51E3RR6ULR26A59hax2uDjTPmt9wJk",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-36",
+      "body": "隔离恢复验证编号消息 36。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 37,
+      "event_id": "$rQ3sOoygL8UNC4Vy87Q1jshdYT7vTIDdyl1jSeoobsk",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-37",
+      "body": "隔离恢复验证编号消息 37。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 38,
+      "event_id": "$jydHTU2kQBHzOw0Gg8nyGRya63-e3BK6-87m_8HBEaA",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-38",
+      "body": "隔离恢复验证编号消息 38。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 39,
+      "event_id": "$l_h5WDZb8oMRukMdL17M_CFrmf677MWaW14sJEAYCUw",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-39",
+      "body": "隔离恢复验证编号消息 39。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 40,
+      "event_id": "$_KCaSw7izmCsG0RDo_RMafkVYNaYpZkpNoP6Nyzu4YU",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-40",
+      "body": "隔离恢复验证编号消息 40。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 41,
+      "event_id": "$A-woHlpiI89McedyyZNQeQM2jhB5I8u-T135wktD5qg",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-41",
+      "body": "隔离恢复验证编号消息 41。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 42,
+      "event_id": "$qc5Gx5210IQ98WSPkglSxZ-EmtWx-9MHZV8y0thCm_w",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-42",
+      "body": "隔离恢复验证编号消息 42。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 43,
+      "event_id": "$hp2plzso_xf8YwTMwNGk8mnYWmNGbK4cwyUPbup_sDI",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-43",
+      "body": "隔离恢复验证编号消息 43。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 44,
+      "event_id": "$5AaVK393HOQisp1kpVQMHKLgLhwpS-lbFtH8ZmVVwJM",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-44",
+      "body": "隔离恢复验证编号消息 44。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 45,
+      "event_id": "$LkfQb2gYmjoZGjltksCZtwo0zLwcRMFNXTLJe9iLfBk",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-45",
+      "body": "隔离恢复验证编号消息 45。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 46,
+      "event_id": "$WRek6iSTZhorUI4DiKHxPiz-upP_mxk7HfhceWJ3eSY",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-46",
+      "body": "隔离恢复验证编号消息 46。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 47,
+      "event_id": "$QsLKZiRmSWbwmyeQgvQ007SO-wtZb7ih_UGjk63iBko",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-47",
+      "body": "隔离恢复验证编号消息 47。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 48,
+      "event_id": "$nawEdHCRkH3FTRv4aCZC58a-eZ7o9wERuFI0R1q7NKs",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-48",
+      "body": "隔离恢复验证编号消息 48。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 49,
+      "event_id": "$7i0eOP3plF5WssWlpAkhu_8mGQTOjqMxg70gEKU0nBo",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-49",
+      "body": "隔离恢复验证编号消息 49。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 50,
+      "event_id": "$lnUqT-6P2KVqqO4BQXPHfOc8mFm2Pa7WP1crqOxDA3Q",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-50",
+      "body": "隔离恢复验证编号消息 50。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 51,
+      "event_id": "$0nTK_6qq8MqMZd-okzjsrYKflTgZYVf2CVtZ8kWstZo",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-51",
+      "body": "隔离恢复验证编号消息 51。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 52,
+      "event_id": "$SsFHwWPLTed9smmiGGVsAVhK7nZMu6T4Xkk53QEtnLw",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-52",
+      "body": "隔离恢复验证编号消息 52。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 53,
+      "event_id": "$N1YpJdu3-ge4S3zEdzy2xfa0hEEW137IfqxWIShba1s",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-53",
+      "body": "隔离恢复验证编号消息 53。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    },
+    {
+      "number": 54,
+      "event_id": "$7nIUImQYFON2IFg02VnmNaAndKAWnPyukz8Yjtmt82c",
+      "tx_id": "recovery-worker-6ceddb9f813ebae6-history-54",
+      "body": "隔离恢复验证编号消息 54。仅保存上下文，不需要回复。",
+      "runtime_running_before_send": false
+    }
+  ],
+  "received_events": [
+    {
+      "event_id": "$NJJb6ScAN9TGo6jzvlJd1oBsTtEegVuzmtapJVT-22o",
+      "sender": "@live-twin-worker:rv-a.matrix.invalid",
+      "room": "!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid",
+      "origin_server_ts": 1788972728219,
+      "content": {
+        "body": "处理中...",
+        "msgtype": "m.notice"
+      }
+    },
+    {
+      "event_id": "$c63qkP_HlcEBKRh3W4TtpoRK1xVYjJhuOLWcoQX0nN8",
+      "sender": "@live-twin-worker:rv-a.matrix.invalid",
+      "room": "!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid",
+      "origin_server_ts": 1788972728255,
+      "content": {
+        "body": "* RV_RECOVERY_WORKER_d64b8902c9",
+        "format": "org.matrix.custom.html",
+        "formatted_body": "<p>* RV_RECOVERY_WORKER_d64b8902c9</p>",
+        "m.new_content": {
+          "body": "RV_RECOVERY_WORKER_d64b8902c9",
+          "format": "org.matrix.custom.html",
+          "formatted_body": "<p>RV_RECOVERY_WORKER_d64b8902c9</p>",
+          "msgtype": "m.text"
+        },
+        "m.relates_to": {
+          "event_id": "$NJJb6ScAN9TGo6jzvlJd1oBsTtEegVuzmtapJVT-22o",
+          "rel_type": "m.replace"
+        },
+        "msgtype": "m.text"
+      }
+    }
+  ],
+  "before": {
+    "name": "rv-a-worker-live-twin-worker",
+    "id": "1b8bdff6e607536dc2e6e9a5e01c8134a993486c59bdb4ee2a4946814668eb3c",
+    "running": true,
+    "started_at": "2026-09-09T16:47:25.407351891Z",
+    "finished_at": "2026-09-09T16:45:14.618272902Z",
+    "restart_count": 0
+  },
+  "b_before": [
+    {
+      "name": "rv-b-controller",
+      "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+      "running": true,
+      "started_at": "2026-09-09T16:43:58.11171881Z",
+      "finished_at": "0001-01-01T00:00:00Z",
+      "restart_count": 0
+    },
+    {
+      "name": "rv-b-manager",
+      "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+      "running": true,
+      "started_at": "2026-09-09T16:44:14.670970995Z",
+      "finished_at": "0001-01-01T00:00:00Z",
+      "restart_count": 0
+    },
+    {
+      "name": "rv-b-worker-live-twin-leader",
+      "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+      "running": true,
+      "started_at": "2026-09-09T16:45:05.556201095Z",
+      "finished_at": "0001-01-01T00:00:00Z",
+      "restart_count": 0
+    },
+    {
+      "name": "rv-b-worker-live-twin-worker",
+      "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+      "running": true,
+      "started_at": "2026-09-09T16:47:27.60465926Z",
+      "finished_at": "2026-09-09T16:45:14.492694908Z",
+      "restart_count": 0
+    }
+  ],
+  "stop_attempted": true,
+  "test_started_utc": "2026-09-09T16:51:10.818995+00:00",
+  "stopped": {
+    "name": "rv-a-worker-live-twin-worker",
+    "id": "1b8bdff6e607536dc2e6e9a5e01c8134a993486c59bdb4ee2a4946814668eb3c",
+    "running": false,
+    "started_at": "2026-09-09T16:47:25.407351891Z",
+    "finished_at": "2026-09-09T16:51:12.632209168Z",
+    "restart_count": 0
+  },
+  "stop_complete_seconds": 2.922,
+  "pending_message": {
+    "tx_id": "recovery-worker-6ceddb9f813ebae6-history-54",
+    "body": "隔离恢复验证编号消息 54。仅保存上下文，不需要回复。"
+  },
+  "before_marker_runtime": {
+    "name": "rv-a-worker-live-twin-worker",
+    "id": "1b8bdff6e607536dc2e6e9a5e01c8134a993486c59bdb4ee2a4946814668eb3c",
+    "running": false,
+    "started_at": "2026-09-09T16:47:25.407351891Z",
+    "finished_at": "2026-09-09T16:51:12.632209168Z",
+    "restart_count": 0
+  },
+  "marker_attempted": true,
+  "marker_sent_at_utc": "2026-09-09T16:51:54.617401+00:00",
+  "marker_event_id": "$UWm-qjENT6cGLGT--qaaT8X_etzh9ZpDyB1OZNKxSI8",
+  "marker_body": "@live-twin-worker:rv-a.matrix.invalid 这是隔离恢复验证，只回复 RV_RECOVERY_WORKER_d64b8902c9，不调用工具、不创建资源、不联系其他成员。",
+  "after_marker_runtime": {
+    "name": "rv-a-worker-live-twin-worker",
+    "id": "1b8bdff6e607536dc2e6e9a5e01c8134a993486c59bdb4ee2a4946814668eb3c",
+    "running": false,
+    "started_at": "2026-09-09T16:47:25.407351891Z",
+    "finished_at": "2026-09-09T16:51:12.632209168Z",
+    "restart_count": 0
+  },
+  "after_start": {
+    "name": "rv-a-worker-live-twin-worker",
+    "id": "1b8bdff6e607536dc2e6e9a5e01c8134a993486c59bdb4ee2a4946814668eb3c",
+    "running": true,
+    "started_at": "2026-09-09T16:51:55.480603979Z",
+    "finished_at": "2026-09-09T16:51:12.632209168Z",
+    "restart_count": 0
+  },
+  "start_complete_seconds": 45.203,
+  "matching_reply": {
+    "event_id": "$c63qkP_HlcEBKRh3W4TtpoRK1xVYjJhuOLWcoQX0nN8",
+    "sender": "@live-twin-worker:rv-a.matrix.invalid",
+    "room": "!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid",
+    "origin_server_ts": 1788972728255,
+    "content": {
+      "body": "* RV_RECOVERY_WORKER_d64b8902c9",
+      "format": "org.matrix.custom.html",
+      "formatted_body": "<p>* RV_RECOVERY_WORKER_d64b8902c9</p>",
+      "m.new_content": {
+        "body": "RV_RECOVERY_WORKER_d64b8902c9",
+        "format": "org.matrix.custom.html",
+        "formatted_body": "<p>RV_RECOVERY_WORKER_d64b8902c9</p>",
+        "msgtype": "m.text"
+      },
+      "m.relates_to": {
+        "event_id": "$NJJb6ScAN9TGo6jzvlJd1oBsTtEegVuzmtapJVT-22o",
+        "rel_type": "m.replace"
+      },
+      "msgtype": "m.text"
+    }
+  },
+  "reply_after_start_seconds": 14.578,
+  "after": {
+    "name": "rv-a-worker-live-twin-worker",
+    "id": "1b8bdff6e607536dc2e6e9a5e01c8134a993486c59bdb4ee2a4946814668eb3c",
+    "running": true,
+    "started_at": "2026-09-09T16:51:55.480603979Z",
+    "finished_at": "2026-09-09T16:51:12.632209168Z",
+    "restart_count": 0
+  },
+  "same_container_id": true,
+  "started_at_changed": true,
+  "all_messages_while_stopped": true,
+  "status": "REPLY_OBSERVED",
+  "b_after": [
+    {
+      "name": "rv-b-controller",
+      "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+      "running": true,
+      "started_at": "2026-09-09T16:43:58.11171881Z",
+      "finished_at": "0001-01-01T00:00:00Z",
+      "restart_count": 0
+    },
+    {
+      "name": "rv-b-manager",
+      "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+      "running": true,
+      "started_at": "2026-09-09T16:44:14.670970995Z",
+      "finished_at": "0001-01-01T00:00:00Z",
+      "restart_count": 0
+    },
+    {
+      "name": "rv-b-worker-live-twin-leader",
+      "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+      "running": true,
+      "started_at": "2026-09-09T16:45:05.556201095Z",
+      "finished_at": "0001-01-01T00:00:00Z",
+      "restart_count": 0
+    },
+    {
+      "name": "rv-b-worker-live-twin-worker",
+      "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+      "running": true,
+      "started_at": "2026-09-09T16:47:27.60465926Z",
+      "finished_at": "2026-09-09T16:45:14.492694908Z",
+      "restart_count": 0
+    }
+  ],
+  "finally_restored": {
+    "name": "rv-a-worker-live-twin-worker",
+    "id": "1b8bdff6e607536dc2e6e9a5e01c8134a993486c59bdb4ee2a4946814668eb3c",
+    "running": true,
+    "started_at": "2026-09-09T16:51:55.480603979Z",
+    "finished_at": "2026-09-09T16:51:12.632209168Z",
+    "restart_count": 0
+  },
+  "monitor_samples": [
+    {
+      "utc": "2026-09-09T16:51:10.818995+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:11.586006+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:12.120916+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:12.648153+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:13.186971+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:13.952328+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:14.468739+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:14.997688+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:15.536709+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:16.282684+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.032
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:16.820218+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:17.352754+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:17.873529+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:18.633831+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:19.185222+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:19.725695+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:20.235229+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:21.036425+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:21.553887+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:22.073390+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:22.601109+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:23.335159+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:23.850408+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:24.365903+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:24.884110+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:25.655350+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:26.180066+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:26.722529+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:27.254938+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:28.037859+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:28.565480+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:29.100049+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:29.609940+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:30.400569+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:30.918377+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:31.435785+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:31.954563+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:32.770266+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:33.284946+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:33.801637+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:34.319771+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:35.051610+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:35.569128+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:36.089657+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:36.633960+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:37.386914+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:37.900138+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:38.416895+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.032
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:38.964628+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:39.766604+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:40.290500+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.032
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:40.819703+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:41.335551+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:42.083406+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:42.604681+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:43.136520+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:43.687573+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:44.473007+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:45.003354+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:45.533901+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:46.050398+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:46.820121+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:47.336682+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:47.854787+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:48.387139+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:49.135373+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:49.668334+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:50.203912+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:50.737142+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:51.468865+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:52.004532+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:52.536048+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:53.073696+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:53.806090+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:54.339749+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:54.872183+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:55.405270+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:56.152921+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.047
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:56.713328+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.032
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:57.252344+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:57.770968+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:58.540100+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:59.061120+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:51:59.588067+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.032
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:00.120917+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:00.855687+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:01.405419+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:01.938070+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:02.472669+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:03.237837+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:03.754912+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:04.286798+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:04.805987+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:05.553997+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:06.073286+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:06.603657+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:07.122530+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:07.907051+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:08.439364+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:08.972480+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:09.487099+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ],
+      "b_containers": [
+        {
+          "name": "rv-b-controller",
+          "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+          "running": true,
+          "started_at": "2026-09-09T16:43:58.11171881Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-manager",
+          "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+          "running": true,
+          "started_at": "2026-09-09T16:44:14.670970995Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-leader",
+          "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+          "running": true,
+          "started_at": "2026-09-09T16:45:05.556201095Z",
+          "finished_at": "0001-01-01T00:00:00Z",
+          "restart_count": 0
+        },
+        {
+          "name": "rv-b-worker-live-twin-worker",
+          "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+          "running": true,
+          "started_at": "2026-09-09T16:47:27.60465926Z",
+          "finished_at": "2026-09-09T16:45:14.492694908Z",
+          "restart_count": 0
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:10.238255+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.015
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:10.753816+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.016
+        }
+      ]
+    },
+    {
+      "utc": "2026-09-09T16:52:11.272381+00:00",
+      "health": [
+        {
+          "instance": "a",
+          "status": 200,
+          "elapsed_seconds": 0.031
+        },
+        {
+          "instance": "b",
+          "status": 200,
+          "elapsed_seconds": 0.0
+        }
+      ]
+    }
+  ],
+  "runtime_log_excerpts": [
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:902 | 2026-09-09 16:52:04 | MatrixChannel: sync loop started component=matrix",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:1044 | 2026-09-09 16:52:04 | MatrixChannel: restored sync token from /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/matrix_sync_token",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:1629 | 2026-09-09 16:52:04 | MatrixChannel: restored token, performing full-state sync component=matrix",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='隔离恢复验证编号消息 46。仅保存上下文，不需要回复。' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2699 | 2026-09-09 16:52:04 | MatrixChannel: group text not mentioned, cached to history (room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid sender=@live-twin-human:rv-a.matrix.invalid event_id=$WRek6iSTZhorUI4DiKHxPiz-upP_mxk7HfhceWJ3eSY)",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='隔离恢复验证编号消息 47。仅保存上下文，不需要回复。' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2699 | 2026-09-09 16:52:04 | MatrixChannel: group text not mentioned, cached to history (room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid sender=@live-twin-human:rv-a.matrix.invalid event_id=$QsLKZiRmSWbwmyeQgvQ007SO-wtZb7ih_UGjk63iBko)",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='隔离恢复验证编号消息 48。仅保存上下文，不需要回复。' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2699 | 2026-09-09 16:52:04 | MatrixChannel: group text not mentioned, cached to history (room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid sender=@live-twin-human:rv-a.matrix.invalid event_id=$nawEdHCRkH3FTRv4aCZC58a-eZ7o9wERuFI0R1q7NKs)",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='隔离恢复验证编号消息 49。仅保存上下文，不需要回复。' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2699 | 2026-09-09 16:52:04 | MatrixChannel: group text not mentioned, cached to history (room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid sender=@live-twin-human:rv-a.matrix.invalid event_id=$7i0eOP3plF5WssWlpAkhu_8mGQTOjqMxg70gEKU0nBo)",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='隔离恢复验证编号消息 50。仅保存上下文，不需要回复。' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2699 | 2026-09-09 16:52:04 | MatrixChannel: group text not mentioned, cached to history (room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid sender=@live-twin-human:rv-a.matrix.invalid event_id=$lnUqT-6P2KVqqO4BQXPHfOc8mFm2Pa7WP1crqOxDA3Q)",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='隔离恢复验证编号消息 51。仅保存上下文，不需要回复。' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2699 | 2026-09-09 16:52:04 | MatrixChannel: group text not mentioned, cached to history (room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid sender=@live-twin-human:rv-a.matrix.invalid event_id=$0nTK_6qq8MqMZd-okzjsrYKflTgZYVf2CVtZ8kWstZo)",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='隔离恢复验证编号消息 52。仅保存上下文，不需要回复。' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2699 | 2026-09-09 16:52:04 | MatrixChannel: group text not mentioned, cached to history (room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid sender=@live-twin-human:rv-a.matrix.invalid event_id=$SsFHwWPLTed9smmiGGVsAVhK7nZMu6T4Xkk53QEtnLw)",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='隔离恢复验证编号消息 53。仅保存上下文，不需要回复。' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2699 | 2026-09-09 16:52:04 | MatrixChannel: group text not mentioned, cached to history (room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid sender=@live-twin-human:rv-a.matrix.invalid event_id=$N1YpJdu3-ge4S3zEdzy2xfa0hEEW137IfqxWIShba1s)",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='隔离恢复验证编号消息 54。仅保存上下文，不需要回复。' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2699 | 2026-09-09 16:52:04 | MatrixChannel: group text not mentioned, cached to history (room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid sender=@live-twin-human:rv-a.matrix.invalid event_id=$7nIUImQYFON2IFg02VnmNaAndKAWnPyukz8Yjtmt82c)",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:2661 | 2026-09-09 16:52:04 | _on_room_event: sender=@live-twin-human:rv-a.matrix.invalid room=!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid body='@live-twin-worker:rv-a.matrix.invalid 这是隔离恢复验证，只回复 RV_RECOVERY_WORKER_d64b8902c9' is_dm=False",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:902 | 2026-09-09 16:52:05 | MatrixChannel: sync loop started component=matrix",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:1044 | 2026-09-09 16:52:05 | MatrixChannel: restored sync token from /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/matrix_sync_token",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:1629 | 2026-09-09 16:52:05 | MatrixChannel: restored token, performing full-state sync component=matrix",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:902 | 2026-09-09 16:52:05 | MatrixChannel: sync loop started component=matrix",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:1044 | 2026-09-09 16:52:05 | MatrixChannel: restored sync token from /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/matrix_sync_token",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:1629 | 2026-09-09 16:52:05 | MatrixChannel: restored token, performing full-state sync component=matrix",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:902 | 2026-09-09 16:52:05 | MatrixChannel: sync loop started component=matrix",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:1044 | 2026-09-09 16:52:05 | MatrixChannel: restored sync token from /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/matrix_sync_token",
+    "INFO /root/agentteams-fs/agents/live-twin-worker/.qwenpaw/plugins/agentteams-matrix-channel/agentteams_matrix/channel.py:1629 | 2026-09-09 16:52:05 | MatrixChannel: restored token, performing full-state sync component=matrix"
+  ],
+  "saved_cursor_resumed": true
+}

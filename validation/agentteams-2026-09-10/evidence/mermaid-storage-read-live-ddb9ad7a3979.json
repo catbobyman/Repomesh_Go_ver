@@ -1,0 +1,661 @@
+{
+  "run_id": "ddb9ad7a3979",
+  "project_id": "trace-project-ddb9ad7a3979",
+  "task_id": "trace-task-ddb9ad7a3979",
+  "container": "rv-c-controller",
+  "trace_events": [
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:06.632092034Z",
+      "received_at": "2026-09-10T03:54:06.633454+00:00",
+      "received_monotonic": 0.23431
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:06.632986161Z",
+      "received_at": "2026-09-10T03:54:06.636340+00:00",
+      "received_monotonic": 0.23719
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:07.154723281Z",
+      "received_at": "2026-09-10T03:54:07.155583+00:00",
+      "received_monotonic": 0.756455
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:07.155814819Z",
+      "received_at": "2026-09-10T03:54:07.156689+00:00",
+      "received_monotonic": 0.757532
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:07.185858091Z",
+      "received_at": "2026-09-10T03:54:07.187078+00:00",
+      "received_monotonic": 0.78794
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:07.187237719Z",
+      "received_at": "2026-09-10T03:54:07.187793+00:00",
+      "received_monotonic": 0.788635
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:08.468712153Z",
+      "received_at": "2026-09-10T03:54:08.469613+00:00",
+      "received_monotonic": 2.070475
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:08.469995159Z",
+      "received_at": "2026-09-10T03:54:08.470664+00:00",
+      "received_monotonic": 2.071508
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:08.940597989Z",
+      "received_at": "2026-09-10T03:54:08.941357+00:00",
+      "received_monotonic": 2.542212
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:08.941466847Z",
+      "received_at": "2026-09-10T03:54:08.942191+00:00",
+      "received_monotonic": 2.543038
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:10.223372781Z",
+      "received_at": "2026-09-10T03:54:10.224413+00:00",
+      "received_monotonic": 3.825272
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:10.224586971Z",
+      "received_at": "2026-09-10T03:54:10.225667+00:00",
+      "received_monotonic": 3.826525
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:10.713366869Z",
+      "received_at": "2026-09-10T03:54:10.714102+00:00",
+      "received_monotonic": 4.314974
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:10.714364772Z",
+      "received_at": "2026-09-10T03:54:10.715019+00:00",
+      "received_monotonic": 4.315865
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:11.998367792Z",
+      "received_at": "2026-09-10T03:54:11.999629+00:00",
+      "received_monotonic": 5.600504
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:11.999874661Z",
+      "received_at": "2026-09-10T03:54:12.000951+00:00",
+      "received_monotonic": 5.601798
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:12.479898151Z",
+      "received_at": "2026-09-10T03:54:12.481201+00:00",
+      "received_monotonic": 6.082059
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:12.481415942Z",
+      "received_at": "2026-09-10T03:54:12.482434+00:00",
+      "received_monotonic": 6.083284
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:12.510218455Z",
+      "received_at": "2026-09-10T03:54:12.511037+00:00",
+      "received_monotonic": 6.111894
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:12.511237601Z",
+      "received_at": "2026-09-10T03:54:12.512078+00:00",
+      "received_monotonic": 6.112926
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:13.790675822Z",
+      "received_at": "2026-09-10T03:54:13.791436+00:00",
+      "received_monotonic": 7.392291
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:13.791581282Z",
+      "received_at": "2026-09-10T03:54:13.792161+00:00",
+      "received_monotonic": 7.393003
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:13.822261038Z",
+      "received_at": "2026-09-10T03:54:13.823031+00:00",
+      "received_monotonic": 7.423887
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:13.823164895Z",
+      "received_at": "2026-09-10T03:54:13.823965+00:00",
+      "received_monotonic": 7.424809
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:13.852426727Z",
+      "received_at": "2026-09-10T03:54:13.853374+00:00",
+      "received_monotonic": 7.454231
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:13.853630136Z",
+      "received_at": "2026-09-10T03:54:13.854263+00:00",
+      "received_monotonic": 7.455106
+    },
+    {
+      "method": "HEAD",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:13.881743617Z",
+      "received_at": "2026-09-10T03:54:13.882592+00:00",
+      "received_monotonic": 7.483448
+    },
+    {
+      "method": "GET",
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:54:13.882775748Z",
+      "received_at": "2026-09-10T03:54:13.883577+00:00",
+      "received_monotonic": 7.48442
+    }
+  ],
+  "cases": [
+    {
+      "name": "json-positive-before",
+      "window_start": "2026-09-10T03:54:06.986889+00:00",
+      "window_end": "2026-09-10T03:54:08.440903+00:00",
+      "window_start_monotonic": 0.58775,
+      "window_end_monotonic": 2.041772,
+      "grace_after_http_seconds": 1.25,
+      "http": {
+        "method": "GET",
+        "path": "/api/v1/projects/trace-project-ddb9ad7a3979/workflow?includeTasks=true",
+        "status": 200,
+        "content_type": "application/json",
+        "body": {
+          "project_id": "trace-project-ddb9ad7a3979",
+          "title": "Storage trace fixture ddb9ad7a3979",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "",
+          "mode": "",
+          "nodes": [
+            {
+              "id": "trace-task-ddb9ad7a3979",
+              "name": "Trace task",
+              "status": "pending"
+            }
+          ],
+          "edges": [],
+          "next": [
+            "trace-task-ddb9ad7a3979"
+          ],
+          "interrupts": [],
+          "values": {
+            "project_id": "trace-project-ddb9ad7a3979",
+            "title": "Storage trace fixture ddb9ad7a3979",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "",
+            "mode": "",
+            "task_count": {
+              "pending": 1
+            }
+          },
+          "tasks_detail": [
+            {
+              "task_id": "trace-task-ddb9ad7a3979",
+              "project_id": "trace-project-ddb9ad7a3979",
+              "status": "in_progress",
+              "summary": "TaskMeta-only marker ddb9ad7a3979"
+            }
+          ]
+        }
+      },
+      "observed_events": [
+        {
+          "method": "HEAD",
+          "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:07.154723281Z",
+          "received_at": "2026-09-10T03:54:07.155583+00:00",
+          "received_monotonic": 0.756455
+        },
+        {
+          "method": "GET",
+          "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:07.155814819Z",
+          "received_at": "2026-09-10T03:54:07.156689+00:00",
+          "received_monotonic": 0.757532
+        },
+        {
+          "method": "HEAD",
+          "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:07.185858091Z",
+          "received_at": "2026-09-10T03:54:07.187078+00:00",
+          "received_monotonic": 0.78794
+        },
+        {
+          "method": "GET",
+          "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:07.187237719Z",
+          "received_at": "2026-09-10T03:54:07.187793+00:00",
+          "received_monotonic": 0.788635
+        }
+      ],
+      "project_get_count": 1,
+      "task_get_count": 1,
+      "post_window_probe_seen": true
+    },
+    {
+      "name": "mermaid-true",
+      "window_start": "2026-09-10T03:54:08.772215+00:00",
+      "window_end": "2026-09-10T03:54:10.195189+00:00",
+      "window_start_monotonic": 2.373073,
+      "window_end_monotonic": 3.796086,
+      "grace_after_http_seconds": 1.25,
+      "http": {
+        "method": "GET",
+        "path": "/api/v1/projects/trace-project-ddb9ad7a3979/workflow?format=mermaid&includeTasks=true",
+        "status": 200,
+        "content_type": "text/plain; charset=utf-8",
+        "body": "flowchart LR\n    trace-task-ddb9ad7a3979[\"Trace task: pending\"]:::ready\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n"
+      },
+      "observed_events": [
+        {
+          "method": "HEAD",
+          "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:08.940597989Z",
+          "received_at": "2026-09-10T03:54:08.941357+00:00",
+          "received_monotonic": 2.542212
+        },
+        {
+          "method": "GET",
+          "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:08.941466847Z",
+          "received_at": "2026-09-10T03:54:08.942191+00:00",
+          "received_monotonic": 2.543038
+        }
+      ],
+      "project_get_count": 1,
+      "task_get_count": 0,
+      "post_window_probe_seen": true
+    },
+    {
+      "name": "mermaid-false",
+      "window_start": "2026-09-10T03:54:10.527939+00:00",
+      "window_end": "2026-09-10T03:54:11.968256+00:00",
+      "window_start_monotonic": 4.128818,
+      "window_end_monotonic": 5.569166,
+      "grace_after_http_seconds": 1.25,
+      "http": {
+        "method": "GET",
+        "path": "/api/v1/projects/trace-project-ddb9ad7a3979/workflow?format=mermaid&includeTasks=false",
+        "status": 200,
+        "content_type": "text/plain; charset=utf-8",
+        "body": "flowchart LR\n    trace-task-ddb9ad7a3979[\"Trace task: pending\"]:::ready\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n"
+      },
+      "observed_events": [
+        {
+          "method": "HEAD",
+          "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:10.713366869Z",
+          "received_at": "2026-09-10T03:54:10.714102+00:00",
+          "received_monotonic": 4.314974
+        },
+        {
+          "method": "GET",
+          "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:10.714364772Z",
+          "received_at": "2026-09-10T03:54:10.715019+00:00",
+          "received_monotonic": 4.315865
+        }
+      ],
+      "project_get_count": 1,
+      "task_get_count": 0,
+      "post_window_probe_seen": true
+    },
+    {
+      "name": "json-positive-after",
+      "window_start": "2026-09-10T03:54:12.303954+00:00",
+      "window_end": "2026-09-10T03:54:13.765187+00:00",
+      "window_start_monotonic": 5.904816,
+      "window_end_monotonic": 7.366142,
+      "grace_after_http_seconds": 1.25,
+      "http": {
+        "method": "GET",
+        "path": "/api/v1/projects/trace-project-ddb9ad7a3979/workflow?includeTasks=true",
+        "status": 200,
+        "content_type": "application/json",
+        "body": {
+          "project_id": "trace-project-ddb9ad7a3979",
+          "title": "Storage trace fixture ddb9ad7a3979",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "",
+          "mode": "",
+          "nodes": [
+            {
+              "id": "trace-task-ddb9ad7a3979",
+              "name": "Trace task",
+              "status": "pending"
+            }
+          ],
+          "edges": [],
+          "next": [
+            "trace-task-ddb9ad7a3979"
+          ],
+          "interrupts": [],
+          "values": {
+            "project_id": "trace-project-ddb9ad7a3979",
+            "title": "Storage trace fixture ddb9ad7a3979",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "",
+            "mode": "",
+            "task_count": {
+              "pending": 1
+            }
+          },
+          "tasks_detail": [
+            {
+              "task_id": "trace-task-ddb9ad7a3979",
+              "project_id": "trace-project-ddb9ad7a3979",
+              "status": "in_progress",
+              "summary": "TaskMeta-only marker ddb9ad7a3979"
+            }
+          ]
+        }
+      },
+      "observed_events": [
+        {
+          "method": "HEAD",
+          "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:12.479898151Z",
+          "received_at": "2026-09-10T03:54:12.481201+00:00",
+          "received_monotonic": 6.082059
+        },
+        {
+          "method": "GET",
+          "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:12.481415942Z",
+          "received_at": "2026-09-10T03:54:12.482434+00:00",
+          "received_monotonic": 6.083284
+        },
+        {
+          "method": "HEAD",
+          "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:12.510218455Z",
+          "received_at": "2026-09-10T03:54:12.511037+00:00",
+          "received_monotonic": 6.111894
+        },
+        {
+          "method": "GET",
+          "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+          "status": 200,
+          "time": "2026-09-10T03:54:12.511237601Z",
+          "received_at": "2026-09-10T03:54:12.512078+00:00",
+          "received_monotonic": 6.112926
+        }
+      ],
+      "project_get_count": 1,
+      "task_get_count": 1,
+      "post_window_probe_seen": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "listener-positive-probe-observed-before-cases",
+      "passed": true
+    },
+    {
+      "name": "json-positive-before/http200",
+      "passed": true
+    },
+    {
+      "name": "json-positive-before/project-get-observed",
+      "passed": true
+    },
+    {
+      "name": "json-positive-before/task-get-expectation",
+      "passed": true
+    },
+    {
+      "name": "json-positive-before/trace-active-after-window",
+      "passed": true
+    },
+    {
+      "name": "json-positive-before/raw-task-detail-marker-returned",
+      "passed": true
+    },
+    {
+      "name": "mermaid-true/http200",
+      "passed": true
+    },
+    {
+      "name": "mermaid-true/project-get-observed",
+      "passed": true
+    },
+    {
+      "name": "mermaid-true/task-get-expectation",
+      "passed": true
+    },
+    {
+      "name": "mermaid-true/trace-active-after-window",
+      "passed": true
+    },
+    {
+      "name": "mermaid-false/http200",
+      "passed": true
+    },
+    {
+      "name": "mermaid-false/project-get-observed",
+      "passed": true
+    },
+    {
+      "name": "mermaid-false/task-get-expectation",
+      "passed": true
+    },
+    {
+      "name": "mermaid-false/trace-active-after-window",
+      "passed": true
+    },
+    {
+      "name": "json-positive-after/http200",
+      "passed": true
+    },
+    {
+      "name": "json-positive-after/project-get-observed",
+      "passed": true
+    },
+    {
+      "name": "json-positive-after/task-get-expectation",
+      "passed": true
+    },
+    {
+      "name": "json-positive-after/trace-active-after-window",
+      "passed": true
+    },
+    {
+      "name": "json-positive-after/raw-task-detail-marker-returned",
+      "passed": true
+    },
+    {
+      "name": "fixture-content-unchanged",
+      "passed": true
+    }
+  ],
+  "trace_schema_paths": [
+    "api",
+    "callStats",
+    "callStats.duration",
+    "callStats.rx",
+    "callStats.timeToFirstByte",
+    "callStats.tx",
+    "client",
+    "duration",
+    "error",
+    "extra",
+    "host",
+    "path",
+    "query",
+    "size",
+    "status",
+    "statusCode",
+    "statusMsg",
+    "time",
+    "timeToFirstByte",
+    "type"
+  ],
+  "boundary": "Real Controller HTTP and real MinIO admin trace, direct nonce metadata fixtures. No mock, model, service change, or inference about other requests.",
+  "started_at": "2026-09-10T03:54:06.399181+00:00",
+  "trace_method_provenance": "Use explicit request.method if present; mc flattened api s3.GetObject maps to HTTP GET, s3.HeadObject to HEAD. Unrecognized operations remain null; raw api/headers are not emitted.",
+  "fixtures": [
+    {
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/meta.json",
+      "sha256": "e2f5405444a0ca98f043443d695d674d69728d3a53b52b950d939a0e9f58616a",
+      "content": {
+        "project_id": "trace-project-ddb9ad7a3979",
+        "title": "Storage trace fixture ddb9ad7a3979",
+        "status": "active",
+        "plan_type": "dag",
+        "tasks": [
+          {
+            "task_id": "trace-task-ddb9ad7a3979",
+            "title": "Trace task",
+            "status": "planned",
+            "depends_on": []
+          }
+        ],
+        "source_room_id": ""
+      }
+    },
+    {
+      "path": "rv-c-storage/shared/tasks/trace-task-ddb9ad7a3979/meta.json",
+      "sha256": "ab7af5748cbb5c19d7232dd4c4d5792c7b6645a1bd0781a94bc349e044c91b23",
+      "content": {
+        "task_id": "trace-task-ddb9ad7a3979",
+        "project_id": "trace-project-ddb9ad7a3979",
+        "status": "in_progress",
+        "summary": "TaskMeta-only marker ddb9ad7a3979",
+        "history": []
+      }
+    },
+    {
+      "path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+      "sha256": "175975f68103a948fb8058adf3cb434ab2ac77086fd136443b51317fe3af09d0",
+      "content": {
+        "probe": "ddb9ad7a3979"
+      }
+    }
+  ],
+  "listener": {
+    "pid": 16375,
+    "command": [
+      "mc",
+      "admin",
+      "trace",
+      "--json",
+      "--all",
+      "agentteams"
+    ],
+    "timeout_seconds": 70,
+    "ready_probe_path": "rv-c-storage/shared/projects/trace-project-ddb9ad7a3979/trace-probe.json",
+    "exit_code": 143,
+    "terminated": true
+  },
+  "completed": true,
+  "ended_at": "2026-09-10T03:54:13.888507+00:00",
+  "elapsed_seconds": 7.489,
+  "exit_code": 0,
+  "post_run_listener_pid_exists": {
+    "16164": false,
+    "16375": false
+  },
+  "runtime_provenance": {
+    "container_id": "ef17ce71456d5bec7c8f882fd982b3f47985d2ce65cb4b35ac8ea15e00f8d2ca",
+    "image_id": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+    "started_at": "2026-09-10T10:34:25.597638797Z",
+    "running": true
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "mode": "READ_ONLY_PLAN_NO_RESOURCES_OR_SECRETS_CREATED",
+  "run_id": "agentteams-2026-09-10",
+  "manager_enabled": false,
+  "with_provider": false,
+  "instances": [
+    {
+      "instance": "c",
+      "name": "rv-c",
+      "container": "rv-c-controller",
+      "network": "rv-c-net",
+      "data_volume": "rv-c-data",
+      "agentfs_volume": "rv-c-agentfs",
+      "directory": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-10\\runtime\\instance-c",
+      "workspace": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-10\\runtime\\instance-c\\workspace",
+      "host_share": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-10\\runtime\\instance-c\\host-share",
+      "env_file": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-10\\private\\rv-c-controller.env",
+      "gateway_port": 48080,
+      "console_port": 48001,
+      "api_port": 48090,
+      "element_port": 48088,
+      "manager_console_port_reserved": 48099,
+      "manager_enabled": false,
+      "image": "repomesh-validation/embedded:517caff9",
+      "published_ports": {
+        "8080/tcp": 48080,
+        "8001/tcp": 48001,
+        "8090/tcp": 48090,
+        "8088/tcp": 48088
+      }
+    }
+  ],
+  "embedded_image_present": false,
+  "embedded_image_id": null,
+  "existing_resources": {
+    "rv-c-controller": false,
+    "rv-c-data": false,
+    "rv-c-agentfs": false,
+    "rv-c-net": false
+  },
+  "localhost_ports_available": {
+    "48080": true,
+    "48001": true,
+    "48090": true,
+    "48088": true
+  },
+  "image_provenance": {
+    "old_commit": "eeaab64391ccaec9118e84977f538aefd40720d6",
+    "new_commit": "517caff9280242a00a4d4c06365352b9e41659c6",
+    "compared_source_scopes": [
+      "manager",
+      "qwenpaw",
+      "copaw",
+      "plugins",
+      "shared/lib",
+      ".dockerignore"
+    ],
+    "git_diff_names": [],
+    "runtime_images": [
+      {
+        "tag": "repomesh-validation/qwenpaw-worker:eeaab643",
+        "image_id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+        "image_created": "2026-09-09T16:35:17.945460833Z",
+        "status": "REUSED_2026_09_09_IMAGE_NOT_NEW_BUILD",
+        "runtime_source_unchanged": true
+      }
+    ],
+    "manager_image": {
+      "tag": "repomesh-validation/manager-qwenpaw:517caff9",
+      "image_present": false,
+      "image_id": null,
+      "status": "WAITING_FOR_ROOT_NEW_MANAGER_BUILD",
+      "reason": "Manager must rebuild with 517caff9 controller because its Dockerfile copies the agt CLI"
+    },
+    "dependency_caveat": "Existing image dependencies/artifacts are reused exactly; this does not attest to a fresh rebuild or refreshed dependencies"
+  }
+}

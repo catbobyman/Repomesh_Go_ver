@@ -1,0 +1,52 @@
+{
+  "started_at": "2026-09-10T10:15:01.557140+00:00",
+  "command": [
+    "go",
+    "test",
+    "-p",
+    "2",
+    "-count=1",
+    "-json",
+    "./internal/server",
+    "./internal/workflow",
+    "./cmd/agt"
+  ],
+  "cwd": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-10\\upstream\\agentteams-controller",
+  "go_executable": "C:\\Program Files\\Go\\bin\\go.EXE",
+  "scope": "Unmodified official Go package tests; no Docker/service operations",
+  "stdout": "controller-official-tests.jsonl",
+  "stderr": "controller-official-tests.stderr.log",
+  "go_version": "go version go1.26.4 windows/amd64",
+  "go_version_exit_code": 0,
+  "exit_code": 0,
+  "elapsed_seconds": 22.217,
+  "finished_at": "2026-09-10T10:15:23.815072+00:00",
+  "packages": [
+    {
+      "package": "github.com/agentscope-ai/AgentTeams/agentteams-controller/internal/server",
+      "action": "pass",
+      "elapsed_seconds": 0.701
+    },
+    {
+      "package": "github.com/agentscope-ai/AgentTeams/agentteams-controller/internal/workflow",
+      "action": "pass",
+      "elapsed_seconds": 0.692
+    },
+    {
+      "package": "github.com/agentscope-ai/AgentTeams/agentteams-controller/cmd/agt",
+      "action": "pass",
+      "elapsed_seconds": 6.874
+    }
+  ],
+  "test_events": {
+    "pass": 311,
+    "fail": 0,
+    "skip": 0
+  },
+  "top_level_test_events": {
+    "pass": 252,
+    "fail": 0,
+    "skip": 0
+  },
+  "failed_tests": []
+}

@@ -1,0 +1,60 @@
+{
+  "mcp_pid": 18333,
+  "arguments": {
+    "action": "delegate_task",
+    "workspaceDir": "/tmp/repomesh-response-loss/fecb288f32/retained",
+    "storage": {
+      "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/response-loss-fecb288f32"
+    },
+    "projectId": "loss-fecb288f32-retained-project",
+    "taskId": "loss-fecb288f32-retained-task",
+    "assignedTo": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+    "roomId": "!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid",
+    "role": "leader",
+    "spec": "Response loss fixture only; no model task or external side effect"
+  },
+  "native_mcp_response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"ok\": true, \"tool\": \"taskflow\", \"action\": \"delegate_task\", \"task\": {\"task_id\": \"loss-fecb288f32-retained-task\", \"project_id\": \"loss-fecb288f32-retained-project\", \"room_id\": \"!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid\", \"status\": \"assigned\", \"spec_path\": \"shared/tasks/loss-fecb288f32-retained-task/spec.md\", \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\", \"source_room_id\": \"!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid\", \"task_title\": \"loss-fecb288f32-retained-task\", \"assigned_at\": \"2026-09-09T17:06:27Z\", \"notification\": {\"sent\": true, \"eventId\": \"$yjjPcKyoYETKFvEiudsnMV9yRJpSMjfVAVKzOnTjYEY\", \"roomId\": \"!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid\", \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"}, \"eventId\": \"$yjjPcKyoYETKFvEiudsnMV9yRJpSMjfVAVKzOnTjYEY\"}, \"synced\": true, \"notification\": {\"sent\": true, \"eventId\": \"$yjjPcKyoYETKFvEiudsnMV9yRJpSMjfVAVKzOnTjYEY\", \"roomId\": \"!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid\", \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"}, \"notificationNeeded\": {\"event\": \"delegate_task\", \"projectId\": \"loss-fecb288f32-retained-project\", \"summary\": \"delegate_task: loss-fecb288f32-retained-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid\", \"targetRoom\": \"!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid\"}}"
+      }
+    ]
+  },
+  "tool_response": {
+    "ok": true,
+    "tool": "taskflow",
+    "action": "delegate_task",
+    "task": {
+      "task_id": "loss-fecb288f32-retained-task",
+      "project_id": "loss-fecb288f32-retained-project",
+      "room_id": "!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid",
+      "status": "assigned",
+      "spec_path": "shared/tasks/loss-fecb288f32-retained-task/spec.md",
+      "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+      "source_room_id": "!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid",
+      "task_title": "loss-fecb288f32-retained-task",
+      "assigned_at": "2026-09-09T17:06:27Z",
+      "notification": {
+        "sent": true,
+        "eventId": "$yjjPcKyoYETKFvEiudsnMV9yRJpSMjfVAVKzOnTjYEY",
+        "roomId": "!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid",
+        "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+      },
+      "eventId": "$yjjPcKyoYETKFvEiudsnMV9yRJpSMjfVAVKzOnTjYEY"
+    },
+    "synced": true,
+    "notification": {
+      "sent": true,
+      "eventId": "$yjjPcKyoYETKFvEiudsnMV9yRJpSMjfVAVKzOnTjYEY",
+      "roomId": "!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid",
+      "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+    },
+    "notificationNeeded": {
+      "event": "delegate_task",
+      "projectId": "loss-fecb288f32-retained-project",
+      "summary": "delegate_task: loss-fecb288f32-retained-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+      "targetRoom": "!b6KUFbOv7fZSuEq8uc:rv-a.matrix.invalid"
+    }
+  }
+}

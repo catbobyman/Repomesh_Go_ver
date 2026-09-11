@@ -1,0 +1,83 @@
+{
+  "created_at_utc": "2026-09-09T16:29:53.806784+00:00",
+  "run_id": "agentteams-2026-09-09",
+  "instances": [
+    {
+      "instance": "a",
+      "name": "rv-a",
+      "container": "rv-a-controller",
+      "network": "rv-a-net",
+      "data_volume": "rv-a-data",
+      "agentfs_volume": "rv-a-agentfs",
+      "directory": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\runtime\\instance-a",
+      "workspace": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\runtime\\instance-a\\workspace",
+      "host_share": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\runtime\\instance-a\\host-share",
+      "env_file": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\private\\rv-a-controller.env",
+      "gateway_port": 28080,
+      "console_port": 28001,
+      "api_port": 28090,
+      "element_port": 28088,
+      "manager_console_port_reserved": 28099,
+      "manager_enabled": false,
+      "image": "repomesh-validation/embedded:eeaab643",
+      "published_ports": {
+        "8080/tcp": 28080,
+        "8001/tcp": 28001,
+        "8090/tcp": 28090,
+        "8088/tcp": 28088
+      },
+      "image_id": "sha256:84ec2dfd1c8062785e867f2d6f6ce0875d1a67fab7106d54f257c2326966a150",
+      "container_id": "58f74b0641dbb5a3232236ba9dd5b7a4fbcc507e6bf7927af50c392d28675e79",
+      "actions": {
+        "network": "created",
+        "data_volume": "created",
+        "agentfs_volume": "created",
+        "container": "created"
+      },
+      "container_running": true,
+      "provider_injected": false,
+      "health_and_initialization": "HTTP_HEALTHZ_200_ONLY",
+      "model_execution": "NOT_TESTED",
+      "daemon_hostpaths_recorded": true
+    },
+    {
+      "instance": "b",
+      "name": "rv-b",
+      "container": "rv-b-controller",
+      "network": "rv-b-net",
+      "data_volume": "rv-b-data",
+      "agentfs_volume": "rv-b-agentfs",
+      "directory": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\runtime\\instance-b",
+      "workspace": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\runtime\\instance-b\\workspace",
+      "host_share": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\runtime\\instance-b\\host-share",
+      "env_file": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\private\\rv-b-controller.env",
+      "gateway_port": 38080,
+      "console_port": 38001,
+      "api_port": 38090,
+      "element_port": 38088,
+      "manager_console_port_reserved": 38099,
+      "manager_enabled": false,
+      "image": "repomesh-validation/embedded:eeaab643",
+      "published_ports": {
+        "8080/tcp": 38080,
+        "8001/tcp": 38001,
+        "8090/tcp": 38090,
+        "8088/tcp": 38088
+      },
+      "image_id": "sha256:84ec2dfd1c8062785e867f2d6f6ce0875d1a67fab7106d54f257c2326966a150",
+      "container_id": "67af50f9ec90a6409c1654ef5c90d5a72618df8cc872d3cbd6f9574b00fb7608",
+      "actions": {
+        "network": "created",
+        "data_volume": "created",
+        "agentfs_volume": "created",
+        "container": "created"
+      },
+      "container_running": true,
+      "provider_injected": false,
+      "health_and_initialization": "HTTP_HEALTHZ_200_ONLY",
+      "model_execution": "NOT_TESTED",
+      "daemon_hostpaths_recorded": true
+    }
+  ],
+  "warning": "Container start/health is not initializer, runtime, model, or RepoMesh acceptance"
+}

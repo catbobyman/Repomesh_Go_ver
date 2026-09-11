@@ -1,0 +1,26 @@
+{
+  "checked_at_utc": "2026-09-10T10:12:48.124450+00:00",
+  "old_sha": "eeaab64391ccaec9118e84977f538aefd40720d6",
+  "new_sha": "517caff9280242a00a4d4c06365352b9e41659c6",
+  "latest_main_query": {
+    "sha": "517caff9280242a00a4d4c06365352b9e41659c6",
+    "committed": "2026-09-10T02:41:08Z"
+  },
+  "changed_files": [
+    "M\tagentteams-controller/cmd/agt/get.go",
+    "M\tagentteams-controller/cmd/agt/mermaid_test.go",
+    "M\tagentteams-controller/cmd/agt/update.go",
+    "A\tagentteams-controller/cmd/agt/update_test.go",
+    "M\tagentteams-controller/internal/server/http.go",
+    "M\tagentteams-controller/internal/server/project_handler.go",
+    "M\tagentteams-controller/internal/server/project_handler_test.go",
+    "M\tagentteams-controller/internal/server/resource_handler.go",
+    "M\tagentteams-controller/internal/server/resource_handler_test.go",
+    "M\tagentteams-controller/internal/server/types.go",
+    "A\tagentteams-controller/internal/workflow/mermaid.go",
+    "A\tagentteams-controller/internal/workflow/mermaid_test.go",
+    "M\tdocs/usage/project-workflow-api.md",
+    "M\tdocs/zh-cn/usage/project-workflow-api.md"
+  ],
+  "working_tree": ""
+}

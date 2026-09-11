@@ -1,0 +1,11 @@
+{
+  "commit": "517caff9280242a00a4d4c06365352b9e41659c6",
+  "context": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-10\\runtime\\build-source",
+  "makefile_prerequisite": "manager/agent copied to agentteams-controller/agent",
+  "files": {
+    "agentteams-controller/Dockerfile": "f179669d38d08b2d0f836c7fd51d2ecec3d5848a4940bbbd9dc5045b6d4511e6",
+    "agentteams-controller/Dockerfile.embedded": "347973e6c779ae86b1058f717de348cf2ed0256e52b664ea1ac4824d86410f7e",
+    "manager/Dockerfile.qwenpaw": "182da03fedf759987985e3dda975deed64e48f71133f17a5c06f2e0f29e1522b",
+    "qwenpaw/Dockerfile": "081ce25270a48d92f37c6499f0b104f5c66209fa9a75156653d6f44cb5f63c07"
+  }
+}

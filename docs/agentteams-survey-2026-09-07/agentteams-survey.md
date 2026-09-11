@@ -6,6 +6,8 @@
 > 调查方式：只读核查官方源码、官方文档和官方 Dashboard；没有安装、部署或调用真实服务。  
 > 详细的 API、CLI 和源码清单见：[AgentTeams API、CLI、Matrix 与 Harness 接口调查](./agentteams-api-cli-survey-2026-09-07.md)
 
+> 2026-09-09 后续索引：本文保留 09-07 静态调研及其原日期。最新 main 经重新查询仍为上述提交，最新 release 为 v1.2.3；用户已采用复用上游原生仓内 DAG，由 RepoMesh 管跨仓依赖、业务放行及 Loop。现行职责和后续组件／真实 HTTP＋MinIO 证据见 [Graph／Loop 专题](../current/graph-loop-design.md)，不将后续实验倒填为本文当时已运行。
+
 ## 先说结论
 
 AgentTeams 能为 RepoMesh 提供一套已经成形的“团队协作底座”：它会创建和管理 Manager、Leader、Worker，让这些 Agent 在 Matrix 房间里通信，通过共享存储交换计划和产物，并通过 Controller 管理运行时。

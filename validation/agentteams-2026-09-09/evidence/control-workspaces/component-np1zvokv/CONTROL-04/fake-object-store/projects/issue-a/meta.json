@@ -1,0 +1,18 @@
+{
+  "project_id": "issue-a",
+  "title": "issue-a",
+  "status": "active",
+  "plan_type": "dag",
+  "team_id": "control-team",
+  "source": "matrix",
+  "source_room_id": "!control-room:validation.invalid",
+  "tasks": [
+    {
+      "task_id": "T1",
+      "title": "T1",
+      "status": "planned",
+      "assigned_to": "@control-worker:validation.invalid",
+      "depends_on": []
+    }
+  ]
+}

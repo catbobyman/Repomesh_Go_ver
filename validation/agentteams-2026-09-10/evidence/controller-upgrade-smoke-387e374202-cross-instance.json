@@ -1,0 +1,67 @@
+{
+  "at_utc": "2026-09-10T03:39:36.166492+00:00",
+  "records": [
+    {
+      "identity_source": "rv-a-controller",
+      "method": "GET",
+      "path": "/api/v1/projects/upgrade-smoke-387e374202/tasks/upgrade-task-387e374202",
+      "status": 401,
+      "response": {
+        "message": "invalid or missing bearer token"
+      }
+    },
+    {
+      "identity_source": "rv-c-controller",
+      "method": "GET",
+      "path": "/api/v1/projects/upgrade-smoke-387e374202/tasks/upgrade-task-387e374202",
+      "status": 200,
+      "response": {
+        "task_id": "upgrade-task-387e374202",
+        "project_id": "upgrade-smoke-387e374202",
+        "status": "cancelled",
+        "summary": "metadata fixture only",
+        "cancel_reason": "upgrade cancel 387e374202",
+        "trace": {
+          "project_id": "upgrade-smoke-387e374202",
+          "task_id": "upgrade-task-387e374202"
+        }
+      }
+    }
+  ],
+  "credential_source": "Existing stopped rv-a-controller /var/run/agentteams/cli-token read using docker cp tar stream entirely in memory; no container start",
+  "project": "upgrade-smoke-387e374202",
+  "task": "upgrade-task-387e374202",
+  "before": [
+    {
+      "name": "rv-a-controller",
+      "id": "b87af2f3f940e51c24d8ed9586e055ce0b444b2168322cb5b9dc2d35cd4f439c",
+      "image": "sha256:84ec2dfd1c8062785e867f2d6f6ce0875d1a67fab7106d54f257c2326966a150",
+      "started_at": "2026-09-10T10:15:43.42079409Z",
+      "running": false
+    },
+    {
+      "name": "rv-c-controller",
+      "id": "ef17ce71456d5bec7c8f882fd982b3f47985d2ce65cb4b35ac8ea15e00f8d2ca",
+      "image": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "started_at": "2026-09-10T10:34:25.597638797Z",
+      "running": true
+    }
+  ],
+  "after": [
+    {
+      "name": "rv-a-controller",
+      "id": "b87af2f3f940e51c24d8ed9586e055ce0b444b2168322cb5b9dc2d35cd4f439c",
+      "image": "sha256:84ec2dfd1c8062785e867f2d6f6ce0875d1a67fab7106d54f257c2326966a150",
+      "started_at": "2026-09-10T10:15:43.42079409Z",
+      "running": false
+    },
+    {
+      "name": "rv-c-controller",
+      "id": "ef17ce71456d5bec7c8f882fd982b3f47985d2ce65cb4b35ac8ea15e00f8d2ca",
+      "image": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "started_at": "2026-09-10T10:34:25.597638797Z",
+      "running": true
+    }
+  ],
+  "exit_code": 0
+}

@@ -1,0 +1,373 @@
+{
+  "at_utc": "2026-09-09T17:09:58.623096+00:00",
+  "nonce": "9e7fd26ab6",
+  "worker": "coverage-mcp-ab69215252",
+  "helper": "rv-mcp-contract-9e7fd26ab6",
+  "records": [
+    {
+      "kind": "controller",
+      "method": "GET",
+      "path": "/api/v1/workers/coverage-mcp-ab69215252",
+      "status": 200,
+      "request": null,
+      "response": {
+        "name": "coverage-mcp-ab69215252",
+        "phase": "Running",
+        "containerManaged": true,
+        "state": "Running",
+        "model": "deepseek-chat",
+        "runtime": "qwenpaw",
+        "image": "repomesh-validation/qwenpaw-worker:eeaab643",
+        "containerState": "running",
+        "matrixUserID": "@coverage-mcp-ab69215252:rv-a.matrix.invalid",
+        "roomID": "!W5Hd3ARDTk19SnKF4L:rv-a.matrix.invalid"
+      }
+    },
+    {
+      "kind": "controller",
+      "method": "PUT",
+      "path": "/api/v1/workers/coverage-mcp-ab69215252",
+      "status": 200,
+      "request": {
+        "mcpServers": [
+          {
+            "name": "validation-contract",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp",
+            "transport": "http"
+          }
+        ]
+      },
+      "response": {
+        "name": "coverage-mcp-ab69215252",
+        "phase": "Running",
+        "containerManaged": true,
+        "state": "Running",
+        "model": "deepseek-chat",
+        "runtime": "qwenpaw",
+        "image": "repomesh-validation/qwenpaw-worker:eeaab643",
+        "mcpServers": [
+          {
+            "name": "validation-contract",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp",
+            "transport": "http"
+          }
+        ],
+        "containerState": "running",
+        "matrixUserID": "@coverage-mcp-ab69215252:rv-a.matrix.invalid",
+        "roomID": "!W5Hd3ARDTk19SnKF4L:rv-a.matrix.invalid"
+      }
+    },
+    {
+      "kind": "controller",
+      "method": "GET",
+      "path": "/api/v1/workers/coverage-mcp-ab69215252/status",
+      "status": 200,
+      "request": null,
+      "response": {
+        "name": "coverage-mcp-ab69215252",
+        "phase": "Ready",
+        "containerManaged": true,
+        "state": "Running",
+        "model": "deepseek-chat",
+        "runtime": "qwenpaw",
+        "image": "repomesh-validation/qwenpaw-worker:eeaab643",
+        "mcpServers": [
+          {
+            "name": "validation-contract",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp",
+            "transport": "http"
+          }
+        ],
+        "containerState": "running",
+        "matrixUserID": "@coverage-mcp-ab69215252:rv-a.matrix.invalid",
+        "roomID": "!W5Hd3ARDTk19SnKF4L:rv-a.matrix.invalid",
+        "message": "backend=docker status=running"
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": null,
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "runtime_projection",
+      "result": {
+        "desired_mcpServers": [
+          {
+            "name": "validation-contract",
+            "transport": "http",
+            "url": "http://rv-mcp-contract-9e7fd26ab6:8123/mcp"
+          }
+        ],
+        "mcporter": []
+      }
+    },
+    {
+      "kind": "error",
+      "type": "RuntimeError",
+      "message": "Requested server not present in runtime mcporter config"
+    },
+    {
+      "kind": "controller",
+      "method": "PUT",
+      "path": "/api/v1/workers/coverage-mcp-ab69215252",
+      "status": 200,
+      "request": {
+        "mcpServers": []
+      },
+      "response": {
+        "name": "coverage-mcp-ab69215252",
+        "phase": "Running",
+        "containerManaged": true,
+        "state": "Running",
+        "model": "deepseek-chat",
+        "runtime": "qwenpaw",
+        "image": "repomesh-validation/qwenpaw-worker:eeaab643",
+        "containerState": "running",
+        "matrixUserID": "@coverage-mcp-ab69215252:rv-a.matrix.invalid",
+        "roomID": "!W5Hd3ARDTk19SnKF4L:rv-a.matrix.invalid"
+      }
+    },
+    {
+      "kind": "cleanup",
+      "helper_removed": true,
+      "new_worker_remote_mcp_reset": true
+    }
+  ]
+}

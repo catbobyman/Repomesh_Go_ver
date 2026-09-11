@@ -1,0 +1,46 @@
+[
+  {
+    "kind": "origin",
+    "initial_commit": "f04d1b6f92967ddf27358cd6b5a25175697271a2",
+    "source": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\runtime\\git-isolation-ffaa0544b9\\source.git",
+    "writable_origin": false,
+    "boundary": "Local fixed-content HTTP Git fixture shared by both networks; not GitHub authorization or model tool execution"
+  },
+  {
+    "kind": "clone",
+    "instance": "a",
+    "container": "rv-a-worker-live-twin-worker",
+    "remote": "http://rv-git-fixture-ffaa0544b9:8080/source.git",
+    "path": "/tmp/repomesh-same-origin-ffaa0544b9",
+    "commit": "f04d1b6f92967ddf27358cd6b5a25175697271a2",
+    "equal_origin": true
+  },
+  {
+    "kind": "clone",
+    "instance": "b",
+    "container": "rv-b-worker-live-twin-worker",
+    "remote": "http://rv-git-fixture-ffaa0544b9:8080/source.git",
+    "path": "/tmp/repomesh-same-origin-ffaa0544b9",
+    "commit": "f04d1b6f92967ddf27358cd6b5a25175697271a2",
+    "equal_origin": true
+  },
+  {
+    "kind": "isolation",
+    "a_commit": "35e0879cfc4412f317e476e8ebff5cd966c4153a",
+    "b_commit": "f04d1b6f92967ddf27358cd6b5a25175697271a2",
+    "origin_commit": "f04d1b6f92967ddf27358cd6b5a25175697271a2",
+    "b_files": {
+      "readme": "Shared immutable validation source\n",
+      "only_a_exists": false
+    },
+    "same_original_remote": "http://rv-git-fixture-ffaa0544b9:8080/source.git",
+    "a_changed": true,
+    "b_unchanged": true,
+    "origin_unchanged": true
+  },
+  {
+    "kind": "helper_cleanup",
+    "removed_id": "691cae0e22cc845a585fafe159a37b41f9e75022c899a638f28c6d4dcd7669fe",
+    "source_and_clones_preserved": true
+  }
+]

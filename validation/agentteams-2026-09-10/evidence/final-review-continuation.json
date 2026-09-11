@@ -1,0 +1,57 @@
+{
+  "at_utc": "2026-09-10T04:00:23.663524+00:00",
+  "handoff_files": [
+    "docs\\current\\HANDOFF.md",
+    "docs\\current\\graph-loop-design.md",
+    "docs\\current\\NEXT-SESSION-PROMPT.md",
+    "docs\\current\\NEXT-BACKEND-SESSION-PROMPT.md",
+    "docs\\current\\agentteams-validation-plan.md"
+  ],
+  "local_links_checked": 157,
+  "python_scripts_parsed": 26,
+  "upstream_head": "517caff9280242a00a4d4c06365352b9e41659c6",
+  "upstream_clean": true,
+  "errors": [],
+  "artifact_checks_passed": true,
+  "business_go_scan": {
+    "exit_code": 1,
+    "matches": [],
+    "stderr_empty": true
+  },
+  "old_volume_consumers": [
+    {
+      "name": "goai-infra-repomesh-api-1",
+      "id": "dc5e0235fa51b5f7ad7bee5171cb35fff0f8c8fc7eee3b25eb97388551b475c9",
+      "state": "running",
+      "mount_destination": "/agentteams-data"
+    }
+  ],
+  "own_instances": [
+    {
+      "name": "rv-c-controller",
+      "id": "ef17ce71456d5bec7c8f882fd982b3f47985d2ce65cb4b35ac8ea15e00f8d2ca",
+      "image_id": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "running": true,
+      "restart_count": 0
+    },
+    {
+      "name": "rv-d-controller",
+      "id": "d611f0702253daae9c14470773fd448166cd5cdb94ca4130818b0bc49bf394f6",
+      "image_id": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "running": true,
+      "restart_count": 0
+    },
+    {
+      "name": "rv-c-manager",
+      "id": "ca0b7cc01d9df7959471674d8eb4057912fa5c64904741b19318a2fde1a3fe52",
+      "image_id": "sha256:8cf1059295e6c172ba30d7e732cc382169678fcb44b2e7f56c159203b0c20b6a",
+      "running": true,
+      "restart_count": 0
+    }
+  ],
+  "goal_complete": false,
+  "remaining_preconditions": [
+    "RepoMesh controlled business implementation and integration",
+    "Other project still mounts old shared volume; no cross-project deletion performed"
+  ]
+}

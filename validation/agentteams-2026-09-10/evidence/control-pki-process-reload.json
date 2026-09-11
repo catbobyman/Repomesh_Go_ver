@@ -1,0 +1,32 @@
+{
+  "before_controller": {
+    "pid": 50,
+    "ppid": 1,
+    "start_ticks": "131501",
+    "exe": "/usr/local/bin/agentteams-controller"
+  },
+  "before_kube": {
+    "pid": 418,
+    "ppid": 50,
+    "start_ticks": "131509",
+    "exe": "/usr/local/bin/kube-apiserver"
+  },
+  "after_controller": {
+    "pid": 7667,
+    "ppid": 1,
+    "start_ticks": "189447",
+    "exe": "/usr/local/bin/agentteams-controller"
+  },
+  "after_kube": {
+    "pid": 7682,
+    "ppid": 7667,
+    "start_ticks": "189453",
+    "exe": "/usr/local/bin/kube-apiserver"
+  },
+  "old_processes_absent": true,
+  "old_kube_precise_sigterm_needed": false,
+  "supervisor_pid_unchanged": true,
+  "signals": "Only exact old c Controller SIGTERM; precise captured old Kube child only if still present",
+  "at_utc": "2026-09-10T03:44:07.116473+00:00",
+  "container_id_unchanged": true
+}

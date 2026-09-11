@@ -1,0 +1,208 @@
+{
+  "result": {
+    "pid": 10952,
+    "fault_mode": "none",
+    "fault_state": {
+      "barrier_fired": false,
+      "faulted_paths": [],
+      "source_function": "server._filesync"
+    },
+    "tool_response": {
+      "ok": true,
+      "tool": "taskflow",
+      "action": "delegate_task",
+      "task": {
+        "assigned_at": "2026-09-09T16:52:18Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+        "notification": {
+          "sent": true,
+          "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+          "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "reused": true
+        },
+        "project_id": "cov-32447df06f-task-fail-project",
+        "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+        "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/cov-32447df06f-task-fail-task/spec.md",
+        "status": "assigned",
+        "task_id": "cov-32447df06f-task-fail-task",
+        "task_title": "cov-32447df06f-task-fail-task"
+      },
+      "synced": true,
+      "notification": {
+        "sent": true,
+        "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+        "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+        "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "reused": true
+      },
+      "notificationNeeded": {
+        "event": "delegate_task",
+        "projectId": "cov-32447df06f-task-fail-project",
+        "summary": "delegate_task: cov-32447df06f-task-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+      }
+    },
+    "local_project": {
+      "plan_type": "dag",
+      "project_id": "cov-32447df06f-task-fail-project",
+      "source": "matrix",
+      "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+      "status": "active",
+      "tasks": [
+        {
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "depends_on": [],
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "status": "assigned",
+          "task_id": "cov-32447df06f-task-fail-task",
+          "title": "cov-32447df06f-task-fail-task"
+        }
+      ],
+      "team_id": "coverage-race-32447df06f",
+      "title": "cov-32447df06f-task-fail-project"
+    },
+    "local_task": {
+      "assigned_at": "2026-09-09T16:52:18Z",
+      "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+      "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+      "notification": {
+        "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+        "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+        "sent": true
+      },
+      "project_id": "cov-32447df06f-task-fail-project",
+      "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+      "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+      "spec_path": "shared/tasks/cov-32447df06f-task-fail-task/spec.md",
+      "status": "assigned",
+      "task_id": "cov-32447df06f-task-fail-task",
+      "task_title": "cov-32447df06f-task-fail-task"
+    }
+  },
+  "trace": [
+    {
+      "at_utc": "2026-09-09T16:52:18.410859+00:00",
+      "transport": "instrumented-filesync-enter",
+      "mode": "none",
+      "action": "pull",
+      "path": "shared/projects/cov-32447df06f-task-fail-project/meta.json",
+      "local_task_status": "assigned",
+      "injecting_invalid_credentials": false
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.476167+00:00",
+      "transport": "instrumented-filesync-return",
+      "action": "pull",
+      "path": "shared/projects/cov-32447df06f-task-fail-project/meta.json",
+      "response": {
+        "ok": true,
+        "tool": "filesync",
+        "action": "pull",
+        "kind": "shared",
+        "path": "shared/projects/cov-32447df06f-task-fail-project/meta.json",
+        "localPath": "/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project/meta.json",
+        "remotePath": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json",
+        "command": [
+          "mc",
+          "cp",
+          "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json",
+          "/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project/meta.json"
+        ],
+        "exclude": []
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.477054+00:00",
+      "transport": "instrumented-filesync-enter",
+      "mode": "none",
+      "action": "push",
+      "path": "shared/tasks/cov-32447df06f-task-fail-task",
+      "local_task_status": "assigned",
+      "injecting_invalid_credentials": false
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.552746+00:00",
+      "transport": "instrumented-filesync-return",
+      "action": "push",
+      "path": "shared/tasks/cov-32447df06f-task-fail-task",
+      "response": {
+        "ok": true,
+        "tool": "filesync",
+        "action": "push",
+        "kind": "shared",
+        "path": "shared/tasks/cov-32447df06f-task-fail-task/",
+        "localPath": "/tmp/repomesh-control-race/32447df06f/task-fail/shared/tasks/cov-32447df06f-task-fail-task",
+        "remotePath": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-task-fail-task/",
+        "command": [
+          "mc",
+          "mirror",
+          "/tmp/repomesh-control-race/32447df06f/task-fail/shared/tasks/cov-32447df06f-task-fail-task/",
+          "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-task-fail-task/",
+          "--overwrite"
+        ],
+        "exclude": []
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.552852+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "delegate_task",
+        "workspaceDir": "/tmp/repomesh-control-race/32447df06f/task-fail",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "projectId": "cov-32447df06f-task-fail-project",
+        "taskId": "cov-32447df06f-task-fail-task",
+        "assignedTo": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+        "spec": "Isolated race validation only; no model or repository actions",
+        "role": "leader"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "delegate_task",
+        "task": {
+          "assigned_at": "2026-09-09T16:52:18Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+          "notification": {
+            "sent": true,
+            "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+            "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "reused": true
+          },
+          "project_id": "cov-32447df06f-task-fail-project",
+          "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/cov-32447df06f-task-fail-task/spec.md",
+          "status": "assigned",
+          "task_id": "cov-32447df06f-task-fail-task",
+          "task_title": "cov-32447df06f-task-fail-task"
+        },
+        "synced": true,
+        "notification": {
+          "sent": true,
+          "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+          "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "reused": true
+        },
+        "notificationNeeded": {
+          "event": "delegate_task",
+          "projectId": "cov-32447df06f-task-fail-project",
+          "summary": "delegate_task: cov-32447df06f-task-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+        }
+      }
+    }
+  ],
+  "source_sha256": "741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d"
+}

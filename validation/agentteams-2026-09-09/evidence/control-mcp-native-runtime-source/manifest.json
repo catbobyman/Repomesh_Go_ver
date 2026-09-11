@@ -1,0 +1,1 @@
+{"qwenpaw_version": "2.0.1", "files": {"app/routers/mcp.py": "9bcc27288aa46ebf722757091d25d2e628207779c494f7233aa150b0d7758557", "app/mcp/config_service.py": "b2e216b43e09665b1e899b6992e7d4f43217f37e9b055bc0a9e36540ba8d6003", "drivers/handlers/mcp_stateful_client.py": "c2150030f9f3d5a3a17afaf72988457173f9e0ba5262fac06dfe2f1fe9d45c5c"}}

@@ -1,0 +1,306 @@
+{
+  "at_utc": "2026-09-09T17:07:30.297449+00:00",
+  "run_id": "ec283964ba",
+  "scope": "Two real Matrix PUTs using unchanged original notification content and original native delegate task transaction; no new delegate/start/model",
+  "tx_id_source": "server.py:_send_delegate_notification txn=delegate-{task_id}; native delegate response omits txId",
+  "transaction_id": "delegate-dag-native-ec283964ba-root",
+  "method": "PUT",
+  "path": "/_matrix/client/v3/rooms/%21Bhq93P9D6dALJ9Wj98%3Arv-a.matrix.invalid/send/m.room.message/delegate-dag-native-ec283964ba-root",
+  "request_content": {
+    "body": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **dag-native-ec283964ba-root**: dag-native-ec283964ba-root\n\nDedicated native metadata test; test user only; no model or tools.",
+    "format": "org.matrix.custom.html",
+    "formatted_body": "<a href=\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\">mxv_21f3caf31d_bob</a> You are assigned task <strong>dag-native-ec283964ba-root</strong>: dag-native-ec283964ba-root<br>\n<br>\nDedicated native metadata test; test user only; no model or tools.",
+    "m.mentions": {
+      "user_ids": [
+        "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+      ]
+    },
+    "msgtype": "m.text"
+  },
+  "original_event": {
+    "content": {
+      "body": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **dag-native-ec283964ba-root**: dag-native-ec283964ba-root\n\nDedicated native metadata test; test user only; no model or tools.",
+      "format": "org.matrix.custom.html",
+      "formatted_body": "<a href=\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\">mxv_21f3caf31d_bob</a> You are assigned task <strong>dag-native-ec283964ba-root</strong>: dag-native-ec283964ba-root<br>\n<br>\nDedicated native metadata test; test user only; no model or tools.",
+      "m.mentions": {
+        "user_ids": [
+          "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+        ]
+      },
+      "msgtype": "m.text"
+    },
+    "event_id": "$dBXq3Q1VdqYT4Oa5Adg9i5-TOl-B7oRqieJ4WvPTGPY",
+    "origin_server_ts": 1788973607871,
+    "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+    "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+    "type": "m.room.message",
+    "unsigned": {
+      "age": 41577,
+      "transaction_id": "delegate-dag-native-ec283964ba-root"
+    }
+  },
+  "put_responses": [
+    {
+      "event_id": "$dBXq3Q1VdqYT4Oa5Adg9i5-TOl-B7oRqieJ4WvPTGPY"
+    },
+    {
+      "event_id": "$dBXq3Q1VdqYT4Oa5Adg9i5-TOl-B7oRqieJ4WvPTGPY"
+    }
+  ],
+  "timeline": {
+    "start": "9223372036854775807",
+    "end": "3083",
+    "chunk": [
+      {
+        "content": {
+          "body": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **dag-native-ec283964ba-join**: dag-native-ec283964ba-join\n\nDedicated native metadata test; test user only; no model or tools.",
+          "format": "org.matrix.custom.html",
+          "formatted_body": "<a href=\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\">mxv_21f3caf31d_bob</a> You are assigned task <strong>dag-native-ec283964ba-join</strong>: dag-native-ec283964ba-join<br>\n<br>\nDedicated native metadata test; test user only; no model or tools.",
+          "m.mentions": {
+            "user_ids": [
+              "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+            ]
+          },
+          "msgtype": "m.text"
+        },
+        "event_id": "$LiiJn3bpD-qWYgS4WtdtkIJFRMGgNwuFh7W6eZrUqiE",
+        "origin_server_ts": 1788973611734,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 38452,
+          "transaction_id": "delegate-dag-native-ec283964ba-join"
+        }
+      },
+      {
+        "content": {
+          "body": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **dag-native-ec283964ba-right**: dag-native-ec283964ba-right\n\nDedicated native metadata test; test user only; no model or tools.",
+          "format": "org.matrix.custom.html",
+          "formatted_body": "<a href=\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\">mxv_21f3caf31d_bob</a> You are assigned task <strong>dag-native-ec283964ba-right</strong>: dag-native-ec283964ba-right<br>\n<br>\nDedicated native metadata test; test user only; no model or tools.",
+          "m.mentions": {
+            "user_ids": [
+              "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+            ]
+          },
+          "msgtype": "m.text"
+        },
+        "event_id": "$acYLKz2diJTE0ah9IM3uw8uArC3H7PXveO-phbcVNQU",
+        "origin_server_ts": 1788973609632,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 40554,
+          "transaction_id": "delegate-dag-native-ec283964ba-right"
+        }
+      },
+      {
+        "content": {
+          "body": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **dag-native-ec283964ba-left**: dag-native-ec283964ba-left\n\nDedicated native metadata test; test user only; no model or tools.",
+          "format": "org.matrix.custom.html",
+          "formatted_body": "<a href=\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\">mxv_21f3caf31d_bob</a> You are assigned task <strong>dag-native-ec283964ba-left</strong>: dag-native-ec283964ba-left<br>\n<br>\nDedicated native metadata test; test user only; no model or tools.",
+          "m.mentions": {
+            "user_ids": [
+              "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+            ]
+          },
+          "msgtype": "m.text"
+        },
+        "event_id": "$AYsx_Y4wut8FZ1ein0U7MW74VrAuHtSdnGUHqOyMRg8",
+        "origin_server_ts": 1788973609352,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 40834,
+          "transaction_id": "delegate-dag-native-ec283964ba-left"
+        }
+      },
+      {
+        "content": {
+          "body": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **dag-native-ec283964ba-root**: dag-native-ec283964ba-root\n\nDedicated native metadata test; test user only; no model or tools.",
+          "format": "org.matrix.custom.html",
+          "formatted_body": "<a href=\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\">mxv_21f3caf31d_bob</a> You are assigned task <strong>dag-native-ec283964ba-root</strong>: dag-native-ec283964ba-root<br>\n<br>\nDedicated native metadata test; test user only; no model or tools.",
+          "m.mentions": {
+            "user_ids": [
+              "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+            ]
+          },
+          "msgtype": "m.text"
+        },
+        "event_id": "$dBXq3Q1VdqYT4Oa5Adg9i5-TOl-B7oRqieJ4WvPTGPY",
+        "origin_server_ts": 1788973607871,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 42315,
+          "transaction_id": "delegate-dag-native-ec283964ba-root"
+        }
+      },
+      {
+        "content": {
+          "displayname": "mxv_21f3caf31d_bob",
+          "membership": "join"
+        },
+        "event_id": "$cl7S5UasJ351h3iqa9BAO9A6Ao909j84vxzdVq3rCzc",
+        "origin_server_ts": 1788973605952,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "state_key": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.member",
+        "unsigned": {
+          "age": 44234,
+          "prev_content": {
+            "displayname": "mxv_21f3caf31d_bob",
+            "is_direct": false,
+            "membership": "invite"
+          },
+          "prev_sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+          "replaces_state": "$1akEg7R5fb1F5cOxGORAUgt5wN-EKqC_5ftOBUYwNJc"
+        }
+      },
+      {
+        "content": {
+          "displayname": "mxv_21f3caf31d_bob",
+          "is_direct": false,
+          "membership": "invite"
+        },
+        "event_id": "$1akEg7R5fb1F5cOxGORAUgt5wN-EKqC_5ftOBUYwNJc",
+        "origin_server_ts": 1788973605692,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+        "state_key": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.member",
+        "unsigned": {
+          "age": 44494
+        }
+      },
+      {
+        "content": {
+          "name": "DAG native validation ec283964ba"
+        },
+        "event_id": "$kOe7Qel78q3iojCdLyI8BNbOkUPVrkNn5Ga5MEKJhGE",
+        "origin_server_ts": 1788973605690,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+        "state_key": "",
+        "type": "m.room.name",
+        "unsigned": {
+          "age": 44496
+        }
+      },
+      {
+        "content": {
+          "guest_access": "can_join"
+        },
+        "event_id": "$4gE6qkTQw8WbKwZMF1z1bAG8pgU3upwsEPBuwmyDU8s",
+        "origin_server_ts": 1788973605690,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+        "state_key": "",
+        "type": "m.room.guest_access",
+        "unsigned": {
+          "age": 44496
+        }
+      },
+      {
+        "content": {
+          "history_visibility": "shared"
+        },
+        "event_id": "$5j6G_h6n25zNgFva35lSmnKMm86YTaiaPKqQ-FJA_20",
+        "origin_server_ts": 1788973605689,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+        "state_key": "",
+        "type": "m.room.history_visibility",
+        "unsigned": {
+          "age": 44497
+        }
+      },
+      {
+        "content": {
+          "join_rule": "invite"
+        },
+        "event_id": "$JYQool9Til6NABcxAuBc7bkkeIO58UGq7TSqSMD5eN0",
+        "origin_server_ts": 1788973605689,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+        "state_key": "",
+        "type": "m.room.join_rules",
+        "unsigned": {
+          "age": 44497
+        }
+      },
+      {
+        "content": {
+          "ban": 50,
+          "events": {
+            "m.poll.response": 0,
+            "m.room.encryption": 100,
+            "m.room.history_visibility": 100,
+            "m.room.power_levels": 100,
+            "m.room.server_acl": 100,
+            "m.room.tombstone": 100,
+            "org.matrix.msc3381.poll.response": 0
+          },
+          "events_default": 0,
+          "invite": 0,
+          "kick": 50,
+          "notifications": {
+            "room": 50
+          },
+          "redact": 50,
+          "state_default": 50,
+          "users": {
+            "@mxv_21f3caf31d_alice:rv-a.matrix.invalid": 100
+          },
+          "users_default": 0
+        },
+        "event_id": "$WX4yNqg_mdv_rYyR7j0edrQO-RB2jml79BHj_T34MzQ",
+        "origin_server_ts": 1788973605688,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+        "state_key": "",
+        "type": "m.room.power_levels",
+        "unsigned": {
+          "age": 44498
+        }
+      },
+      {
+        "content": {
+          "displayname": "mxv_21f3caf31d_alice",
+          "is_direct": false,
+          "membership": "join"
+        },
+        "event_id": "$faqRDPtYy5Hd5xt1SuTgcH-Su7g7J-BgihnOVWRpQh4",
+        "origin_server_ts": 1788973605687,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+        "state_key": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+        "type": "m.room.member",
+        "unsigned": {
+          "age": 44499
+        }
+      },
+      {
+        "content": {
+          "room_version": "11"
+        },
+        "event_id": "$PMZ65KzXj4SOelc6wF1E06fzIujgsBoXoC11y0hxpQo",
+        "origin_server_ts": 1788973605685,
+        "room_id": "!Bhq93P9D6dALJ9Wj98:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+        "state_key": "",
+        "type": "m.room.create",
+        "unsigned": {
+          "age": 44501
+        }
+      }
+    ]
+  },
+  "message_count_after": 4,
+  "original_event_occurrences_after": 1,
+  "passed": true
+}

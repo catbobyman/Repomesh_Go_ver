@@ -1,0 +1,2024 @@
+{
+  "executed_at_utc": "2026-09-09T16:57:18.946915+00:00",
+  "run_id": "e0c697152b",
+  "project_id": "artifact-e0c697152b-project",
+  "workspace": "/tmp/repomesh-artifacts/e0c697152b",
+  "shared_prefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared",
+  "room": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+  "fixture_mapping": {
+    "logical_task": "fixture-logical-task-e0c697152b",
+    "attempt_1_upstream_task_id": "artifact-e0c697152b-attempt-1",
+    "attempt_2_upstream_task_id": "artifact-e0c697152b-attempt-2",
+    "persisted_repomesh_mapping": false
+  },
+  "source_sha256_before": "741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d",
+  "source_sha256_after": "741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d",
+  "old_first_submission": {
+    "submit_response": {
+      "ok": true,
+      "tool": "taskflow",
+      "action": "submit_task",
+      "task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:57:16Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "artifact-e0c697152b-project",
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+        "status": "submitted",
+        "task_id": "artifact-e0c697152b-attempt-1",
+        "task_title": "artifact-e0c697152b-attempt-1",
+        "result_status": "SUCCESS",
+        "summary": "Complete small attachment fixture old-original",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+        ],
+        "submitted_by_role": "worker",
+        "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md"
+      },
+      "publishedArtifacts": [
+        {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+          "filename": "artifact-e0c697152b-attempt-1-result.md",
+          "size": 119,
+          "mimetype": "text/markdown",
+          "mxcUri": "mxc://rv-a.matrix.invalid/HAgKfPhOR5txG5uNCrwynz8bkYkizbxy",
+          "eventId": "$zl3P7jTPtaJRVG_513WuISgcWbRQa-lPSOpbR736o24",
+          "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "status": "published",
+          "error": ""
+        },
+        {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+          "filename": "artifact-e0c697152b-attempt-1-output.txt",
+          "size": 157,
+          "mimetype": "text/plain",
+          "mxcUri": "mxc://rv-a.matrix.invalid/1pm62HnyUvZRzW7qcpvxBNZUABrg4Lgq",
+          "eventId": "$FxoNc3VAEdp4UeBQUDMeFckmj87Qd0zZZbwyi3Pz9N8",
+          "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "status": "published",
+          "error": ""
+        }
+      ],
+      "synced": true,
+      "notificationNeeded": {
+        "event": "submit_task",
+        "projectId": "artifact-e0c697152b-project",
+        "summary": "submit_task: artifact-e0c697152b-attempt-1 (SUCCESS)",
+        "targetRoom": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid"
+      }
+    },
+    "verified_artifacts": [
+      {
+        "artifact": {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+          "filename": "artifact-e0c697152b-attempt-1-result.md",
+          "size": 119,
+          "mimetype": "text/markdown",
+          "mxcUri": "mxc://rv-a.matrix.invalid/HAgKfPhOR5txG5uNCrwynz8bkYkizbxy",
+          "eventId": "$zl3P7jTPtaJRVG_513WuISgcWbRQa-lPSOpbR736o24",
+          "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "status": "published",
+          "error": ""
+        },
+        "task_id": "artifact-e0c697152b-attempt-1",
+        "revision": "old-original",
+        "local_minio_download_sha256": "8736243137b8932a51c0081bbb217da9e25776cd6f4140dcf9299939b7b7b2b3",
+        "all_three_bytes_equal": true,
+        "download": {
+          "phase": "before-leave",
+          "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+          "source_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+          "event_id": "$zl3P7jTPtaJRVG_513WuISgcWbRQa-lPSOpbR736o24",
+          "mxc_uri": "mxc://rv-a.matrix.invalid/HAgKfPhOR5txG5uNCrwynz8bkYkizbxy",
+          "http_status": 200,
+          "endpoint": "authenticated-client-media",
+          "size": 119,
+          "sha256": "8736243137b8932a51c0081bbb217da9e25776cd6f4140dcf9299939b7b7b2b3",
+          "bytes_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLW9yaWdpbmFsCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo="
+        }
+      },
+      {
+        "artifact": {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+          "filename": "artifact-e0c697152b-attempt-1-output.txt",
+          "size": 157,
+          "mimetype": "text/plain",
+          "mxcUri": "mxc://rv-a.matrix.invalid/1pm62HnyUvZRzW7qcpvxBNZUABrg4Lgq",
+          "eventId": "$FxoNc3VAEdp4UeBQUDMeFckmj87Qd0zZZbwyi3Pz9N8",
+          "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "status": "published",
+          "error": ""
+        },
+        "task_id": "artifact-e0c697152b-attempt-1",
+        "revision": "old-original",
+        "local_minio_download_sha256": "118606014c2676f7603107fcd13fdb4bbba38ef09e70489d85a8b6145e6d2a7a",
+        "all_three_bytes_equal": true,
+        "download": {
+          "phase": "before-leave",
+          "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+          "source_path": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+          "event_id": "$FxoNc3VAEdp4UeBQUDMeFckmj87Qd0zZZbwyi3Pz9N8",
+          "mxc_uri": "mxc://rv-a.matrix.invalid/1pm62HnyUvZRzW7qcpvxBNZUABrg4Lgq",
+          "http_status": 200,
+          "endpoint": "authenticated-client-media",
+          "size": 157,
+          "sha256": "118606014c2676f7603107fcd13fdb4bbba38ef09e70489d85a8b6145e6d2a7a",
+          "bytes_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtb3JpZ2luYWwKT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtb3JpZ2luYWwK6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+        }
+      }
+    ],
+    "check_task": {
+      "ok": true,
+      "tool": "taskflow",
+      "action": "check_task",
+      "task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:57:16Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+        ],
+        "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "artifact-e0c697152b-project",
+        "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+        "result_status": "SUCCESS",
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+        "status": "submitted",
+        "submitted_by_role": "worker",
+        "summary": "Complete small attachment fixture old-original",
+        "task_id": "artifact-e0c697152b-attempt-1",
+        "task_title": "artifact-e0c697152b-attempt-1"
+      },
+      "result": {
+        "status": "SUCCESS",
+        "summary": "Complete small attachment fixture old-original",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+        ]
+      },
+      "validationErrors": [],
+      "effective": true,
+      "pulled": true
+    }
+  },
+  "new_submission": {
+    "submit_response": {
+      "ok": true,
+      "tool": "taskflow",
+      "action": "submit_task",
+      "task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:57:16Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "artifact-e0c697152b-project",
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/artifact-e0c697152b-attempt-2/spec.md",
+        "status": "submitted",
+        "task_id": "artifact-e0c697152b-attempt-2",
+        "task_title": "artifact-e0c697152b-attempt-2",
+        "result_status": "SUCCESS",
+        "summary": "Complete small attachment fixture new-current",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+        ],
+        "submitted_by_role": "worker",
+        "result_path": "shared/tasks/artifact-e0c697152b-attempt-2/result.md"
+      },
+      "publishedArtifacts": [
+        {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-2/result.md",
+          "filename": "artifact-e0c697152b-attempt-2-result.md",
+          "size": 118,
+          "mimetype": "text/markdown",
+          "mxcUri": "mxc://rv-a.matrix.invalid/eyL2i2rwCA97VvEnBjc0HTP4CB070BDU",
+          "eventId": "$cuN3fx9tbKNgtbb0LHYCwxXo7DeEoVZTWypN1-yK1o4",
+          "parentEventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "status": "published",
+          "error": ""
+        },
+        {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-2/output.txt",
+          "filename": "artifact-e0c697152b-attempt-2-output.txt",
+          "size": 155,
+          "mimetype": "text/plain",
+          "mxcUri": "mxc://rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6",
+          "eventId": "$NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+          "parentEventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "status": "published",
+          "error": ""
+        }
+      ],
+      "synced": true,
+      "notificationNeeded": {
+        "event": "submit_task",
+        "projectId": "artifact-e0c697152b-project",
+        "summary": "submit_task: artifact-e0c697152b-attempt-2 (SUCCESS)",
+        "targetRoom": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid"
+      }
+    },
+    "verified_artifacts": [
+      {
+        "artifact": {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-2/result.md",
+          "filename": "artifact-e0c697152b-attempt-2-result.md",
+          "size": 118,
+          "mimetype": "text/markdown",
+          "mxcUri": "mxc://rv-a.matrix.invalid/eyL2i2rwCA97VvEnBjc0HTP4CB070BDU",
+          "eventId": "$cuN3fx9tbKNgtbb0LHYCwxXo7DeEoVZTWypN1-yK1o4",
+          "parentEventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "status": "published",
+          "error": ""
+        },
+        "task_id": "artifact-e0c697152b-attempt-2",
+        "revision": "new-current",
+        "local_minio_download_sha256": "a68f73d53e1acddf1079a3923f56ba0f59f9eb6af877d6327ae846d17458ff87",
+        "all_three_bytes_equal": true,
+        "download": {
+          "phase": "before-leave",
+          "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+          "source_path": "shared/tasks/artifact-e0c697152b-attempt-2/result.md",
+          "event_id": "$cuN3fx9tbKNgtbb0LHYCwxXo7DeEoVZTWypN1-yK1o4",
+          "mxc_uri": "mxc://rv-a.matrix.invalid/eyL2i2rwCA97VvEnBjc0HTP4CB070BDU",
+          "http_status": 200,
+          "endpoint": "authenticated-client-media",
+          "size": 118,
+          "sha256": "a68f73d53e1acddf1079a3923f56ba0f59f9eb6af877d6327ae846d17458ff87",
+          "bytes_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbjogbmV3LWN1cnJlbnQK6aqM6K+B6ZmE5Lu25a6M5pW05oCn44CCCg=="
+        }
+      },
+      {
+        "artifact": {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-2/output.txt",
+          "filename": "artifact-e0c697152b-attempt-2-output.txt",
+          "size": 155,
+          "mimetype": "text/plain",
+          "mxcUri": "mxc://rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6",
+          "eventId": "$NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+          "parentEventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "status": "published",
+          "error": ""
+        },
+        "task_id": "artifact-e0c697152b-attempt-2",
+        "revision": "new-current",
+        "local_minio_download_sha256": "4e27f84ee05a173e530e044404ca5725c7a05501d53bee1e67067592f90dceea",
+        "all_three_bytes_equal": true,
+        "download": {
+          "phase": "before-leave",
+          "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+          "source_path": "shared/tasks/artifact-e0c697152b-attempt-2/output.txt",
+          "event_id": "$NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+          "mxc_uri": "mxc://rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6",
+          "http_status": 200,
+          "endpoint": "authenticated-client-media",
+          "size": 155,
+          "sha256": "4e27f84ee05a173e530e044404ca5725c7a05501d53bee1e67067592f90dceea",
+          "bytes_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo="
+        }
+      }
+    ],
+    "check_task": {
+      "ok": true,
+      "tool": "taskflow",
+      "action": "check_task",
+      "task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:57:16Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+        ],
+        "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "artifact-e0c697152b-project",
+        "result_path": "shared/tasks/artifact-e0c697152b-attempt-2/result.md",
+        "result_status": "SUCCESS",
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/artifact-e0c697152b-attempt-2/spec.md",
+        "status": "submitted",
+        "submitted_by_role": "worker",
+        "summary": "Complete small attachment fixture new-current",
+        "task_id": "artifact-e0c697152b-attempt-2",
+        "task_title": "artifact-e0c697152b-attempt-2"
+      },
+      "result": {
+        "status": "SUCCESS",
+        "summary": "Complete small attachment fixture new-current",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+        ]
+      },
+      "validationErrors": [],
+      "effective": true,
+      "pulled": true
+    }
+  },
+  "old_late_submission": {
+    "submit_response": {
+      "ok": true,
+      "tool": "taskflow",
+      "action": "submit_task",
+      "task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:57:16Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+        ],
+        "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "artifact-e0c697152b-project",
+        "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+        "result_status": "SUCCESS",
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+        "status": "submitted",
+        "submitted_by_role": "worker",
+        "summary": "Complete small attachment fixture old-late-resubmission",
+        "task_id": "artifact-e0c697152b-attempt-1",
+        "task_title": "artifact-e0c697152b-attempt-1"
+      },
+      "publishedArtifacts": [
+        {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+          "filename": "artifact-e0c697152b-attempt-1-result.md",
+          "size": 128,
+          "mimetype": "text/markdown",
+          "mxcUri": "mxc://rv-a.matrix.invalid/XHzWGFvOuCs4R4iaEedE5we4D4K0OhGt",
+          "eventId": "$2-c4W2QFFudyxRTKU91Qe554EgvbP5BnY_J-MlNaSE4",
+          "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "status": "published",
+          "error": ""
+        },
+        {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+          "filename": "artifact-e0c697152b-attempt-1-output.txt",
+          "size": 175,
+          "mimetype": "text/plain",
+          "mxcUri": "mxc://rv-a.matrix.invalid/omvw90Q1s5pHVAtttlrit5XAlpCr6UfY",
+          "eventId": "$zrWP2OQRbKKPHWuD4hAbEQWa-_u8Wp8xReu4SAlF5lM",
+          "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "status": "published",
+          "error": ""
+        }
+      ],
+      "synced": true,
+      "notificationNeeded": {
+        "event": "submit_task",
+        "projectId": "artifact-e0c697152b-project",
+        "summary": "submit_task: artifact-e0c697152b-attempt-1 (SUCCESS)",
+        "targetRoom": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid"
+      }
+    },
+    "verified_artifacts": [
+      {
+        "artifact": {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+          "filename": "artifact-e0c697152b-attempt-1-result.md",
+          "size": 128,
+          "mimetype": "text/markdown",
+          "mxcUri": "mxc://rv-a.matrix.invalid/XHzWGFvOuCs4R4iaEedE5we4D4K0OhGt",
+          "eventId": "$2-c4W2QFFudyxRTKU91Qe554EgvbP5BnY_J-MlNaSE4",
+          "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "status": "published",
+          "error": ""
+        },
+        "task_id": "artifact-e0c697152b-attempt-1",
+        "revision": "old-late-resubmission",
+        "local_minio_download_sha256": "5598561f5528f143fe97d09b0e646912524b4222d7657a0b3e0455c5133d7a2d",
+        "all_three_bytes_equal": true,
+        "download": {
+          "phase": "before-leave",
+          "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+          "source_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+          "event_id": "$2-c4W2QFFudyxRTKU91Qe554EgvbP5BnY_J-MlNaSE4",
+          "mxc_uri": "mxc://rv-a.matrix.invalid/XHzWGFvOuCs4R4iaEedE5we4D4K0OhGt",
+          "http_status": 200,
+          "endpoint": "authenticated-client-media",
+          "size": 128,
+          "sha256": "5598561f5528f143fe97d09b0e646912524b4222d7657a0b3e0455c5133d7a2d",
+          "bytes_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLWxhdGUtcmVzdWJtaXNzaW9uCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo="
+        }
+      },
+      {
+        "artifact": {
+          "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+          "filename": "artifact-e0c697152b-attempt-1-output.txt",
+          "size": 175,
+          "mimetype": "text/plain",
+          "mxcUri": "mxc://rv-a.matrix.invalid/omvw90Q1s5pHVAtttlrit5XAlpCr6UfY",
+          "eventId": "$zrWP2OQRbKKPHWuD4hAbEQWa-_u8Wp8xReu4SAlF5lM",
+          "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "status": "published",
+          "error": ""
+        },
+        "task_id": "artifact-e0c697152b-attempt-1",
+        "revision": "old-late-resubmission",
+        "local_minio_download_sha256": "da9b831ff800750dab41bff2c358eafd2ef73fc0dfdfcf597520eb29b357f253",
+        "all_three_bytes_equal": true,
+        "download": {
+          "phase": "before-leave",
+          "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+          "source_path": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+          "event_id": "$zrWP2OQRbKKPHWuD4hAbEQWa-_u8Wp8xReu4SAlF5lM",
+          "mxc_uri": "mxc://rv-a.matrix.invalid/omvw90Q1s5pHVAtttlrit5XAlpCr6UfY",
+          "http_status": 200,
+          "endpoint": "authenticated-client-media",
+          "size": 175,
+          "sha256": "da9b831ff800750dab41bff2c358eafd2ef73fc0dfdfcf597520eb29b357f253",
+          "bytes_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24KT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24K6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+        }
+      }
+    ],
+    "check_task": {
+      "ok": true,
+      "tool": "taskflow",
+      "action": "check_task",
+      "task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:57:16Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+        ],
+        "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "artifact-e0c697152b-project",
+        "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+        "result_status": "SUCCESS",
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+        "status": "submitted",
+        "submitted_by_role": "worker",
+        "summary": "Complete small attachment fixture old-late-resubmission",
+        "task_id": "artifact-e0c697152b-attempt-1",
+        "task_title": "artifact-e0c697152b-attempt-1"
+      },
+      "result": {
+        "status": "SUCCESS",
+        "summary": "Complete small attachment fixture old-late-resubmission",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+        ]
+      },
+      "validationErrors": [],
+      "effective": true,
+      "pulled": true
+    }
+  },
+  "new_before_late": {
+    "task_id": "artifact-e0c697152b-attempt-2",
+    "metadata": {
+      "acknowledged_by_role": "worker",
+      "assigned_at": "2026-09-09T16:57:16Z",
+      "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+      "deliverables": [
+        "shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+      ],
+      "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+      "notification": {
+        "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+        "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sent": true
+      },
+      "project_id": "artifact-e0c697152b-project",
+      "result_path": "shared/tasks/artifact-e0c697152b-attempt-2/result.md",
+      "result_status": "SUCCESS",
+      "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+      "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+      "spec_path": "shared/tasks/artifact-e0c697152b-attempt-2/spec.md",
+      "status": "submitted",
+      "submitted_by_role": "worker",
+      "summary": "Complete small attachment fixture new-current",
+      "task_id": "artifact-e0c697152b-attempt-2",
+      "task_title": "artifact-e0c697152b-attempt-2"
+    },
+    "hashes": {
+      "meta.json": "c939bf4ac3900f2aafb8327bfc9373e126e1ce013b60301729e546e8e1afef00",
+      "result.md": "a68f73d53e1acddf1079a3923f56ba0f59f9eb6af877d6327ae846d17458ff87",
+      "output.txt": "4e27f84ee05a173e530e044404ca5725c7a05501d53bee1e67067592f90dceea"
+    },
+    "files_b64": {
+      "meta.json": "ewogICJhY2tub3dsZWRnZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJhc3NpZ25lZF9hdCI6ICIyMDI2LTA5LTA5VDE2OjU3OjE2WiIsCiAgImFzc2lnbmVkX3RvIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgImRlbGl2ZXJhYmxlcyI6IFsKICAgICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIvb3V0cHV0LnR4dCIKICBdLAogICJldmVudElkIjogIiRNS1ZWVUtxVnhmNlJReTFhSjhzWjQtdm9CU3RxUGxhZTZLWXVTRnVlTE9VIiwKICAibm90aWZpY2F0aW9uIjogewogICAgImFzc2lnbmVlIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAiZXZlbnRJZCI6ICIkTUtWVlVLcVZ4ZjZSUXkxYUo4c1o0LXZvQlN0cVBsYWU2S1l1U0Z1ZUxPVSIsCiAgICAicm9vbUlkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAic2VudCI6IHRydWUKICB9LAogICJwcm9qZWN0X2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdCIsCiAgInJlc3VsdF9wYXRoIjogInNoYXJlZC90YXNrcy9hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMi9yZXN1bHQubWQiLAogICJyZXN1bHRfc3RhdHVzIjogIlNVQ0NFU1MiLAogICJyb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNwZWNfcGF0aCI6ICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIvc3BlYy5tZCIsCiAgInN0YXR1cyI6ICJzdWJtaXR0ZWQiLAogICJzdWJtaXR0ZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJzdW1tYXJ5IjogIkNvbXBsZXRlIHNtYWxsIGF0dGFjaG1lbnQgZml4dHVyZSBuZXctY3VycmVudCIsCiAgInRhc2tfaWQiOiAiYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIiLAogICJ0YXNrX3RpdGxlIjogImFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yIgp9Cg==",
+      "result.md": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbjogbmV3LWN1cnJlbnQK6aqM6K+B6ZmE5Lu25a6M5pW05oCn44CCCg==",
+      "output.txt": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo="
+    }
+  },
+  "new_after_late": {
+    "task_id": "artifact-e0c697152b-attempt-2",
+    "metadata": {
+      "acknowledged_by_role": "worker",
+      "assigned_at": "2026-09-09T16:57:16Z",
+      "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+      "deliverables": [
+        "shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+      ],
+      "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+      "notification": {
+        "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+        "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sent": true
+      },
+      "project_id": "artifact-e0c697152b-project",
+      "result_path": "shared/tasks/artifact-e0c697152b-attempt-2/result.md",
+      "result_status": "SUCCESS",
+      "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+      "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+      "spec_path": "shared/tasks/artifact-e0c697152b-attempt-2/spec.md",
+      "status": "submitted",
+      "submitted_by_role": "worker",
+      "summary": "Complete small attachment fixture new-current",
+      "task_id": "artifact-e0c697152b-attempt-2",
+      "task_title": "artifact-e0c697152b-attempt-2"
+    },
+    "hashes": {
+      "meta.json": "c939bf4ac3900f2aafb8327bfc9373e126e1ce013b60301729e546e8e1afef00",
+      "result.md": "a68f73d53e1acddf1079a3923f56ba0f59f9eb6af877d6327ae846d17458ff87",
+      "output.txt": "4e27f84ee05a173e530e044404ca5725c7a05501d53bee1e67067592f90dceea"
+    },
+    "files_b64": {
+      "meta.json": "ewogICJhY2tub3dsZWRnZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJhc3NpZ25lZF9hdCI6ICIyMDI2LTA5LTA5VDE2OjU3OjE2WiIsCiAgImFzc2lnbmVkX3RvIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgImRlbGl2ZXJhYmxlcyI6IFsKICAgICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIvb3V0cHV0LnR4dCIKICBdLAogICJldmVudElkIjogIiRNS1ZWVUtxVnhmNlJReTFhSjhzWjQtdm9CU3RxUGxhZTZLWXVTRnVlTE9VIiwKICAibm90aWZpY2F0aW9uIjogewogICAgImFzc2lnbmVlIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAiZXZlbnRJZCI6ICIkTUtWVlVLcVZ4ZjZSUXkxYUo4c1o0LXZvQlN0cVBsYWU2S1l1U0Z1ZUxPVSIsCiAgICAicm9vbUlkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAic2VudCI6IHRydWUKICB9LAogICJwcm9qZWN0X2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdCIsCiAgInJlc3VsdF9wYXRoIjogInNoYXJlZC90YXNrcy9hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMi9yZXN1bHQubWQiLAogICJyZXN1bHRfc3RhdHVzIjogIlNVQ0NFU1MiLAogICJyb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNwZWNfcGF0aCI6ICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIvc3BlYy5tZCIsCiAgInN0YXR1cyI6ICJzdWJtaXR0ZWQiLAogICJzdWJtaXR0ZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJzdW1tYXJ5IjogIkNvbXBsZXRlIHNtYWxsIGF0dGFjaG1lbnQgZml4dHVyZSBuZXctY3VycmVudCIsCiAgInRhc2tfaWQiOiAiYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIiLAogICJ0YXNrX3RpdGxlIjogImFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yIgp9Cg==",
+      "result.md": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbjogbmV3LWN1cnJlbnQK6aqM6K+B6ZmE5Lu25a6M5pW05oCn44CCCg==",
+      "output.txt": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo="
+    }
+  },
+  "old_before_late": {
+    "task_id": "artifact-e0c697152b-attempt-1",
+    "metadata": {
+      "acknowledged_by_role": "worker",
+      "assigned_at": "2026-09-09T16:57:16Z",
+      "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+      "deliverables": [
+        "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+      ],
+      "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+      "notification": {
+        "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+        "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sent": true
+      },
+      "project_id": "artifact-e0c697152b-project",
+      "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+      "result_status": "SUCCESS",
+      "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+      "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+      "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+      "status": "submitted",
+      "submitted_by_role": "worker",
+      "summary": "Complete small attachment fixture old-original",
+      "task_id": "artifact-e0c697152b-attempt-1",
+      "task_title": "artifact-e0c697152b-attempt-1"
+    },
+    "hashes": {
+      "meta.json": "a2c21f984cab2e70855fffdbec4611578e2ed670587e2dfe4314032dedbdf0e0",
+      "result.md": "8736243137b8932a51c0081bbb217da9e25776cd6f4140dcf9299939b7b7b2b3",
+      "output.txt": "118606014c2676f7603107fcd13fdb4bbba38ef09e70489d85a8b6145e6d2a7a"
+    },
+    "files_b64": {
+      "meta.json": "ewogICJhY2tub3dsZWRnZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJhc3NpZ25lZF9hdCI6ICIyMDI2LTA5LTA5VDE2OjU3OjE2WiIsCiAgImFzc2lnbmVkX3RvIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgImRlbGl2ZXJhYmxlcyI6IFsKICAgICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEvb3V0cHV0LnR4dCIKICBdLAogICJldmVudElkIjogIiREN0JpS1czU0dDRE1oLU5yZWtfZUVzT1lIOTBnNFlJdWx3MDAxaVNQWWpNIiwKICAibm90aWZpY2F0aW9uIjogewogICAgImFzc2lnbmVlIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAiZXZlbnRJZCI6ICIkRDdCaUtXM1NHQ0RNaC1OcmVrX2VFc09ZSDkwZzRZSXVsdzAwMWlTUFlqTSIsCiAgICAicm9vbUlkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAic2VudCI6IHRydWUKICB9LAogICJwcm9qZWN0X2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdCIsCiAgInJlc3VsdF9wYXRoIjogInNoYXJlZC90YXNrcy9hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS9yZXN1bHQubWQiLAogICJyZXN1bHRfc3RhdHVzIjogIlNVQ0NFU1MiLAogICJyb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNwZWNfcGF0aCI6ICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEvc3BlYy5tZCIsCiAgInN0YXR1cyI6ICJzdWJtaXR0ZWQiLAogICJzdWJtaXR0ZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJzdW1tYXJ5IjogIkNvbXBsZXRlIHNtYWxsIGF0dGFjaG1lbnQgZml4dHVyZSBvbGQtb3JpZ2luYWwiLAogICJ0YXNrX2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0xIiwKICAidGFza190aXRsZSI6ICJhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMSIKfQo=",
+      "result.md": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLW9yaWdpbmFsCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo=",
+      "output.txt": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtb3JpZ2luYWwKT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtb3JpZ2luYWwK6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+    }
+  },
+  "old_after_late": {
+    "task_id": "artifact-e0c697152b-attempt-1",
+    "metadata": {
+      "acknowledged_by_role": "worker",
+      "assigned_at": "2026-09-09T16:57:16Z",
+      "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+      "deliverables": [
+        "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+      ],
+      "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+      "notification": {
+        "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+        "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sent": true
+      },
+      "project_id": "artifact-e0c697152b-project",
+      "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+      "result_status": "SUCCESS",
+      "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+      "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+      "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+      "status": "submitted",
+      "submitted_by_role": "worker",
+      "summary": "Complete small attachment fixture old-late-resubmission",
+      "task_id": "artifact-e0c697152b-attempt-1",
+      "task_title": "artifact-e0c697152b-attempt-1"
+    },
+    "hashes": {
+      "meta.json": "3459578ffba69cf375fcae90bcc5700f0dd2fd45ad4b3d53dac500d834f1126c",
+      "result.md": "5598561f5528f143fe97d09b0e646912524b4222d7657a0b3e0455c5133d7a2d",
+      "output.txt": "da9b831ff800750dab41bff2c358eafd2ef73fc0dfdfcf597520eb29b357f253"
+    },
+    "files_b64": {
+      "meta.json": "ewogICJhY2tub3dsZWRnZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJhc3NpZ25lZF9hdCI6ICIyMDI2LTA5LTA5VDE2OjU3OjE2WiIsCiAgImFzc2lnbmVkX3RvIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgImRlbGl2ZXJhYmxlcyI6IFsKICAgICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEvb3V0cHV0LnR4dCIKICBdLAogICJldmVudElkIjogIiREN0JpS1czU0dDRE1oLU5yZWtfZUVzT1lIOTBnNFlJdWx3MDAxaVNQWWpNIiwKICAibm90aWZpY2F0aW9uIjogewogICAgImFzc2lnbmVlIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAiZXZlbnRJZCI6ICIkRDdCaUtXM1NHQ0RNaC1OcmVrX2VFc09ZSDkwZzRZSXVsdzAwMWlTUFlqTSIsCiAgICAicm9vbUlkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAic2VudCI6IHRydWUKICB9LAogICJwcm9qZWN0X2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdCIsCiAgInJlc3VsdF9wYXRoIjogInNoYXJlZC90YXNrcy9hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS9yZXN1bHQubWQiLAogICJyZXN1bHRfc3RhdHVzIjogIlNVQ0NFU1MiLAogICJyb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNwZWNfcGF0aCI6ICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEvc3BlYy5tZCIsCiAgInN0YXR1cyI6ICJzdWJtaXR0ZWQiLAogICJzdWJtaXR0ZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJzdW1tYXJ5IjogIkNvbXBsZXRlIHNtYWxsIGF0dGFjaG1lbnQgZml4dHVyZSBvbGQtbGF0ZS1yZXN1Ym1pc3Npb24iLAogICJ0YXNrX2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0xIiwKICAidGFza190aXRsZSI6ICJhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMSIKfQo=",
+      "result.md": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLWxhdGUtcmVzdWJtaXNzaW9uCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo=",
+      "output.txt": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24KT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24K6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+    }
+  },
+  "new_metadata_and_files_unchanged": true,
+  "old_original_media_still_original": true,
+  "project_after_late": {
+    "plan_type": "dag",
+    "project_id": "artifact-e0c697152b-project",
+    "source": "matrix",
+    "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+    "status": "active",
+    "tasks": [
+      {
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "depends_on": [],
+        "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "status": "submitted",
+        "task_id": "artifact-e0c697152b-attempt-1",
+        "title": "artifact-e0c697152b-attempt-1"
+      },
+      {
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "depends_on": [],
+        "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "status": "submitted",
+        "task_id": "artifact-e0c697152b-attempt-2",
+        "title": "artifact-e0c697152b-attempt-2"
+      }
+    ],
+    "team_id": "coverage-race-32447df06f",
+    "title": "Two task IDs represent fixture Attempts only"
+  },
+  "recipient_leave_observation": {
+    "recipient": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+    "left_room": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+    "leave_http_status": 200,
+    "room_absent_from_joined_rooms": true,
+    "previous_event_http_status": 200,
+    "previous_attachment_download": {
+      "phase": "recipient-left-own-case-room",
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "source_path": "shared/tasks/artifact-e0c697152b-attempt-2/output.txt",
+      "event_id": "$NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+      "mxc_uri": "mxc://rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6",
+      "http_status": 200,
+      "endpoint": "authenticated-client-media",
+      "size": 155,
+      "sha256": "4e27f84ee05a173e530e044404ca5725c7a05501d53bee1e67067592f90dceea",
+      "bytes_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo="
+    },
+    "bytes_still_equal_when_200": true,
+    "boundary": "Existing attachment known while joined; leaving is not a product-level read-right revocation or erasure of prior downloads"
+  },
+  "downloads": [
+    {
+      "phase": "before-leave",
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "source_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+      "event_id": "$zl3P7jTPtaJRVG_513WuISgcWbRQa-lPSOpbR736o24",
+      "mxc_uri": "mxc://rv-a.matrix.invalid/HAgKfPhOR5txG5uNCrwynz8bkYkizbxy",
+      "http_status": 200,
+      "endpoint": "authenticated-client-media",
+      "size": 119,
+      "sha256": "8736243137b8932a51c0081bbb217da9e25776cd6f4140dcf9299939b7b7b2b3",
+      "bytes_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLW9yaWdpbmFsCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo="
+    },
+    {
+      "phase": "before-leave",
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "source_path": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+      "event_id": "$FxoNc3VAEdp4UeBQUDMeFckmj87Qd0zZZbwyi3Pz9N8",
+      "mxc_uri": "mxc://rv-a.matrix.invalid/1pm62HnyUvZRzW7qcpvxBNZUABrg4Lgq",
+      "http_status": 200,
+      "endpoint": "authenticated-client-media",
+      "size": 157,
+      "sha256": "118606014c2676f7603107fcd13fdb4bbba38ef09e70489d85a8b6145e6d2a7a",
+      "bytes_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtb3JpZ2luYWwKT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtb3JpZ2luYWwK6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+    },
+    {
+      "phase": "before-leave",
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "source_path": "shared/tasks/artifact-e0c697152b-attempt-2/result.md",
+      "event_id": "$cuN3fx9tbKNgtbb0LHYCwxXo7DeEoVZTWypN1-yK1o4",
+      "mxc_uri": "mxc://rv-a.matrix.invalid/eyL2i2rwCA97VvEnBjc0HTP4CB070BDU",
+      "http_status": 200,
+      "endpoint": "authenticated-client-media",
+      "size": 118,
+      "sha256": "a68f73d53e1acddf1079a3923f56ba0f59f9eb6af877d6327ae846d17458ff87",
+      "bytes_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbjogbmV3LWN1cnJlbnQK6aqM6K+B6ZmE5Lu25a6M5pW05oCn44CCCg=="
+    },
+    {
+      "phase": "before-leave",
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "source_path": "shared/tasks/artifact-e0c697152b-attempt-2/output.txt",
+      "event_id": "$NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+      "mxc_uri": "mxc://rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6",
+      "http_status": 200,
+      "endpoint": "authenticated-client-media",
+      "size": 155,
+      "sha256": "4e27f84ee05a173e530e044404ca5725c7a05501d53bee1e67067592f90dceea",
+      "bytes_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo="
+    },
+    {
+      "phase": "before-leave",
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "source_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+      "event_id": "$2-c4W2QFFudyxRTKU91Qe554EgvbP5BnY_J-MlNaSE4",
+      "mxc_uri": "mxc://rv-a.matrix.invalid/XHzWGFvOuCs4R4iaEedE5we4D4K0OhGt",
+      "http_status": 200,
+      "endpoint": "authenticated-client-media",
+      "size": 128,
+      "sha256": "5598561f5528f143fe97d09b0e646912524b4222d7657a0b3e0455c5133d7a2d",
+      "bytes_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLWxhdGUtcmVzdWJtaXNzaW9uCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo="
+    },
+    {
+      "phase": "before-leave",
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "source_path": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+      "event_id": "$zrWP2OQRbKKPHWuD4hAbEQWa-_u8Wp8xReu4SAlF5lM",
+      "mxc_uri": "mxc://rv-a.matrix.invalid/omvw90Q1s5pHVAtttlrit5XAlpCr6UfY",
+      "http_status": 200,
+      "endpoint": "authenticated-client-media",
+      "size": 175,
+      "sha256": "da9b831ff800750dab41bff2c358eafd2ef73fc0dfdfcf597520eb29b357f253",
+      "bytes_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24KT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24K6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+    },
+    {
+      "phase": "old-original-after-late",
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "source_path": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+      "event_id": "$FxoNc3VAEdp4UeBQUDMeFckmj87Qd0zZZbwyi3Pz9N8",
+      "mxc_uri": "mxc://rv-a.matrix.invalid/1pm62HnyUvZRzW7qcpvxBNZUABrg4Lgq",
+      "http_status": 200,
+      "endpoint": "authenticated-client-media",
+      "size": 157,
+      "sha256": "118606014c2676f7603107fcd13fdb4bbba38ef09e70489d85a8b6145e6d2a7a",
+      "bytes_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtb3JpZ2luYWwKT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtb3JpZ2luYWwK6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+    },
+    {
+      "phase": "recipient-left-own-case-room",
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "source_path": "shared/tasks/artifact-e0c697152b-attempt-2/output.txt",
+      "event_id": "$NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+      "mxc_uri": "mxc://rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6",
+      "http_status": 200,
+      "endpoint": "authenticated-client-media",
+      "size": 155,
+      "sha256": "4e27f84ee05a173e530e044404ca5725c7a05501d53bee1e67067592f90dceea",
+      "bytes_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo="
+    }
+  ],
+  "trace": [
+    {
+      "at_utc": "2026-09-09T16:57:16.213199+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cp",
+        "/tmp/repomesh-artifacts/e0c697152b/shared/projects/artifact-e0c697152b-project/meta.json",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/artifact-e0c697152b-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout_b64": "YC90bXAvcmVwb21lc2gtYXJ0aWZhY3RzL2UwYzY5NzE1MmIvc2hhcmVkL3Byb2plY3RzL2FydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdC9tZXRhLmpzb25gIC0+IGBhZ2VudHRlYW1zL3J2LWEtc3RvcmFnZS90ZWFtcy9jb3ZlcmFnZS1yYWNlLTMyNDQ3ZGYwNmYvc2hhcmVkL3Byb2plY3RzL2FydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdC9tZXRhLmpzb25gCuKUjOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUrOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUrOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUrOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUkArilIIgVG90YWwg4pSCIFRyYW5zZmVycmVkIOKUgiBEdXJhdGlvbiDilIIgU3BlZWQgICAgICAg4pSCCuKUgiA3NDYgQiDilIIgNzQ2IEIgICAgICAg4pSCIDAwbTAwcyAgIOKUgiA3MC45MyBLaUIvcyDilIIK4pSU4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pS04pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pS04pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pS04pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSYCg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:16.509878+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "delegate_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "projectId": "artifact-e0c697152b-project",
+        "taskId": "artifact-e0c697152b-attempt-1",
+        "role": "leader",
+        "assignedTo": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "spec": "Small attachment validation only"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "delegate_task",
+        "task": {
+          "task_id": "artifact-e0c697152b-attempt-1",
+          "project_id": "artifact-e0c697152b-project",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "status": "assigned",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "task_title": "artifact-e0c697152b-attempt-1",
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "notification": {
+            "sent": true,
+            "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+          },
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM"
+        },
+        "synced": true,
+        "notification": {
+          "sent": true,
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+        },
+        "notificationNeeded": {
+          "event": "delegate_task",
+          "projectId": "artifact-e0c697152b-project",
+          "summary": "delegate_task: artifact-e0c697152b-attempt-1 assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "targetRoom": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:16.754745+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "ack_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "artifact-e0c697152b-attempt-1"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "ack_task",
+        "task": {
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "artifact-e0c697152b-project",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+          "status": "in_progress",
+          "task_id": "artifact-e0c697152b-attempt-1",
+          "task_title": "artifact-e0c697152b-attempt-1",
+          "acknowledged_by_role": "worker"
+        },
+        "spec": "Small attachment validation only\n",
+        "pulled": true,
+        "synced": true
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.021117+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "delegate_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "projectId": "artifact-e0c697152b-project",
+        "taskId": "artifact-e0c697152b-attempt-2",
+        "role": "leader",
+        "assignedTo": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "spec": "Small attachment validation only"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "delegate_task",
+        "task": {
+          "task_id": "artifact-e0c697152b-attempt-2",
+          "project_id": "artifact-e0c697152b-project",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "status": "assigned",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-2/spec.md",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "task_title": "artifact-e0c697152b-attempt-2",
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "notification": {
+            "sent": true,
+            "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+          },
+          "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU"
+        },
+        "synced": true,
+        "notification": {
+          "sent": true,
+          "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+        },
+        "notificationNeeded": {
+          "event": "delegate_task",
+          "projectId": "artifact-e0c697152b-project",
+          "summary": "delegate_task: artifact-e0c697152b-attempt-2 assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "targetRoom": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.266037+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "ack_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "artifact-e0c697152b-attempt-2"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "ack_task",
+        "task": {
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "artifact-e0c697152b-project",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-2/spec.md",
+          "status": "in_progress",
+          "task_id": "artifact-e0c697152b-attempt-2",
+          "task_title": "artifact-e0c697152b-attempt-2",
+          "acknowledged_by_role": "worker"
+        },
+        "spec": "Small attachment validation only\n",
+        "pulled": true,
+        "synced": true
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.485639+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "submit_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "artifact-e0c697152b-attempt-1",
+        "summary": "Complete small attachment fixture old-original",
+        "status": "SUCCESS",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+        ],
+        "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "submit_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "artifact-e0c697152b-project",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+          "status": "submitted",
+          "task_id": "artifact-e0c697152b-attempt-1",
+          "task_title": "artifact-e0c697152b-attempt-1",
+          "result_status": "SUCCESS",
+          "summary": "Complete small attachment fixture old-original",
+          "deliverables": [
+            "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+          ],
+          "submitted_by_role": "worker",
+          "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md"
+        },
+        "publishedArtifacts": [
+          {
+            "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+            "filename": "artifact-e0c697152b-attempt-1-result.md",
+            "size": 119,
+            "mimetype": "text/markdown",
+            "mxcUri": "mxc://rv-a.matrix.invalid/HAgKfPhOR5txG5uNCrwynz8bkYkizbxy",
+            "eventId": "$zl3P7jTPtaJRVG_513WuISgcWbRQa-lPSOpbR736o24",
+            "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "status": "published",
+            "error": ""
+          },
+          {
+            "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+            "filename": "artifact-e0c697152b-attempt-1-output.txt",
+            "size": 157,
+            "mimetype": "text/plain",
+            "mxcUri": "mxc://rv-a.matrix.invalid/1pm62HnyUvZRzW7qcpvxBNZUABrg4Lgq",
+            "eventId": "$FxoNc3VAEdp4UeBQUDMeFckmj87Qd0zZZbwyi3Pz9N8",
+            "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "status": "published",
+            "error": ""
+          }
+        ],
+        "synced": true,
+        "notificationNeeded": {
+          "event": "submit_task",
+          "projectId": "artifact-e0c697152b-project",
+          "summary": "submit_task: artifact-e0c697152b-attempt-1 (SUCCESS)",
+          "targetRoom": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.487726+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/rooms/%21CVunAmeB833k3SDSeY%3Arv-a.matrix.invalid/event/%24zl3P7jTPtaJRVG_513WuISgcWbRQa-lPSOpbR736o24",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": {
+        "content": {
+          "body": "artifact-e0c697152b-attempt-1-result.md",
+          "info": {
+            "mimetype": "text/markdown",
+            "size": 119
+          },
+          "m.relates_to": {
+            "event_id": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "rel_type": "com.agentteams.attachment"
+          },
+          "msgtype": "m.file",
+          "url": "mxc://rv-a.matrix.invalid/HAgKfPhOR5txG5uNCrwynz8bkYkizbxy"
+        },
+        "event_id": "$zl3P7jTPtaJRVG_513WuISgcWbRQa-lPSOpbR736o24",
+        "origin_server_ts": 1788973037409,
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 78,
+          "transaction_id": "teamharness-file-13984-1788973037408-17d154e96a22485e829475bc39962cea"
+        }
+      },
+      "response_sha256": "2afaf766bc5c0696d09aaa6e25df73ec94be6a97e956510317b8e1aa1a74c14d",
+      "response_size": 638,
+      "response_b64": null
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.493961+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v1/media/download/rv-a.matrix.invalid/HAgKfPhOR5txG5uNCrwynz8bkYkizbxy",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": null,
+      "response_sha256": "8736243137b8932a51c0081bbb217da9e25776cd6f4140dcf9299939b7b7b2b3",
+      "response_size": 119,
+      "response_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLW9yaWdpbmFsCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo="
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.524524+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/result.md"
+      ],
+      "returncode": 0,
+      "stdout_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLW9yaWdpbmFsCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.526331+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/rooms/%21CVunAmeB833k3SDSeY%3Arv-a.matrix.invalid/event/%24FxoNc3VAEdp4UeBQUDMeFckmj87Qd0zZZbwyi3Pz9N8",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": {
+        "content": {
+          "body": "artifact-e0c697152b-attempt-1-output.txt",
+          "info": {
+            "mimetype": "text/plain",
+            "size": 157
+          },
+          "m.relates_to": {
+            "event_id": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "rel_type": "com.agentteams.attachment"
+          },
+          "msgtype": "m.file",
+          "url": "mxc://rv-a.matrix.invalid/1pm62HnyUvZRzW7qcpvxBNZUABrg4Lgq"
+        },
+        "event_id": "$FxoNc3VAEdp4UeBQUDMeFckmj87Qd0zZZbwyi3Pz9N8",
+        "origin_server_ts": 1788973037413,
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 112,
+          "transaction_id": "teamharness-file-13984-1788973037412-51cc832624bb464c9b1769897a7cf3f5"
+        }
+      },
+      "response_sha256": "57478990ae039fee5498995956ef2521bd19239e79524ff2b90c58d773861c60",
+      "response_size": 637,
+      "response_b64": null
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.528075+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v1/media/download/rv-a.matrix.invalid/1pm62HnyUvZRzW7qcpvxBNZUABrg4Lgq",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": null,
+      "response_sha256": "118606014c2676f7603107fcd13fdb4bbba38ef09e70489d85a8b6145e6d2a7a",
+      "response_size": 157,
+      "response_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtb3JpZ2luYWwKT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtb3JpZ2luYWwK6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.557766+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+      ],
+      "returncode": 0,
+      "stdout_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtb3JpZ2luYWwKT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtb3JpZ2luYWwK6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.680282+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "check_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "artifact-e0c697152b-attempt-1",
+        "role": "leader"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "check_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "deliverables": [
+            "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+          ],
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "artifact-e0c697152b-project",
+          "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+          "result_status": "SUCCESS",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+          "status": "submitted",
+          "submitted_by_role": "worker",
+          "summary": "Complete small attachment fixture old-original",
+          "task_id": "artifact-e0c697152b-attempt-1",
+          "task_title": "artifact-e0c697152b-attempt-1"
+        },
+        "result": {
+          "status": "SUCCESS",
+          "summary": "Complete small attachment fixture old-original",
+          "deliverables": [
+            "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+          ]
+        },
+        "validationErrors": [],
+        "effective": true,
+        "pulled": true
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.897389+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "submit_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "artifact-e0c697152b-attempt-2",
+        "summary": "Complete small attachment fixture new-current",
+        "status": "SUCCESS",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+        ],
+        "parentEventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "submit_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "artifact-e0c697152b-project",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-2/spec.md",
+          "status": "submitted",
+          "task_id": "artifact-e0c697152b-attempt-2",
+          "task_title": "artifact-e0c697152b-attempt-2",
+          "result_status": "SUCCESS",
+          "summary": "Complete small attachment fixture new-current",
+          "deliverables": [
+            "shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+          ],
+          "submitted_by_role": "worker",
+          "result_path": "shared/tasks/artifact-e0c697152b-attempt-2/result.md"
+        },
+        "publishedArtifacts": [
+          {
+            "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-2/result.md",
+            "filename": "artifact-e0c697152b-attempt-2-result.md",
+            "size": 118,
+            "mimetype": "text/markdown",
+            "mxcUri": "mxc://rv-a.matrix.invalid/eyL2i2rwCA97VvEnBjc0HTP4CB070BDU",
+            "eventId": "$cuN3fx9tbKNgtbb0LHYCwxXo7DeEoVZTWypN1-yK1o4",
+            "parentEventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+            "status": "published",
+            "error": ""
+          },
+          {
+            "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-2/output.txt",
+            "filename": "artifact-e0c697152b-attempt-2-output.txt",
+            "size": 155,
+            "mimetype": "text/plain",
+            "mxcUri": "mxc://rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6",
+            "eventId": "$NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+            "parentEventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+            "status": "published",
+            "error": ""
+          }
+        ],
+        "synced": true,
+        "notificationNeeded": {
+          "event": "submit_task",
+          "projectId": "artifact-e0c697152b-project",
+          "summary": "submit_task: artifact-e0c697152b-attempt-2 (SUCCESS)",
+          "targetRoom": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.899069+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/rooms/%21CVunAmeB833k3SDSeY%3Arv-a.matrix.invalid/event/%24cuN3fx9tbKNgtbb0LHYCwxXo7DeEoVZTWypN1-yK1o4",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": {
+        "content": {
+          "body": "artifact-e0c697152b-attempt-2-result.md",
+          "info": {
+            "mimetype": "text/markdown",
+            "size": 118
+          },
+          "m.relates_to": {
+            "event_id": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+            "rel_type": "com.agentteams.attachment"
+          },
+          "msgtype": "m.file",
+          "url": "mxc://rv-a.matrix.invalid/eyL2i2rwCA97VvEnBjc0HTP4CB070BDU"
+        },
+        "event_id": "$cuN3fx9tbKNgtbb0LHYCwxXo7DeEoVZTWypN1-yK1o4",
+        "origin_server_ts": 1788973037824,
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 74,
+          "transaction_id": "teamharness-file-13984-1788973037822-1daffd3d7f87451c81aad6d07442fb46"
+        }
+      },
+      "response_sha256": "a01e76f5b245568acb5e4fa2ed19e7d8fdc1a76e29db7f8541da95251acc9695",
+      "response_size": 638,
+      "response_b64": null
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.900637+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v1/media/download/rv-a.matrix.invalid/eyL2i2rwCA97VvEnBjc0HTP4CB070BDU",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": null,
+      "response_sha256": "a68f73d53e1acddf1079a3923f56ba0f59f9eb6af877d6327ae846d17458ff87",
+      "response_size": 118,
+      "response_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbjogbmV3LWN1cnJlbnQK6aqM6K+B6ZmE5Lu25a6M5pW05oCn44CCCg=="
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.932275+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-2/result.md"
+      ],
+      "returncode": 0,
+      "stdout_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbjogbmV3LWN1cnJlbnQK6aqM6K+B6ZmE5Lu25a6M5pW05oCn44CCCg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.934258+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/rooms/%21CVunAmeB833k3SDSeY%3Arv-a.matrix.invalid/event/%24NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": {
+        "content": {
+          "body": "artifact-e0c697152b-attempt-2-output.txt",
+          "info": {
+            "mimetype": "text/plain",
+            "size": 155
+          },
+          "m.relates_to": {
+            "event_id": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+            "rel_type": "com.agentteams.attachment"
+          },
+          "msgtype": "m.file",
+          "url": "mxc://rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6"
+        },
+        "event_id": "$NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+        "origin_server_ts": 1788973037827,
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 106,
+          "transaction_id": "teamharness-file-13984-1788973037826-4720c6133405484394f5b49009aa3866"
+        }
+      },
+      "response_sha256": "99f281158c5da1127e3c3ba170bf6f97b2e9b3b3850c10aa318e47794ab1f8dd",
+      "response_size": 637,
+      "response_b64": null
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.936683+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v1/media/download/rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": null,
+      "response_sha256": "4e27f84ee05a173e530e044404ca5725c7a05501d53bee1e67067592f90dceea",
+      "response_size": 155,
+      "response_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo="
+    },
+    {
+      "at_utc": "2026-09-09T16:57:17.971639+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+      ],
+      "returncode": 0,
+      "stdout_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.136590+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "check_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "artifact-e0c697152b-attempt-2",
+        "role": "leader"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "check_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "deliverables": [
+            "shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+          ],
+          "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "artifact-e0c697152b-project",
+          "result_path": "shared/tasks/artifact-e0c697152b-attempt-2/result.md",
+          "result_status": "SUCCESS",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-2/spec.md",
+          "status": "submitted",
+          "submitted_by_role": "worker",
+          "summary": "Complete small attachment fixture new-current",
+          "task_id": "artifact-e0c697152b-attempt-2",
+          "task_title": "artifact-e0c697152b-attempt-2"
+        },
+        "result": {
+          "status": "SUCCESS",
+          "summary": "Complete small attachment fixture new-current",
+          "deliverables": [
+            "shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+          ]
+        },
+        "validationErrors": [],
+        "effective": true,
+        "pulled": true
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.171128+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-2/meta.json"
+      ],
+      "returncode": 0,
+      "stdout_b64": "ewogICJhY2tub3dsZWRnZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJhc3NpZ25lZF9hdCI6ICIyMDI2LTA5LTA5VDE2OjU3OjE2WiIsCiAgImFzc2lnbmVkX3RvIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgImRlbGl2ZXJhYmxlcyI6IFsKICAgICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIvb3V0cHV0LnR4dCIKICBdLAogICJldmVudElkIjogIiRNS1ZWVUtxVnhmNlJReTFhSjhzWjQtdm9CU3RxUGxhZTZLWXVTRnVlTE9VIiwKICAibm90aWZpY2F0aW9uIjogewogICAgImFzc2lnbmVlIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAiZXZlbnRJZCI6ICIkTUtWVlVLcVZ4ZjZSUXkxYUo4c1o0LXZvQlN0cVBsYWU2S1l1U0Z1ZUxPVSIsCiAgICAicm9vbUlkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAic2VudCI6IHRydWUKICB9LAogICJwcm9qZWN0X2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdCIsCiAgInJlc3VsdF9wYXRoIjogInNoYXJlZC90YXNrcy9hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMi9yZXN1bHQubWQiLAogICJyZXN1bHRfc3RhdHVzIjogIlNVQ0NFU1MiLAogICJyb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNwZWNfcGF0aCI6ICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIvc3BlYy5tZCIsCiAgInN0YXR1cyI6ICJzdWJtaXR0ZWQiLAogICJzdWJtaXR0ZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJzdW1tYXJ5IjogIkNvbXBsZXRlIHNtYWxsIGF0dGFjaG1lbnQgZml4dHVyZSBuZXctY3VycmVudCIsCiAgInRhc2tfaWQiOiAiYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIiLAogICJ0YXNrX3RpdGxlIjogImFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yIgp9Cg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.202969+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-2/result.md"
+      ],
+      "returncode": 0,
+      "stdout_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbjogbmV3LWN1cnJlbnQK6aqM6K+B6ZmE5Lu25a6M5pW05oCn44CCCg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.236053+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+      ],
+      "returncode": 0,
+      "stdout_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.269401+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/meta.json"
+      ],
+      "returncode": 0,
+      "stdout_b64": "ewogICJhY2tub3dsZWRnZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJhc3NpZ25lZF9hdCI6ICIyMDI2LTA5LTA5VDE2OjU3OjE2WiIsCiAgImFzc2lnbmVkX3RvIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgImRlbGl2ZXJhYmxlcyI6IFsKICAgICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEvb3V0cHV0LnR4dCIKICBdLAogICJldmVudElkIjogIiREN0JpS1czU0dDRE1oLU5yZWtfZUVzT1lIOTBnNFlJdWx3MDAxaVNQWWpNIiwKICAibm90aWZpY2F0aW9uIjogewogICAgImFzc2lnbmVlIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAiZXZlbnRJZCI6ICIkRDdCaUtXM1NHQ0RNaC1OcmVrX2VFc09ZSDkwZzRZSXVsdzAwMWlTUFlqTSIsCiAgICAicm9vbUlkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAic2VudCI6IHRydWUKICB9LAogICJwcm9qZWN0X2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdCIsCiAgInJlc3VsdF9wYXRoIjogInNoYXJlZC90YXNrcy9hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS9yZXN1bHQubWQiLAogICJyZXN1bHRfc3RhdHVzIjogIlNVQ0NFU1MiLAogICJyb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNwZWNfcGF0aCI6ICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEvc3BlYy5tZCIsCiAgInN0YXR1cyI6ICJzdWJtaXR0ZWQiLAogICJzdWJtaXR0ZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJzdW1tYXJ5IjogIkNvbXBsZXRlIHNtYWxsIGF0dGFjaG1lbnQgZml4dHVyZSBvbGQtb3JpZ2luYWwiLAogICJ0YXNrX2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0xIiwKICAidGFza190aXRsZSI6ICJhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMSIKfQo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.301903+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/result.md"
+      ],
+      "returncode": 0,
+      "stdout_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLW9yaWdpbmFsCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.331363+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+      ],
+      "returncode": 0,
+      "stdout_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtb3JpZ2luYWwKT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtb3JpZ2luYWwK6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.534052+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "submit_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "artifact-e0c697152b-attempt-1",
+        "summary": "Complete small attachment fixture old-late-resubmission",
+        "status": "SUCCESS",
+        "deliverables": [
+          "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+        ],
+        "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "submit_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "deliverables": [
+            "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+          ],
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "artifact-e0c697152b-project",
+          "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+          "result_status": "SUCCESS",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+          "status": "submitted",
+          "submitted_by_role": "worker",
+          "summary": "Complete small attachment fixture old-late-resubmission",
+          "task_id": "artifact-e0c697152b-attempt-1",
+          "task_title": "artifact-e0c697152b-attempt-1"
+        },
+        "publishedArtifacts": [
+          {
+            "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+            "filename": "artifact-e0c697152b-attempt-1-result.md",
+            "size": 128,
+            "mimetype": "text/markdown",
+            "mxcUri": "mxc://rv-a.matrix.invalid/XHzWGFvOuCs4R4iaEedE5we4D4K0OhGt",
+            "eventId": "$2-c4W2QFFudyxRTKU91Qe554EgvbP5BnY_J-MlNaSE4",
+            "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "status": "published",
+            "error": ""
+          },
+          {
+            "sourcePath": "shared/tasks/artifact-e0c697152b-attempt-1/output.txt",
+            "filename": "artifact-e0c697152b-attempt-1-output.txt",
+            "size": 175,
+            "mimetype": "text/plain",
+            "mxcUri": "mxc://rv-a.matrix.invalid/omvw90Q1s5pHVAtttlrit5XAlpCr6UfY",
+            "eventId": "$zrWP2OQRbKKPHWuD4hAbEQWa-_u8Wp8xReu4SAlF5lM",
+            "parentEventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "status": "published",
+            "error": ""
+          }
+        ],
+        "synced": true,
+        "notificationNeeded": {
+          "event": "submit_task",
+          "projectId": "artifact-e0c697152b-project",
+          "summary": "submit_task: artifact-e0c697152b-attempt-1 (SUCCESS)",
+          "targetRoom": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.536824+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/rooms/%21CVunAmeB833k3SDSeY%3Arv-a.matrix.invalid/event/%242-c4W2QFFudyxRTKU91Qe554EgvbP5BnY_J-MlNaSE4",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": {
+        "content": {
+          "body": "artifact-e0c697152b-attempt-1-result.md",
+          "info": {
+            "mimetype": "text/markdown",
+            "size": 128
+          },
+          "m.relates_to": {
+            "event_id": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "rel_type": "com.agentteams.attachment"
+          },
+          "msgtype": "m.file",
+          "url": "mxc://rv-a.matrix.invalid/XHzWGFvOuCs4R4iaEedE5we4D4K0OhGt"
+        },
+        "event_id": "$2-c4W2QFFudyxRTKU91Qe554EgvbP5BnY_J-MlNaSE4",
+        "origin_server_ts": 1788973038463,
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 73,
+          "transaction_id": "teamharness-file-13984-1788973038461-8c8f652d0c4048918ec6fc2b3945a40f"
+        }
+      },
+      "response_sha256": "c05ef0d4700b942a41217bdb07a053a8723449f1cf094bdab4d1872bb6f9ce2b",
+      "response_size": 638,
+      "response_b64": null
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.538561+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v1/media/download/rv-a.matrix.invalid/XHzWGFvOuCs4R4iaEedE5we4D4K0OhGt",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": null,
+      "response_sha256": "5598561f5528f143fe97d09b0e646912524b4222d7657a0b3e0455c5133d7a2d",
+      "response_size": 128,
+      "response_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLWxhdGUtcmVzdWJtaXNzaW9uCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo="
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.570936+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/result.md"
+      ],
+      "returncode": 0,
+      "stdout_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLWxhdGUtcmVzdWJtaXNzaW9uCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.573070+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/rooms/%21CVunAmeB833k3SDSeY%3Arv-a.matrix.invalid/event/%24zrWP2OQRbKKPHWuD4hAbEQWa-_u8Wp8xReu4SAlF5lM",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": {
+        "content": {
+          "body": "artifact-e0c697152b-attempt-1-output.txt",
+          "info": {
+            "mimetype": "text/plain",
+            "size": 175
+          },
+          "m.relates_to": {
+            "event_id": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "rel_type": "com.agentteams.attachment"
+          },
+          "msgtype": "m.file",
+          "url": "mxc://rv-a.matrix.invalid/omvw90Q1s5pHVAtttlrit5XAlpCr6UfY"
+        },
+        "event_id": "$zrWP2OQRbKKPHWuD4hAbEQWa-_u8Wp8xReu4SAlF5lM",
+        "origin_server_ts": 1788973038467,
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 105,
+          "transaction_id": "teamharness-file-13984-1788973038465-3e398b7afc7c48a0a920a2e0d4110f94"
+        }
+      },
+      "response_sha256": "5d82ad57648f8414936fb2a40e66f2fc3d2479a9132dcae79d9124451c76bdbd",
+      "response_size": 637,
+      "response_b64": null
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.575933+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v1/media/download/rv-a.matrix.invalid/omvw90Q1s5pHVAtttlrit5XAlpCr6UfY",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": null,
+      "response_sha256": "da9b831ff800750dab41bff2c358eafd2ef73fc0dfdfcf597520eb29b357f253",
+      "response_size": 175,
+      "response_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24KT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24K6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.611154+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+      ],
+      "returncode": 0,
+      "stdout_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24KT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24K6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.731288+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "check_task",
+        "workspaceDir": "/tmp/repomesh-artifacts/e0c697152b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "artifact-e0c697152b-attempt-1",
+        "role": "leader"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "check_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:57:16Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "deliverables": [
+            "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+          ],
+          "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$D7BiKW3SGCDMh-Nrek_eEsOYH90g4YIulw001iSPYjM",
+            "roomId": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "artifact-e0c697152b-project",
+          "result_path": "shared/tasks/artifact-e0c697152b-attempt-1/result.md",
+          "result_status": "SUCCESS",
+          "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "source_room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/artifact-e0c697152b-attempt-1/spec.md",
+          "status": "submitted",
+          "submitted_by_role": "worker",
+          "summary": "Complete small attachment fixture old-late-resubmission",
+          "task_id": "artifact-e0c697152b-attempt-1",
+          "task_title": "artifact-e0c697152b-attempt-1"
+        },
+        "result": {
+          "status": "SUCCESS",
+          "summary": "Complete small attachment fixture old-late-resubmission",
+          "deliverables": [
+            "shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+          ]
+        },
+        "validationErrors": [],
+        "effective": true,
+        "pulled": true
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.759046+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-2/meta.json"
+      ],
+      "returncode": 0,
+      "stdout_b64": "ewogICJhY2tub3dsZWRnZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJhc3NpZ25lZF9hdCI6ICIyMDI2LTA5LTA5VDE2OjU3OjE2WiIsCiAgImFzc2lnbmVkX3RvIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgImRlbGl2ZXJhYmxlcyI6IFsKICAgICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIvb3V0cHV0LnR4dCIKICBdLAogICJldmVudElkIjogIiRNS1ZWVUtxVnhmNlJReTFhSjhzWjQtdm9CU3RxUGxhZTZLWXVTRnVlTE9VIiwKICAibm90aWZpY2F0aW9uIjogewogICAgImFzc2lnbmVlIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAiZXZlbnRJZCI6ICIkTUtWVlVLcVZ4ZjZSUXkxYUo4c1o0LXZvQlN0cVBsYWU2S1l1U0Z1ZUxPVSIsCiAgICAicm9vbUlkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAic2VudCI6IHRydWUKICB9LAogICJwcm9qZWN0X2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdCIsCiAgInJlc3VsdF9wYXRoIjogInNoYXJlZC90YXNrcy9hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMi9yZXN1bHQubWQiLAogICJyZXN1bHRfc3RhdHVzIjogIlNVQ0NFU1MiLAogICJyb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNwZWNfcGF0aCI6ICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIvc3BlYy5tZCIsCiAgInN0YXR1cyI6ICJzdWJtaXR0ZWQiLAogICJzdWJtaXR0ZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJzdW1tYXJ5IjogIkNvbXBsZXRlIHNtYWxsIGF0dGFjaG1lbnQgZml4dHVyZSBuZXctY3VycmVudCIsCiAgInRhc2tfaWQiOiAiYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIiLAogICJ0YXNrX3RpdGxlIjogImFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yIgp9Cg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.787311+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-2/result.md"
+      ],
+      "returncode": 0,
+      "stdout_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbjogbmV3LWN1cnJlbnQK6aqM6K+B6ZmE5Lu25a6M5pW05oCn44CCCg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.815608+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-2/output.txt"
+      ],
+      "returncode": 0,
+      "stdout_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.844977+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/meta.json"
+      ],
+      "returncode": 0,
+      "stdout_b64": "ewogICJhY2tub3dsZWRnZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJhc3NpZ25lZF9hdCI6ICIyMDI2LTA5LTA5VDE2OjU3OjE2WiIsCiAgImFzc2lnbmVkX3RvIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgImRlbGl2ZXJhYmxlcyI6IFsKICAgICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEvb3V0cHV0LnR4dCIKICBdLAogICJldmVudElkIjogIiREN0JpS1czU0dDRE1oLU5yZWtfZUVzT1lIOTBnNFlJdWx3MDAxaVNQWWpNIiwKICAibm90aWZpY2F0aW9uIjogewogICAgImFzc2lnbmVlIjogIkBteHZfMjFmM2NhZjMxZF9ib2I6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAiZXZlbnRJZCI6ICIkRDdCaUtXM1NHQ0RNaC1OcmVrX2VFc09ZSDkwZzRZSXVsdzAwMWlTUFlqTSIsCiAgICAicm9vbUlkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAic2VudCI6IHRydWUKICB9LAogICJwcm9qZWN0X2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItcHJvamVjdCIsCiAgInJlc3VsdF9wYXRoIjogInNoYXJlZC90YXNrcy9hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS9yZXN1bHQubWQiLAogICJyZXN1bHRfc3RhdHVzIjogIlNVQ0NFU1MiLAogICJyb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgInNwZWNfcGF0aCI6ICJzaGFyZWQvdGFza3MvYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEvc3BlYy5tZCIsCiAgInN0YXR1cyI6ICJzdWJtaXR0ZWQiLAogICJzdWJtaXR0ZWRfYnlfcm9sZSI6ICJ3b3JrZXIiLAogICJzdW1tYXJ5IjogIkNvbXBsZXRlIHNtYWxsIGF0dGFjaG1lbnQgZml4dHVyZSBvbGQtbGF0ZS1yZXN1Ym1pc3Npb24iLAogICJ0YXNrX2lkIjogImFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0xIiwKICAidGFza190aXRsZSI6ICJhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMSIKfQo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.875355+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/result.md"
+      ],
+      "returncode": 0,
+      "stdout_b64": "IyBJc29sYXRlZCByZXN1bHQKClJ1bjogZTBjNjk3MTUyYgpUYXNrOiBhcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbjogb2xkLWxhdGUtcmVzdWJtaXNzaW9uCumqjOivgemZhOS7tuWujOaVtOaAp+OAggo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.904486+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/artifact-e0c697152b-attempt-1/output.txt"
+      ],
+      "returncode": 0,
+      "stdout_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24KT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtbGF0ZS1yZXN1Ym1pc3Npb24K6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg==",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.908202+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v1/media/download/rv-a.matrix.invalid/1pm62HnyUvZRzW7qcpvxBNZUABrg4Lgq",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": null,
+      "response_sha256": "118606014c2676f7603107fcd13fdb4bbba38ef09e70489d85a8b6145e6d2a7a",
+      "response_size": 157,
+      "response_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMQpSZXZpc2lvbj1vbGQtb3JpZ2luYWwKT3V0cHV0PXVuaXF1ZS1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMS1vbGQtb3JpZ2luYWwK6L6T5Ye65a2X6IqC5b+F6aG75LiA6Ie044CCCg=="
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.935124+00:00",
+      "transport": "real-mc",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/artifact-e0c697152b-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout_b64": "ewogICJwbGFuX3R5cGUiOiAiZGFnIiwKICAicHJvamVjdF9pZCI6ICJhcnRpZmFjdC1lMGM2OTcxNTJiLXByb2plY3QiLAogICJzb3VyY2UiOiAibWF0cml4IiwKICAic291cmNlX3Jvb21faWQiOiAiIUNWdW5BbWVCODMzazNTRFNlWTpydi1hLm1hdHJpeC5pbnZhbGlkIiwKICAic3RhdHVzIjogImFjdGl2ZSIsCiAgInRhc2tzIjogWwogICAgewogICAgICAiYXNzaWduZWRfdG8iOiAiQG14dl8yMWYzY2FmMzFkX2JvYjpydi1hLm1hdHJpeC5pbnZhbGlkIiwKICAgICAgImRlcGVuZHNfb24iOiBbXSwKICAgICAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAgICJzdGF0dXMiOiAic3VibWl0dGVkIiwKICAgICAgInRhc2tfaWQiOiAiYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEiLAogICAgICAidGl0bGUiOiAiYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTEiCiAgICB9LAogICAgewogICAgICAiYXNzaWduZWRfdG8iOiAiQG14dl8yMWYzY2FmMzFkX2JvYjpydi1hLm1hdHJpeC5pbnZhbGlkIiwKICAgICAgImRlcGVuZHNfb24iOiBbXSwKICAgICAgInNvdXJjZV9yb29tX2lkIjogIiFDVnVuQW1lQjgzM2szU0RTZVk6cnYtYS5tYXRyaXguaW52YWxpZCIsCiAgICAgICJzdGF0dXMiOiAic3VibWl0dGVkIiwKICAgICAgInRhc2tfaWQiOiAiYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIiLAogICAgICAidGl0bGUiOiAiYXJ0aWZhY3QtZTBjNjk3MTUyYi1hdHRlbXB0LTIiCiAgICB9CiAgXSwKICAidGVhbV9pZCI6ICJjb3ZlcmFnZS1yYWNlLTMyNDQ3ZGYwNmYiLAogICJ0aXRsZSI6ICJUd28gdGFzayBJRHMgcmVwcmVzZW50IGZpeHR1cmUgQXR0ZW1wdHMgb25seSIKfQo=",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.942640+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "POST",
+      "path": "/_matrix/client/v3/rooms/%21CVunAmeB833k3SDSeY%3Arv-a.matrix.invalid/leave",
+      "request": {},
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": {},
+      "response_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "response_size": 2,
+      "response_b64": null
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.943686+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/joined_rooms",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": {
+        "joined_rooms": [
+          "!6g1F5I0YvuYlsMVSac:rv-a.matrix.invalid",
+          "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "!tLrEXIc4pbYxf9IUMJ:rv-a.matrix.invalid"
+        ]
+      },
+      "response_sha256": "5ed2492f21b8f0739160c5f2eb1b1346b57298220f12e8e1e873518ad9f6f5cf",
+      "response_size": 186,
+      "response_b64": null
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.944755+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/rooms/%21CVunAmeB833k3SDSeY%3Arv-a.matrix.invalid/event/%24NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": {
+        "content": {
+          "body": "artifact-e0c697152b-attempt-2-output.txt",
+          "info": {
+            "mimetype": "text/plain",
+            "size": 155
+          },
+          "m.relates_to": {
+            "event_id": "$MKVVUKqVxf6RQy1aJ8sZ4-voBStqPlae6KYuSFueLOU",
+            "rel_type": "com.agentteams.attachment"
+          },
+          "msgtype": "m.file",
+          "url": "mxc://rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6"
+        },
+        "event_id": "$NxZUvLduVFr8iA_VsHnnwaemg0xhtILhrwUb1-FrCx0",
+        "origin_server_ts": 1788973037827,
+        "room_id": "!CVunAmeB833k3SDSeY:rv-a.matrix.invalid",
+        "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "type": "m.room.message",
+        "unsigned": {
+          "age": 1117,
+          "transaction_id": "teamharness-file-13984-1788973037826-4720c6133405484394f5b49009aa3866"
+        }
+      },
+      "response_sha256": "bf35e02ceb392918abe282e443dec9a5fb892e07ddf65c8318fe0a9b00ee380a",
+      "response_size": 638,
+      "response_b64": null
+    },
+    {
+      "at_utc": "2026-09-09T16:57:18.946894+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v1/media/download/rv-a.matrix.invalid/6nSkTeP1abOAqVW2kvVbZHidsT7LpKQ6",
+      "request": null,
+      "identity": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+      "status": 200,
+      "response": null,
+      "response_sha256": "4e27f84ee05a173e530e044404ca5725c7a05501d53bee1e67067592f90dceea",
+      "response_size": 155,
+      "response_b64": "UnVuPWUwYzY5NzE1MmIKVGFzaz1hcnRpZmFjdC1lMGM2OTcxNTJiLWF0dGVtcHQtMgpSZXZpc2lvbj1uZXctY3VycmVudApPdXRwdXQ9dW5pcXVlLWFydGlmYWN0LWUwYzY5NzE1MmItYXR0ZW1wdC0yLW5ldy1jdXJyZW50Cui+k+WHuuWtl+iKguW/hemhu+S4gOiHtOOAggo="
+    }
+  ],
+  "boundary": "Unmodified native MCP, real mc/Matrix media and events, no fake transport, no model, two fixture-encoded task IDs, no RepoMesh Attempt authority"
+}

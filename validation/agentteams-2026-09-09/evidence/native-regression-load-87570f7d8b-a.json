@@ -1,0 +1,753 @@
+{
+  "instance": "a",
+  "at_utc": "2026-09-09T17:12:06.482356+00:00",
+  "base": "/tmp/native-regression-87570f7d8b",
+  "command": [
+    "/opt/venv/qwenpaw/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--basetemp=/tmp/native-regression-87570f7d8b/pytest-tmp",
+    "-o",
+    "cache_dir=/tmp/native-regression-87570f7d8b/pytest-cache",
+    "--junitxml=/tmp/native-regression-87570f7d8b/junit.xml",
+    "plugins/tests/teamharness/test_mcp_workspace.py",
+    "plugins/tests/teamharness/test_pull_project.py",
+    "plugins/tests/teamharness/test_trace.py",
+    "plugins/tests/teamharness/test_trace_integration.py",
+    "plugins/tests/teamharness/adapters/qwenpaw/test_adapter.py"
+  ],
+  "clean_environment_keys": [
+    "HOME",
+    "LANG",
+    "PATH",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+    "PYTHONPATH",
+    "PYTHONPYCACHEPREFIX",
+    "TEAMHARNESS_SHARED_DIR",
+    "TMPDIR",
+    "XDG_CACHE_HOME"
+  ],
+  "test_started_epoch": 1788973924.114281,
+  "test_finished_epoch": 1788973926.4337249,
+  "elapsed_seconds": 2.319443941116333,
+  "exit_code": 0,
+  "timed_out": false,
+  "pid": 4950,
+  "own_test_process_exited": true,
+  "child_user_cpu_seconds": 1.5954549999999998,
+  "child_system_cpu_seconds": 0.75839,
+  "child_max_rss_kib": 64936,
+  "before": {
+    "tree": {
+      "files": 548,
+      "apparent_bytes": 14886891,
+      "allocated_bytes": 16023552
+    },
+    "cgroup": {
+      "at_epoch": 1788973922.353209
+    }
+  },
+  "after": {
+    "tree": {
+      "files": 1022,
+      "apparent_bytes": 23296108,
+      "allocated_bytes": 25698304
+    },
+    "cgroup": {
+      "at_epoch": 1788973926.4816275
+    }
+  },
+  "samples": [
+    {
+      "at_epoch": 1788973924.1142132
+    },
+    {
+      "at_epoch": 1788973924.2146056
+    },
+    {
+      "at_epoch": 1788973924.3149018
+    },
+    {
+      "at_epoch": 1788973924.415173
+    },
+    {
+      "at_epoch": 1788973924.5154026
+    },
+    {
+      "at_epoch": 1788973924.6156962
+    },
+    {
+      "at_epoch": 1788973924.715958
+    },
+    {
+      "at_epoch": 1788973924.816211
+    },
+    {
+      "at_epoch": 1788973924.916429
+    },
+    {
+      "at_epoch": 1788973925.0166464
+    },
+    {
+      "at_epoch": 1788973925.116879
+    },
+    {
+      "at_epoch": 1788973925.2171648
+    },
+    {
+      "at_epoch": 1788973925.3173854
+    },
+    {
+      "at_epoch": 1788973925.417582
+    },
+    {
+      "at_epoch": 1788973925.5177948
+    },
+    {
+      "at_epoch": 1788973925.6180224
+    },
+    {
+      "at_epoch": 1788973925.7182684
+    },
+    {
+      "at_epoch": 1788973925.8184865
+    },
+    {
+      "at_epoch": 1788973925.9186954
+    },
+    {
+      "at_epoch": 1788973926.018043
+    },
+    {
+      "at_epoch": 1788973926.1182716
+    },
+    {
+      "at_epoch": 1788973926.2184963
+    },
+    {
+      "at_epoch": 1788973926.3187327
+    },
+    {
+      "at_epoch": 1788973926.4189546
+    }
+  ],
+  "junit": {
+    "tests": 76,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "cases": [
+      {
+        "name": "test_default_workspace_prefers_worker_shared_dir",
+        "classname": "plugins.tests.teamharness.test_mcp_workspace",
+        "time": "0.155",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_pull_project_single_file",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_pull_project_rerenders_plan_on_status_change",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.006",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_pull_project_no_rerender_when_unchanged",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_pull_project_preserves_fields",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_pull_project_scalar_fields_survive",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.006",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_projectflow_read_action_pulls",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_projectflow_create_excluded",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_projectflow_taskid_indirect",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_projectflow_plan_loop_pulls",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_taskflow_actions_pull",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_projectflow_pull_failure_blocks_pause",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_taskflow_pull_failure_blocks_cancel",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_projectflow_pull_failure_read_action_tolerated",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_taskflow_pull_failure_blocks_ack",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_taskflow_pull_failure_blocks_submit",
+        "classname": "plugins.tests.teamharness.test_pull_project",
+        "time": "0.007",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_returns_in_progress_task",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.006",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_returns_assigned_task",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_ignores_submitted",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_no_tasks_dir",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.002",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_empty_tasks_dir",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.002",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_corrupt_json_skipped",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.002",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_multiple_tasks_returns_matching_in_progress",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_worker_name_without_room_context_does_not_guess",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.006",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_no_room_or_worker_match_does_not_fallback",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_room_id_exact_match_takes_priority",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_room_id_prefixes_are_canonicalized",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_matrix_assignee_matches_worker_name",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_room_id_ignores_non_matching_tasks",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_room_id_with_no_active_in_room",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_project_graph_is_not_required_for_room_task_match",
+        "classname": "plugins.tests.teamharness.test_trace.TestFindActiveTask",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_sets_attributes_on_entry_span_only",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.007",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_skips_non_recording_span",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_no_attributes_when_no_active_task",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_room_project_ambiguity_sets_no_attributes",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_multiple_active_tasks_in_project_sets_project_only",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_entry_span_rereads_current_meta",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.006",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_invalidate_cache_is_noop_with_meta_reread",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.006",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_on_end_logs_entry_span_attributes",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_on_end_noop_when_debug_disabled",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.002",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_force_flush_and_shutdown",
+        "classname": "plugins.tests.teamharness.test_trace.TestAgentTeamsTaskSpanProcessor",
+        "time": "0.002",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_no_otel_sdk_returns_failure",
+        "classname": "plugins.tests.teamharness.test_trace.TestRegisterTaskTraceProcessor",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_registers_on_real_tracer_provider",
+        "classname": "plugins.tests.teamharness.test_trace.TestRegisterTaskTraceProcessor",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_full_lifecycle",
+        "classname": "plugins.tests.teamharness.test_trace.TestEndToEndLifecycle",
+        "time": "0.007",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_ack_turn_tags_entry_span_while_assigned",
+        "classname": "plugins.tests.teamharness.test_trace.TestEndToEndLifecycle",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_submit_turn_still_tagged",
+        "classname": "plugins.tests.teamharness.test_trace.TestEndToEndLifecycle",
+        "time": "0.007",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_room_context_routes_to_correct_task",
+        "classname": "plugins.tests.teamharness.test_trace.TestSessionIsolation",
+        "time": "0.006",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_no_room_context_does_not_fallback_to_any_active",
+        "classname": "plugins.tests.teamharness.test_trace.TestSessionIsolation",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_room_submitted_does_not_cross_tag",
+        "classname": "plugins.tests.teamharness.test_trace.TestSessionIsolation",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_per_room_context_independence",
+        "classname": "plugins.tests.teamharness.test_trace.TestSessionIsolation",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_submitted_meta_stops_tagging_without_invalidation",
+        "classname": "plugins.tests.teamharness.test_trace.TestSessionIsolation",
+        "time": "0.007",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_on_start_stashes_entry_span_when_room_not_set",
+        "classname": "plugins.tests.teamharness.test_trace.TestDeferredEntrySpanTagging",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_tag_pending_entry_span_tags_and_clears",
+        "classname": "plugins.tests.teamharness.test_trace.TestDeferredEntrySpanTagging",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_tag_current_entry_span_prefers_pending",
+        "classname": "plugins.tests.teamharness.test_trace.TestDeferredEntrySpanTagging",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_no_pending_span_returns_failure",
+        "classname": "plugins.tests.teamharness.test_trace.TestDeferredEntrySpanTagging",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_clear_pending_entry_span",
+        "classname": "plugins.tests.teamharness.test_trace.TestDeferredEntrySpanTagging",
+        "time": "0.002",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_on_start_with_room_set_does_not_stash",
+        "classname": "plugins.tests.teamharness.test_trace.TestDeferredEntrySpanTagging",
+        "time": "0.023",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_full_deferred_lifecycle",
+        "classname": "plugins.tests.teamharness.test_trace.TestDeferredEntrySpanTagging",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_debug_disabled_by_default",
+        "classname": "plugins.tests.teamharness.test_trace.TestDebugLogging",
+        "time": "0.001",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_set_trace_debug_enables_logging",
+        "classname": "plugins.tests.teamharness.test_trace.TestDebugLogging",
+        "time": "0.001",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_trace_log_noop_when_disabled",
+        "classname": "plugins.tests.teamharness.test_trace.TestDebugLogging",
+        "time": "0.002",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_trace_log_emits_when_enabled",
+        "classname": "plugins.tests.teamharness.test_trace.TestDebugLogging",
+        "time": "0.002",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_health_span_has_no_task_attrs",
+        "classname": "plugins.tests.teamharness.test_trace_integration.TestBeforeAck",
+        "time": "0.008",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_assigned_task_entry_span_is_picked_up",
+        "classname": "plugins.tests.teamharness.test_trace_integration.TestBeforeAck",
+        "time": "0.004",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_entry_span_started_before_room_context_is_backfilled",
+        "classname": "plugins.tests.teamharness.test_trace_integration.TestBeforeAck",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_spans_after_ack_carry_task_attrs",
+        "classname": "plugins.tests.teamharness.test_trace_integration.TestAckTask",
+        "time": "0.059",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_multiple_turn_entries_tagged",
+        "classname": "plugins.tests.teamharness.test_trace_integration.TestDuringWork",
+        "time": "0.006",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_nested_spans_tag_entry_only",
+        "classname": "plugins.tests.teamharness.test_trace_integration.TestDuringWork",
+        "time": "0.006",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_submit_turn_tagged_and_next_turn_clean",
+        "classname": "plugins.tests.teamharness.test_trace_integration.TestSubmitTask",
+        "time": "0.077",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_delegate_ack_work_submit_idle",
+        "classname": "plugins.tests.teamharness.test_trace_integration.TestFullLifecycle",
+        "time": "0.159",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_register_and_verify_attributes",
+        "classname": "plugins.tests.teamharness.test_trace_integration.TestRegisterViaRealProvider",
+        "time": "0.005",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_register_uses_qwenpaw_2_public_extension_points",
+        "classname": "plugins.tests.teamharness.adapters.qwenpaw.test_adapter",
+        "time": "0.003",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_sanitizer_redacts_tool_output",
+        "classname": "plugins.tests.teamharness.adapters.qwenpaw.test_adapter",
+        "time": "0.001",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_sanitizer_accepts_qwenpaw_2_middleware_keywords",
+        "classname": "plugins.tests.teamharness.adapters.qwenpaw.test_adapter",
+        "time": "0.001",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_team_prompt_reads_packaged_contract",
+        "classname": "plugins.tests.teamharness.adapters.qwenpaw.test_adapter",
+        "time": "0.001",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      },
+      {
+        "name": "test_plugin_does_not_patch_qwenpaw_private_runtime",
+        "classname": "plugins.tests.teamharness.adapters.qwenpaw.test_adapter",
+        "time": "0.001",
+        "failure": false,
+        "error": false,
+        "skipped": false
+      }
+    ]
+  },
+  "stdout": "........................................................................ [ 94%]\n....                                                                     [100%]\n76 passed in 1.27s\n",
+  "stderr": ""
+}

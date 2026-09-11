@@ -1,0 +1,60 @@
+{
+  "versions": {
+    "qwenpaw": "2.0.1",
+    "agentscope": "2.0.4.post1",
+    "copaw-worker": "1.0.3",
+    "openai": "2.33.0"
+  },
+  "channels": {
+    "console": {
+      "enabled": false
+    },
+    "matrix": {
+      "enabled": true
+    }
+  },
+  "source": {
+    "path": "/opt/venv/qwenpaw/lib/python3.11/site-packages/qwenpaw/app/routers/console.py",
+    "sha256": "aa4edbcb8ff817f296b84f25a1693d29ec9ceac39044c30247cfb67f06809c48",
+    "numbered_console_task_entry": [
+      "531:     \"/chat/task\",",
+      "532:     status_code=200,",
+      "533:     summary=\"Submit a background chat task\",",
+      "534: )",
+      "535: async def post_console_chat_task(  # pylint: disable=too-many-statements",
+      "536:     request_data: Union[AgentRequest, dict],",
+      "537:     request: Request,",
+      "538: ) -> dict:",
+      "539:     \"\"\"Run an agent chat as a background task.",
+      "540: ",
+      "541:     Returns a ``task_id`` immediately. Poll status via",
+      "542:     ``GET /console/chat/task/{task_id}``.",
+      "543:     \"\"\"",
+      "544:     workspace = await get_agent_for_request(request)",
+      "545:     console_channel = await workspace.channel_manager.get_channel(\"console\")",
+      "546:     if console_channel is None:",
+      "547:         raise HTTPException(",
+      "548:             status_code=503,",
+      "549:             detail=\"Channel Console not found\",",
+      "550:         )",
+      "551: ",
+      "552:     task_id = f\"task-{uuid.uuid4().hex[:12]}\"",
+      "553:     native_payload = _extract_session_and_payload(request_data)",
+      "554:     session_id = console_channel.resolve_session_id(",
+      "555:         sender_id=native_payload[\"sender_id\"],",
+      "556:         channel_meta=native_payload[\"meta\"],",
+      "557:     )",
+      "558:     name, _ = _extract_placeholder_name(native_payload[\"content_parts\"])",
+      "559:     await workspace.chat_manager.get_or_create_chat(",
+      "560:         session_id,",
+      "561:         native_payload[\"sender_id\"],",
+      "562:         native_payload[\"channel_id\"],",
+      "563:         name=name,",
+      "564:     )",
+      "565: ",
+      "566:     task_timeout: Optional[float] = None",
+      "567:     fork_project_dir = \"\""
+    ]
+  },
+  "at_utc": "2026-09-10T03:59:32.318074+00:00"
+}

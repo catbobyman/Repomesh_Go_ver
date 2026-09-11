@@ -1,0 +1,118 @@
+{
+  "run_id": "agentteams-2026-09-10",
+  "recorded_at_utc": "2026-09-10T10:34:00.165130+00:00",
+  "mode": "PLAN_NO_DOCKER_MUTATION",
+  "review_sha256": "c9bc3fc4db2df80014b4f3a55c2b53a61d34c152e7a41985f0fc8cd7d1428b6a",
+  "instances": [
+    {
+      "instance": "c",
+      "controller": "rv-c-controller",
+      "container_id_before": "cf4981c840f1fb6584fcdf2f27a28c229b72974445f324f386e28aa797ef4e71",
+      "image_id": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "manager_image_id": "sha256:8cf1059295e6c172ba30d7e732cc382169678fcb44b2e7f56c159203b0c20b6a",
+      "worker_image_id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+      "changed_env_keys": [
+        "AGENTTEAMS_DEFAULT_MODEL",
+        "AGENTTEAMS_HOST_SHARE_DIR",
+        "AGENTTEAMS_LLM_API_KEY",
+        "AGENTTEAMS_MANAGER_ENABLED",
+        "AGENTTEAMS_MANAGER_MODEL",
+        "AGENTTEAMS_OPENAI_BASE_URL",
+        "AGENTTEAMS_WORKSPACE_DIR"
+      ],
+      "public_configuration_before": {
+        "AGENTTEAMS_CONTROLLER_NAME": "rv-c",
+        "AGENTTEAMS_CONTROLLER_URL": "http://rv-c-controller:8090",
+        "AGENTTEAMS_MATRIX_DOMAIN": "rv-c.matrix.invalid",
+        "AGENTTEAMS_MANAGER_ENABLED": "false",
+        "AGENTTEAMS_MANAGER_RUNTIME": "qwenpaw",
+        "AGENTTEAMS_MANAGER_IMAGE": "repomesh-validation/manager-qwenpaw:517caff9",
+        "AGENTTEAMS_DEFAULT_WORKER_RUNTIME": "qwenpaw",
+        "AGENTTEAMS_QWENPAW_WORKER_IMAGE": "repomesh-validation/qwenpaw-worker:eeaab643",
+        "AGENTTEAMS_PORT_MANAGER_CONSOLE": "48099",
+        "AGENTTEAMS_DEFAULT_MODEL": "qwen3.6-plus",
+        "AGENTTEAMS_LLM_PROVIDER": "openai-compat"
+      },
+      "public_configuration_after": {
+        "AGENTTEAMS_CONTROLLER_NAME": "rv-c",
+        "AGENTTEAMS_CONTROLLER_URL": "http://rv-c-controller:8090",
+        "AGENTTEAMS_MATRIX_DOMAIN": "rv-c.matrix.invalid",
+        "AGENTTEAMS_MANAGER_ENABLED": "true",
+        "AGENTTEAMS_MANAGER_RUNTIME": "qwenpaw",
+        "AGENTTEAMS_MANAGER_IMAGE": "repomesh-validation/manager-qwenpaw:517caff9",
+        "AGENTTEAMS_DEFAULT_WORKER_RUNTIME": "qwenpaw",
+        "AGENTTEAMS_QWENPAW_WORKER_IMAGE": "repomesh-validation/qwenpaw-worker:eeaab643",
+        "AGENTTEAMS_PORT_MANAGER_CONSOLE": "48099",
+        "AGENTTEAMS_DEFAULT_MODEL": "deepseek-chat",
+        "AGENTTEAMS_LLM_PROVIDER": "openai-compat",
+        "AGENTTEAMS_MANAGER_MODEL": "deepseek-chat",
+        "AGENTTEAMS_WORKSPACE_DIR": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-10/runtime/instance-c/workspace",
+        "AGENTTEAMS_HOST_SHARE_DIR": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-10/runtime/instance-c/host-share"
+      },
+      "provider_api_key_present": true,
+      "provider_endpoint_recorded_privately": true,
+      "volumes_preserved": [
+        "rv-c-data",
+        "rv-c-agentfs"
+      ],
+      "network_preserved": "rv-c-net",
+      "ports_preserved": {
+        "8080/tcp": 48080,
+        "8001/tcp": 48001,
+        "8090/tcp": 48090,
+        "8088/tcp": 48088
+      },
+      "mounts_before": [
+        {
+          "Type": "bind",
+          "Source": "//var/run/docker.sock",
+          "Destination": "/var/run/docker.sock",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "volume",
+          "Name": "rv-c-data",
+          "Source": "/var/lib/docker/volumes/rv-c-data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "rv-c-agentfs",
+          "Source": "/var/lib/docker/volumes/rv-c-agentfs/_data",
+          "Destination": "/root/agentteams-fs",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-10/runtime/instance-c/workspace",
+          "Destination": "/root/agentteams-fs/agents/manager",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-10/runtime/instance-c/host-share",
+          "Destination": "/validation-host-share",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "manager_crs_before": [],
+      "secrets_regenerated": false,
+      "model_task_submitted": false
+    }
+  ],
+  "apply_ready": true,
+  "note": "Enabling reconciliation can start Manager bootstrap/provider activity. No task is submitted by this script."
+}

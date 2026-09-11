@@ -1,0 +1,160 @@
+{
+  "id": "CONTROL-10",
+  "title": "Cancellation persists terminal metadata and rejects later ack",
+  "at": [
+    "AT-03",
+    "AT-11"
+  ],
+  "expected_product_disposition": "SEMANTIC_BOUNDARY_CONFIRMED",
+  "source_lines": [
+    4412,
+    3946
+  ],
+  "fixture_directory": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-10",
+  "observations": {
+    "task_and_project_metadata_cancelled": true,
+    "later_ack_rejected": true,
+    "observed_external_operations": [
+      "fake-mc",
+      "fake-mc",
+      "fake-mc",
+      "fake-mc",
+      "fake-mc"
+    ],
+    "no_worker_process_present": true,
+    "limitation": "This does NOT test actual process termination, container cleanup, or resource release"
+  },
+  "expectation_check": "PASS",
+  "observed_product_disposition": "SEMANTIC_BOUNDARY_CONFIRMED",
+  "tool_calls": [
+    {
+      "tool": "taskflow",
+      "arguments": {
+        "action": "cancel_task",
+        "workspaceDir": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-10\\workspace",
+        "storage": {
+          "sharedPrefix": "control-store/teams/control-team/shared"
+        },
+        "role": "leader",
+        "taskId": "T1",
+        "reason": "component validation"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "cancel_task",
+        "task": {
+          "project_id": "issue-a",
+          "task_id": "T1",
+          "status": "cancelled",
+          "room_id": "!control-room:validation.invalid",
+          "assigned_to": "@control-worker:validation.invalid",
+          "spec_path": "shared/tasks/T1/spec.md",
+          "cancel_reason": "component validation",
+          "task_title": "T1",
+          "assigned_at": "2026-09-09T16:20:54Z"
+        },
+        "project": {
+          "plan_type": "dag",
+          "project_id": "issue-a",
+          "source": "matrix",
+          "source_room_id": "!control-room:validation.invalid",
+          "status": "active",
+          "tasks": [
+            {
+              "assigned_to": "@control-worker:validation.invalid",
+              "depends_on": [],
+              "status": "cancelled",
+              "task_id": "T1",
+              "title": "T1"
+            }
+          ],
+          "team_id": "control-team",
+          "title": "issue-a"
+        },
+        "synced": true
+      }
+    },
+    {
+      "tool": "taskflow",
+      "arguments": {
+        "action": "ack_task",
+        "workspaceDir": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-10\\workspace",
+        "storage": {
+          "sharedPrefix": "control-store/teams/control-team/shared"
+        },
+        "taskId": "T1"
+      },
+      "response": {
+        "ok": false,
+        "tool": "taskflow",
+        "action": "ack_task",
+        "error": "ack_task cannot update terminal task: cancelled"
+      }
+    }
+  ],
+  "transport_events": [
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "cp",
+        "control-store/teams/control-team/shared/projects/issue-a/meta.json",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-10\\workspace\\shared\\projects\\issue-a\\meta.json"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-10\\workspace\\shared\\projects\\issue-a/",
+        "control-store/teams/control-team/shared/projects/issue-a/",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-10\\workspace\\shared\\tasks\\T1/",
+        "control-store/teams/control-team/shared/tasks/T1/",
+        "--overwrite",
+        "--exclude",
+        "spec.md",
+        "--exclude",
+        "base/"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "cp",
+        "control-store/teams/control-team/shared/projects/issue-a/meta.json",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-10\\workspace\\shared\\projects\\issue-a\\meta.json"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "mirror",
+        "control-store/teams/control-team/shared/tasks/T1/",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-10\\workspace\\shared\\tasks\\T1",
+        "--overwrite"
+      ],
+      "completed": true
+    }
+  ]
+}

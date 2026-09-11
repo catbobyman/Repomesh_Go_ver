@@ -1,0 +1,68 @@
+{
+  "started_at_utc": "2026-09-10T03:57:07.197964+00:00",
+  "nonce": "5f5be6136b0e",
+  "marker": "RV_MODEL_MATRIX_NEW_5f5be6136b0e",
+  "agent_id": "default",
+  "records": [
+    {
+      "at_utc": "2026-09-10T03:57:08.007832+00:00",
+      "kind": "preflight",
+      "manager": "default",
+      "sender": "@rv-c-admin:rv-c.matrix.invalid",
+      "manager_user": "@manager:rv-c.matrix.invalid",
+      "room": "!1kMUI31V0S5xQhDgD7:rv-c.matrix.invalid",
+      "joined_users": [
+        "@manager:rv-c.matrix.invalid",
+        "@rv-c-admin:rv-c.matrix.invalid"
+      ],
+      "active_model": {
+        "provider_id": "agentteams-gateway",
+        "model": "deepseek-chat"
+      },
+      "usage_before": {
+        "total_prompt_tokens": 0,
+        "total_completion_tokens": 0,
+        "total_calls": 0,
+        "by_model": {},
+        "by_date": {}
+      },
+      "console_api_rejections_before_model": 1
+    },
+    {
+      "at_utc": "2026-09-10T03:57:08.824623+00:00",
+      "kind": "effective_submission",
+      "event_id": "$iispgL3u_vTJFnCj3qcG57cGSJgxXZQPBBNOoQDA6YU",
+      "sender": "@rv-c-admin:rv-c.matrix.invalid",
+      "room": "!1kMUI31V0S5xQhDgD7:rv-c.matrix.invalid",
+      "body": "@manager:rv-c.matrix.invalid This is an isolated inference test. Reply with exactly RV_MODEL_MATRIX_NEW_5f5be6136b0e. Do not call tools, read or write files, inspect repositories, delegate work, create resources, or contact anyone. Return only the exact marker.",
+      "wire_exact": true,
+      "effective_model_submissions": 1
+    },
+    {
+      "at_utc": "2026-09-10T03:57:12.426854+00:00",
+      "kind": "manager_event",
+      "event_id": "$rgSZYuc1Z5U8Q56wAeUJk1t4GBQVGZ7_rv_Ct3VDiSE",
+      "sender": "@manager:rv-c.matrix.invalid",
+      "room": "!1kMUI31V0S5xQhDgD7:rv-c.matrix.invalid",
+      "type": "m.room.message",
+      "msgtype": "m.text",
+      "body": "RV_MODEL_MATRIX_NEW_5f5be6136b0e",
+      "content_field_names": [
+        "body",
+        "format",
+        "formatted_body",
+        "msgtype"
+      ],
+      "elapsed_seconds": 4.141
+    },
+    {
+      "at_utc": "2026-09-10T03:57:16.443611+00:00",
+      "kind": "failure",
+      "classification": "AssertionError",
+      "message": "AssertionError: Unable to uniquely correlate owned Matrix turn to native runtime history"
+    }
+  ],
+  "boundary": "One effective real model request after Console entry rejected before creating a task; existing c-owned admin/Manager DM only, no configuration edits or provider override.",
+  "status": "FAILED_NO_RESUBMISSION",
+  "finished_at_utc": "2026-09-10T03:57:16.445198+00:00"
+}

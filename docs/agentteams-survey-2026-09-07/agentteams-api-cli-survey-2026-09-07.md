@@ -6,6 +6,8 @@
 > 调查方式：只读静态核查官方源码、官方文档及官方 Dashboard 源码；未安装、部署或进行真实接口调用。
 > 定位：这是一份供实现和契约核对使用的技术附录；产品和架构讨论请先读[人话版调研](./agentteams-survey.md)。
 
+> 2026-09-09 后续索引：最新 main 重新核对仍为本文锁定提交，最新 release 为 v1.2.3。已采用的原生 DAG 复用、RepoMesh 跨仓／Loop 分工及后续验证证据集中见 [Graph／Loop 专题](../current/graph-loop-design.md)。本文继续保留静态接口依据，不以工具能力存在宣称受控派工、原生 Loop 全权执行或 RepoMesh 验收已经完成。
+
 ## 1. 结论摘要
 
 1. **AgentTeams 确实公开了一套可直接调用的 Controller HTTP API。** 主入口是 `agentteams-controller` 的 `/api/v1`，默认监听 `:8090`；涵盖 Worker、Team、Human、Manager CRUD，Worker 生命周期，Project 工作流读取与人工干预，包上传、网关消费者、短期凭据和 Matrix AppService 管理。[路由源码](https://github.com/agentscope-ai/AgentTeams/blob/eeaab64391ccaec9118e84977f538aefd40720d6/agentteams-controller/internal/server/http.go) / [配置源码](https://github.com/agentscope-ai/AgentTeams/blob/eeaab64391ccaec9118e84977f538aefd40720d6/agentteams-controller/internal/config/config.go)

@@ -1,0 +1,1585 @@
+{
+  "run_id": "d33b63db78",
+  "expected_source_head": "517caff9280242a00a4d4c06365352b9e41659c6",
+  "container": "rv-c-controller",
+  "api": "http://127.0.0.1:48090",
+  "bucket": "rv-c-storage",
+  "project_id": "delta-project-d33b63db78",
+  "teams": [
+    "delta-d33b63db78-left",
+    "delta-d33b63db78-right"
+  ],
+  "task_ids": {
+    "raw": "delta-d33b63db78-raw",
+    "missing": "delta-d33b63db78-missing",
+    "badjson": "delta-d33b63db78-badjson",
+    "wrongowner": "delta-d33b63db78-wrongowner",
+    "wrongtask": "delta-d33b63db78-wrongtask",
+    "historytype": "delta-d33b63db78-historytype",
+    "nostatus": "delta-d33b63db78-nostatus",
+    "absent": "delta-d33b63db78-absent"
+  },
+  "identity": "Controller-local admin token from /var/run/agentteams/cli-token, never emitted",
+  "boundary": "Direct MinIO metadata fixtures plus real CR registration; not business Project creation; no model or Worker runtime; anonymous and invalid-token denial do not prove Worker RBAC",
+  "records": [
+    {
+      "kind": "controller_runtime_provenance",
+      "time": "2026-09-10T10:26:54.794008+00:00",
+      "container_id": "cf4981c840f1fb6584fcdf2f27a28c229b72974445f324f386e28aa797ef4e71",
+      "image_id": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "image_reference": "repomesh-validation/embedded:517caff9",
+      "running": true,
+      "started_at": "2026-09-10T10:25:44.225869832Z"
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:26:55.039347+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/healthz",
+      "request": null,
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "allow": null,
+      "response": "ok"
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:26:55.061454+00:00",
+      "identity": "admin",
+      "method": "POST",
+      "path": "/api/v1/workers",
+      "request": {
+        "name": "delta-leader-d33b63db78-0",
+        "runtime": "qwenpaw",
+        "model": "deepseek-chat",
+        "state": "Stopped",
+        "containerManaged": false
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "name": "delta-leader-d33b63db78-0",
+        "state": "Stopped",
+        "containerManaged": false,
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:26:55.071010+00:00",
+      "identity": "admin",
+      "method": "POST",
+      "path": "/api/v1/teams",
+      "request": {
+        "name": "delta-d33b63db78-left",
+        "teamName": "delta-d33b63db78-left",
+        "description": "Delta read-only API metadata fixture; no runtime or model",
+        "workerMembers": [
+          {
+            "name": "delta-leader-d33b63db78-0",
+            "role": "team_leader"
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "name": "delta-d33b63db78-left",
+        "teamName": "delta-d33b63db78-left",
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:26:55.105866+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 404,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:26:55.649171+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78/meta.json",
+      "sha256": "85a0a54421c967e59185f09415243146c5ef2b8c9df9342905faf5b8d3f6f948",
+      "content": "{\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"title\": \"fixture:delta-d33b63db78-left\",\n  \"status\": \"active\",\n  \"plan_type\": \"dag\",\n  \"team_id\": \"delta-d33b63db78-left\",\n  \"tasks\": [\n    {\n      \"task_id\": \"delta-d33b63db78-raw\",\n      \"title\": \"raw title \\\"quoted\\\"\\nsecond line\",\n      \"status\": \"completed\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-missing\",\n      \"title\": \"missing\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": [\n        \"delta-d33b63db78-raw\"\n      ]\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-badjson\",\n      \"title\": \"badjson\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongowner\",\n      \"title\": \"wrongowner\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongtask\",\n      \"title\": \"wrongtask\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-historytype\",\n      \"title\": \"historytype\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-nostatus\",\n      \"title\": \"nostatus\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    }\n  ],\n  \"source_room_id\": \"\"\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:26:56.273928+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-raw/meta.json",
+      "sha256": "73b8583238e103198472e08052a72f54b3312acc58a6012ef5eba1d04028d055",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-raw\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"in_progress\",\n  \"assigned_to\": \"fixture-meta-delta-d33b63db78-left\",\n  \"summary\": \"owned-by:delta-d33b63db78-left\",\n  \"spec_path\": \"fixture/spec.md\",\n  \"result_status\": \"SUCCESS\",\n  \"result_path\": \"fixture/nonexistent-result.md\",\n  \"deliverables\": [\n    {\n      \"path\": \"fixture/nonexistent-result.md\"\n    }\n  ],\n  \"history\": [\n    {\n      \"ts\": \"2026-09-10T00:00:00Z\",\n      \"action\": \"fixture\",\n      \"from\": \"planned\",\n      \"to\": \"assigned\"\n    },\n    \"malformed\",\n    {\n      \"note\": \"no ts or action\"\n    },\n    {\n      \"action\": \"fixture-without-ts\"\n    },\n    {\n      \"ts\": \"fixture-non-date\"\n    }\n  ]\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:26:56.770030+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-badjson/meta.json",
+      "sha256": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+      "content": "{broken JSON fixture"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:26:57.246987+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongowner/meta.json",
+      "sha256": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongowner\",\n  \"project_id\": \"delta-project-d33b63db78-other\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-project-no-leak\"\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:26:57.727941+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongtask/meta.json",
+      "sha256": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongtask-other\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-task-no-leak\"\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:26:58.208597+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-historytype/meta.json",
+      "sha256": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-historytype\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"assigned\",\n  \"history\": {\n    \"action\": \"wrong-container-type\"\n  }\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:26:58.674903+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-nostatus/meta.json",
+      "sha256": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-nostatus\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"summary\": \"matching-meta-without-status\"\n}\n"
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:26:58.707784+00:00",
+      "identity": "admin",
+      "method": "POST",
+      "path": "/api/v1/workers",
+      "request": {
+        "name": "delta-leader-d33b63db78-1",
+        "runtime": "qwenpaw",
+        "model": "deepseek-chat",
+        "state": "Stopped",
+        "containerManaged": false
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "name": "delta-leader-d33b63db78-1",
+        "state": "Stopped",
+        "containerManaged": false,
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:26:58.736437+00:00",
+      "identity": "admin",
+      "method": "POST",
+      "path": "/api/v1/teams",
+      "request": {
+        "name": "delta-d33b63db78-right",
+        "teamName": "delta-d33b63db78-right",
+        "description": "Delta read-only API metadata fixture; no runtime or model",
+        "workerMembers": [
+          {
+            "name": "delta-leader-d33b63db78-1",
+            "role": "team_leader"
+          }
+        ]
+      },
+      "status": 201,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "name": "delta-d33b63db78-right",
+        "teamName": "delta-d33b63db78-right",
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:26:58.774686+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-right",
+      "request": null,
+      "status": 404,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:26:59.248042+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/projects/delta-project-d33b63db78/meta.json",
+      "sha256": "4d58dc26583e00326222baca7051c3826cd5bd08ea708237505b96f4c4d3c6ab",
+      "content": "{\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"title\": \"fixture:delta-d33b63db78-right\",\n  \"status\": \"active\",\n  \"plan_type\": \"dag\",\n  \"team_id\": \"delta-d33b63db78-right\",\n  \"tasks\": [\n    {\n      \"task_id\": \"delta-d33b63db78-raw\",\n      \"title\": \"raw title \\\"quoted\\\"\\nsecond line\",\n      \"status\": \"completed\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-missing\",\n      \"title\": \"missing\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": [\n        \"delta-d33b63db78-raw\"\n      ]\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-badjson\",\n      \"title\": \"badjson\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongowner\",\n      \"title\": \"wrongowner\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongtask\",\n      \"title\": \"wrongtask\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-historytype\",\n      \"title\": \"historytype\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-nostatus\",\n      \"title\": \"nostatus\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    }\n  ],\n  \"source_room_id\": \"\"\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:26:59.736924+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-raw/meta.json",
+      "sha256": "02d1e3af367ee5bd6d5b78416884ed1ae8f1256d6da4721b9f158077bf3d0c22",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-raw\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"in_progress\",\n  \"assigned_to\": \"fixture-meta-delta-d33b63db78-right\",\n  \"summary\": \"owned-by:delta-d33b63db78-right\",\n  \"spec_path\": \"fixture/spec.md\",\n  \"result_status\": \"SUCCESS\",\n  \"result_path\": \"fixture/nonexistent-result.md\",\n  \"deliverables\": [\n    {\n      \"path\": \"fixture/nonexistent-result.md\"\n    }\n  ],\n  \"history\": [\n    {\n      \"ts\": \"2026-09-10T00:00:00Z\",\n      \"action\": \"fixture\",\n      \"from\": \"planned\",\n      \"to\": \"assigned\"\n    },\n    \"malformed\",\n    {\n      \"note\": \"no ts or action\"\n    },\n    {\n      \"action\": \"fixture-without-ts\"\n    },\n    {\n      \"ts\": \"fixture-non-date\"\n    }\n  ]\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:27:00.256404+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-badjson/meta.json",
+      "sha256": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+      "content": "{broken JSON fixture"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:27:00.784136+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongowner/meta.json",
+      "sha256": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongowner\",\n  \"project_id\": \"delta-project-d33b63db78-other\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-project-no-leak\"\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:27:01.273737+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongtask/meta.json",
+      "sha256": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongtask-other\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-task-no-leak\"\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:27:01.753341+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-historytype/meta.json",
+      "sha256": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-historytype\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"assigned\",\n  \"history\": {\n    \"action\": \"wrong-container-type\"\n  }\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:27:02.231384+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-nostatus/meta.json",
+      "sha256": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-nostatus\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"summary\": \"matching-meta-without-status\"\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:27:02.758649+00:00",
+      "key": "agentteams/rv-c-storage/shared/tasks/delta-d33b63db78-missing/meta.json",
+      "sha256": "35a270a4c9e965d3359c83d62ae1ef6bd80ac663b61f4637404d510f16bcfbf6",
+      "content": "{\n  \"task_id\": \"delta-d33b63db78-missing\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"completed\",\n  \"summary\": \"GLOBAL-BAIT-d33b63db78\"\n}\n"
+    },
+    {
+      "kind": "direct_minio_fixture_mc_cp",
+      "time": "2026-09-10T10:27:03.247420+00:00",
+      "key": "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78-reserved-end/meta.json",
+      "sha256": "851d6d93b5c6e1f3a634a7444a1e575d963738a36745e9d088d7970a0978b863",
+      "content": "{\n  \"project_id\": \"delta-project-d33b63db78-reserved-end\",\n  \"title\": \"Reserved ID fixture\",\n  \"status\": \"active\",\n  \"plan_type\": \"dag\",\n  \"team_id\": \"delta-d33b63db78-left\",\n  \"tasks\": [\n    {\n      \"task_id\": \"end\",\n      \"title\": \"Ordinary task\",\n      \"status\": \"planned\",\n      \"depends_on\": []\n    }\n  ],\n  \"source_room_id\": \"\"\n}\n"
+    },
+    {
+      "kind": "independent_minio_readback",
+      "time": "2026-09-10T10:27:07.157959+00:00",
+      "label": "before-http-inspection",
+      "objects": {
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78/meta.json": {
+          "sha256": "85a0a54421c967e59185f09415243146c5ef2b8c9df9342905faf5b8d3f6f948",
+          "content": "{\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"title\": \"fixture:delta-d33b63db78-left\",\n  \"status\": \"active\",\n  \"plan_type\": \"dag\",\n  \"team_id\": \"delta-d33b63db78-left\",\n  \"tasks\": [\n    {\n      \"task_id\": \"delta-d33b63db78-raw\",\n      \"title\": \"raw title \\\"quoted\\\"\\nsecond line\",\n      \"status\": \"completed\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-missing\",\n      \"title\": \"missing\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": [\n        \"delta-d33b63db78-raw\"\n      ]\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-badjson\",\n      \"title\": \"badjson\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongowner\",\n      \"title\": \"wrongowner\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongtask\",\n      \"title\": \"wrongtask\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-historytype\",\n      \"title\": \"historytype\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-nostatus\",\n      \"title\": \"nostatus\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    }\n  ],\n  \"source_room_id\": \"\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-raw/meta.json": {
+          "sha256": "73b8583238e103198472e08052a72f54b3312acc58a6012ef5eba1d04028d055",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-raw\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"in_progress\",\n  \"assigned_to\": \"fixture-meta-delta-d33b63db78-left\",\n  \"summary\": \"owned-by:delta-d33b63db78-left\",\n  \"spec_path\": \"fixture/spec.md\",\n  \"result_status\": \"SUCCESS\",\n  \"result_path\": \"fixture/nonexistent-result.md\",\n  \"deliverables\": [\n    {\n      \"path\": \"fixture/nonexistent-result.md\"\n    }\n  ],\n  \"history\": [\n    {\n      \"ts\": \"2026-09-10T00:00:00Z\",\n      \"action\": \"fixture\",\n      \"from\": \"planned\",\n      \"to\": \"assigned\"\n    },\n    \"malformed\",\n    {\n      \"note\": \"no ts or action\"\n    },\n    {\n      \"action\": \"fixture-without-ts\"\n    },\n    {\n      \"ts\": \"fixture-non-date\"\n    }\n  ]\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-badjson/meta.json": {
+          "sha256": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+          "content": "{broken JSON fixture"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongowner/meta.json": {
+          "sha256": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongowner\",\n  \"project_id\": \"delta-project-d33b63db78-other\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-project-no-leak\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongtask/meta.json": {
+          "sha256": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongtask-other\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-task-no-leak\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-historytype/meta.json": {
+          "sha256": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-historytype\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"assigned\",\n  \"history\": {\n    \"action\": \"wrong-container-type\"\n  }\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-nostatus/meta.json": {
+          "sha256": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-nostatus\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"summary\": \"matching-meta-without-status\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/projects/delta-project-d33b63db78/meta.json": {
+          "sha256": "4d58dc26583e00326222baca7051c3826cd5bd08ea708237505b96f4c4d3c6ab",
+          "content": "{\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"title\": \"fixture:delta-d33b63db78-right\",\n  \"status\": \"active\",\n  \"plan_type\": \"dag\",\n  \"team_id\": \"delta-d33b63db78-right\",\n  \"tasks\": [\n    {\n      \"task_id\": \"delta-d33b63db78-raw\",\n      \"title\": \"raw title \\\"quoted\\\"\\nsecond line\",\n      \"status\": \"completed\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-missing\",\n      \"title\": \"missing\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": [\n        \"delta-d33b63db78-raw\"\n      ]\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-badjson\",\n      \"title\": \"badjson\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongowner\",\n      \"title\": \"wrongowner\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongtask\",\n      \"title\": \"wrongtask\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-historytype\",\n      \"title\": \"historytype\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-nostatus\",\n      \"title\": \"nostatus\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    }\n  ],\n  \"source_room_id\": \"\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-raw/meta.json": {
+          "sha256": "02d1e3af367ee5bd6d5b78416884ed1ae8f1256d6da4721b9f158077bf3d0c22",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-raw\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"in_progress\",\n  \"assigned_to\": \"fixture-meta-delta-d33b63db78-right\",\n  \"summary\": \"owned-by:delta-d33b63db78-right\",\n  \"spec_path\": \"fixture/spec.md\",\n  \"result_status\": \"SUCCESS\",\n  \"result_path\": \"fixture/nonexistent-result.md\",\n  \"deliverables\": [\n    {\n      \"path\": \"fixture/nonexistent-result.md\"\n    }\n  ],\n  \"history\": [\n    {\n      \"ts\": \"2026-09-10T00:00:00Z\",\n      \"action\": \"fixture\",\n      \"from\": \"planned\",\n      \"to\": \"assigned\"\n    },\n    \"malformed\",\n    {\n      \"note\": \"no ts or action\"\n    },\n    {\n      \"action\": \"fixture-without-ts\"\n    },\n    {\n      \"ts\": \"fixture-non-date\"\n    }\n  ]\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-badjson/meta.json": {
+          "sha256": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+          "content": "{broken JSON fixture"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongowner/meta.json": {
+          "sha256": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongowner\",\n  \"project_id\": \"delta-project-d33b63db78-other\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-project-no-leak\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongtask/meta.json": {
+          "sha256": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongtask-other\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-task-no-leak\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-historytype/meta.json": {
+          "sha256": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-historytype\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"assigned\",\n  \"history\": {\n    \"action\": \"wrong-container-type\"\n  }\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-nostatus/meta.json": {
+          "sha256": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-nostatus\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"summary\": \"matching-meta-without-status\"\n}\n"
+        },
+        "agentteams/rv-c-storage/shared/tasks/delta-d33b63db78-missing/meta.json": {
+          "sha256": "35a270a4c9e965d3359c83d62ae1ef6bd80ac663b61f4637404d510f16bcfbf6",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-missing\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"completed\",\n  \"summary\": \"GLOBAL-BAIT-d33b63db78\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78-reserved-end/meta.json": {
+          "sha256": "851d6d93b5c6e1f3a634a7444a1e575d963738a36745e9d088d7970a0978b863",
+          "content": "{\n  \"project_id\": \"delta-project-d33b63db78-reserved-end\",\n  \"title\": \"Reserved ID fixture\",\n  \"status\": \"active\",\n  \"plan_type\": \"dag\",\n  \"team_id\": \"delta-d33b63db78-left\",\n  \"tasks\": [\n    {\n      \"task_id\": \"end\",\n      \"title\": \"Ordinary task\",\n      \"status\": \"planned\",\n      \"depends_on\": []\n    }\n  ],\n  \"source_room_id\": \"\"\n}\n"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.245141+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78-reserved-end/workflow?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "project_id": "delta-project-d33b63db78-reserved-end",
+        "title": "Reserved ID fixture",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "delta-d33b63db78-left",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "end",
+            "name": "Ordinary task",
+            "status": "pending"
+          }
+        ],
+        "edges": [],
+        "next": [
+          "end"
+        ],
+        "interrupts": [],
+        "values": {
+          "project_id": "delta-project-d33b63db78-reserved-end",
+          "title": "Reserved ID fixture",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "delta-d33b63db78-left",
+          "mode": "",
+          "task_count": {
+            "pending": 1
+          }
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.354317+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78-reserved-end/tasks/end?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "task_id": "end",
+        "project_id": "delta-project-d33b63db78-reserved-end",
+        "status": "pending",
+        "trace": {
+          "project_id": "delta-project-d33b63db78-reserved-end",
+          "task_id": "end"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.434887+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78-reserved-end/workflow?team=delta-d33b63db78-left&format=mermaid",
+      "request": null,
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "allow": null,
+      "response": "flowchart LR\n    end[\"Ordinary task: pending\"]:::ready\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n"
+    },
+    {
+      "kind": "reserved_end_api_artifact",
+      "time": "2026-09-10T10:27:07.438616+00:00",
+      "file": "controller-delta-live-d33b63db78-reserved-end.mmd",
+      "sha256": "026597812b4c8205cf7070ac2c2ef812621344a8c4da1d60b97ca488b090f0cc",
+      "browser_validation": "pending independent browser parse; API200 does not establish valid Mermaid"
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.498250+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "project_id": "delta-project-d33b63db78",
+        "title": "fixture:delta-d33b63db78-left",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "delta-d33b63db78-left",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "delta-d33b63db78-raw",
+            "name": "raw title \"quoted\"\nsecond line",
+            "status": "completed",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-missing",
+            "name": "missing",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-badjson",
+            "name": "badjson",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongowner",
+            "name": "wrongowner",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongtask",
+            "name": "wrongtask",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-historytype",
+            "name": "historytype",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-nostatus",
+            "name": "nostatus",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          }
+        ],
+        "edges": [
+          {
+            "source": "delta-d33b63db78-raw",
+            "target": "delta-d33b63db78-missing",
+            "conditional": false
+          }
+        ],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "delta-project-d33b63db78",
+          "title": "fixture:delta-d33b63db78-left",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "delta-d33b63db78-left",
+          "mode": "",
+          "task_count": {
+            "completed": 1,
+            "in-progress": 6
+          }
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.588461+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left&format=",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "project_id": "delta-project-d33b63db78",
+        "title": "fixture:delta-d33b63db78-left",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "delta-d33b63db78-left",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "delta-d33b63db78-raw",
+            "name": "raw title \"quoted\"\nsecond line",
+            "status": "completed",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-missing",
+            "name": "missing",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-badjson",
+            "name": "badjson",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongowner",
+            "name": "wrongowner",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongtask",
+            "name": "wrongtask",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-historytype",
+            "name": "historytype",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-nostatus",
+            "name": "nostatus",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          }
+        ],
+        "edges": [
+          {
+            "source": "delta-d33b63db78-raw",
+            "target": "delta-d33b63db78-missing",
+            "conditional": false
+          }
+        ],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "delta-project-d33b63db78",
+          "title": "fixture:delta-d33b63db78-left",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "delta-d33b63db78-left",
+          "mode": "",
+          "task_count": {
+            "completed": 1,
+            "in-progress": 6
+          }
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.650352+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left&format=mermaid",
+      "request": null,
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "allow": null,
+      "response": "flowchart LR\n    delta-d33b63db78-raw[\"raw title #quot;quoted#quot;<br>second line: completed\"]:::completed\n    delta-d33b63db78-missing[\"missing: in-progress\"]:::inProgress\n    delta-d33b63db78-badjson[\"badjson: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongowner[\"wrongowner: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongtask[\"wrongtask: in-progress\"]:::inProgress\n    delta-d33b63db78-historytype[\"historytype: in-progress\"]:::inProgress\n    delta-d33b63db78-nostatus[\"nostatus: in-progress\"]:::inProgress\n    delta-d33b63db78-raw --> delta-d33b63db78-missing\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n"
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.709804+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left&format=mermaid&includeTasks=true",
+      "request": null,
+      "status": 200,
+      "content_type": "text/plain; charset=utf-8",
+      "allow": null,
+      "response": "flowchart LR\n    delta-d33b63db78-raw[\"raw title #quot;quoted#quot;<br>second line: completed\"]:::completed\n    delta-d33b63db78-missing[\"missing: in-progress\"]:::inProgress\n    delta-d33b63db78-badjson[\"badjson: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongowner[\"wrongowner: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongtask[\"wrongtask: in-progress\"]:::inProgress\n    delta-d33b63db78-historytype[\"historytype: in-progress\"]:::inProgress\n    delta-d33b63db78-nostatus[\"nostatus: in-progress\"]:::inProgress\n    delta-d33b63db78-raw --> delta-d33b63db78-missing\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n"
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.788101+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left&format=bogus",
+      "request": null,
+      "status": 400,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "unsupported format \"bogus\": allowed: mermaid"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.874508+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left&format=json",
+      "request": null,
+      "status": 400,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "unsupported format \"json\": allowed: mermaid"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:07.983924+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left&includeTasks=true",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "project_id": "delta-project-d33b63db78",
+        "title": "fixture:delta-d33b63db78-left",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "delta-d33b63db78-left",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "delta-d33b63db78-raw",
+            "name": "raw title \"quoted\"\nsecond line",
+            "status": "completed",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-missing",
+            "name": "missing",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-badjson",
+            "name": "badjson",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongowner",
+            "name": "wrongowner",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongtask",
+            "name": "wrongtask",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-historytype",
+            "name": "historytype",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-nostatus",
+            "name": "nostatus",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          }
+        ],
+        "edges": [
+          {
+            "source": "delta-d33b63db78-raw",
+            "target": "delta-d33b63db78-missing",
+            "conditional": false
+          }
+        ],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "delta-project-d33b63db78",
+          "title": "fixture:delta-d33b63db78-left",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "delta-d33b63db78-left",
+          "mode": "",
+          "task_count": {
+            "completed": 1,
+            "in-progress": 6
+          }
+        },
+        "tasks_detail": [
+          {
+            "task_id": "delta-d33b63db78-raw",
+            "project_id": "delta-project-d33b63db78",
+            "status": "in_progress",
+            "spec_path": "fixture/spec.md",
+            "assigned_to": "fixture-meta-delta-d33b63db78-left",
+            "summary": "owned-by:delta-d33b63db78-left",
+            "result_status": "SUCCESS",
+            "deliverables": [
+              {
+                "path": "fixture/nonexistent-result.md"
+              }
+            ],
+            "result_path": "fixture/nonexistent-result.md",
+            "history": [
+              {
+                "ts": "2026-09-10T00:00:00Z",
+                "from": "planned",
+                "to": "assigned",
+                "action": "fixture"
+              },
+              {
+                "ts": "",
+                "from": "",
+                "to": "",
+                "action": "fixture-without-ts"
+              },
+              {
+                "ts": "fixture-non-date",
+                "from": "",
+                "to": "",
+                "action": ""
+              }
+            ]
+          },
+          {
+            "task_id": "delta-d33b63db78-historytype",
+            "project_id": "delta-project-d33b63db78",
+            "status": "assigned"
+          },
+          {
+            "task_id": "delta-d33b63db78-nostatus",
+            "project_id": "delta-project-d33b63db78",
+            "summary": "matching-meta-without-status"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:08.089976+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "task_id": "delta-d33b63db78-raw",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in_progress",
+        "spec_path": "fixture/spec.md",
+        "assigned_to": "fixture-meta-delta-d33b63db78-left",
+        "summary": "owned-by:delta-d33b63db78-left",
+        "result_status": "SUCCESS",
+        "deliverables": [
+          {
+            "path": "fixture/nonexistent-result.md"
+          }
+        ],
+        "result_path": "fixture/nonexistent-result.md",
+        "history": [
+          {
+            "ts": "2026-09-10T00:00:00Z",
+            "from": "planned",
+            "to": "assigned",
+            "action": "fixture"
+          },
+          {
+            "ts": "",
+            "from": "",
+            "to": "",
+            "action": "fixture-without-ts"
+          },
+          {
+            "ts": "fixture-non-date",
+            "from": "",
+            "to": "",
+            "action": ""
+          }
+        ],
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-raw"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:08.227744+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-right",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "task_id": "delta-d33b63db78-raw",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in_progress",
+        "spec_path": "fixture/spec.md",
+        "assigned_to": "fixture-meta-delta-d33b63db78-right",
+        "summary": "owned-by:delta-d33b63db78-right",
+        "result_status": "SUCCESS",
+        "deliverables": [
+          {
+            "path": "fixture/nonexistent-result.md"
+          }
+        ],
+        "result_path": "fixture/nonexistent-result.md",
+        "history": [
+          {
+            "ts": "2026-09-10T00:00:00Z",
+            "from": "planned",
+            "to": "assigned",
+            "action": "fixture"
+          },
+          {
+            "ts": "",
+            "from": "",
+            "to": "",
+            "action": "fixture-without-ts"
+          },
+          {
+            "ts": "fixture-non-date",
+            "from": "",
+            "to": "",
+            "action": ""
+          }
+        ],
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-raw"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:08.341324+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-missing?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "task_id": "delta-d33b63db78-missing",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in-progress",
+        "assigned_to": "fixture-graph-delta-d33b63db78-left",
+        "dependencies": [
+          "delta-d33b63db78-raw"
+        ],
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-missing"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:08.431142+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-badjson?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "task_id": "delta-d33b63db78-badjson",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in-progress",
+        "assigned_to": "fixture-graph-delta-d33b63db78-left",
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-badjson"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:08.515948+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-wrongowner?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "task_id": "delta-d33b63db78-wrongowner",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in-progress",
+        "assigned_to": "fixture-graph-delta-d33b63db78-left",
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-wrongowner"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:08.599354+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-wrongtask?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "task_id": "delta-d33b63db78-wrongtask",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in-progress",
+        "assigned_to": "fixture-graph-delta-d33b63db78-left",
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-wrongtask"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:08.713318+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-historytype?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "task_id": "delta-d33b63db78-historytype",
+        "project_id": "delta-project-d33b63db78",
+        "status": "assigned",
+        "assigned_to": "fixture-graph-delta-d33b63db78-left",
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-historytype"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:08.822819+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-nostatus?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "task_id": "delta-d33b63db78-nostatus",
+        "project_id": "delta-project-d33b63db78",
+        "assigned_to": "fixture-graph-delta-d33b63db78-left",
+        "summary": "matching-meta-without-status",
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-nostatus"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:08.980212+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow",
+      "request": null,
+      "status": 409,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project id is ambiguous across teams; retry with ?team="
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.000464+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-absent",
+      "request": null,
+      "status": 404,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.059762+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78-absent/workflow?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 404,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.066554+00:00",
+      "identity": "anonymous",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 401,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "invalid or missing bearer token"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.095334+00:00",
+      "identity": "invalid",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 401,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "invalid or missing bearer token"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.263143+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw",
+      "request": null,
+      "status": 409,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project id is ambiguous across teams; retry with ?team="
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.293487+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-absent",
+      "request": null,
+      "status": 404,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.331158+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78-absent/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 404,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.340639+00:00",
+      "identity": "anonymous",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 401,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "invalid or missing bearer token"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.370804+00:00",
+      "identity": "invalid",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 401,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "invalid or missing bearer token"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.524758+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?format=mermaid",
+      "request": null,
+      "status": 409,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project id is ambiguous across teams; retry with ?team="
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.581213+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78-absent/workflow?team=delta-d33b63db78-left&format=bogus",
+      "request": null,
+      "status": 404,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.652383+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-absent?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 404,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "task not found"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.676971+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/bad%21id?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 400,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "message": "invalid task id"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.783551+00:00",
+      "identity": "admin",
+      "method": "POST",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 405,
+      "content_type": "text/plain; charset=utf-8",
+      "allow": "GET, HEAD",
+      "response": "Method Not Allowed\n"
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:09.794142+00:00",
+      "identity": "admin",
+      "method": "DELETE",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-left",
+      "request": null,
+      "status": 405,
+      "content_type": "text/plain; charset=utf-8",
+      "allow": "GET, HEAD",
+      "response": "Method Not Allowed\n"
+    },
+    {
+      "kind": "independent_minio_readback",
+      "time": "2026-09-10T10:27:13.704046+00:00",
+      "label": "after-all-read-and-denial-probes",
+      "objects": {
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78/meta.json": {
+          "sha256": "85a0a54421c967e59185f09415243146c5ef2b8c9df9342905faf5b8d3f6f948",
+          "content": "{\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"title\": \"fixture:delta-d33b63db78-left\",\n  \"status\": \"active\",\n  \"plan_type\": \"dag\",\n  \"team_id\": \"delta-d33b63db78-left\",\n  \"tasks\": [\n    {\n      \"task_id\": \"delta-d33b63db78-raw\",\n      \"title\": \"raw title \\\"quoted\\\"\\nsecond line\",\n      \"status\": \"completed\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-missing\",\n      \"title\": \"missing\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": [\n        \"delta-d33b63db78-raw\"\n      ]\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-badjson\",\n      \"title\": \"badjson\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongowner\",\n      \"title\": \"wrongowner\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongtask\",\n      \"title\": \"wrongtask\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-historytype\",\n      \"title\": \"historytype\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-nostatus\",\n      \"title\": \"nostatus\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-left\",\n      \"depends_on\": []\n    }\n  ],\n  \"source_room_id\": \"\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-raw/meta.json": {
+          "sha256": "73b8583238e103198472e08052a72f54b3312acc58a6012ef5eba1d04028d055",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-raw\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"in_progress\",\n  \"assigned_to\": \"fixture-meta-delta-d33b63db78-left\",\n  \"summary\": \"owned-by:delta-d33b63db78-left\",\n  \"spec_path\": \"fixture/spec.md\",\n  \"result_status\": \"SUCCESS\",\n  \"result_path\": \"fixture/nonexistent-result.md\",\n  \"deliverables\": [\n    {\n      \"path\": \"fixture/nonexistent-result.md\"\n    }\n  ],\n  \"history\": [\n    {\n      \"ts\": \"2026-09-10T00:00:00Z\",\n      \"action\": \"fixture\",\n      \"from\": \"planned\",\n      \"to\": \"assigned\"\n    },\n    \"malformed\",\n    {\n      \"note\": \"no ts or action\"\n    },\n    {\n      \"action\": \"fixture-without-ts\"\n    },\n    {\n      \"ts\": \"fixture-non-date\"\n    }\n  ]\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-badjson/meta.json": {
+          "sha256": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+          "content": "{broken JSON fixture"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongowner/meta.json": {
+          "sha256": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongowner\",\n  \"project_id\": \"delta-project-d33b63db78-other\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-project-no-leak\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongtask/meta.json": {
+          "sha256": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongtask-other\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-task-no-leak\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-historytype/meta.json": {
+          "sha256": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-historytype\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"assigned\",\n  \"history\": {\n    \"action\": \"wrong-container-type\"\n  }\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-nostatus/meta.json": {
+          "sha256": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-nostatus\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"summary\": \"matching-meta-without-status\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/projects/delta-project-d33b63db78/meta.json": {
+          "sha256": "4d58dc26583e00326222baca7051c3826cd5bd08ea708237505b96f4c4d3c6ab",
+          "content": "{\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"title\": \"fixture:delta-d33b63db78-right\",\n  \"status\": \"active\",\n  \"plan_type\": \"dag\",\n  \"team_id\": \"delta-d33b63db78-right\",\n  \"tasks\": [\n    {\n      \"task_id\": \"delta-d33b63db78-raw\",\n      \"title\": \"raw title \\\"quoted\\\"\\nsecond line\",\n      \"status\": \"completed\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-missing\",\n      \"title\": \"missing\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": [\n        \"delta-d33b63db78-raw\"\n      ]\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-badjson\",\n      \"title\": \"badjson\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongowner\",\n      \"title\": \"wrongowner\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-wrongtask\",\n      \"title\": \"wrongtask\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-historytype\",\n      \"title\": \"historytype\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    },\n    {\n      \"task_id\": \"delta-d33b63db78-nostatus\",\n      \"title\": \"nostatus\",\n      \"status\": \"in_progress\",\n      \"assigned_to\": \"fixture-graph-delta-d33b63db78-right\",\n      \"depends_on\": []\n    }\n  ],\n  \"source_room_id\": \"\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-raw/meta.json": {
+          "sha256": "02d1e3af367ee5bd6d5b78416884ed1ae8f1256d6da4721b9f158077bf3d0c22",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-raw\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"in_progress\",\n  \"assigned_to\": \"fixture-meta-delta-d33b63db78-right\",\n  \"summary\": \"owned-by:delta-d33b63db78-right\",\n  \"spec_path\": \"fixture/spec.md\",\n  \"result_status\": \"SUCCESS\",\n  \"result_path\": \"fixture/nonexistent-result.md\",\n  \"deliverables\": [\n    {\n      \"path\": \"fixture/nonexistent-result.md\"\n    }\n  ],\n  \"history\": [\n    {\n      \"ts\": \"2026-09-10T00:00:00Z\",\n      \"action\": \"fixture\",\n      \"from\": \"planned\",\n      \"to\": \"assigned\"\n    },\n    \"malformed\",\n    {\n      \"note\": \"no ts or action\"\n    },\n    {\n      \"action\": \"fixture-without-ts\"\n    },\n    {\n      \"ts\": \"fixture-non-date\"\n    }\n  ]\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-badjson/meta.json": {
+          "sha256": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+          "content": "{broken JSON fixture"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongowner/meta.json": {
+          "sha256": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongowner\",\n  \"project_id\": \"delta-project-d33b63db78-other\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-project-no-leak\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongtask/meta.json": {
+          "sha256": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-wrongtask-other\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"completed\",\n  \"summary\": \"wrong-task-no-leak\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-historytype/meta.json": {
+          "sha256": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-historytype\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"assigned\",\n  \"history\": {\n    \"action\": \"wrong-container-type\"\n  }\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-nostatus/meta.json": {
+          "sha256": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-nostatus\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"summary\": \"matching-meta-without-status\"\n}\n"
+        },
+        "agentteams/rv-c-storage/shared/tasks/delta-d33b63db78-missing/meta.json": {
+          "sha256": "35a270a4c9e965d3359c83d62ae1ef6bd80ac663b61f4637404d510f16bcfbf6",
+          "content": "{\n  \"task_id\": \"delta-d33b63db78-missing\",\n  \"project_id\": \"delta-project-d33b63db78\",\n  \"status\": \"completed\",\n  \"summary\": \"GLOBAL-BAIT-d33b63db78\"\n}\n"
+        },
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78-reserved-end/meta.json": {
+          "sha256": "851d6d93b5c6e1f3a634a7444a1e575d963738a36745e9d088d7970a0978b863",
+          "content": "{\n  \"project_id\": \"delta-project-d33b63db78-reserved-end\",\n  \"title\": \"Reserved ID fixture\",\n  \"status\": \"active\",\n  \"plan_type\": \"dag\",\n  \"team_id\": \"delta-d33b63db78-left\",\n  \"tasks\": [\n    {\n      \"task_id\": \"end\",\n      \"title\": \"Ordinary task\",\n      \"status\": \"planned\",\n      \"depends_on\": []\n    }\n  ],\n  \"source_room_id\": \"\"\n}\n"
+        }
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:13.716434+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/workers/delta-leader-d33b63db78-0",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "name": "delta-leader-d33b63db78-0",
+        "state": "Stopped",
+        "containerManaged": false,
+        "phase": "Stopped"
+      }
+    },
+    {
+      "kind": "real_controller_http",
+      "time": "2026-09-10T10:27:13.726983+00:00",
+      "identity": "admin",
+      "method": "GET",
+      "path": "/api/v1/workers/delta-leader-d33b63db78-1",
+      "request": null,
+      "status": 200,
+      "content_type": "application/json",
+      "allow": null,
+      "response": {
+        "name": "delta-leader-d33b63db78-1",
+        "state": "Stopped",
+        "containerManaged": false,
+        "phase": "Stopped"
+      }
+    },
+    {
+      "kind": "finally_fixture_inventory",
+      "time": "2026-09-10T10:27:13.941448+00:00",
+      "resources": [
+        {
+          "team": "delta-d33b63db78-left",
+          "worker": "delta-leader-d33b63db78-0"
+        },
+        {
+          "team": "delta-d33b63db78-right",
+          "worker": "delta-leader-d33b63db78-1"
+        }
+      ],
+      "minio_objects": [
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-raw/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-badjson/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongowner/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongtask/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-historytype/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-nostatus/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/projects/delta-project-d33b63db78/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-raw/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-badjson/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongowner/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongtask/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-historytype/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-nostatus/meta.json",
+        "agentteams/rv-c-storage/shared/tasks/delta-d33b63db78-missing/meta.json",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78-reserved-end/meta.json"
+      ],
+      "own_runtime_containers": [],
+      "retained": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "controller-health",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-left/stopped-unmanaged-created",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-left/team-created",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-left/new-project-absent",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-right/stopped-unmanaged-created",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-right/team-created",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-right/new-project-absent",
+      "passed": true
+    },
+    {
+      "name": "all-copied-fixture-bytes-match",
+      "passed": true
+    },
+    {
+      "name": "reserved-end-workflow-json200",
+      "passed": true
+    },
+    {
+      "name": "reserved-end-inspection200",
+      "passed": true
+    },
+    {
+      "name": "reserved-end-mermaid200-unsanitized-keyword",
+      "passed": true
+    },
+    {
+      "name": "workflow-default-json",
+      "passed": true
+    },
+    {
+      "name": "workflow-empty-format-json-equivalent",
+      "passed": true
+    },
+    {
+      "name": "workflow-mermaid-text",
+      "passed": true
+    },
+    {
+      "name": "mermaid-label-escaping",
+      "passed": true
+    },
+    {
+      "name": "mermaid-includeTasks-output-equivalent",
+      "passed": true
+    },
+    {
+      "name": "invalid-format-bogus",
+      "passed": true
+    },
+    {
+      "name": "invalid-format-json",
+      "passed": true
+    },
+    {
+      "name": "workflow-includeTasks-raw-status-history",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-left/inspection-own-content",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-left/inspection-raw-history-trace",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-right/inspection-own-content",
+      "passed": true
+    },
+    {
+      "name": "delta-d33b63db78-right/inspection-raw-history-trace",
+      "passed": true
+    },
+    {
+      "name": "graph-node-status-is-distinct",
+      "passed": true
+    },
+    {
+      "name": "inspection-fallback-missing",
+      "passed": true
+    },
+    {
+      "name": "inspection-dependencies-from-graph",
+      "passed": true
+    },
+    {
+      "name": "inspection-fallback-badjson",
+      "passed": true
+    },
+    {
+      "name": "inspection-fallback-wrongowner",
+      "passed": true
+    },
+    {
+      "name": "inspection-fallback-wrongtask",
+      "passed": true
+    },
+    {
+      "name": "wrong-history-container-ignored",
+      "passed": true
+    },
+    {
+      "name": "matching-meta-absent-status-is-empty",
+      "passed": true
+    },
+    {
+      "name": "workflow/ambiguous409",
+      "passed": true
+    },
+    {
+      "name": "workflow/wrong-team404",
+      "passed": true
+    },
+    {
+      "name": "workflow/missing-project404",
+      "passed": true
+    },
+    {
+      "name": "workflow/anonymous/denied401",
+      "passed": true
+    },
+    {
+      "name": "workflow/invalid/denied401",
+      "passed": true
+    },
+    {
+      "name": "tasks/delta-d33b63db78-raw/ambiguous409",
+      "passed": true
+    },
+    {
+      "name": "tasks/delta-d33b63db78-raw/wrong-team404",
+      "passed": true
+    },
+    {
+      "name": "tasks/delta-d33b63db78-raw/missing-project404",
+      "passed": true
+    },
+    {
+      "name": "tasks/delta-d33b63db78-raw/anonymous/denied401",
+      "passed": true
+    },
+    {
+      "name": "tasks/delta-d33b63db78-raw/invalid/denied401",
+      "passed": true
+    },
+    {
+      "name": "mermaid-ambiguous409",
+      "passed": true
+    },
+    {
+      "name": "missing-project-before-format404",
+      "passed": true
+    },
+    {
+      "name": "task-not-in-graph404",
+      "passed": true
+    },
+    {
+      "name": "invalid-task-id400",
+      "passed": true
+    },
+    {
+      "name": "inspection-POST-method405",
+      "passed": true
+    },
+    {
+      "name": "inspection-DELETE-method405",
+      "passed": true
+    },
+    {
+      "name": "all-fixture-hashes-unchanged",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/finally-stopped-unmanaged",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/finally-stopped-unmanaged",
+      "passed": true
+    },
+    {
+      "name": "no-fixture-runtime-containers",
+      "passed": true
+    }
+  ],
+  "completed": true,
+  "elapsed_seconds": 19.344,
+  "exit_code": 0
+}

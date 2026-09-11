@@ -1,0 +1,639 @@
+{
+  "run_id": "387e374202",
+  "project_id": "upgrade-smoke-387e374202",
+  "task_id": "upgrade-task-387e374202",
+  "scope": "Admin HTTP plus directly seeded global metadata, not business task creation or Worker authorization",
+  "records": [
+    {
+      "kind": "controller_before",
+      "time": "2026-09-10T10:38:56.114399+00:00",
+      "container": "rv-c-controller",
+      "id": "ef17ce71456d5bec7c8f882fd982b3f47985d2ce65cb4b35ac8ea15e00f8d2ca",
+      "image": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "started_at": "2026-09-10T10:34:25.597638797Z",
+      "running": true
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-10T10:38:56.452766+00:00",
+      "method": "GET",
+      "path": "/api/v1/projects/upgrade-smoke-387e374202/workflow",
+      "request": null,
+      "identity": "c admin",
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "single_part_fixture_mc_cp",
+      "time": "2026-09-10T10:38:56.971526+00:00",
+      "key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "content": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "active",
+        "plan_type": "dag",
+        "tasks": [
+          {
+            "task_id": "upgrade-task-387e374202",
+            "title": "Only fixture task",
+            "status": "planned",
+            "depends_on": []
+          }
+        ],
+        "source_room_id": ""
+      },
+      "sha256": "43e180eac09ab9117e0537c449c9405a64f492bae0981e9e095cc8e66e104820"
+    },
+    {
+      "kind": "single_part_fixture_mc_cp",
+      "time": "2026-09-10T10:38:57.471369+00:00",
+      "key": "shared/tasks/upgrade-task-387e374202/meta.json",
+      "content": {
+        "project_id": "upgrade-smoke-387e374202",
+        "task_id": "upgrade-task-387e374202",
+        "status": "planned",
+        "summary": "metadata fixture only"
+      },
+      "sha256": "77bf592c11e59a2b6180514ed138993ab74ef4080bed1dbbfdd37e63cfa2afe0"
+    },
+    {
+      "kind": "independent_mc_readback",
+      "time": "2026-09-10T10:38:57.977336+00:00",
+      "label": "initial",
+      "key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "sha256": "43e180eac09ab9117e0537c449c9405a64f492bae0981e9e095cc8e66e104820",
+      "md5": "a77bce003ab237e47f5645676f3c3a98",
+      "etag": "a77bce003ab237e47f5645676f3c3a98",
+      "content": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "active",
+        "plan_type": "dag",
+        "tasks": [
+          {
+            "task_id": "upgrade-task-387e374202",
+            "title": "Only fixture task",
+            "status": "planned",
+            "depends_on": []
+          }
+        ],
+        "source_room_id": ""
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-10T10:38:58.242194+00:00",
+      "method": "POST",
+      "path": "/api/v1/projects/upgrade-smoke-387e374202/pause",
+      "request": {
+        "reason": "upgrade fixture 387e374202"
+      },
+      "identity": "c admin",
+      "status": 200,
+      "response": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "paused",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "upgrade-task-387e374202",
+            "name": "Only fixture task",
+            "status": "pending"
+          }
+        ],
+        "edges": [],
+        "next": [],
+        "interrupts": [
+          {
+            "id": "project",
+            "value": "paused",
+            "action_request": {
+              "action": "resume",
+              "args": {
+                "project_id": "upgrade-smoke-387e374202"
+              }
+            },
+            "config": {
+              "allow_ignore": false,
+              "allow_respond": false,
+              "allow_edit": false,
+              "allow_accept": true
+            },
+            "description": "project is paused: upgrade fixture 387e374202"
+          }
+        ],
+        "values": {
+          "project_id": "upgrade-smoke-387e374202",
+          "title": "Upgrade smoke 387e374202",
+          "status": "paused",
+          "plan_type": "dag",
+          "team_id": "",
+          "mode": "",
+          "task_count": {
+            "pending": 1
+          }
+        },
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:38:58Z",
+        "pause_reason": "upgrade fixture 387e374202"
+      }
+    },
+    {
+      "kind": "independent_mc_readback",
+      "time": "2026-09-10T10:38:58.777676+00:00",
+      "label": "after-pause",
+      "key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "sha256": "bc0dc12685766cc45e4d89c7a581577e498a855ca793110389b1f95181f6c5ac",
+      "md5": "8c487d75db4beaf33bddd81b3826692a",
+      "etag": "8c487d75db4beaf33bddd81b3826692a",
+      "content": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "paused",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "tasks": [
+          {
+            "task_id": "upgrade-task-387e374202",
+            "title": "Only fixture task",
+            "assigned_to": "",
+            "depends_on": [],
+            "status": "planned"
+          }
+        ],
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:38:58Z",
+        "pause_reason": "upgrade fixture 387e374202"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-10T10:38:58.907588+00:00",
+      "method": "POST",
+      "path": "/api/v1/projects/upgrade-smoke-387e374202/replan",
+      "request": {
+        "tasks": [
+          {
+            "taskId": "upgrade-task-387e374202",
+            "title": "Replanned fixture",
+            "status": "planned",
+            "dependsOn": []
+          }
+        ]
+      },
+      "identity": "c admin",
+      "status": 409,
+      "response": {
+        "message": "replan requires an active project"
+      }
+    },
+    {
+      "kind": "independent_mc_readback",
+      "time": "2026-09-10T10:38:59.418830+00:00",
+      "label": "after-rejected-replan",
+      "key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "sha256": "bc0dc12685766cc45e4d89c7a581577e498a855ca793110389b1f95181f6c5ac",
+      "md5": "8c487d75db4beaf33bddd81b3826692a",
+      "etag": "8c487d75db4beaf33bddd81b3826692a",
+      "content": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "paused",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "tasks": [
+          {
+            "task_id": "upgrade-task-387e374202",
+            "title": "Only fixture task",
+            "assigned_to": "",
+            "depends_on": [],
+            "status": "planned"
+          }
+        ],
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:38:58Z",
+        "pause_reason": "upgrade fixture 387e374202"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-10T10:38:59.690988+00:00",
+      "method": "POST",
+      "path": "/api/v1/projects/upgrade-smoke-387e374202/resume",
+      "request": {},
+      "identity": "c admin",
+      "status": 200,
+      "response": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "upgrade-task-387e374202",
+            "name": "Only fixture task",
+            "status": "pending"
+          }
+        ],
+        "edges": [],
+        "next": [
+          "upgrade-task-387e374202"
+        ],
+        "interrupts": [],
+        "values": {
+          "project_id": "upgrade-smoke-387e374202",
+          "title": "Upgrade smoke 387e374202",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "",
+          "mode": "",
+          "task_count": {
+            "pending": 1
+          }
+        },
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:38:59Z",
+        "pause_reason": "upgrade fixture 387e374202"
+      }
+    },
+    {
+      "kind": "independent_mc_readback",
+      "time": "2026-09-10T10:39:00.223029+00:00",
+      "label": "after-resume",
+      "key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "sha256": "8985278ab3596f9906be3379fccbadee60fdf1b20babb1cbb8bc5eccfd98354e",
+      "md5": "03ce99f712801f882763142c2ac0ea10",
+      "etag": "03ce99f712801f882763142c2ac0ea10",
+      "content": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "tasks": [
+          {
+            "task_id": "upgrade-task-387e374202",
+            "title": "Only fixture task",
+            "assigned_to": "",
+            "depends_on": [],
+            "status": "planned"
+          }
+        ],
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:38:59Z",
+        "pause_reason": "upgrade fixture 387e374202"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-10T10:39:00.477946+00:00",
+      "method": "POST",
+      "path": "/api/v1/projects/upgrade-smoke-387e374202/replan",
+      "request": {
+        "tasks": [
+          {
+            "taskId": "upgrade-task-387e374202",
+            "title": "Replanned fixture",
+            "status": "planned",
+            "dependsOn": []
+          }
+        ]
+      },
+      "identity": "c admin",
+      "status": 200,
+      "response": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "upgrade-task-387e374202",
+            "name": "Replanned fixture",
+            "status": "pending"
+          }
+        ],
+        "edges": [],
+        "next": [
+          "upgrade-task-387e374202"
+        ],
+        "interrupts": [],
+        "values": {
+          "project_id": "upgrade-smoke-387e374202",
+          "title": "Upgrade smoke 387e374202",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "",
+          "mode": "",
+          "task_count": {
+            "pending": 1
+          }
+        },
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:39:00Z",
+        "pause_reason": "upgrade fixture 387e374202"
+      }
+    },
+    {
+      "kind": "independent_mc_readback",
+      "time": "2026-09-10T10:39:00.988388+00:00",
+      "label": "after-active-replan",
+      "key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "sha256": "5b31945aeb143f8833a66ddf7568e694c6ea08ec9b2d140b8ad8beab5d7ac86f",
+      "md5": "167d4eef3356e98841cf15ed870ad9fd",
+      "etag": "167d4eef3356e98841cf15ed870ad9fd",
+      "content": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "tasks": [
+          {
+            "task_id": "upgrade-task-387e374202",
+            "title": "Replanned fixture",
+            "assigned_to": "",
+            "depends_on": [],
+            "status": "planned"
+          }
+        ],
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:39:00Z",
+        "pause_reason": "upgrade fixture 387e374202"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-10T10:39:01.355113+00:00",
+      "method": "POST",
+      "path": "/api/v1/projects/upgrade-smoke-387e374202/tasks/upgrade-task-387e374202/cancel",
+      "request": {
+        "reason": "upgrade cancel 387e374202"
+      },
+      "identity": "c admin",
+      "status": 200,
+      "response": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "upgrade-task-387e374202",
+            "name": "Replanned fixture",
+            "status": "blocked"
+          }
+        ],
+        "edges": [],
+        "next": [],
+        "interrupts": [
+          {
+            "id": "upgrade-task-387e374202",
+            "value": "blocked"
+          }
+        ],
+        "values": {
+          "project_id": "upgrade-smoke-387e374202",
+          "title": "Upgrade smoke 387e374202",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "",
+          "mode": "",
+          "task_count": {
+            "blocked": 1
+          }
+        },
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:39:01Z",
+        "pause_reason": "upgrade cancel 387e374202"
+      }
+    },
+    {
+      "kind": "independent_mc_readback",
+      "time": "2026-09-10T10:39:01.887811+00:00",
+      "label": "after-cancel-project",
+      "key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "sha256": "7a0afb6adc6a66d2943751c8a5c8ebb2a9c335739c37e83a3ed899f28aa666c5",
+      "md5": "0aa1e3d639b4ae7950f5163134d553b8",
+      "etag": "0aa1e3d639b4ae7950f5163134d553b8",
+      "content": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "Upgrade smoke 387e374202",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "tasks": [
+          {
+            "task_id": "upgrade-task-387e374202",
+            "title": "Replanned fixture",
+            "assigned_to": "",
+            "depends_on": [],
+            "status": "cancelled"
+          }
+        ],
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:39:01Z",
+        "pause_reason": "upgrade cancel 387e374202"
+      }
+    },
+    {
+      "kind": "independent_mc_readback",
+      "time": "2026-09-10T10:39:02.417234+00:00",
+      "label": "after-cancel-task",
+      "key": "shared/tasks/upgrade-task-387e374202/meta.json",
+      "sha256": "633202d7efbcc9cbb67bfedd36e6f7729e355b5af1ce1b26214092e1c4b08c2a",
+      "md5": "044a6e4f7e7a76354aab02e30a64529c",
+      "etag": "044a6e4f7e7a76354aab02e30a64529c",
+      "content": {
+        "cancel_reason": "upgrade cancel 387e374202",
+        "project_id": "upgrade-smoke-387e374202",
+        "status": "cancelled",
+        "summary": "metadata fixture only",
+        "task_id": "upgrade-task-387e374202"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-10T10:39:02.600389+00:00",
+      "method": "GET",
+      "path": "/api/v1/projects/upgrade-smoke-387e374202/tasks/upgrade-task-387e374202",
+      "request": null,
+      "identity": "c admin",
+      "status": 200,
+      "response": {
+        "task_id": "upgrade-task-387e374202",
+        "project_id": "upgrade-smoke-387e374202",
+        "status": "cancelled",
+        "summary": "metadata fixture only",
+        "cancel_reason": "upgrade cancel 387e374202",
+        "trace": {
+          "project_id": "upgrade-smoke-387e374202",
+          "task_id": "upgrade-task-387e374202"
+        }
+      }
+    },
+    {
+      "kind": "real_s3_conditional_put",
+      "time": "2026-09-10T10:39:02.898915+00:00",
+      "key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "condition_etag": "0aa1e3d639b4ae7950f5163134d553b8",
+      "fresh_sha256": "f5b61d2010f84672098633e9dc39db68515df0d752f710681202652acaed882b",
+      "stale_sha256": "2afc1415c4ae1a50a509fb9f9f9343a27d3614ca0d4a4f2a2f44b0465cedde23",
+      "fresh": {
+        "status": 200,
+        "response_etag": "\"9c81c5d92400cb0a80c4b9fb4bb7ef57\"",
+        "error_code": null
+      },
+      "stale": {
+        "status": 412,
+        "response_etag": "\"9c81c5d92400cb0a80c4b9fb4bb7ef57\"",
+        "error_code": "PreconditionFailed"
+      }
+    },
+    {
+      "kind": "independent_mc_readback",
+      "time": "2026-09-10T10:39:03.408827+00:00",
+      "label": "after-fresh-and-stale-CAS",
+      "key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "sha256": "f5b61d2010f84672098633e9dc39db68515df0d752f710681202652acaed882b",
+      "md5": "9c81c5d92400cb0a80c4b9fb4bb7ef57",
+      "etag": "9c81c5d92400cb0a80c4b9fb4bb7ef57",
+      "content": {
+        "project_id": "upgrade-smoke-387e374202",
+        "title": "CAS fresh 387e374202",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "tasks": [
+          {
+            "task_id": "upgrade-task-387e374202",
+            "title": "Replanned fixture",
+            "assigned_to": "",
+            "depends_on": [],
+            "status": "cancelled"
+          }
+        ],
+        "updated_by": "admin",
+        "updated_at": "2026-09-10T10:39:01Z",
+        "pause_reason": "upgrade cancel 387e374202"
+      }
+    },
+    {
+      "kind": "wrong-instance-source",
+      "time": "2026-09-10T10:39:03.594134+00:00",
+      "container": "rv-a-controller",
+      "id": "b87af2f3f940e51c24d8ed9586e055ce0b444b2168322cb5b9dc2d35cd4f439c",
+      "image": "sha256:84ec2dfd1c8062785e867f2d6f6ce0875d1a67fab7106d54f257c2326966a150",
+      "started_at": "2026-09-10T10:15:43.42079409Z",
+      "running": false
+    },
+    {
+      "kind": "controller_after",
+      "time": "2026-09-10T10:39:03.962355+00:00",
+      "container": "rv-c-controller",
+      "id": "ef17ce71456d5bec7c8f882fd982b3f47985d2ce65cb4b35ac8ea15e00f8d2ca",
+      "image": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "started_at": "2026-09-10T10:34:25.597638797Z",
+      "running": true
+    },
+    {
+      "kind": "retained_fixture_inventory",
+      "time": "2026-09-10T10:39:03.964355+00:00",
+      "project_key": "shared/projects/upgrade-smoke-387e374202/meta.json",
+      "task_key": "shared/tasks/upgrade-task-387e374202/meta.json",
+      "history_prefix": "shared/projects/upgrade-smoke-387e374202/history/",
+      "no_new_cr": true,
+      "no_runtime_created": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "unique-project-absent",
+      "passed": true
+    },
+    {
+      "name": "initial-single-part-etag-is-content-md5",
+      "passed": true
+    },
+    {
+      "name": "pause200",
+      "passed": true
+    },
+    {
+      "name": "pause-persisted",
+      "passed": true
+    },
+    {
+      "name": "paused-replan409",
+      "passed": true
+    },
+    {
+      "name": "rejected-replan-no-write",
+      "passed": true
+    },
+    {
+      "name": "resume200",
+      "passed": true
+    },
+    {
+      "name": "resume-persisted",
+      "passed": true
+    },
+    {
+      "name": "active-replan200",
+      "passed": true
+    },
+    {
+      "name": "replan-persisted",
+      "passed": true
+    },
+    {
+      "name": "cancel200",
+      "passed": true
+    },
+    {
+      "name": "cancel-two-objects-persisted",
+      "passed": true
+    },
+    {
+      "name": "inspection-cancelled200",
+      "passed": true
+    },
+    {
+      "name": "fresh-if-match200",
+      "passed": true
+    },
+    {
+      "name": "stale-if-match412",
+      "passed": true
+    },
+    {
+      "name": "fresh-wins-stale-no-overwrite",
+      "passed": true
+    },
+    {
+      "name": "controller-unchanged-running",
+      "passed": true
+    }
+  ],
+  "error": "Docker subprocess failed: ('exec', 'rv-a-controller', 'cat')",
+  "exit_code": 1,
+  "elapsed_seconds": 8.047
+}

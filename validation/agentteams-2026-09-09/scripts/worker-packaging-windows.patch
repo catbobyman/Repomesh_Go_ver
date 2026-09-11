@@ -1,0 +1,33 @@
+--- a/plugins/teamharness/adapters/qwenpaw/scripts/build-qwenpaw-plugin.rb
++++ b/plugins/teamharness/adapters/qwenpaw/scripts/build-qwenpaw-plugin.rb
+@@ -68,7 +68,7 @@
+                 rel = os.path.relpath(path, root)
+                 zf.write(path, rel)
+   PY
+-  stdout, stderr, status = Open3.capture3("python3", "-c", python)
++  stdout, stderr, status = Open3.capture3(ENV.fetch("AGENTTEAMS_BUILD_PYTHON", "python3"), "-c", python)
+   abort("python zip failed: #{stderr}#{stdout}") unless status.success?
+ end
+ 
+--- a/plugins/teamharness/adapters/qwenpaw/scripts/validate-qwenpaw-plugin.rb
++++ b/plugins/teamharness/adapters/qwenpaw/scripts/validate-qwenpaw-plugin.rb
+@@ -28,7 +28,7 @@
+   Dir.mktmpdir("teamharness-pycache-") do |cache_dir|
+     Open3.capture3(
+       { "PYTHONPYCACHEPREFIX" => cache_dir },
+-      "python3",
++      ENV.fetch("AGENTTEAMS_BUILD_PYTHON", "python3"),
+       "-m",
+       "py_compile",
+       path.to_s
+--- a/plugins/workerflow/adapters/qwenpaw/scripts/build-qwenpaw-plugin.rb
++++ b/plugins/workerflow/adapters/qwenpaw/scripts/build-qwenpaw-plugin.rb
+@@ -68,7 +68,7 @@
+                 rel = os.path.relpath(path, root)
+                 zf.write(path, rel)
+   PY
+-  stdout, stderr, status = Open3.capture3("python3", "-c", python)
++  stdout, stderr, status = Open3.capture3(ENV.fetch("AGENTTEAMS_BUILD_PYTHON", "python3"), "-c", python)
+   abort("python zip failed: #{stderr}#{stdout}") unless status.success?
+ end
+ 

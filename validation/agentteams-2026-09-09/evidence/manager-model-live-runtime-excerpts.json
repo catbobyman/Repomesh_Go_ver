@@ -1,0 +1,11 @@
+{
+  "source": "docker logs rv-a-manager stdout+stderr; bounded 16:40:50 to 16:41:30 UTC",
+  "lines": [
+    "`/root/manager-workspace/.qwenpaw/workspaces/default/history.db` -> `agentteams/rv-a-storage/manager/.qwenpaw/workspaces/default/history.db`",
+    "INFO /opt/venv/qwenpaw/lib/python3.11/site-packages/qwenpaw/app/channels/matrix/channel.py:2460 | 2026-09-09 16:41:11 | _on_room_event: sender=@rv-a-admin:rv-a.matrix.invalid room=!cstiVyQcRNbIj1a5r3:rv-a.matrix.invalid body='@manager:rv-a.matrix.invalid Readiness check: reply with the exact text READY. I' is_dm=True",
+    "WARNING /opt/venv/qwenpaw/lib/python3.11/site-packages/qwenpaw/governance/resource_governor.py:208 | 2026-09-09 16:41:12 | ResourceGovernor: sandbox not available — Cannot read /sys/kernel/security/lsm. SANDBOX_FALLBACK will escalate to ASK.",
+    "WARNING /opt/venv/qwenpaw/lib/python3.11/site-packages/qwenpaw/agents/context/__init__.py:82 | 2026-09-09 16:41:12 | scroll is now the DEFAULT context strategy. A durable history store is being created at /root/manager-workspace/.qwenpaw/workspaces/default/history.db (this workspace had none). Conversation turns evicted from the live window are persisted there and recalled on demand instead of being summarized in place. To restore the previous behavior, set running.light_context_config.strategy to \"native\" in this agent's config (agent.json) and restart.",
+    "INFO /opt/venv/qwenpaw/lib/python3.11/site-packages/qwenpaw/app/channels/matrix/channel.py:2460 | 2026-09-09 16:41:17 | _on_room_event: sender=@rv-a-admin:rv-a.matrix.invalid room=!cstiVyQcRNbIj1a5r3:rv-a.matrix.invalid body='u8fd9u662fu9694u79bbu9a8cu8bc1uff0cu53eau56deu590d RV_MODEL_A_20260909_becbad5bu' is_dm=True",
+    "WARNING /opt/venv/qwenpaw/lib/python3.11/site-packages/qwenpaw/governance/resource_governor.py:208 | 2026-09-09 16:41:17 | ResourceGovernor: sandbox not available — Cannot read /sys/kernel/security/lsm. SANDBOX_FALLBACK will escalate to ASK."
+  ]
+}

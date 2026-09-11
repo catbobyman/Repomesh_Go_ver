@@ -1,0 +1,14 @@
+{
+  "assigned_at": "2026-09-09T16:21:32Z",
+  "assigned_to": "@control-worker:validation.invalid",
+  "deliverables": [],
+  "project_id": "issue-a",
+  "result_status": "SUCCESS",
+  "room_id": "!control-room:validation.invalid",
+  "spec_path": "shared/tasks/T1/spec.md",
+  "status": "submitted",
+  "submitted_by_role": "worker",
+  "summary": "fixture",
+  "task_id": "T1",
+  "task_title": "T1"
+}

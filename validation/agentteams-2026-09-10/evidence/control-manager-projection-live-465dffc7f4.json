@@ -1,0 +1,329 @@
+{
+  "started_at_utc": "2026-09-10T03:44:53.071866+00:00",
+  "nonce": "465dffc7f4",
+  "controller": "rv-c-controller",
+  "manager": "default",
+  "manager_uid": "b8aaa1f5-b2c6-45be-b50c-dcc643704acf",
+  "records": [
+    {
+      "at_utc": "2026-09-10T03:44:53.573774+00:00",
+      "kind": "resume_existing_fixture",
+      "provider": "",
+      "cr": {
+        "metadata": {
+          "name": "default",
+          "namespace": "default",
+          "uid": "b8aaa1f5-b2c6-45be-b50c-dcc643704acf",
+          "resourceVersion": "364",
+          "generation": 10
+        },
+        "spec": {
+          "model": "deepseek-chat",
+          "runtime": "qwenpaw",
+          "image": "repomesh-validation/manager-qwenpaw:517caff9",
+          "state": null
+        },
+        "model_provider_field_present": false,
+        "model_provider": "",
+        "status": {
+          "phase": "Running",
+          "observedGeneration": 10,
+          "welcomeSent": true
+        },
+        "fixture_provider_error": false
+      },
+      "setup_repeated": false
+    },
+    {
+      "at_utc": "2026-09-10T03:44:53.933165+00:00",
+      "kind": "container_provenance",
+      "name": "rv-c-controller",
+      "id": "ef17ce71456d5bec7c8f882fd982b3f47985d2ce65cb4b35ac8ea15e00f8d2ca",
+      "image_id": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "image_reference": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "//var/run/docker.sock",
+          "Destination": "/var/run/docker.sock",
+          "RW": true
+        },
+        {
+          "Type": "volume",
+          "Name": "rv-c-data",
+          "Source": "/var/lib/docker/volumes/rv-c-data/_data",
+          "Destination": "/data",
+          "RW": true
+        },
+        {
+          "Type": "volume",
+          "Name": "rv-c-agentfs",
+          "Source": "/var/lib/docker/volumes/rv-c-agentfs/_data",
+          "Destination": "/root/agentteams-fs",
+          "RW": true
+        },
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-10/runtime/instance-c/workspace",
+          "Destination": "/root/agentteams-fs/agents/manager",
+          "RW": true
+        },
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-10/runtime/instance-c/host-share",
+          "Destination": "/validation-host-share",
+          "RW": true
+        }
+      ],
+      "ports": {
+        "8001/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "48001"
+          }
+        ],
+        "8080/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "48080"
+          }
+        ],
+        "8088/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "48088"
+          }
+        ],
+        "8090/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "48090"
+          }
+        ]
+      }
+    },
+    {
+      "at_utc": "2026-09-10T03:44:54.289771+00:00",
+      "kind": "container_provenance",
+      "name": "rv-c-manager",
+      "id": "ca0b7cc01d9df7959471674d8eb4057912fa5c64904741b19318a2fde1a3fe52",
+      "image_id": "sha256:8cf1059295e6c172ba30d7e732cc382169678fcb44b2e7f56c159203b0c20b6a",
+      "image_reference": "repomesh-validation/manager-qwenpaw:517caff9",
+      "mounts": [
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-10/runtime/instance-c/host-share",
+          "Destination": "/host-share",
+          "RW": true
+        },
+        {
+          "Type": "bind",
+          "Name": null,
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-10/runtime/instance-c/workspace",
+          "Destination": "/root/manager-workspace",
+          "RW": true
+        }
+      ],
+      "ports": {
+        "18799/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "48099"
+          }
+        ]
+      }
+    },
+    {
+      "at_utc": "2026-09-10T03:44:55.555099+00:00",
+      "kind": "snapshot",
+      "stage": "resumed_before_cli_clear",
+      "cr": {
+        "metadata": {
+          "name": "default",
+          "namespace": "default",
+          "uid": "b8aaa1f5-b2c6-45be-b50c-dcc643704acf",
+          "resourceVersion": "364",
+          "generation": 10
+        },
+        "spec": {
+          "model": "deepseek-chat",
+          "runtime": "qwenpaw",
+          "image": "repomesh-validation/manager-qwenpaw:517caff9",
+          "state": null
+        },
+        "model_provider_field_present": false,
+        "model_provider": "",
+        "status": {
+          "phase": "Running",
+          "observedGeneration": 10,
+          "welcomeSent": true
+        },
+        "fixture_provider_error": false
+      },
+      "storage": {
+        "available": true,
+        "sha256": "f22ca0a4ac65257da36ae7b29ccb5fa343b4ca53e789400fe07e5654a69a2703",
+        "active_model": "agentteams-gateway/deepseek-chat",
+        "providers": {
+          "agentteams-gateway": {
+            "baseUrl": "http://rv-c-controller:8080/v1",
+            "api": "openai-completions"
+          }
+        }
+      },
+      "bridge": {
+        "available": true,
+        "sha256": "e251f0646a205bb52fa210f7920894d8be2fbbf02588a684706ca82198564ea0",
+        "active_llm": {
+          "provider_id": "agentteams-gateway",
+          "model": "deepseek-chat"
+        },
+        "providers": {
+          "agentteams-gateway": {
+            "base_url": "http://rv-c-controller:8080/v1",
+            "chat_model": "OpenAIChatModel"
+          }
+        }
+      },
+      "runtime": {
+        "global": {
+          "http": 200,
+          "active_llm": {
+            "provider_id": "agentteams-gateway",
+            "model": "deepseek-chat"
+          },
+          "effective_max_input_length": 131072
+        },
+        "effective": {
+          "http": 200,
+          "active_llm": {
+            "provider_id": "agentteams-gateway",
+            "model": "deepseek-chat"
+          },
+          "effective_max_input_length": 131072
+        }
+      },
+      "child": {
+        "id": "ca0b7cc01d9df7959471674d8eb4057912fa5c64904741b19318a2fde1a3fe52",
+        "running": true,
+        "image_id": "sha256:8cf1059295e6c172ba30d7e732cc382169678fcb44b2e7f56c159203b0c20b6a"
+      }
+    },
+    {
+      "at_utc": "2026-09-10T03:44:56.349125+00:00",
+      "kind": "real_cli_clear",
+      "result": {
+        "args": [
+          "--name",
+          "default",
+          "--model-provider="
+        ],
+        "exit_code": 0,
+        "stdout": "manager/default configured\n",
+        "stderr": "",
+        "forwarded_requests": [
+          {
+            "method": "PUT",
+            "path": "/api/v1/managers/default",
+            "body": {
+              "modelProvider": ""
+            },
+            "upstream_status": 200
+          }
+        ],
+        "boundary": "Observer only records safe JSON body and forwards real request; no fake responses or model"
+      }
+    },
+    {
+      "at_utc": "2026-09-10T03:44:57.393526+00:00",
+      "kind": "snapshot",
+      "stage": "cleared_restores_default",
+      "cr": {
+        "metadata": {
+          "name": "default",
+          "namespace": "default",
+          "uid": "b8aaa1f5-b2c6-45be-b50c-dcc643704acf",
+          "resourceVersion": "364",
+          "generation": 10
+        },
+        "spec": {
+          "model": "deepseek-chat",
+          "runtime": "qwenpaw",
+          "image": "repomesh-validation/manager-qwenpaw:517caff9",
+          "state": null
+        },
+        "model_provider_field_present": false,
+        "model_provider": "",
+        "status": {
+          "phase": "Running",
+          "observedGeneration": 10,
+          "welcomeSent": true
+        },
+        "fixture_provider_error": false
+      },
+      "storage": {
+        "available": true,
+        "sha256": "f22ca0a4ac65257da36ae7b29ccb5fa343b4ca53e789400fe07e5654a69a2703",
+        "active_model": "agentteams-gateway/deepseek-chat",
+        "providers": {
+          "agentteams-gateway": {
+            "baseUrl": "http://rv-c-controller:8080/v1",
+            "api": "openai-completions"
+          }
+        }
+      },
+      "bridge": {
+        "available": true,
+        "sha256": "e251f0646a205bb52fa210f7920894d8be2fbbf02588a684706ca82198564ea0",
+        "active_llm": {
+          "provider_id": "agentteams-gateway",
+          "model": "deepseek-chat"
+        },
+        "providers": {
+          "agentteams-gateway": {
+            "base_url": "http://rv-c-controller:8080/v1",
+            "chat_model": "OpenAIChatModel"
+          }
+        }
+      },
+      "runtime": {
+        "global": {
+          "http": 200,
+          "active_llm": {
+            "provider_id": "agentteams-gateway",
+            "model": "deepseek-chat"
+          },
+          "effective_max_input_length": 131072
+        },
+        "effective": {
+          "http": 200,
+          "active_llm": {
+            "provider_id": "agentteams-gateway",
+            "model": "deepseek-chat"
+          },
+          "effective_max_input_length": 131072
+        }
+      },
+      "child": {
+        "id": "ca0b7cc01d9df7959471674d8eb4057912fa5c64904741b19318a2fde1a3fe52",
+        "running": true,
+        "image_id": "sha256:8cf1059295e6c172ba30d7e732cc382169678fcb44b2e7f56c159203b0c20b6a"
+      }
+    },
+    {
+      "at_utc": "2026-09-10T03:44:57.394583+00:00",
+      "kind": "convergence",
+      "stage": "cleared_restores_default",
+      "passed": true,
+      "elapsed_seconds": 1.046,
+      "snapshots": 1
+    }
+  ],
+  "boundary": "Real REST/CLI/Kube/MinIO/QwenPaw APIs; no fake projection or runtime monkeypatch. No explicit model task submitted; native startup welcome may use configured provider.",
+  "status": "PASS_REAL_CONFIG_PROJECTION_AND_RUNTIME_ACTIVE_MODEL",
+  "finished_at_utc": "2026-09-10T03:44:57.667391+00:00"
+}

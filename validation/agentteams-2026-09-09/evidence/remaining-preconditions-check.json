@@ -1,0 +1,25 @@
+{
+  "at_utc": "2026-09-09T17:18:13.021049+00:00",
+  "source_scan": {
+    "command": "rg --files --hidden -g !.git/** -g !validation/** -g !node_modules/** -g *.go -g go.mod",
+    "exit_code": 1,
+    "files": []
+  },
+  "old_volume_consumer": {
+    "name": "/goai-infra-repomesh-api-1",
+    "running": true,
+    "health": "unhealthy",
+    "compose_project": "goai-infra-repomesh",
+    "mounts": [
+      {
+        "type": "volume",
+        "name": "agentteams-data",
+        "destination": "/agentteams-data"
+      }
+    ],
+    "networks": [
+      "agentteams-net",
+      "goai-infra-repomesh_default"
+    ]
+  }
+}

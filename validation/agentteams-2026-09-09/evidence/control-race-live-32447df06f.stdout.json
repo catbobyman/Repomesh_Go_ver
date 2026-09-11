@@ -1,0 +1,2194 @@
+{
+  "executed_at_utc": "2026-09-09T16:52:22.613338+00:00",
+  "run_id": "32447df06f",
+  "source_sha256_before": "741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d",
+  "source_sha256_after": "741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d",
+  "workspace": "/tmp/repomesh-control-race/32447df06f",
+  "shared_prefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared",
+  "matrix_room": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+  "resource_fixture": {
+    "worker": {
+      "name": "coverage-race-leader-32447df06f",
+      "phase": "Pending",
+      "containerManaged": false,
+      "state": "Stopped",
+      "model": "deepseek-chat",
+      "runtime": "qwenpaw"
+    },
+    "team": {
+      "name": "coverage-race-32447df06f",
+      "teamName": "coverage-race-32447df06f",
+      "phase": "Pending",
+      "description": "Dedicated native race fixture; stopped unmanaged leader; no model tasks",
+      "workerMembers": [
+        {
+          "name": "coverage-race-leader-32447df06f",
+          "role": "team_leader"
+        }
+      ],
+      "leaderName": "coverage-race-leader-32447df06f",
+      "leaderReady": false,
+      "readyWorkers": 0,
+      "totalWorkers": 0
+    },
+    "boundary": "Real resource registration only; Worker explicitly stopped and unmanaged"
+  },
+  "python": "3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]",
+  "results": [
+    {
+      "id": "RACE-01",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "classification": "NATIVE_GAP_REPRODUCED",
+        "before": {
+          "project_id": "cov-32447df06f-pause-race-project",
+          "title": "cov-32447df06f-pause-race-project",
+          "team_id": "coverage-race-32447df06f",
+          "source": "matrix",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "plan_type": "dag",
+          "status": "active",
+          "tasks": [
+            {
+              "task_id": "cov-32447df06f-pause-race-old-task",
+              "title": "cov-32447df06f-pause-race-old-task",
+              "status": "planned",
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": []
+            }
+          ]
+        },
+        "child": {
+          "pid": 10430,
+          "fault_mode": "pause-after-pull",
+          "fault_state": {
+            "barrier_fired": true,
+            "faulted_paths": [],
+            "source_function": "server._filesync",
+            "pulled_before_pause": {
+              "project_id": "cov-32447df06f-pause-race-project",
+              "title": "cov-32447df06f-pause-race-project",
+              "team_id": "coverage-race-32447df06f",
+              "source": "matrix",
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "plan_type": "dag",
+              "status": "active",
+              "tasks": [
+                {
+                  "task_id": "cov-32447df06f-pause-race-old-task",
+                  "title": "cov-32447df06f-pause-race-old-task",
+                  "status": "planned",
+                  "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                  "depends_on": []
+                }
+              ]
+            },
+            "rest_pause_response": {
+              "project_id": "cov-32447df06f-pause-race-project",
+              "title": "cov-32447df06f-pause-race-project",
+              "status": "paused",
+              "plan_type": "dag",
+              "team_id": "coverage-race-32447df06f",
+              "mode": "",
+              "source": "matrix",
+              "nodes": [
+                {
+                  "id": "cov-32447df06f-pause-race-old-task",
+                  "name": "cov-32447df06f-pause-race-old-task",
+                  "status": "pending",
+                  "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+                }
+              ],
+              "edges": [],
+              "next": [],
+              "interrupts": [
+                {
+                  "id": "project",
+                  "value": "paused",
+                  "action_request": {
+                    "action": "resume",
+                    "args": {
+                      "project_id": "cov-32447df06f-pause-race-project"
+                    }
+                  },
+                  "config": {
+                    "allow_ignore": false,
+                    "allow_respond": false,
+                    "allow_edit": false,
+                    "allow_accept": true
+                  },
+                  "description": "project is paused: MCP pull/upload barrier validation"
+                }
+              ],
+              "values": {
+                "project_id": "cov-32447df06f-pause-race-project",
+                "title": "cov-32447df06f-pause-race-project",
+                "status": "paused",
+                "plan_type": "dag",
+                "team_id": "coverage-race-32447df06f",
+                "mode": "",
+                "task_count": {
+                  "pending": 1
+                }
+              },
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "updated_by": "admin",
+              "updated_at": "2026-09-09T16:52:17Z",
+              "pause_reason": "MCP pull/upload barrier validation"
+            },
+            "remote_paused": {
+              "project_id": "cov-32447df06f-pause-race-project",
+              "title": "cov-32447df06f-pause-race-project",
+              "status": "paused",
+              "plan_type": "dag",
+              "team_id": "coverage-race-32447df06f",
+              "mode": "",
+              "source": "matrix",
+              "tasks": [
+                {
+                  "task_id": "cov-32447df06f-pause-race-old-task",
+                  "title": "cov-32447df06f-pause-race-old-task",
+                  "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                  "depends_on": [],
+                  "status": "planned"
+                }
+              ],
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "updated_by": "admin",
+              "updated_at": "2026-09-09T16:52:17Z",
+              "pause_reason": "MCP pull/upload barrier validation"
+            }
+          },
+          "tool_response": {
+            "ok": true,
+            "tool": "projectflow",
+            "action": "plan_dag",
+            "project": {
+              "plan_type": "dag",
+              "project_id": "cov-32447df06f-pause-race-project",
+              "source": "matrix",
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "status": "active",
+              "tasks": [
+                {
+                  "task_id": "cov-32447df06f-pause-race-new-task",
+                  "title": "MCP new plan",
+                  "assigned_to": "",
+                  "depends_on": [],
+                  "status": "planned"
+                }
+              ],
+              "team_id": "coverage-race-32447df06f",
+              "title": "cov-32447df06f-pause-race-project"
+            },
+            "readyNodes": [
+              {
+                "task_id": "cov-32447df06f-pause-race-new-task",
+                "title": "MCP new plan",
+                "assigned_to": "",
+                "depends_on": [],
+                "status": "planned"
+              }
+            ],
+            "notificationNeeded": {
+              "event": "plan_dag",
+              "projectId": "cov-32447df06f-pause-race-project",
+              "summary": "plan_dag: cov-32447df06f-pause-race-project",
+              "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+            }
+          },
+          "local_project": {
+            "plan_type": "dag",
+            "project_id": "cov-32447df06f-pause-race-project",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "",
+                "depends_on": [],
+                "status": "planned",
+                "task_id": "cov-32447df06f-pause-race-new-task",
+                "title": "MCP new plan"
+              }
+            ],
+            "team_id": "coverage-race-32447df06f",
+            "title": "cov-32447df06f-pause-race-project"
+          },
+          "local_task": null
+        },
+        "after": {
+          "plan_type": "dag",
+          "project_id": "cov-32447df06f-pause-race-project",
+          "source": "matrix",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "status": "active",
+          "tasks": [
+            {
+              "assigned_to": "",
+              "depends_on": [],
+              "status": "planned",
+              "task_id": "cov-32447df06f-pause-race-new-task",
+              "title": "MCP new plan"
+            }
+          ],
+          "team_id": "coverage-race-32447df06f",
+          "title": "cov-32447df06f-pause-race-project"
+        },
+        "conclusion": "Native MCP pull succeeds, REST pause persists, original MCP upload overwrites pause"
+      }
+    },
+    {
+      "id": "RACE-02",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "classification": "SUPPORTED_RECOVERY_WITH_RETAINED_WORKSPACE",
+        "first": {
+          "pid": 10749,
+          "fault_mode": "task-upload-fault",
+          "fault_state": {
+            "barrier_fired": false,
+            "faulted_paths": [
+              "shared/tasks/cov-32447df06f-task-fail-task"
+            ],
+            "source_function": "server._filesync"
+          },
+          "tool_response": {
+            "ok": false,
+            "tool": "taskflow",
+            "action": "delegate_task",
+            "task": {
+              "task_id": "cov-32447df06f-task-fail-task",
+              "project_id": "cov-32447df06f-task-fail-project",
+              "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "status": "assigned",
+              "spec_path": "shared/tasks/cov-32447df06f-task-fail-task/spec.md",
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "task_title": "cov-32447df06f-task-fail-task",
+              "assigned_at": "2026-09-09T16:52:18Z",
+              "notification": {
+                "sent": true,
+                "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+                "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+              },
+              "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ"
+            },
+            "synced": false,
+            "error": "task assigned but shared-storage sync failed; retry to complete",
+            "retryable": true,
+            "notification": {
+              "sent": true,
+              "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+            },
+            "notificationNeeded": {
+              "event": "delegate_task",
+              "projectId": "cov-32447df06f-task-fail-project",
+              "summary": "delegate_task: cov-32447df06f-task-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+            }
+          },
+          "local_project": {
+            "plan_type": "dag",
+            "project_id": "cov-32447df06f-task-fail-project",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "status": "assigned",
+                "task_id": "cov-32447df06f-task-fail-task",
+                "title": "cov-32447df06f-task-fail-task"
+              }
+            ],
+            "team_id": "coverage-race-32447df06f",
+            "title": "cov-32447df06f-task-fail-project"
+          },
+          "local_task": {
+            "assigned_at": "2026-09-09T16:52:18Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "cov-32447df06f-task-fail-project",
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/cov-32447df06f-task-fail-task/spec.md",
+            "status": "assigned",
+            "task_id": "cov-32447df06f-task-fail-task",
+            "task_title": "cov-32447df06f-task-fail-task"
+          }
+        },
+        "remote_after_failure": {
+          "project": {
+            "plan_type": "dag",
+            "project_id": "cov-32447df06f-task-fail-project",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "status": "assigned",
+                "task_id": "cov-32447df06f-task-fail-task",
+                "title": "cov-32447df06f-task-fail-task"
+              }
+            ],
+            "team_id": "coverage-race-32447df06f",
+            "title": "cov-32447df06f-task-fail-project"
+          },
+          "task": {
+            "assigned_at": "2026-09-09T16:52:18Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "project_id": "cov-32447df06f-task-fail-project",
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/cov-32447df06f-task-fail-task/spec.md",
+            "status": "prepared",
+            "task_id": "cov-32447df06f-task-fail-task",
+            "task_title": "cov-32447df06f-task-fail-task"
+          }
+        },
+        "retry_fresh_process": {
+          "pid": 10952,
+          "fault_mode": "none",
+          "fault_state": {
+            "barrier_fired": false,
+            "faulted_paths": [],
+            "source_function": "server._filesync"
+          },
+          "tool_response": {
+            "ok": true,
+            "tool": "taskflow",
+            "action": "delegate_task",
+            "task": {
+              "assigned_at": "2026-09-09T16:52:18Z",
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+              "notification": {
+                "sent": true,
+                "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+                "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "reused": true
+              },
+              "project_id": "cov-32447df06f-task-fail-project",
+              "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "spec_path": "shared/tasks/cov-32447df06f-task-fail-task/spec.md",
+              "status": "assigned",
+              "task_id": "cov-32447df06f-task-fail-task",
+              "task_title": "cov-32447df06f-task-fail-task"
+            },
+            "synced": true,
+            "notification": {
+              "sent": true,
+              "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "reused": true
+            },
+            "notificationNeeded": {
+              "event": "delegate_task",
+              "projectId": "cov-32447df06f-task-fail-project",
+              "summary": "delegate_task: cov-32447df06f-task-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+            }
+          },
+          "local_project": {
+            "plan_type": "dag",
+            "project_id": "cov-32447df06f-task-fail-project",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "status": "assigned",
+                "task_id": "cov-32447df06f-task-fail-task",
+                "title": "cov-32447df06f-task-fail-task"
+              }
+            ],
+            "team_id": "coverage-race-32447df06f",
+            "title": "cov-32447df06f-task-fail-project"
+          },
+          "local_task": {
+            "assigned_at": "2026-09-09T16:52:18Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "cov-32447df06f-task-fail-project",
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/cov-32447df06f-task-fail-task/spec.md",
+            "status": "assigned",
+            "task_id": "cov-32447df06f-task-fail-task",
+            "task_title": "cov-32447df06f-task-fail-task"
+          }
+        },
+        "remote_after_retry": {
+          "project": {
+            "plan_type": "dag",
+            "project_id": "cov-32447df06f-task-fail-project",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "status": "assigned",
+                "task_id": "cov-32447df06f-task-fail-task",
+                "title": "cov-32447df06f-task-fail-task"
+              }
+            ],
+            "team_id": "coverage-race-32447df06f",
+            "title": "cov-32447df06f-task-fail-project"
+          },
+          "task": {
+            "assigned_at": "2026-09-09T16:52:18Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "cov-32447df06f-task-fail-project",
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/cov-32447df06f-task-fail-task/spec.md",
+            "status": "assigned",
+            "task_id": "cov-32447df06f-task-fail-task",
+            "task_title": "cov-32447df06f-task-fail-task"
+          }
+        },
+        "matrix_event_id": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+        "matrix_assignment_count": 1,
+        "conclusion": "Retry restores assigned Task without another Matrix event; Project already persisted assigned"
+      }
+    },
+    {
+      "id": "RACE-03",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "classification": "NATIVE_GAP_REPRODUCED",
+        "first": {
+          "pid": 11114,
+          "fault_mode": "project-and-task-upload-fault",
+          "fault_state": {
+            "barrier_fired": false,
+            "faulted_paths": [
+              "shared/projects/cov-32447df06f-both-fail-project",
+              "shared/tasks/cov-32447df06f-both-fail-task"
+            ],
+            "source_function": "server._filesync"
+          },
+          "tool_response": {
+            "ok": false,
+            "tool": "taskflow",
+            "action": "delegate_task",
+            "task": {
+              "task_id": "cov-32447df06f-both-fail-task",
+              "project_id": "cov-32447df06f-both-fail-project",
+              "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "status": "assigned",
+              "spec_path": "shared/tasks/cov-32447df06f-both-fail-task/spec.md",
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "task_title": "cov-32447df06f-both-fail-task",
+              "assigned_at": "2026-09-09T16:52:18Z",
+              "notification": {
+                "sent": true,
+                "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+                "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+              },
+              "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog"
+            },
+            "synced": false,
+            "error": "task assigned but shared-storage sync failed; retry to complete",
+            "retryable": true,
+            "notification": {
+              "sent": true,
+              "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+            },
+            "notificationNeeded": {
+              "event": "delegate_task",
+              "projectId": "cov-32447df06f-both-fail-project",
+              "summary": "delegate_task: cov-32447df06f-both-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+            }
+          },
+          "local_project": {
+            "plan_type": "dag",
+            "project_id": "cov-32447df06f-both-fail-project",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "status": "assigned",
+                "task_id": "cov-32447df06f-both-fail-task",
+                "title": "cov-32447df06f-both-fail-task"
+              }
+            ],
+            "team_id": "coverage-race-32447df06f",
+            "title": "cov-32447df06f-both-fail-project"
+          },
+          "local_task": {
+            "assigned_at": "2026-09-09T16:52:18Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "cov-32447df06f-both-fail-project",
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/cov-32447df06f-both-fail-task/spec.md",
+            "status": "assigned",
+            "task_id": "cov-32447df06f-both-fail-task",
+            "task_title": "cov-32447df06f-both-fail-task"
+          }
+        },
+        "remote_after_failure": {
+          "project": {
+            "project_id": "cov-32447df06f-both-fail-project",
+            "title": "cov-32447df06f-both-fail-project",
+            "team_id": "coverage-race-32447df06f",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "plan_type": "dag",
+            "status": "active",
+            "tasks": [
+              {
+                "task_id": "cov-32447df06f-both-fail-task",
+                "title": "cov-32447df06f-both-fail-task",
+                "status": "planned",
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": []
+              }
+            ]
+          },
+          "task": {
+            "assigned_at": "2026-09-09T16:52:18Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "project_id": "cov-32447df06f-both-fail-project",
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/cov-32447df06f-both-fail-task/spec.md",
+            "status": "prepared",
+            "task_id": "cov-32447df06f-both-fail-task",
+            "task_title": "cov-32447df06f-both-fail-task"
+          }
+        },
+        "retry_fresh_process": {
+          "pid": 11233,
+          "fault_mode": "none",
+          "fault_state": {
+            "barrier_fired": false,
+            "faulted_paths": [],
+            "source_function": "server._filesync"
+          },
+          "tool_response": {
+            "ok": true,
+            "tool": "taskflow",
+            "action": "delegate_task",
+            "task": {
+              "assigned_at": "2026-09-09T16:52:18Z",
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+              "notification": {
+                "sent": true,
+                "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+                "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "reused": true
+              },
+              "project_id": "cov-32447df06f-both-fail-project",
+              "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "spec_path": "shared/tasks/cov-32447df06f-both-fail-task/spec.md",
+              "status": "assigned",
+              "task_id": "cov-32447df06f-both-fail-task",
+              "task_title": "cov-32447df06f-both-fail-task"
+            },
+            "synced": true,
+            "notification": {
+              "sent": true,
+              "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "reused": true
+            },
+            "notificationNeeded": {
+              "event": "delegate_task",
+              "projectId": "cov-32447df06f-both-fail-project",
+              "summary": "delegate_task: cov-32447df06f-both-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+            }
+          },
+          "local_project": {
+            "plan_type": "dag",
+            "project_id": "cov-32447df06f-both-fail-project",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "status": "planned",
+                "task_id": "cov-32447df06f-both-fail-task",
+                "title": "cov-32447df06f-both-fail-task"
+              }
+            ],
+            "team_id": "coverage-race-32447df06f",
+            "title": "cov-32447df06f-both-fail-project"
+          },
+          "local_task": {
+            "assigned_at": "2026-09-09T16:52:18Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "cov-32447df06f-both-fail-project",
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/cov-32447df06f-both-fail-task/spec.md",
+            "status": "assigned",
+            "task_id": "cov-32447df06f-both-fail-task",
+            "task_title": "cov-32447df06f-both-fail-task"
+          }
+        },
+        "remote_after_retry": {
+          "project": {
+            "project_id": "cov-32447df06f-both-fail-project",
+            "title": "cov-32447df06f-both-fail-project",
+            "team_id": "coverage-race-32447df06f",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "plan_type": "dag",
+            "status": "active",
+            "tasks": [
+              {
+                "task_id": "cov-32447df06f-both-fail-task",
+                "title": "cov-32447df06f-both-fail-task",
+                "status": "planned",
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": []
+              }
+            ]
+          },
+          "task": {
+            "assigned_at": "2026-09-09T16:52:18Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+              "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "cov-32447df06f-both-fail-project",
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/cov-32447df06f-both-fail-task/spec.md",
+            "status": "assigned",
+            "task_id": "cov-32447df06f-both-fail-task",
+            "task_title": "cov-32447df06f-both-fail-task"
+          }
+        },
+        "matrix_event_id": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+        "matrix_assignment_count": 1,
+        "conclusion": "Retry restores Task and reuses notification; Project remains planned"
+      }
+    },
+    {
+      "id": "STATE-01",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "classification": "NATIVE_CONTRACT_AND_PARTIAL_APPLICATION_CONFIRMED",
+        "http_codes": {
+          "in_progress_replan": 409,
+          "submitted_replan": 409,
+          "submitted_complete": 409,
+          "completed_node_next_dag": 200,
+          "second_target_submitted_replan": 409,
+          "terminal_project_complete": 200,
+          "completed_project_replan": 409
+        },
+        "submitted_state": {
+          "plan_type": "dag",
+          "project_id": "cov-32447df06f-states-project",
+          "source": "matrix",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "status": "active",
+          "tasks": [
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "status": "submitted",
+              "task_id": "cov-32447df06f-states-task",
+              "title": "cov-32447df06f-states-task"
+            }
+          ],
+          "team_id": "coverage-race-32447df06f",
+          "title": "cov-32447df06f-states-project"
+        },
+        "completed_node_state": {
+          "plan_type": "dag",
+          "project_id": "cov-32447df06f-states-project",
+          "requester_report": {
+            "pending": true,
+            "reason": "task_result_accepted",
+            "report_path": "shared/projects/cov-32447df06f-states-project/result.md",
+            "result_status": "SUCCESS",
+            "summary": "",
+            "task_id": "cov-32447df06f-states-task"
+          },
+          "source": "matrix",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "status": "active",
+          "tasks": [
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "status": "completed",
+              "task_id": "cov-32447df06f-states-task",
+              "title": "cov-32447df06f-states-task"
+            }
+          ],
+          "team_id": "coverage-race-32447df06f",
+          "title": "cov-32447df06f-states-project"
+        },
+        "next_round": {
+          "project_id": "cov-32447df06f-states-project",
+          "title": "cov-32447df06f-states-project",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "coverage-race-32447df06f",
+          "mode": "",
+          "source": "matrix",
+          "tasks": [
+            {
+              "task_id": "cov-32447df06f-states-round2-task",
+              "title": "Next finite DAG",
+              "assigned_to": "",
+              "depends_on": [],
+              "status": "planned"
+            }
+          ],
+          "requester_report": {
+            "pending": true,
+            "reason": "task_result_accepted",
+            "report_path": "shared/projects/cov-32447df06f-states-project/result.md",
+            "result_status": "SUCCESS",
+            "summary": "",
+            "task_id": "cov-32447df06f-states-task"
+          },
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "updated_by": "admin",
+          "updated_at": "2026-09-09T16:52:20Z"
+        },
+        "partial_target_readback": {
+          "a": {
+            "project_id": "cov-32447df06f-states-project",
+            "title": "cov-32447df06f-states-project",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-race-32447df06f",
+            "mode": "",
+            "source": "matrix",
+            "tasks": [
+              {
+                "task_id": "cov-32447df06f-states-round2-task",
+                "title": "Next finite DAG",
+                "assigned_to": "",
+                "depends_on": [],
+                "status": "planned"
+              }
+            ],
+            "requester_report": {
+              "pending": true,
+              "reason": "task_result_accepted",
+              "report_path": "shared/projects/cov-32447df06f-states-project/result.md",
+              "result_status": "SUCCESS",
+              "summary": "",
+              "task_id": "cov-32447df06f-states-task"
+            },
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "updated_by": "admin",
+            "updated_at": "2026-09-09T16:52:20Z"
+          },
+          "b": {
+            "plan_type": "dag",
+            "project_id": "cov-32447df06f-partial-b-project",
+            "source": "matrix",
+            "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+                "status": "submitted",
+                "task_id": "cov-32447df06f-partial-b-task",
+                "title": "cov-32447df06f-partial-b-task"
+              }
+            ],
+            "team_id": "coverage-race-32447df06f",
+            "title": "cov-32447df06f-partial-b-project"
+          }
+        },
+        "closed_project": {
+          "project_id": "cov-32447df06f-states-project",
+          "title": "cov-32447df06f-states-project",
+          "status": "completed",
+          "plan_type": "dag",
+          "team_id": "coverage-race-32447df06f",
+          "mode": "",
+          "source": "matrix",
+          "tasks": [
+            {
+              "task_id": "cov-32447df06f-states-round2-task",
+              "title": "Next finite DAG",
+              "assigned_to": "",
+              "depends_on": [],
+              "status": "completed"
+            }
+          ],
+          "requester_report": {
+            "pending": true,
+            "reason": "task_result_accepted",
+            "report_path": "shared/projects/cov-32447df06f-states-project/result.md",
+            "result_status": "SUCCESS",
+            "summary": "",
+            "task_id": "cov-32447df06f-states-round2-task"
+          },
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "updated_by": "admin",
+          "updated_at": "2026-09-09T16:52:22Z"
+        },
+        "boundary": "No model/workload/artifact acceptance or RepoMesh multi-target transaction; round2 accepted by native metadata tool only"
+      }
+    }
+  ],
+  "trace": [
+    {
+      "at_utc": "2026-09-09T16:52:17.176366+00:00",
+      "transport": "real-Controller-HTTP",
+      "method": "POST",
+      "path": "/api/v1/workers",
+      "request": {
+        "name": "coverage-race-leader-32447df06f",
+        "runtime": "qwenpaw",
+        "model": "deepseek-chat",
+        "state": "Stopped",
+        "containerManaged": false
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-race-leader-32447df06f",
+        "phase": "Pending",
+        "containerManaged": false,
+        "state": "Stopped",
+        "model": "deepseek-chat",
+        "runtime": "qwenpaw"
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:17.180553+00:00",
+      "transport": "real-Controller-HTTP",
+      "method": "POST",
+      "path": "/api/v1/teams",
+      "request": {
+        "name": "coverage-race-32447df06f",
+        "teamName": "coverage-race-32447df06f",
+        "description": "Dedicated native race fixture; stopped unmanaged leader; no model tasks",
+        "workerMembers": [
+          {
+            "name": "coverage-race-leader-32447df06f",
+            "role": "team_leader"
+          }
+        ]
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-race-32447df06f",
+        "teamName": "coverage-race-32447df06f",
+        "phase": "Pending",
+        "description": "Dedicated native race fixture; stopped unmanaged leader; no model tasks",
+        "workerMembers": [
+          {
+            "name": "coverage-race-leader-32447df06f",
+            "role": "team_leader"
+          }
+        ],
+        "leaderName": "coverage-race-leader-32447df06f",
+        "leaderReady": false,
+        "readyWorkers": 0,
+        "totalWorkers": 0
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:17.230973+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cp",
+        "/tmp/repomesh-control-race/32447df06f/pause-race/shared/projects/cov-32447df06f-pause-race-project/meta.json",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-pause-race-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "`/tmp/repomesh-control-race/32447df06f/pause-race/shared/projects/cov-32447df06f-pause-race-project/meta.json` -> `agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-pause-race-project/meta.json`\n┌───────┬─────────────┬──────────┬─────────────┐\n│ Total │ Transferred │ Duration │ Speed       │\n│ 526 B │ 526 B       │ 00m00s   │ 33.81 KiB/s │\n└───────┴─────────────┴──────────┴─────────────┘\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:17.830971+00:00",
+      "operation": "fresh-MCP-process",
+      "started_at_utc": "2026-09-09T16:52:17.231007+00:00",
+      "mode": "pause-after-pull",
+      "case": "pause-race",
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"pid\": 10430,\n    \"fault_mode\": \"pause-after-pull\",\n    \"fault_state\": {\n      \"barrier_fired\": true,\n      \"faulted_paths\": [],\n      \"source_function\": \"server._filesync\",\n      \"pulled_before_pause\": {\n        \"project_id\": \"cov-32447df06f-pause-race-project\",\n        \"title\": \"cov-32447df06f-pause-race-project\",\n        \"team_id\": \"coverage-race-32447df06f\",\n        \"source\": \"matrix\",\n        \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"plan_type\": \"dag\",\n        \"status\": \"active\",\n        \"tasks\": [\n          {\n            \"task_id\": \"cov-32447df06f-pause-race-old-task\",\n            \"title\": \"cov-32447df06f-pause-race-old-task\",\n            \"status\": \"planned\",\n            \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n            \"depends_on\": []\n          }\n        ]\n      },\n      \"rest_pause_response\": {\n        \"project_id\": \"cov-32447df06f-pause-race-project\",\n        \"title\": \"cov-32447df06f-pause-race-project\",\n        \"status\": \"paused\",\n        \"plan_type\": \"dag\",\n        \"team_id\": \"coverage-race-32447df06f\",\n        \"mode\": \"\",\n        \"source\": \"matrix\",\n        \"nodes\": [\n          {\n            \"id\": \"cov-32447df06f-pause-race-old-task\",\n            \"name\": \"cov-32447df06f-pause-race-old-task\",\n            \"status\": \"pending\",\n            \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n          }\n        ],\n        \"edges\": [],\n        \"next\": [],\n        \"interrupts\": [\n          {\n            \"id\": \"project\",\n            \"value\": \"paused\",\n            \"action_request\": {\n              \"action\": \"resume\",\n              \"args\": {\n                \"project_id\": \"cov-32447df06f-pause-race-project\"\n              }\n            },\n            \"config\": {\n              \"allow_ignore\": false,\n              \"allow_respond\": false,\n              \"allow_edit\": false,\n              \"allow_accept\": true\n            },\n            \"description\": \"project is paused: MCP pull/upload barrier validation\"\n          }\n        ],\n        \"values\": {\n          \"project_id\": \"cov-32447df06f-pause-race-project\",\n          \"title\": \"cov-32447df06f-pause-race-project\",\n          \"status\": \"paused\",\n          \"plan_type\": \"dag\",\n          \"team_id\": \"coverage-race-32447df06f\",\n          \"mode\": \"\",\n          \"task_count\": {\n            \"pending\": 1\n          }\n        },\n        \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"updated_by\": \"admin\",\n        \"updated_at\": \"2026-09-09T16:52:17Z\",\n        \"pause_reason\": \"MCP pull/upload barrier validation\"\n      },\n      \"remote_paused\": {\n        \"project_id\": \"cov-32447df06f-pause-race-project\",\n        \"title\": \"cov-32447df06f-pause-race-project\",\n        \"status\": \"paused\",\n        \"plan_type\": \"dag\",\n        \"team_id\": \"coverage-race-32447df06f\",\n        \"mode\": \"\",\n        \"source\": \"matrix\",\n        \"tasks\": [\n          {\n            \"task_id\": \"cov-32447df06f-pause-race-old-task\",\n            \"title\": \"cov-32447df06f-pause-race-old-task\",\n            \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n            \"depends_on\": [],\n            \"status\": \"planned\"\n          }\n        ],\n        \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"updated_by\": \"admin\",\n        \"updated_at\": \"2026-09-09T16:52:17Z\",\n        \"pause_reason\": \"MCP pull/upload barrier validation\"\n      }\n    },\n    \"tool_response\": {\n      \"ok\": true,\n      \"tool\": \"projectflow\",\n      \"action\": \"plan_dag\",\n      \"project\": {\n        \"plan_type\": \"dag\",\n        \"project_id\": \"cov-32447df06f-pause-race-project\",\n        \"source\": \"matrix\",\n        \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"status\": \"active\",\n        \"tasks\": [\n          {\n            \"task_id\": \"cov-32447df06f-pause-race-new-task\",\n            \"title\": \"MCP new plan\",\n            \"assigned_to\": \"\",\n            \"depends_on\": [],\n            \"status\": \"planned\"\n          }\n        ],\n        \"team_id\": \"coverage-race-32447df06f\",\n        \"title\": \"cov-32447df06f-pause-race-project\"\n      },\n      \"readyNodes\": [\n        {\n          \"task_id\": \"cov-32447df06f-pause-race-new-task\",\n          \"title\": \"MCP new plan\",\n          \"assigned_to\": \"\",\n          \"depends_on\": [],\n          \"status\": \"planned\"\n        }\n      ],\n      \"notificationNeeded\": {\n        \"event\": \"plan_dag\",\n        \"projectId\": \"cov-32447df06f-pause-race-project\",\n        \"summary\": \"plan_dag: cov-32447df06f-pause-race-project\",\n        \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n      }\n    },\n    \"local_project\": {\n      \"plan_type\": \"dag\",\n      \"project_id\": \"cov-32447df06f-pause-race-project\",\n      \"source\": \"matrix\",\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"active\",\n      \"tasks\": [\n        {\n          \"assigned_to\": \"\",\n          \"depends_on\": [],\n          \"status\": \"planned\",\n          \"task_id\": \"cov-32447df06f-pause-race-new-task\",\n          \"title\": \"MCP new plan\"\n        }\n      ],\n      \"team_id\": \"coverage-race-32447df06f\",\n      \"title\": \"cov-32447df06f-pause-race-project\"\n    },\n    \"local_task\": null\n  },\n  \"trace\": [\n    {\n      \"at_utc\": \"2026-09-09T16:52:17.381072+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"pause-after-pull\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-pause-race-project/meta.json\",\n      \"local_task_status\": null,\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:17.452207+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-pause-race-project/meta.json\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"pull\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/projects/cov-32447df06f-pause-race-project/meta.json\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/pause-race/shared/projects/cov-32447df06f-pause-race-project/meta.json\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-pause-race-project/meta.json\",\n        \"command\": [\n          \"mc\",\n          \"cp\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-pause-race-project/meta.json\",\n          \"/tmp/repomesh-control-race/32447df06f/pause-race/shared/projects/cov-32447df06f-pause-race-project/meta.json\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:17.697203+00:00\",\n      \"transport\": \"real-Controller-HTTP\",\n      \"method\": \"POST\",\n      \"path\": \"/api/v1/projects/cov-32447df06f-pause-race-project/pause?team=coverage-race-32447df06f\",\n      \"request\": {\n        \"reason\": \"MCP pull/upload barrier validation\"\n      },\n      \"status\": 200,\n      \"response\": {\n        \"project_id\": \"cov-32447df06f-pause-race-project\",\n        \"title\": \"cov-32447df06f-pause-race-project\",\n        \"status\": \"paused\",\n        \"plan_type\": \"dag\",\n        \"team_id\": \"coverage-race-32447df06f\",\n        \"mode\": \"\",\n        \"source\": \"matrix\",\n        \"nodes\": [\n          {\n            \"id\": \"cov-32447df06f-pause-race-old-task\",\n            \"name\": \"cov-32447df06f-pause-race-old-task\",\n            \"status\": \"pending\",\n            \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n          }\n        ],\n        \"edges\": [],\n        \"next\": [],\n        \"interrupts\": [\n          {\n            \"id\": \"project\",\n            \"value\": \"paused\",\n            \"action_request\": {\n              \"action\": \"resume\",\n              \"args\": {\n                \"project_id\": \"cov-32447df06f-pause-race-project\"\n              }\n            },\n            \"config\": {\n              \"allow_ignore\": false,\n              \"allow_respond\": false,\n              \"allow_edit\": false,\n              \"allow_accept\": true\n            },\n            \"description\": \"project is paused: MCP pull/upload barrier validation\"\n          }\n        ],\n        \"values\": {\n          \"project_id\": \"cov-32447df06f-pause-race-project\",\n          \"title\": \"cov-32447df06f-pause-race-project\",\n          \"status\": \"paused\",\n          \"plan_type\": \"dag\",\n          \"team_id\": \"coverage-race-32447df06f\",\n          \"mode\": \"\",\n          \"task_count\": {\n            \"pending\": 1\n          }\n        },\n        \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"updated_by\": \"admin\",\n        \"updated_at\": \"2026-09-09T16:52:17Z\",\n        \"pause_reason\": \"MCP pull/upload barrier validation\"\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:17.737729+00:00\",\n      \"transport\": \"real-mc-fixture\",\n      \"args\": [\n        \"cat\",\n        \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-pause-race-project/meta.json\"\n      ],\n      \"returncode\": 0,\n      \"stdout\": \"{\\\"project_id\\\":\\\"cov-32447df06f-pause-race-project\\\",\\\"title\\\":\\\"cov-32447df06f-pause-race-project\\\",\\\"status\\\":\\\"paused\\\",\\\"plan_type\\\":\\\"dag\\\",\\\"team_id\\\":\\\"coverage-race-32447df06f\\\",\\\"mode\\\":\\\"\\\",\\\"source\\\":\\\"matrix\\\",\\\"tasks\\\":[{\\\"task_id\\\":\\\"cov-32447df06f-pause-race-old-task\\\",\\\"title\\\":\\\"cov-32447df06f-pause-race-old-task\\\",\\\"assigned_to\\\":\\\"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\\\",\\\"depends_on\\\":[],\\\"status\\\":\\\"planned\\\"}],\\\"source_room_id\\\":\\\"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\\\",\\\"updated_by\\\":\\\"admin\\\",\\\"updated_at\\\":\\\"2026-09-09T16:52:17Z\\\",\\\"pause_reason\\\":\\\"MCP pull/upload barrier validation\\\"}\",\n      \"stderr\": \"\"\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:17.737800+00:00\",\n      \"operation\": \"barrier-released-after-real-REST-pause\",\n      \"project_id\": \"cov-32447df06f-pause-race-project\",\n      \"local_status\": \"active\",\n      \"remote_status\": \"paused\"\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:17.739521+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"pause-after-pull\",\n      \"action\": \"push\",\n      \"path\": \"shared/projects/cov-32447df06f-pause-race-project\",\n      \"local_task_status\": null,\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:17.814823+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"push\",\n      \"path\": \"shared/projects/cov-32447df06f-pause-race-project\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/projects/cov-32447df06f-pause-race-project/\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/pause-race/shared/projects/cov-32447df06f-pause-race-project\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-pause-race-project/\",\n        \"command\": [\n          \"mc\",\n          \"mirror\",\n          \"/tmp/repomesh-control-race/32447df06f/pause-race/shared/projects/cov-32447df06f-pause-race-project/\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-pause-race-project/\",\n          \"--overwrite\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:17.814959+00:00\",\n      \"transport\": \"real-server.call_tool\",\n      \"tool\": \"projectflow\",\n      \"arguments\": {\n        \"action\": \"plan_dag\",\n        \"workspaceDir\": \"/tmp/repomesh-control-race/32447df06f/pause-race\",\n        \"storage\": {\n          \"sharedPrefix\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared\"\n        },\n        \"projectId\": \"cov-32447df06f-pause-race-project\",\n        \"tasks\": [\n          {\n            \"taskId\": \"cov-32447df06f-pause-race-new-task\",\n            \"title\": \"MCP new plan\"\n          }\n        ]\n      },\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"projectflow\",\n        \"action\": \"plan_dag\",\n        \"project\": {\n          \"plan_type\": \"dag\",\n          \"project_id\": \"cov-32447df06f-pause-race-project\",\n          \"source\": \"matrix\",\n          \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"status\": \"active\",\n          \"tasks\": [\n            {\n              \"task_id\": \"cov-32447df06f-pause-race-new-task\",\n              \"title\": \"MCP new plan\",\n              \"assigned_to\": \"\",\n              \"depends_on\": [],\n              \"status\": \"planned\"\n            }\n          ],\n          \"team_id\": \"coverage-race-32447df06f\",\n          \"title\": \"cov-32447df06f-pause-race-project\"\n        },\n        \"readyNodes\": [\n          {\n            \"task_id\": \"cov-32447df06f-pause-race-new-task\",\n            \"title\": \"MCP new plan\",\n            \"assigned_to\": \"\",\n            \"depends_on\": [],\n            \"status\": \"planned\"\n          }\n        ],\n        \"notificationNeeded\": {\n          \"event\": \"plan_dag\",\n          \"projectId\": \"cov-32447df06f-pause-race-project\",\n          \"summary\": \"plan_dag: cov-32447df06f-pause-race-project\",\n          \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n        }\n      }\n    }\n  ],\n  \"source_sha256\": \"741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d\"\n}\n",
+      "stderr": "",
+      "raw_prefix": "/tmp/repomesh-control-race/32447df06f/pause-race-pause-after-pull-1788972737830584387"
+    },
+    {
+      "at_utc": "2026-09-09T16:52:17.861554+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-pause-race-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"plan_type\": \"dag\",\n  \"project_id\": \"cov-32447df06f-pause-race-project\",\n  \"source\": \"matrix\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"status\": \"active\",\n  \"tasks\": [\n    {\n      \"assigned_to\": \"\",\n      \"depends_on\": [],\n      \"status\": \"planned\",\n      \"task_id\": \"cov-32447df06f-pause-race-new-task\",\n      \"title\": \"MCP new plan\"\n    }\n  ],\n  \"team_id\": \"coverage-race-32447df06f\",\n  \"title\": \"cov-32447df06f-pause-race-project\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:17.899989+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cp",
+        "/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project/meta.json",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "`/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project/meta.json` -> `agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json`\n┌───────┬─────────────┬──────────┬─────────────┐\n│ Total │ Transferred │ Duration │ Speed       │\n│ 514 B │ 514 B       │ 00m00s   │ 51.75 KiB/s │\n└───────┴─────────────┴──────────┴─────────────┘\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.246513+00:00",
+      "operation": "fresh-MCP-process",
+      "started_at_utc": "2026-09-09T16:52:17.900018+00:00",
+      "mode": "task-upload-fault",
+      "case": "task-fail",
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"pid\": 10749,\n    \"fault_mode\": \"task-upload-fault\",\n    \"fault_state\": {\n      \"barrier_fired\": false,\n      \"faulted_paths\": [\n        \"shared/tasks/cov-32447df06f-task-fail-task\"\n      ],\n      \"source_function\": \"server._filesync\"\n    },\n    \"tool_response\": {\n      \"ok\": false,\n      \"tool\": \"taskflow\",\n      \"action\": \"delegate_task\",\n      \"task\": {\n        \"task_id\": \"cov-32447df06f-task-fail-task\",\n        \"project_id\": \"cov-32447df06f-task-fail-project\",\n        \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"status\": \"assigned\",\n        \"spec_path\": \"shared/tasks/cov-32447df06f-task-fail-task/spec.md\",\n        \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"task_title\": \"cov-32447df06f-task-fail-task\",\n        \"assigned_at\": \"2026-09-09T16:52:18Z\",\n        \"notification\": {\n          \"sent\": true,\n          \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n          \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n        },\n        \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\"\n      },\n      \"synced\": false,\n      \"error\": \"task assigned but shared-storage sync failed; retry to complete\",\n      \"retryable\": true,\n      \"notification\": {\n        \"sent\": true,\n        \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n      },\n      \"notificationNeeded\": {\n        \"event\": \"delegate_task\",\n        \"projectId\": \"cov-32447df06f-task-fail-project\",\n        \"summary\": \"delegate_task: cov-32447df06f-task-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n      }\n    },\n    \"local_project\": {\n      \"plan_type\": \"dag\",\n      \"project_id\": \"cov-32447df06f-task-fail-project\",\n      \"source\": \"matrix\",\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"active\",\n      \"tasks\": [\n        {\n          \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"depends_on\": [],\n          \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"status\": \"assigned\",\n          \"task_id\": \"cov-32447df06f-task-fail-task\",\n          \"title\": \"cov-32447df06f-task-fail-task\"\n        }\n      ],\n      \"team_id\": \"coverage-race-32447df06f\",\n      \"title\": \"cov-32447df06f-task-fail-project\"\n    },\n    \"local_task\": {\n      \"assigned_at\": \"2026-09-09T16:52:18Z\",\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n      \"notification\": {\n        \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"sent\": true\n      },\n      \"project_id\": \"cov-32447df06f-task-fail-project\",\n      \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"spec_path\": \"shared/tasks/cov-32447df06f-task-fail-task/spec.md\",\n      \"status\": \"assigned\",\n      \"task_id\": \"cov-32447df06f-task-fail-task\",\n      \"task_title\": \"cov-32447df06f-task-fail-task\"\n    }\n  },\n  \"trace\": [\n    {\n      \"at_utc\": \"2026-09-09T16:52:17.998427+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"task-upload-fault\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n      \"local_task_status\": null,\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.059655+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"pull\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n        \"command\": [\n          \"mc\",\n          \"cp\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n          \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project/meta.json\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.065986+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"task-upload-fault\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-task-fail-task\",\n      \"local_task_status\": \"prepared\",\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.128907+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-task-fail-task\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/tasks/cov-32447df06f-task-fail-task/\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/tasks/cov-32447df06f-task-fail-task\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-task-fail-task/\",\n        \"command\": [\n          \"mc\",\n          \"mirror\",\n          \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/tasks/cov-32447df06f-task-fail-task/\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-task-fail-task/\",\n          \"--overwrite\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.134739+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"task-upload-fault\",\n      \"action\": \"push\",\n      \"path\": \"shared/projects/cov-32447df06f-task-fail-project\",\n      \"local_task_status\": \"assigned\",\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.199624+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"push\",\n      \"path\": \"shared/projects/cov-32447df06f-task-fail-project\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/projects/cov-32447df06f-task-fail-project/\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/\",\n        \"command\": [\n          \"mc\",\n          \"mirror\",\n          \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project/\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/\",\n          \"--overwrite\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.199848+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"task-upload-fault\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-task-fail-task\",\n      \"local_task_status\": \"assigned\",\n      \"injecting_invalid_credentials\": true\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.201750+00:00\",\n      \"transport\": \"real-Matrix-HTTP\",\n      \"method\": \"GET\",\n      \"path\": \"/_matrix/client/v3/rooms/%21jTrBA6L1EQS55sSru7%3Arv-a.matrix.invalid/messages?dir=b&limit=100\",\n      \"request\": null,\n      \"status\": 200,\n      \"response\": {\n        \"start\": \"9223372036854775807\",\n        \"end\": \"1974\",\n        \"chunk\": [\n          {\n            \"content\": {\n              \"body\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **cov-32447df06f-task-fail-task**: cov-32447df06f-task-fail-task\\n\\nIsolated race validation only; no model or repository actions\",\n              \"format\": \"org.matrix.custom.html\",\n              \"formatted_body\": \"<a href=\\\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\\\">mxv_21f3caf31d_bob</a> You are assigned task <strong>cov-32447df06f-task-fail-task</strong>: cov-32447df06f-task-fail-task<br>\\n<br>\\nIsolated race validation only; no model or repository actions\",\n              \"m.mentions\": {\n                \"user_ids\": [\n                  \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n                ]\n              },\n              \"msgtype\": \"m.text\"\n            },\n            \"event_id\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n            \"origin_server_ts\": 1788972738132,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n            \"type\": \"m.room.message\",\n            \"unsigned\": {\n              \"age\": 69,\n              \"transaction_id\": \"delegate-cov-32447df06f-task-fail-task\"\n            }\n          },\n          {\n            \"content\": {\n              \"history_visibility\": \"joined\"\n            },\n            \"event_id\": \"$XDcyuW8Xr4p1fxcoyqSz3AeLLbQvdRw1mgUEFmpb27Y\",\n            \"origin_server_ts\": 1788972736119,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.history_visibility\",\n            \"unsigned\": {\n              \"age\": 2082,\n              \"prev_content\": {\n                \"history_visibility\": \"shared\"\n              },\n              \"prev_sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n              \"replaces_state\": \"$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI\"\n            }\n          },\n          {\n            \"content\": {\n              \"guest_access\": \"can_join\"\n            },\n            \"event_id\": \"$qrQVppHnluNbTxb9xj5ZUsWYXe5alq0IGmZ5j45VvIU\",\n            \"origin_server_ts\": 1788972736118,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.guest_access\",\n            \"unsigned\": {\n              \"age\": 2083\n            }\n          },\n          {\n            \"content\": {\n              \"history_visibility\": \"shared\"\n            },\n            \"event_id\": \"$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI\",\n            \"origin_server_ts\": 1788972736118,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.history_visibility\",\n            \"unsigned\": {\n              \"age\": 2083\n            }\n          },\n          {\n            \"content\": {\n              \"join_rule\": \"invite\"\n            },\n            \"event_id\": \"$oeXf-wcevrtoCzZr4C9UJKlI1cOa5F09FAZMRnwye-I\",\n            \"origin_server_ts\": 1788972736117,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.join_rules\",\n            \"unsigned\": {\n              \"age\": 2084\n            }\n          },\n          {\n            \"content\": {\n              \"ban\": 50,\n              \"events\": {\n                \"m.poll.response\": 0,\n                \"m.room.encryption\": 100,\n                \"m.room.history_visibility\": 100,\n                \"m.room.power_levels\": 100,\n                \"m.room.server_acl\": 100,\n                \"m.room.tombstone\": 100,\n                \"org.matrix.msc3381.poll.response\": 0\n              },\n              \"events_default\": 0,\n              \"invite\": 0,\n              \"kick\": 50,\n              \"notifications\": {\n                \"room\": 50\n              },\n              \"redact\": 50,\n              \"state_default\": 50,\n              \"users\": {\n                \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\": 100\n              },\n              \"users_default\": 0\n            },\n            \"event_id\": \"$W2zoQy2L6QWUUCFhpmKPQE5c2VUdIHFMmfqz_erXCtU\",\n            \"origin_server_ts\": 1788972736116,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.power_levels\",\n            \"unsigned\": {\n              \"age\": 2085\n            }\n          },\n          {\n            \"content\": {\n              \"displayname\": \"mxv_21f3caf31d_alice\",\n              \"is_direct\": false,\n              \"membership\": \"join\"\n            },\n            \"event_id\": \"$a2sKBzBnst55Ig7EqW3-SUM9lHw0o6I2YpbaSVeUVSI\",\n            \"origin_server_ts\": 1788972736115,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"type\": \"m.room.member\",\n            \"unsigned\": {\n              \"age\": 2086\n            }\n          },\n          {\n            \"content\": {\n              \"room_version\": \"11\"\n            },\n            \"event_id\": \"$VCWH9Zp1kMCcKH-0q_4-PniXxlh3MMCxftgJFEP4oHI\",\n            \"origin_server_ts\": 1788972736114,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.create\",\n            \"unsigned\": {\n              \"age\": 2087\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.230903+00:00\",\n      \"transport\": \"real-MinIO-auth-fault\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-task-fail-task\",\n      \"matrix_event_verified\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n      \"response\": {\n        \"ok\": false,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"path\": \"shared/tasks/cov-32447df06f-task-fail-task/\",\n        \"error\": \"mc: <ERROR> Unable to list comparison retrying.. The Access Key Id you provided does not exist in our records.\\n┌───────┬─────────────┬──────────┬───────┐\\n│ Total │ Transferred │ Duration │ Speed │\\n│ 0 B   │ 0 B         │ 00m00s   │ 0 B/s │\\n└───────┴─────────────┴──────────┴───────┘\",\n        \"returncode\": 0\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.230923+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-task-fail-task\",\n      \"response\": {\n        \"ok\": false,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"path\": \"shared/tasks/cov-32447df06f-task-fail-task/\",\n        \"error\": \"mc: <ERROR> Unable to list comparison retrying.. The Access Key Id you provided does not exist in our records.\\n┌───────┬─────────────┬──────────┬───────┐\\n│ Total │ Transferred │ Duration │ Speed │\\n│ 0 B   │ 0 B         │ 00m00s   │ 0 B/s │\\n└───────┴─────────────┴──────────┴───────┘\",\n        \"returncode\": 0\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.231013+00:00\",\n      \"transport\": \"real-server.call_tool\",\n      \"tool\": \"taskflow\",\n      \"arguments\": {\n        \"action\": \"delegate_task\",\n        \"workspaceDir\": \"/tmp/repomesh-control-race/32447df06f/task-fail\",\n        \"storage\": {\n          \"sharedPrefix\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared\"\n        },\n        \"projectId\": \"cov-32447df06f-task-fail-project\",\n        \"taskId\": \"cov-32447df06f-task-fail-task\",\n        \"assignedTo\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"spec\": \"Isolated race validation only; no model or repository actions\",\n        \"role\": \"leader\"\n      },\n      \"response\": {\n        \"ok\": false,\n        \"tool\": \"taskflow\",\n        \"action\": \"delegate_task\",\n        \"task\": {\n          \"task_id\": \"cov-32447df06f-task-fail-task\",\n          \"project_id\": \"cov-32447df06f-task-fail-project\",\n          \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"status\": \"assigned\",\n          \"spec_path\": \"shared/tasks/cov-32447df06f-task-fail-task/spec.md\",\n          \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"task_title\": \"cov-32447df06f-task-fail-task\",\n          \"assigned_at\": \"2026-09-09T16:52:18Z\",\n          \"notification\": {\n            \"sent\": true,\n            \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n            \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n          },\n          \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\"\n        },\n        \"synced\": false,\n        \"error\": \"task assigned but shared-storage sync failed; retry to complete\",\n        \"retryable\": true,\n        \"notification\": {\n          \"sent\": true,\n          \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n          \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n        },\n        \"notificationNeeded\": {\n          \"event\": \"delegate_task\",\n          \"projectId\": \"cov-32447df06f-task-fail-project\",\n          \"summary\": \"delegate_task: cov-32447df06f-task-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n        }\n      }\n    }\n  ],\n  \"source_sha256\": \"741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d\"\n}\n",
+      "stderr": "",
+      "raw_prefix": "/tmp/repomesh-control-race/32447df06f/task-fail-task-upload-fault-1788972738246080293"
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.275689+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"plan_type\": \"dag\",\n  \"project_id\": \"cov-32447df06f-task-fail-project\",\n  \"source\": \"matrix\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"status\": \"active\",\n  \"tasks\": [\n    {\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"depends_on\": [],\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"assigned\",\n      \"task_id\": \"cov-32447df06f-task-fail-task\",\n      \"title\": \"cov-32447df06f-task-fail-task\"\n    }\n  ],\n  \"team_id\": \"coverage-race-32447df06f\",\n  \"title\": \"cov-32447df06f-task-fail-project\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.307811+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-task-fail-task/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assigned_at\": \"2026-09-09T16:52:18Z\",\n  \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n  \"project_id\": \"cov-32447df06f-task-fail-project\",\n  \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"spec_path\": \"shared/tasks/cov-32447df06f-task-fail-task/spec.md\",\n  \"status\": \"prepared\",\n  \"task_id\": \"cov-32447df06f-task-fail-task\",\n  \"task_title\": \"cov-32447df06f-task-fail-task\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.575618+00:00",
+      "operation": "fresh-MCP-process",
+      "started_at_utc": "2026-09-09T16:52:18.307868+00:00",
+      "mode": "none",
+      "case": "task-fail",
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"pid\": 10952,\n    \"fault_mode\": \"none\",\n    \"fault_state\": {\n      \"barrier_fired\": false,\n      \"faulted_paths\": [],\n      \"source_function\": \"server._filesync\"\n    },\n    \"tool_response\": {\n      \"ok\": true,\n      \"tool\": \"taskflow\",\n      \"action\": \"delegate_task\",\n      \"task\": {\n        \"assigned_at\": \"2026-09-09T16:52:18Z\",\n        \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n        \"notification\": {\n          \"sent\": true,\n          \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n          \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"reused\": true\n        },\n        \"project_id\": \"cov-32447df06f-task-fail-project\",\n        \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"spec_path\": \"shared/tasks/cov-32447df06f-task-fail-task/spec.md\",\n        \"status\": \"assigned\",\n        \"task_id\": \"cov-32447df06f-task-fail-task\",\n        \"task_title\": \"cov-32447df06f-task-fail-task\"\n      },\n      \"synced\": true,\n      \"notification\": {\n        \"sent\": true,\n        \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"reused\": true\n      },\n      \"notificationNeeded\": {\n        \"event\": \"delegate_task\",\n        \"projectId\": \"cov-32447df06f-task-fail-project\",\n        \"summary\": \"delegate_task: cov-32447df06f-task-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n      }\n    },\n    \"local_project\": {\n      \"plan_type\": \"dag\",\n      \"project_id\": \"cov-32447df06f-task-fail-project\",\n      \"source\": \"matrix\",\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"active\",\n      \"tasks\": [\n        {\n          \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"depends_on\": [],\n          \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"status\": \"assigned\",\n          \"task_id\": \"cov-32447df06f-task-fail-task\",\n          \"title\": \"cov-32447df06f-task-fail-task\"\n        }\n      ],\n      \"team_id\": \"coverage-race-32447df06f\",\n      \"title\": \"cov-32447df06f-task-fail-project\"\n    },\n    \"local_task\": {\n      \"assigned_at\": \"2026-09-09T16:52:18Z\",\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n      \"notification\": {\n        \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"sent\": true\n      },\n      \"project_id\": \"cov-32447df06f-task-fail-project\",\n      \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"spec_path\": \"shared/tasks/cov-32447df06f-task-fail-task/spec.md\",\n      \"status\": \"assigned\",\n      \"task_id\": \"cov-32447df06f-task-fail-task\",\n      \"task_title\": \"cov-32447df06f-task-fail-task\"\n    }\n  },\n  \"trace\": [\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.410859+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"none\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n      \"local_task_status\": \"assigned\",\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.476167+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"pull\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n        \"command\": [\n          \"mc\",\n          \"cp\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json\",\n          \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/projects/cov-32447df06f-task-fail-project/meta.json\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.477054+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"none\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-task-fail-task\",\n      \"local_task_status\": \"assigned\",\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.552746+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-task-fail-task\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/tasks/cov-32447df06f-task-fail-task/\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/tasks/cov-32447df06f-task-fail-task\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-task-fail-task/\",\n        \"command\": [\n          \"mc\",\n          \"mirror\",\n          \"/tmp/repomesh-control-race/32447df06f/task-fail/shared/tasks/cov-32447df06f-task-fail-task/\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-task-fail-task/\",\n          \"--overwrite\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.552852+00:00\",\n      \"transport\": \"real-server.call_tool\",\n      \"tool\": \"taskflow\",\n      \"arguments\": {\n        \"action\": \"delegate_task\",\n        \"workspaceDir\": \"/tmp/repomesh-control-race/32447df06f/task-fail\",\n        \"storage\": {\n          \"sharedPrefix\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared\"\n        },\n        \"projectId\": \"cov-32447df06f-task-fail-project\",\n        \"taskId\": \"cov-32447df06f-task-fail-task\",\n        \"assignedTo\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"spec\": \"Isolated race validation only; no model or repository actions\",\n        \"role\": \"leader\"\n      },\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"taskflow\",\n        \"action\": \"delegate_task\",\n        \"task\": {\n          \"assigned_at\": \"2026-09-09T16:52:18Z\",\n          \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n          \"notification\": {\n            \"sent\": true,\n            \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n            \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n            \"reused\": true\n          },\n          \"project_id\": \"cov-32447df06f-task-fail-project\",\n          \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"spec_path\": \"shared/tasks/cov-32447df06f-task-fail-task/spec.md\",\n          \"status\": \"assigned\",\n          \"task_id\": \"cov-32447df06f-task-fail-task\",\n          \"task_title\": \"cov-32447df06f-task-fail-task\"\n        },\n        \"synced\": true,\n        \"notification\": {\n          \"sent\": true,\n          \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n          \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"reused\": true\n        },\n        \"notificationNeeded\": {\n          \"event\": \"delegate_task\",\n          \"projectId\": \"cov-32447df06f-task-fail-project\",\n          \"summary\": \"delegate_task: cov-32447df06f-task-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n        }\n      }\n    }\n  ],\n  \"source_sha256\": \"741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d\"\n}\n",
+      "stderr": "",
+      "raw_prefix": "/tmp/repomesh-control-race/32447df06f/task-fail-none-1788972738575153047"
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.618635+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-task-fail-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"plan_type\": \"dag\",\n  \"project_id\": \"cov-32447df06f-task-fail-project\",\n  \"source\": \"matrix\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"status\": \"active\",\n  \"tasks\": [\n    {\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"depends_on\": [],\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"assigned\",\n      \"task_id\": \"cov-32447df06f-task-fail-task\",\n      \"title\": \"cov-32447df06f-task-fail-task\"\n    }\n  ],\n  \"team_id\": \"coverage-race-32447df06f\",\n  \"title\": \"cov-32447df06f-task-fail-project\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.658561+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-task-fail-task/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assigned_at\": \"2026-09-09T16:52:18Z\",\n  \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n  \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n  \"notification\": {\n    \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n    \"eventId\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n    \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n    \"sent\": true\n  },\n  \"project_id\": \"cov-32447df06f-task-fail-project\",\n  \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"spec_path\": \"shared/tasks/cov-32447df06f-task-fail-task/spec.md\",\n  \"status\": \"assigned\",\n  \"task_id\": \"cov-32447df06f-task-fail-task\",\n  \"task_title\": \"cov-32447df06f-task-fail-task\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.660687+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/rooms/%21jTrBA6L1EQS55sSru7%3Arv-a.matrix.invalid/messages?dir=b&limit=100",
+      "request": null,
+      "status": 200,
+      "response": {
+        "start": "9223372036854775807",
+        "end": "1974",
+        "chunk": [
+          {
+            "content": {
+              "body": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **cov-32447df06f-task-fail-task**: cov-32447df06f-task-fail-task\n\nIsolated race validation only; no model or repository actions",
+              "format": "org.matrix.custom.html",
+              "formatted_body": "<a href=\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\">mxv_21f3caf31d_bob</a> You are assigned task <strong>cov-32447df06f-task-fail-task</strong>: cov-32447df06f-task-fail-task<br>\n<br>\nIsolated race validation only; no model or repository actions",
+              "m.mentions": {
+                "user_ids": [
+                  "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+                ]
+              },
+              "msgtype": "m.text"
+            },
+            "event_id": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+            "origin_server_ts": 1788972738132,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "type": "m.room.message",
+            "unsigned": {
+              "age": 527,
+              "transaction_id": "delegate-cov-32447df06f-task-fail-task"
+            }
+          },
+          {
+            "content": {
+              "history_visibility": "joined"
+            },
+            "event_id": "$XDcyuW8Xr4p1fxcoyqSz3AeLLbQvdRw1mgUEFmpb27Y",
+            "origin_server_ts": 1788972736119,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.history_visibility",
+            "unsigned": {
+              "age": 2540,
+              "prev_content": {
+                "history_visibility": "shared"
+              },
+              "prev_sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+              "replaces_state": "$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI"
+            }
+          },
+          {
+            "content": {
+              "guest_access": "can_join"
+            },
+            "event_id": "$qrQVppHnluNbTxb9xj5ZUsWYXe5alq0IGmZ5j45VvIU",
+            "origin_server_ts": 1788972736118,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.guest_access",
+            "unsigned": {
+              "age": 2541
+            }
+          },
+          {
+            "content": {
+              "history_visibility": "shared"
+            },
+            "event_id": "$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI",
+            "origin_server_ts": 1788972736118,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.history_visibility",
+            "unsigned": {
+              "age": 2541
+            }
+          },
+          {
+            "content": {
+              "join_rule": "invite"
+            },
+            "event_id": "$oeXf-wcevrtoCzZr4C9UJKlI1cOa5F09FAZMRnwye-I",
+            "origin_server_ts": 1788972736117,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.join_rules",
+            "unsigned": {
+              "age": 2542
+            }
+          },
+          {
+            "content": {
+              "ban": 50,
+              "events": {
+                "m.poll.response": 0,
+                "m.room.encryption": 100,
+                "m.room.history_visibility": 100,
+                "m.room.power_levels": 100,
+                "m.room.server_acl": 100,
+                "m.room.tombstone": 100,
+                "org.matrix.msc3381.poll.response": 0
+              },
+              "events_default": 0,
+              "invite": 0,
+              "kick": 50,
+              "notifications": {
+                "room": 50
+              },
+              "redact": 50,
+              "state_default": 50,
+              "users": {
+                "@mxv_21f3caf31d_alice:rv-a.matrix.invalid": 100
+              },
+              "users_default": 0
+            },
+            "event_id": "$W2zoQy2L6QWUUCFhpmKPQE5c2VUdIHFMmfqz_erXCtU",
+            "origin_server_ts": 1788972736116,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.power_levels",
+            "unsigned": {
+              "age": 2543
+            }
+          },
+          {
+            "content": {
+              "displayname": "mxv_21f3caf31d_alice",
+              "is_direct": false,
+              "membership": "join"
+            },
+            "event_id": "$a2sKBzBnst55Ig7EqW3-SUM9lHw0o6I2YpbaSVeUVSI",
+            "origin_server_ts": 1788972736115,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "type": "m.room.member",
+            "unsigned": {
+              "age": 2544
+            }
+          },
+          {
+            "content": {
+              "room_version": "11"
+            },
+            "event_id": "$VCWH9Zp1kMCcKH-0q_4-PniXxlh3MMCxftgJFEP4oHI",
+            "origin_server_ts": 1788972736114,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.create",
+            "unsigned": {
+              "age": 2545
+            }
+          }
+        ]
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:18.701849+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cp",
+        "/tmp/repomesh-control-race/32447df06f/both-fail/shared/projects/cov-32447df06f-both-fail-project/meta.json",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-both-fail-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "`/tmp/repomesh-control-race/32447df06f/both-fail/shared/projects/cov-32447df06f-both-fail-project/meta.json` -> `agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-both-fail-project/meta.json`\n┌───────┬─────────────┬──────────┬─────────────┐\n│ Total │ Transferred │ Duration │ Speed       │\n│ 514 B │ 514 B       │ 00m00s   │ 44.41 KiB/s │\n└───────┴─────────────┴──────────┴─────────────┘\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:19.060907+00:00",
+      "operation": "fresh-MCP-process",
+      "started_at_utc": "2026-09-09T16:52:18.701878+00:00",
+      "mode": "project-and-task-upload-fault",
+      "case": "both-fail",
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"pid\": 11114,\n    \"fault_mode\": \"project-and-task-upload-fault\",\n    \"fault_state\": {\n      \"barrier_fired\": false,\n      \"faulted_paths\": [\n        \"shared/projects/cov-32447df06f-both-fail-project\",\n        \"shared/tasks/cov-32447df06f-both-fail-task\"\n      ],\n      \"source_function\": \"server._filesync\"\n    },\n    \"tool_response\": {\n      \"ok\": false,\n      \"tool\": \"taskflow\",\n      \"action\": \"delegate_task\",\n      \"task\": {\n        \"task_id\": \"cov-32447df06f-both-fail-task\",\n        \"project_id\": \"cov-32447df06f-both-fail-project\",\n        \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"status\": \"assigned\",\n        \"spec_path\": \"shared/tasks/cov-32447df06f-both-fail-task/spec.md\",\n        \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"task_title\": \"cov-32447df06f-both-fail-task\",\n        \"assigned_at\": \"2026-09-09T16:52:18Z\",\n        \"notification\": {\n          \"sent\": true,\n          \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n          \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n        },\n        \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\"\n      },\n      \"synced\": false,\n      \"error\": \"task assigned but shared-storage sync failed; retry to complete\",\n      \"retryable\": true,\n      \"notification\": {\n        \"sent\": true,\n        \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n      },\n      \"notificationNeeded\": {\n        \"event\": \"delegate_task\",\n        \"projectId\": \"cov-32447df06f-both-fail-project\",\n        \"summary\": \"delegate_task: cov-32447df06f-both-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n      }\n    },\n    \"local_project\": {\n      \"plan_type\": \"dag\",\n      \"project_id\": \"cov-32447df06f-both-fail-project\",\n      \"source\": \"matrix\",\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"active\",\n      \"tasks\": [\n        {\n          \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"depends_on\": [],\n          \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"status\": \"assigned\",\n          \"task_id\": \"cov-32447df06f-both-fail-task\",\n          \"title\": \"cov-32447df06f-both-fail-task\"\n        }\n      ],\n      \"team_id\": \"coverage-race-32447df06f\",\n      \"title\": \"cov-32447df06f-both-fail-project\"\n    },\n    \"local_task\": {\n      \"assigned_at\": \"2026-09-09T16:52:18Z\",\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n      \"notification\": {\n        \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"sent\": true\n      },\n      \"project_id\": \"cov-32447df06f-both-fail-project\",\n      \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"spec_path\": \"shared/tasks/cov-32447df06f-both-fail-task/spec.md\",\n      \"status\": \"assigned\",\n      \"task_id\": \"cov-32447df06f-both-fail-task\",\n      \"task_title\": \"cov-32447df06f-both-fail-task\"\n    }\n  },\n  \"trace\": [\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.819003+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"project-and-task-upload-fault\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n      \"local_task_status\": null,\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.881532+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"pull\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/both-fail/shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n        \"command\": [\n          \"mc\",\n          \"cp\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n          \"/tmp/repomesh-control-race/32447df06f/both-fail/shared/projects/cov-32447df06f-both-fail-project/meta.json\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.888581+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"project-and-task-upload-fault\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-both-fail-task\",\n      \"local_task_status\": \"prepared\",\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.963456+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-both-fail-task\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/tasks/cov-32447df06f-both-fail-task/\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/both-fail/shared/tasks/cov-32447df06f-both-fail-task\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-both-fail-task/\",\n        \"command\": [\n          \"mc\",\n          \"mirror\",\n          \"/tmp/repomesh-control-race/32447df06f/both-fail/shared/tasks/cov-32447df06f-both-fail-task/\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-both-fail-task/\",\n          \"--overwrite\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.969452+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"project-and-task-upload-fault\",\n      \"action\": \"push\",\n      \"path\": \"shared/projects/cov-32447df06f-both-fail-project\",\n      \"local_task_status\": \"assigned\",\n      \"injecting_invalid_credentials\": true\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:18.972609+00:00\",\n      \"transport\": \"real-Matrix-HTTP\",\n      \"method\": \"GET\",\n      \"path\": \"/_matrix/client/v3/rooms/%21jTrBA6L1EQS55sSru7%3Arv-a.matrix.invalid/messages?dir=b&limit=100\",\n      \"request\": null,\n      \"status\": 200,\n      \"response\": {\n        \"start\": \"9223372036854775807\",\n        \"end\": \"1974\",\n        \"chunk\": [\n          {\n            \"content\": {\n              \"body\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **cov-32447df06f-both-fail-task**: cov-32447df06f-both-fail-task\\n\\nIsolated race validation only; no model or repository actions\",\n              \"format\": \"org.matrix.custom.html\",\n              \"formatted_body\": \"<a href=\\\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\\\">mxv_21f3caf31d_bob</a> You are assigned task <strong>cov-32447df06f-both-fail-task</strong>: cov-32447df06f-both-fail-task<br>\\n<br>\\nIsolated race validation only; no model or repository actions\",\n              \"m.mentions\": {\n                \"user_ids\": [\n                  \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n                ]\n              },\n              \"msgtype\": \"m.text\"\n            },\n            \"event_id\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n            \"origin_server_ts\": 1788972738966,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n            \"type\": \"m.room.message\",\n            \"unsigned\": {\n              \"age\": 4,\n              \"transaction_id\": \"delegate-cov-32447df06f-both-fail-task\"\n            }\n          },\n          {\n            \"content\": {\n              \"body\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **cov-32447df06f-task-fail-task**: cov-32447df06f-task-fail-task\\n\\nIsolated race validation only; no model or repository actions\",\n              \"format\": \"org.matrix.custom.html\",\n              \"formatted_body\": \"<a href=\\\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\\\">mxv_21f3caf31d_bob</a> You are assigned task <strong>cov-32447df06f-task-fail-task</strong>: cov-32447df06f-task-fail-task<br>\\n<br>\\nIsolated race validation only; no model or repository actions\",\n              \"m.mentions\": {\n                \"user_ids\": [\n                  \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n                ]\n              },\n              \"msgtype\": \"m.text\"\n            },\n            \"event_id\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n            \"origin_server_ts\": 1788972738132,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n            \"type\": \"m.room.message\",\n            \"unsigned\": {\n              \"age\": 838,\n              \"transaction_id\": \"delegate-cov-32447df06f-task-fail-task\"\n            }\n          },\n          {\n            \"content\": {\n              \"history_visibility\": \"joined\"\n            },\n            \"event_id\": \"$XDcyuW8Xr4p1fxcoyqSz3AeLLbQvdRw1mgUEFmpb27Y\",\n            \"origin_server_ts\": 1788972736119,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.history_visibility\",\n            \"unsigned\": {\n              \"age\": 2851,\n              \"prev_content\": {\n                \"history_visibility\": \"shared\"\n              },\n              \"prev_sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n              \"replaces_state\": \"$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI\"\n            }\n          },\n          {\n            \"content\": {\n              \"guest_access\": \"can_join\"\n            },\n            \"event_id\": \"$qrQVppHnluNbTxb9xj5ZUsWYXe5alq0IGmZ5j45VvIU\",\n            \"origin_server_ts\": 1788972736118,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.guest_access\",\n            \"unsigned\": {\n              \"age\": 2852\n            }\n          },\n          {\n            \"content\": {\n              \"history_visibility\": \"shared\"\n            },\n            \"event_id\": \"$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI\",\n            \"origin_server_ts\": 1788972736118,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.history_visibility\",\n            \"unsigned\": {\n              \"age\": 2852\n            }\n          },\n          {\n            \"content\": {\n              \"join_rule\": \"invite\"\n            },\n            \"event_id\": \"$oeXf-wcevrtoCzZr4C9UJKlI1cOa5F09FAZMRnwye-I\",\n            \"origin_server_ts\": 1788972736117,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.join_rules\",\n            \"unsigned\": {\n              \"age\": 2853\n            }\n          },\n          {\n            \"content\": {\n              \"ban\": 50,\n              \"events\": {\n                \"m.poll.response\": 0,\n                \"m.room.encryption\": 100,\n                \"m.room.history_visibility\": 100,\n                \"m.room.power_levels\": 100,\n                \"m.room.server_acl\": 100,\n                \"m.room.tombstone\": 100,\n                \"org.matrix.msc3381.poll.response\": 0\n              },\n              \"events_default\": 0,\n              \"invite\": 0,\n              \"kick\": 50,\n              \"notifications\": {\n                \"room\": 50\n              },\n              \"redact\": 50,\n              \"state_default\": 50,\n              \"users\": {\n                \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\": 100\n              },\n              \"users_default\": 0\n            },\n            \"event_id\": \"$W2zoQy2L6QWUUCFhpmKPQE5c2VUdIHFMmfqz_erXCtU\",\n            \"origin_server_ts\": 1788972736116,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.power_levels\",\n            \"unsigned\": {\n              \"age\": 2854\n            }\n          },\n          {\n            \"content\": {\n              \"displayname\": \"mxv_21f3caf31d_alice\",\n              \"is_direct\": false,\n              \"membership\": \"join\"\n            },\n            \"event_id\": \"$a2sKBzBnst55Ig7EqW3-SUM9lHw0o6I2YpbaSVeUVSI\",\n            \"origin_server_ts\": 1788972736115,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"type\": \"m.room.member\",\n            \"unsigned\": {\n              \"age\": 2855\n            }\n          },\n          {\n            \"content\": {\n              \"room_version\": \"11\"\n            },\n            \"event_id\": \"$VCWH9Zp1kMCcKH-0q_4-PniXxlh3MMCxftgJFEP4oHI\",\n            \"origin_server_ts\": 1788972736114,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.create\",\n            \"unsigned\": {\n              \"age\": 2856\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.007790+00:00\",\n      \"transport\": \"real-MinIO-auth-fault\",\n      \"action\": \"push\",\n      \"path\": \"shared/projects/cov-32447df06f-both-fail-project\",\n      \"matrix_event_verified\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n      \"response\": {\n        \"ok\": false,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"path\": \"shared/projects/cov-32447df06f-both-fail-project/\",\n        \"error\": \"mc: <ERROR> Unable to list comparison retrying.. The Access Key Id you provided does not exist in our records.\\n┌───────┬─────────────┬──────────┬───────┐\\n│ Total │ Transferred │ Duration │ Speed │\\n│ 0 B   │ 0 B         │ 00m00s   │ 0 B/s │\\n└───────┴─────────────┴──────────┴───────┘\",\n        \"returncode\": 0\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.007814+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"push\",\n      \"path\": \"shared/projects/cov-32447df06f-both-fail-project\",\n      \"response\": {\n        \"ok\": false,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"path\": \"shared/projects/cov-32447df06f-both-fail-project/\",\n        \"error\": \"mc: <ERROR> Unable to list comparison retrying.. The Access Key Id you provided does not exist in our records.\\n┌───────┬─────────────┬──────────┬───────┐\\n│ Total │ Transferred │ Duration │ Speed │\\n│ 0 B   │ 0 B         │ 00m00s   │ 0 B/s │\\n└───────┴─────────────┴──────────┴───────┘\",\n        \"returncode\": 0\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.008144+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"project-and-task-upload-fault\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-both-fail-task\",\n      \"local_task_status\": \"assigned\",\n      \"injecting_invalid_credentials\": true\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.010417+00:00\",\n      \"transport\": \"real-Matrix-HTTP\",\n      \"method\": \"GET\",\n      \"path\": \"/_matrix/client/v3/rooms/%21jTrBA6L1EQS55sSru7%3Arv-a.matrix.invalid/messages?dir=b&limit=100\",\n      \"request\": null,\n      \"status\": 200,\n      \"response\": {\n        \"start\": \"9223372036854775807\",\n        \"end\": \"1974\",\n        \"chunk\": [\n          {\n            \"content\": {\n              \"body\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **cov-32447df06f-both-fail-task**: cov-32447df06f-both-fail-task\\n\\nIsolated race validation only; no model or repository actions\",\n              \"format\": \"org.matrix.custom.html\",\n              \"formatted_body\": \"<a href=\\\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\\\">mxv_21f3caf31d_bob</a> You are assigned task <strong>cov-32447df06f-both-fail-task</strong>: cov-32447df06f-both-fail-task<br>\\n<br>\\nIsolated race validation only; no model or repository actions\",\n              \"m.mentions\": {\n                \"user_ids\": [\n                  \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n                ]\n              },\n              \"msgtype\": \"m.text\"\n            },\n            \"event_id\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n            \"origin_server_ts\": 1788972738966,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n            \"type\": \"m.room.message\",\n            \"unsigned\": {\n              \"age\": 43,\n              \"transaction_id\": \"delegate-cov-32447df06f-both-fail-task\"\n            }\n          },\n          {\n            \"content\": {\n              \"body\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **cov-32447df06f-task-fail-task**: cov-32447df06f-task-fail-task\\n\\nIsolated race validation only; no model or repository actions\",\n              \"format\": \"org.matrix.custom.html\",\n              \"formatted_body\": \"<a href=\\\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\\\">mxv_21f3caf31d_bob</a> You are assigned task <strong>cov-32447df06f-task-fail-task</strong>: cov-32447df06f-task-fail-task<br>\\n<br>\\nIsolated race validation only; no model or repository actions\",\n              \"m.mentions\": {\n                \"user_ids\": [\n                  \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n                ]\n              },\n              \"msgtype\": \"m.text\"\n            },\n            \"event_id\": \"$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ\",\n            \"origin_server_ts\": 1788972738132,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n            \"type\": \"m.room.message\",\n            \"unsigned\": {\n              \"age\": 877,\n              \"transaction_id\": \"delegate-cov-32447df06f-task-fail-task\"\n            }\n          },\n          {\n            \"content\": {\n              \"history_visibility\": \"joined\"\n            },\n            \"event_id\": \"$XDcyuW8Xr4p1fxcoyqSz3AeLLbQvdRw1mgUEFmpb27Y\",\n            \"origin_server_ts\": 1788972736119,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.history_visibility\",\n            \"unsigned\": {\n              \"age\": 2890,\n              \"prev_content\": {\n                \"history_visibility\": \"shared\"\n              },\n              \"prev_sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n              \"replaces_state\": \"$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI\"\n            }\n          },\n          {\n            \"content\": {\n              \"guest_access\": \"can_join\"\n            },\n            \"event_id\": \"$qrQVppHnluNbTxb9xj5ZUsWYXe5alq0IGmZ5j45VvIU\",\n            \"origin_server_ts\": 1788972736118,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.guest_access\",\n            \"unsigned\": {\n              \"age\": 2891\n            }\n          },\n          {\n            \"content\": {\n              \"history_visibility\": \"shared\"\n            },\n            \"event_id\": \"$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI\",\n            \"origin_server_ts\": 1788972736118,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.history_visibility\",\n            \"unsigned\": {\n              \"age\": 2891\n            }\n          },\n          {\n            \"content\": {\n              \"join_rule\": \"invite\"\n            },\n            \"event_id\": \"$oeXf-wcevrtoCzZr4C9UJKlI1cOa5F09FAZMRnwye-I\",\n            \"origin_server_ts\": 1788972736117,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.join_rules\",\n            \"unsigned\": {\n              \"age\": 2892\n            }\n          },\n          {\n            \"content\": {\n              \"ban\": 50,\n              \"events\": {\n                \"m.poll.response\": 0,\n                \"m.room.encryption\": 100,\n                \"m.room.history_visibility\": 100,\n                \"m.room.power_levels\": 100,\n                \"m.room.server_acl\": 100,\n                \"m.room.tombstone\": 100,\n                \"org.matrix.msc3381.poll.response\": 0\n              },\n              \"events_default\": 0,\n              \"invite\": 0,\n              \"kick\": 50,\n              \"notifications\": {\n                \"room\": 50\n              },\n              \"redact\": 50,\n              \"state_default\": 50,\n              \"users\": {\n                \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\": 100\n              },\n              \"users_default\": 0\n            },\n            \"event_id\": \"$W2zoQy2L6QWUUCFhpmKPQE5c2VUdIHFMmfqz_erXCtU\",\n            \"origin_server_ts\": 1788972736116,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.power_levels\",\n            \"unsigned\": {\n              \"age\": 2893\n            }\n          },\n          {\n            \"content\": {\n              \"displayname\": \"mxv_21f3caf31d_alice\",\n              \"is_direct\": false,\n              \"membership\": \"join\"\n            },\n            \"event_id\": \"$a2sKBzBnst55Ig7EqW3-SUM9lHw0o6I2YpbaSVeUVSI\",\n            \"origin_server_ts\": 1788972736115,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"type\": \"m.room.member\",\n            \"unsigned\": {\n              \"age\": 2894\n            }\n          },\n          {\n            \"content\": {\n              \"room_version\": \"11\"\n            },\n            \"event_id\": \"$VCWH9Zp1kMCcKH-0q_4-PniXxlh3MMCxftgJFEP4oHI\",\n            \"origin_server_ts\": 1788972736114,\n            \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"sender\": \"@mxv_21f3caf31d_alice:rv-a.matrix.invalid\",\n            \"state_key\": \"\",\n            \"type\": \"m.room.create\",\n            \"unsigned\": {\n              \"age\": 2895\n            }\n          }\n        ]\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.043539+00:00\",\n      \"transport\": \"real-MinIO-auth-fault\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-both-fail-task\",\n      \"matrix_event_verified\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n      \"response\": {\n        \"ok\": false,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"path\": \"shared/tasks/cov-32447df06f-both-fail-task/\",\n        \"error\": \"mc: <ERROR> Unable to list comparison retrying.. The Access Key Id you provided does not exist in our records.\\n┌───────┬─────────────┬──────────┬───────┐\\n│ Total │ Transferred │ Duration │ Speed │\\n│ 0 B   │ 0 B         │ 00m00s   │ 0 B/s │\\n└───────┴─────────────┴──────────┴───────┘\",\n        \"returncode\": 0\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.043559+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-both-fail-task\",\n      \"response\": {\n        \"ok\": false,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"path\": \"shared/tasks/cov-32447df06f-both-fail-task/\",\n        \"error\": \"mc: <ERROR> Unable to list comparison retrying.. The Access Key Id you provided does not exist in our records.\\n┌───────┬─────────────┬──────────┬───────┐\\n│ Total │ Transferred │ Duration │ Speed │\\n│ 0 B   │ 0 B         │ 00m00s   │ 0 B/s │\\n└───────┴─────────────┴──────────┴───────┘\",\n        \"returncode\": 0\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.043652+00:00\",\n      \"transport\": \"real-server.call_tool\",\n      \"tool\": \"taskflow\",\n      \"arguments\": {\n        \"action\": \"delegate_task\",\n        \"workspaceDir\": \"/tmp/repomesh-control-race/32447df06f/both-fail\",\n        \"storage\": {\n          \"sharedPrefix\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared\"\n        },\n        \"projectId\": \"cov-32447df06f-both-fail-project\",\n        \"taskId\": \"cov-32447df06f-both-fail-task\",\n        \"assignedTo\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"spec\": \"Isolated race validation only; no model or repository actions\",\n        \"role\": \"leader\"\n      },\n      \"response\": {\n        \"ok\": false,\n        \"tool\": \"taskflow\",\n        \"action\": \"delegate_task\",\n        \"task\": {\n          \"task_id\": \"cov-32447df06f-both-fail-task\",\n          \"project_id\": \"cov-32447df06f-both-fail-project\",\n          \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"status\": \"assigned\",\n          \"spec_path\": \"shared/tasks/cov-32447df06f-both-fail-task/spec.md\",\n          \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"task_title\": \"cov-32447df06f-both-fail-task\",\n          \"assigned_at\": \"2026-09-09T16:52:18Z\",\n          \"notification\": {\n            \"sent\": true,\n            \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n            \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n          },\n          \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\"\n        },\n        \"synced\": false,\n        \"error\": \"task assigned but shared-storage sync failed; retry to complete\",\n        \"retryable\": true,\n        \"notification\": {\n          \"sent\": true,\n          \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n          \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\"\n        },\n        \"notificationNeeded\": {\n          \"event\": \"delegate_task\",\n          \"projectId\": \"cov-32447df06f-both-fail-project\",\n          \"summary\": \"delegate_task: cov-32447df06f-both-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n        }\n      }\n    }\n  ],\n  \"source_sha256\": \"741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d\"\n}\n",
+      "stderr": "",
+      "raw_prefix": "/tmp/repomesh-control-race/32447df06f/both-fail-project-and-task-upload-fault-1788972739060492151"
+    },
+    {
+      "at_utc": "2026-09-09T16:52:19.094038+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-both-fail-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"project_id\": \"cov-32447df06f-both-fail-project\",\n  \"title\": \"cov-32447df06f-both-fail-project\",\n  \"team_id\": \"coverage-race-32447df06f\",\n  \"source\": \"matrix\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"plan_type\": \"dag\",\n  \"status\": \"active\",\n  \"tasks\": [\n    {\n      \"task_id\": \"cov-32447df06f-both-fail-task\",\n      \"title\": \"cov-32447df06f-both-fail-task\",\n      \"status\": \"planned\",\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"depends_on\": []\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:19.125726+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-both-fail-task/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assigned_at\": \"2026-09-09T16:52:18Z\",\n  \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n  \"project_id\": \"cov-32447df06f-both-fail-project\",\n  \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"spec_path\": \"shared/tasks/cov-32447df06f-both-fail-task/spec.md\",\n  \"status\": \"prepared\",\n  \"task_id\": \"cov-32447df06f-both-fail-task\",\n  \"task_title\": \"cov-32447df06f-both-fail-task\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:19.370391+00:00",
+      "operation": "fresh-MCP-process",
+      "started_at_utc": "2026-09-09T16:52:19.125780+00:00",
+      "mode": "none",
+      "case": "both-fail",
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"pid\": 11233,\n    \"fault_mode\": \"none\",\n    \"fault_state\": {\n      \"barrier_fired\": false,\n      \"faulted_paths\": [],\n      \"source_function\": \"server._filesync\"\n    },\n    \"tool_response\": {\n      \"ok\": true,\n      \"tool\": \"taskflow\",\n      \"action\": \"delegate_task\",\n      \"task\": {\n        \"assigned_at\": \"2026-09-09T16:52:18Z\",\n        \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n        \"notification\": {\n          \"sent\": true,\n          \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n          \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"reused\": true\n        },\n        \"project_id\": \"cov-32447df06f-both-fail-project\",\n        \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"spec_path\": \"shared/tasks/cov-32447df06f-both-fail-task/spec.md\",\n        \"status\": \"assigned\",\n        \"task_id\": \"cov-32447df06f-both-fail-task\",\n        \"task_title\": \"cov-32447df06f-both-fail-task\"\n      },\n      \"synced\": true,\n      \"notification\": {\n        \"sent\": true,\n        \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"reused\": true\n      },\n      \"notificationNeeded\": {\n        \"event\": \"delegate_task\",\n        \"projectId\": \"cov-32447df06f-both-fail-project\",\n        \"summary\": \"delegate_task: cov-32447df06f-both-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n      }\n    },\n    \"local_project\": {\n      \"plan_type\": \"dag\",\n      \"project_id\": \"cov-32447df06f-both-fail-project\",\n      \"source\": \"matrix\",\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"active\",\n      \"tasks\": [\n        {\n          \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"depends_on\": [],\n          \"status\": \"planned\",\n          \"task_id\": \"cov-32447df06f-both-fail-task\",\n          \"title\": \"cov-32447df06f-both-fail-task\"\n        }\n      ],\n      \"team_id\": \"coverage-race-32447df06f\",\n      \"title\": \"cov-32447df06f-both-fail-project\"\n    },\n    \"local_task\": {\n      \"assigned_at\": \"2026-09-09T16:52:18Z\",\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n      \"notification\": {\n        \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"sent\": true\n      },\n      \"project_id\": \"cov-32447df06f-both-fail-project\",\n      \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"spec_path\": \"shared/tasks/cov-32447df06f-both-fail-task/spec.md\",\n      \"status\": \"assigned\",\n      \"task_id\": \"cov-32447df06f-both-fail-task\",\n      \"task_title\": \"cov-32447df06f-both-fail-task\"\n    }\n  },\n  \"trace\": [\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.227181+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"none\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n      \"local_task_status\": \"assigned\",\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.290137+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"pull\",\n      \"path\": \"shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"pull\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/both-fail/shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n        \"command\": [\n          \"mc\",\n          \"cp\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-both-fail-project/meta.json\",\n          \"/tmp/repomesh-control-race/32447df06f/both-fail/shared/projects/cov-32447df06f-both-fail-project/meta.json\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.291528+00:00\",\n      \"transport\": \"instrumented-filesync-enter\",\n      \"mode\": \"none\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-both-fail-task\",\n      \"local_task_status\": \"assigned\",\n      \"injecting_invalid_credentials\": false\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.358072+00:00\",\n      \"transport\": \"instrumented-filesync-return\",\n      \"action\": \"push\",\n      \"path\": \"shared/tasks/cov-32447df06f-both-fail-task\",\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"filesync\",\n        \"action\": \"push\",\n        \"kind\": \"shared\",\n        \"path\": \"shared/tasks/cov-32447df06f-both-fail-task/\",\n        \"localPath\": \"/tmp/repomesh-control-race/32447df06f/both-fail/shared/tasks/cov-32447df06f-both-fail-task\",\n        \"remotePath\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-both-fail-task/\",\n        \"command\": [\n          \"mc\",\n          \"mirror\",\n          \"/tmp/repomesh-control-race/32447df06f/both-fail/shared/tasks/cov-32447df06f-both-fail-task/\",\n          \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-both-fail-task/\",\n          \"--overwrite\"\n        ],\n        \"exclude\": []\n      }\n    },\n    {\n      \"at_utc\": \"2026-09-09T16:52:19.358181+00:00\",\n      \"transport\": \"real-server.call_tool\",\n      \"tool\": \"taskflow\",\n      \"arguments\": {\n        \"action\": \"delegate_task\",\n        \"workspaceDir\": \"/tmp/repomesh-control-race/32447df06f/both-fail\",\n        \"storage\": {\n          \"sharedPrefix\": \"agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared\"\n        },\n        \"projectId\": \"cov-32447df06f-both-fail-project\",\n        \"taskId\": \"cov-32447df06f-both-fail-task\",\n        \"assignedTo\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n        \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n        \"spec\": \"Isolated race validation only; no model or repository actions\",\n        \"role\": \"leader\"\n      },\n      \"response\": {\n        \"ok\": true,\n        \"tool\": \"taskflow\",\n        \"action\": \"delegate_task\",\n        \"task\": {\n          \"assigned_at\": \"2026-09-09T16:52:18Z\",\n          \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n          \"notification\": {\n            \"sent\": true,\n            \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n            \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n            \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n            \"reused\": true\n          },\n          \"project_id\": \"cov-32447df06f-both-fail-project\",\n          \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"spec_path\": \"shared/tasks/cov-32447df06f-both-fail-task/spec.md\",\n          \"status\": \"assigned\",\n          \"task_id\": \"cov-32447df06f-both-fail-task\",\n          \"task_title\": \"cov-32447df06f-both-fail-task\"\n        },\n        \"synced\": true,\n        \"notification\": {\n          \"sent\": true,\n          \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n          \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n          \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"reused\": true\n        },\n        \"notificationNeeded\": {\n          \"event\": \"delegate_task\",\n          \"projectId\": \"cov-32447df06f-both-fail-project\",\n          \"summary\": \"delegate_task: cov-32447df06f-both-fail-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n          \"targetRoom\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\"\n        }\n      }\n    }\n  ],\n  \"source_sha256\": \"741d211b36a4413e598989c43c9a7735926e18e49787e15a9ef9453d825dc98d\"\n}\n",
+      "stderr": "",
+      "raw_prefix": "/tmp/repomesh-control-race/32447df06f/both-fail-none-1788972739370096793"
+    },
+    {
+      "at_utc": "2026-09-09T16:52:19.400003+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-both-fail-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"project_id\": \"cov-32447df06f-both-fail-project\",\n  \"title\": \"cov-32447df06f-both-fail-project\",\n  \"team_id\": \"coverage-race-32447df06f\",\n  \"source\": \"matrix\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"plan_type\": \"dag\",\n  \"status\": \"active\",\n  \"tasks\": [\n    {\n      \"task_id\": \"cov-32447df06f-both-fail-task\",\n      \"title\": \"cov-32447df06f-both-fail-task\",\n      \"status\": \"planned\",\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"depends_on\": []\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:19.431382+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/tasks/cov-32447df06f-both-fail-task/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"assigned_at\": \"2026-09-09T16:52:18Z\",\n  \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n  \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n  \"notification\": {\n    \"assignee\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n    \"eventId\": \"$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog\",\n    \"roomId\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n    \"sent\": true\n  },\n  \"project_id\": \"cov-32447df06f-both-fail-project\",\n  \"room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"spec_path\": \"shared/tasks/cov-32447df06f-both-fail-task/spec.md\",\n  \"status\": \"assigned\",\n  \"task_id\": \"cov-32447df06f-both-fail-task\",\n  \"task_title\": \"cov-32447df06f-both-fail-task\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:19.433666+00:00",
+      "transport": "real-Matrix-HTTP",
+      "method": "GET",
+      "path": "/_matrix/client/v3/rooms/%21jTrBA6L1EQS55sSru7%3Arv-a.matrix.invalid/messages?dir=b&limit=100",
+      "request": null,
+      "status": 200,
+      "response": {
+        "start": "9223372036854775807",
+        "end": "1974",
+        "chunk": [
+          {
+            "content": {
+              "body": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **cov-32447df06f-both-fail-task**: cov-32447df06f-both-fail-task\n\nIsolated race validation only; no model or repository actions",
+              "format": "org.matrix.custom.html",
+              "formatted_body": "<a href=\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\">mxv_21f3caf31d_bob</a> You are assigned task <strong>cov-32447df06f-both-fail-task</strong>: cov-32447df06f-both-fail-task<br>\n<br>\nIsolated race validation only; no model or repository actions",
+              "m.mentions": {
+                "user_ids": [
+                  "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+                ]
+              },
+              "msgtype": "m.text"
+            },
+            "event_id": "$hfrN3fUjdvI5vzwwO2K_n0FKUtOnpycNrkWIP76kdog",
+            "origin_server_ts": 1788972738966,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "type": "m.room.message",
+            "unsigned": {
+              "age": 466,
+              "transaction_id": "delegate-cov-32447df06f-both-fail-task"
+            }
+          },
+          {
+            "content": {
+              "body": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid You are assigned task **cov-32447df06f-task-fail-task**: cov-32447df06f-task-fail-task\n\nIsolated race validation only; no model or repository actions",
+              "format": "org.matrix.custom.html",
+              "formatted_body": "<a href=\"https://matrix.to/#/%40mxv_21f3caf31d_bob%3Arv-a.matrix.invalid\">mxv_21f3caf31d_bob</a> You are assigned task <strong>cov-32447df06f-task-fail-task</strong>: cov-32447df06f-task-fail-task<br>\n<br>\nIsolated race validation only; no model or repository actions",
+              "m.mentions": {
+                "user_ids": [
+                  "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+                ]
+              },
+              "msgtype": "m.text"
+            },
+            "event_id": "$HdblSWKbGdelJfrWFUg2hm0bu4MeWtwKW7tF1G5JDbQ",
+            "origin_server_ts": 1788972738132,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "type": "m.room.message",
+            "unsigned": {
+              "age": 1300,
+              "transaction_id": "delegate-cov-32447df06f-task-fail-task"
+            }
+          },
+          {
+            "content": {
+              "history_visibility": "joined"
+            },
+            "event_id": "$XDcyuW8Xr4p1fxcoyqSz3AeLLbQvdRw1mgUEFmpb27Y",
+            "origin_server_ts": 1788972736119,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.history_visibility",
+            "unsigned": {
+              "age": 3313,
+              "prev_content": {
+                "history_visibility": "shared"
+              },
+              "prev_sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+              "replaces_state": "$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI"
+            }
+          },
+          {
+            "content": {
+              "guest_access": "can_join"
+            },
+            "event_id": "$qrQVppHnluNbTxb9xj5ZUsWYXe5alq0IGmZ5j45VvIU",
+            "origin_server_ts": 1788972736118,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.guest_access",
+            "unsigned": {
+              "age": 3314
+            }
+          },
+          {
+            "content": {
+              "history_visibility": "shared"
+            },
+            "event_id": "$oZc8w4K753I7q7d6SMKMPjvv7V8bNQ4GRLETOD-8VVI",
+            "origin_server_ts": 1788972736118,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.history_visibility",
+            "unsigned": {
+              "age": 3314
+            }
+          },
+          {
+            "content": {
+              "join_rule": "invite"
+            },
+            "event_id": "$oeXf-wcevrtoCzZr4C9UJKlI1cOa5F09FAZMRnwye-I",
+            "origin_server_ts": 1788972736117,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.join_rules",
+            "unsigned": {
+              "age": 3315
+            }
+          },
+          {
+            "content": {
+              "ban": 50,
+              "events": {
+                "m.poll.response": 0,
+                "m.room.encryption": 100,
+                "m.room.history_visibility": 100,
+                "m.room.power_levels": 100,
+                "m.room.server_acl": 100,
+                "m.room.tombstone": 100,
+                "org.matrix.msc3381.poll.response": 0
+              },
+              "events_default": 0,
+              "invite": 0,
+              "kick": 50,
+              "notifications": {
+                "room": 50
+              },
+              "redact": 50,
+              "state_default": 50,
+              "users": {
+                "@mxv_21f3caf31d_alice:rv-a.matrix.invalid": 100
+              },
+              "users_default": 0
+            },
+            "event_id": "$W2zoQy2L6QWUUCFhpmKPQE5c2VUdIHFMmfqz_erXCtU",
+            "origin_server_ts": 1788972736116,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.power_levels",
+            "unsigned": {
+              "age": 3316
+            }
+          },
+          {
+            "content": {
+              "displayname": "mxv_21f3caf31d_alice",
+              "is_direct": false,
+              "membership": "join"
+            },
+            "event_id": "$a2sKBzBnst55Ig7EqW3-SUM9lHw0o6I2YpbaSVeUVSI",
+            "origin_server_ts": 1788972736115,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "type": "m.room.member",
+            "unsigned": {
+              "age": 3317
+            }
+          },
+          {
+            "content": {
+              "room_version": "11"
+            },
+            "event_id": "$VCWH9Zp1kMCcKH-0q_4-PniXxlh3MMCxftgJFEP4oHI",
+            "origin_server_ts": 1788972736114,
+            "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sender": "@mxv_21f3caf31d_alice:rv-a.matrix.invalid",
+            "state_key": "",
+            "type": "m.room.create",
+            "unsigned": {
+              "age": 3318
+            }
+          }
+        ]
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:19.473518+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cp",
+        "/tmp/repomesh-control-race/32447df06f/states/shared/projects/cov-32447df06f-states-project/meta.json",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-states-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "`/tmp/repomesh-control-race/32447df06f/states/shared/projects/cov-32447df06f-states-project/meta.json` -> `agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-states-project/meta.json`\n┌───────┬─────────────┬──────────┬─────────────┐\n│ Total │ Transferred │ Duration │ Speed       │\n│ 502 B │ 502 B       │ 00m00s   │ 44.36 KiB/s │\n└───────┴─────────────┴──────────┴─────────────┘\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:19.750036+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "delegate_task",
+        "workspaceDir": "/tmp/repomesh-control-race/32447df06f/states",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "projectId": "cov-32447df06f-states-project",
+        "taskId": "cov-32447df06f-states-task",
+        "assignedTo": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+        "spec": "Isolated race validation only; no model or repository actions",
+        "role": "leader"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "delegate_task",
+        "task": {
+          "task_id": "cov-32447df06f-states-task",
+          "project_id": "cov-32447df06f-states-project",
+          "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "status": "assigned",
+          "spec_path": "shared/tasks/cov-32447df06f-states-task/spec.md",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "task_title": "cov-32447df06f-states-task",
+          "assigned_at": "2026-09-09T16:52:19Z",
+          "notification": {
+            "sent": true,
+            "eventId": "$6PSZYrsvQbBn-JnH14d5zEQQ714xWZGk8v6n9YXCoZI",
+            "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+          },
+          "eventId": "$6PSZYrsvQbBn-JnH14d5zEQQ714xWZGk8v6n9YXCoZI"
+        },
+        "synced": true,
+        "notification": {
+          "sent": true,
+          "eventId": "$6PSZYrsvQbBn-JnH14d5zEQQ714xWZGk8v6n9YXCoZI",
+          "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+        },
+        "notificationNeeded": {
+          "event": "delegate_task",
+          "projectId": "cov-32447df06f-states-project",
+          "summary": "delegate_task: cov-32447df06f-states-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:20.077568+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "ack_task",
+        "workspaceDir": "/tmp/repomesh-control-race/32447df06f/states",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "cov-32447df06f-states-task"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "ack_task",
+        "task": {
+          "assigned_at": "2026-09-09T16:52:19Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$6PSZYrsvQbBn-JnH14d5zEQQ714xWZGk8v6n9YXCoZI",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$6PSZYrsvQbBn-JnH14d5zEQQ714xWZGk8v6n9YXCoZI",
+            "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "cov-32447df06f-states-project",
+          "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/cov-32447df06f-states-task/spec.md",
+          "status": "in_progress",
+          "task_id": "cov-32447df06f-states-task",
+          "task_title": "cov-32447df06f-states-task",
+          "acknowledged_by_role": "worker"
+        },
+        "spec": "Isolated race validation only; no model or repository actions\n",
+        "pulled": true,
+        "synced": true
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:20.159767+00:00",
+      "transport": "real-Controller-HTTP",
+      "method": "POST",
+      "path": "/api/v1/projects/cov-32447df06f-states-project/replan?team=coverage-race-32447df06f",
+      "request": {
+        "tasks": [
+          {
+            "taskId": "cov-32447df06f-states-blocked-new"
+          }
+        ]
+      },
+      "status": 409,
+      "response": {
+        "message": "project has in-flight tasks; replan is only safe before execution"
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:20.391411+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "submit_task",
+        "workspaceDir": "/tmp/repomesh-control-race/32447df06f/states",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "cov-32447df06f-states-task",
+        "summary": "Fixture result without a business artifact",
+        "status": "SUCCESS",
+        "deliverables": []
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "submit_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:52:19Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$6PSZYrsvQbBn-JnH14d5zEQQ714xWZGk8v6n9YXCoZI",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$6PSZYrsvQbBn-JnH14d5zEQQ714xWZGk8v6n9YXCoZI",
+            "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "cov-32447df06f-states-project",
+          "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/cov-32447df06f-states-task/spec.md",
+          "status": "submitted",
+          "task_id": "cov-32447df06f-states-task",
+          "task_title": "cov-32447df06f-states-task",
+          "result_status": "SUCCESS",
+          "summary": "Fixture result without a business artifact",
+          "deliverables": [],
+          "submitted_by_role": "worker"
+        },
+        "publishedArtifacts": [],
+        "synced": true,
+        "notificationNeeded": {
+          "event": "submit_task",
+          "projectId": "cov-32447df06f-states-project",
+          "summary": "submit_task: cov-32447df06f-states-task (SUCCESS)",
+          "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:20.425261+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-states-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"plan_type\": \"dag\",\n  \"project_id\": \"cov-32447df06f-states-project\",\n  \"source\": \"matrix\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"status\": \"active\",\n  \"tasks\": [\n    {\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"depends_on\": [],\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"submitted\",\n      \"task_id\": \"cov-32447df06f-states-task\",\n      \"title\": \"cov-32447df06f-states-task\"\n    }\n  ],\n  \"team_id\": \"coverage-race-32447df06f\",\n  \"title\": \"cov-32447df06f-states-project\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:20.510463+00:00",
+      "transport": "real-Controller-HTTP",
+      "method": "POST",
+      "path": "/api/v1/projects/cov-32447df06f-states-project/replan?team=coverage-race-32447df06f",
+      "request": {
+        "tasks": [
+          {
+            "taskId": "cov-32447df06f-states-blocked-new"
+          }
+        ]
+      },
+      "status": 409,
+      "response": {
+        "message": "project has in-flight tasks; replan is only safe before execution"
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:20.583762+00:00",
+      "transport": "real-Controller-HTTP",
+      "method": "POST",
+      "path": "/api/v1/projects/cov-32447df06f-states-project/complete?team=coverage-race-32447df06f",
+      "request": {},
+      "status": 409,
+      "response": {
+        "message": "project has non-terminal tasks (status: submitted)"
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:20.742941+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "projectflow",
+      "arguments": {
+        "action": "accept_task_result",
+        "workspaceDir": "/tmp/repomesh-control-race/32447df06f/states",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "projectId": "cov-32447df06f-states-project",
+        "taskId": "cov-32447df06f-states-task",
+        "accepted": true,
+        "resultStatus": "SUCCESS"
+      },
+      "response": {
+        "ok": true,
+        "tool": "projectflow",
+        "action": "accept_task_result",
+        "project": {
+          "plan_type": "dag",
+          "project_id": "cov-32447df06f-states-project",
+          "source": "matrix",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "status": "active",
+          "tasks": [
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+              "status": "completed",
+              "task_id": "cov-32447df06f-states-task",
+              "title": "cov-32447df06f-states-task"
+            }
+          ],
+          "team_id": "coverage-race-32447df06f",
+          "title": "cov-32447df06f-states-project",
+          "requester_report": {
+            "pending": true,
+            "reason": "task_result_accepted",
+            "task_id": "cov-32447df06f-states-task",
+            "result_status": "SUCCESS",
+            "summary": "",
+            "report_path": "shared/projects/cov-32447df06f-states-project/result.md"
+          }
+        },
+        "taskId": "cov-32447df06f-states-task",
+        "nodeStatus": "completed",
+        "accepted": true,
+        "publishedArtifacts": [],
+        "notificationNeeded": {
+          "event": "accept_task_result",
+          "projectId": "cov-32447df06f-states-project",
+          "summary": "accept_task_result: cov-32447df06f-states-task -> completed",
+          "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:20.773696+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-states-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"plan_type\": \"dag\",\n  \"project_id\": \"cov-32447df06f-states-project\",\n  \"requester_report\": {\n    \"pending\": true,\n    \"reason\": \"task_result_accepted\",\n    \"report_path\": \"shared/projects/cov-32447df06f-states-project/result.md\",\n    \"result_status\": \"SUCCESS\",\n    \"summary\": \"\",\n    \"task_id\": \"cov-32447df06f-states-task\"\n  },\n  \"source\": \"matrix\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"status\": \"active\",\n  \"tasks\": [\n    {\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"depends_on\": [],\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"completed\",\n      \"task_id\": \"cov-32447df06f-states-task\",\n      \"title\": \"cov-32447df06f-states-task\"\n    }\n  ],\n  \"team_id\": \"coverage-race-32447df06f\",\n  \"title\": \"cov-32447df06f-states-project\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:20.971588+00:00",
+      "transport": "real-Controller-HTTP",
+      "method": "POST",
+      "path": "/api/v1/projects/cov-32447df06f-states-project/replan?team=coverage-race-32447df06f",
+      "request": {
+        "tasks": [
+          {
+            "taskId": "cov-32447df06f-states-round2-task",
+            "title": "Next finite DAG"
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "project_id": "cov-32447df06f-states-project",
+        "title": "cov-32447df06f-states-project",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-race-32447df06f",
+        "mode": "",
+        "source": "matrix",
+        "nodes": [
+          {
+            "id": "cov-32447df06f-states-round2-task",
+            "name": "Next finite DAG",
+            "status": "pending"
+          }
+        ],
+        "edges": [],
+        "next": [
+          "cov-32447df06f-states-round2-task"
+        ],
+        "interrupts": [],
+        "values": {
+          "project_id": "cov-32447df06f-states-project",
+          "title": "cov-32447df06f-states-project",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "coverage-race-32447df06f",
+          "mode": "",
+          "task_count": {
+            "pending": 1
+          }
+        },
+        "requester_report": {
+          "pending": true,
+          "reason": "task_result_accepted",
+          "report_path": "shared/projects/cov-32447df06f-states-project/result.md",
+          "result_status": "SUCCESS",
+          "summary": "",
+          "task_id": "cov-32447df06f-states-task"
+        },
+        "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+        "updated_by": "admin",
+        "updated_at": "2026-09-09T16:52:20Z"
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:21.008680+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-states-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\"project_id\":\"cov-32447df06f-states-project\",\"title\":\"cov-32447df06f-states-project\",\"status\":\"active\",\"plan_type\":\"dag\",\"team_id\":\"coverage-race-32447df06f\",\"mode\":\"\",\"source\":\"matrix\",\"tasks\":[{\"task_id\":\"cov-32447df06f-states-round2-task\",\"title\":\"Next finite DAG\",\"assigned_to\":\"\",\"depends_on\":[],\"status\":\"planned\"}],\"requester_report\":{\"pending\":true,\"reason\":\"task_result_accepted\",\"report_path\":\"shared/projects/cov-32447df06f-states-project/result.md\",\"result_status\":\"SUCCESS\",\"summary\":\"\",\"task_id\":\"cov-32447df06f-states-task\"},\"source_room_id\":\"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\"updated_by\":\"admin\",\"updated_at\":\"2026-09-09T16:52:20Z\"}",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:21.047582+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cp",
+        "/tmp/repomesh-control-race/32447df06f/partial-b/shared/projects/cov-32447df06f-partial-b-project/meta.json",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-partial-b-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "`/tmp/repomesh-control-race/32447df06f/partial-b/shared/projects/cov-32447df06f-partial-b-project/meta.json` -> `agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-partial-b-project/meta.json`\n┌───────┬─────────────┬──────────┬─────────────┐\n│ Total │ Transferred │ Duration │ Speed       │\n│ 514 B │ 514 B       │ 00m00s   │ 51.37 KiB/s │\n└───────┴─────────────┴──────────┴─────────────┘\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:21.407294+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "delegate_task",
+        "workspaceDir": "/tmp/repomesh-control-race/32447df06f/partial-b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "projectId": "cov-32447df06f-partial-b-project",
+        "taskId": "cov-32447df06f-partial-b-task",
+        "assignedTo": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+        "spec": "Isolated race validation only; no model or repository actions",
+        "role": "leader"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "delegate_task",
+        "task": {
+          "task_id": "cov-32447df06f-partial-b-task",
+          "project_id": "cov-32447df06f-partial-b-project",
+          "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "status": "assigned",
+          "spec_path": "shared/tasks/cov-32447df06f-partial-b-task/spec.md",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "task_title": "cov-32447df06f-partial-b-task",
+          "assigned_at": "2026-09-09T16:52:21Z",
+          "notification": {
+            "sent": true,
+            "eventId": "$exC1L44rvUNmhfBuMdQboHyq6zAp-f1fg8md_xFKPg0",
+            "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+          },
+          "eventId": "$exC1L44rvUNmhfBuMdQboHyq6zAp-f1fg8md_xFKPg0"
+        },
+        "synced": true,
+        "notification": {
+          "sent": true,
+          "eventId": "$exC1L44rvUNmhfBuMdQboHyq6zAp-f1fg8md_xFKPg0",
+          "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+        },
+        "notificationNeeded": {
+          "event": "delegate_task",
+          "projectId": "cov-32447df06f-partial-b-project",
+          "summary": "delegate_task: cov-32447df06f-partial-b-task assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:21.742203+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "ack_task",
+        "workspaceDir": "/tmp/repomesh-control-race/32447df06f/partial-b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "cov-32447df06f-partial-b-task"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "ack_task",
+        "task": {
+          "assigned_at": "2026-09-09T16:52:21Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$exC1L44rvUNmhfBuMdQboHyq6zAp-f1fg8md_xFKPg0",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$exC1L44rvUNmhfBuMdQboHyq6zAp-f1fg8md_xFKPg0",
+            "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "cov-32447df06f-partial-b-project",
+          "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/cov-32447df06f-partial-b-task/spec.md",
+          "status": "in_progress",
+          "task_id": "cov-32447df06f-partial-b-task",
+          "task_title": "cov-32447df06f-partial-b-task",
+          "acknowledged_by_role": "worker"
+        },
+        "spec": "Isolated race validation only; no model or repository actions\n",
+        "pulled": true,
+        "synced": true
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:21.942143+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "taskflow",
+      "arguments": {
+        "action": "submit_task",
+        "workspaceDir": "/tmp/repomesh-control-race/32447df06f/partial-b",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "taskId": "cov-32447df06f-partial-b-task",
+        "summary": "Second target still submitted",
+        "status": "SUCCESS",
+        "deliverables": []
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "submit_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:52:21Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$exC1L44rvUNmhfBuMdQboHyq6zAp-f1fg8md_xFKPg0",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$exC1L44rvUNmhfBuMdQboHyq6zAp-f1fg8md_xFKPg0",
+            "roomId": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "cov-32447df06f-partial-b-project",
+          "room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/cov-32447df06f-partial-b-task/spec.md",
+          "status": "submitted",
+          "task_id": "cov-32447df06f-partial-b-task",
+          "task_title": "cov-32447df06f-partial-b-task",
+          "result_status": "SUCCESS",
+          "summary": "Second target still submitted",
+          "deliverables": [],
+          "submitted_by_role": "worker"
+        },
+        "publishedArtifacts": [],
+        "synced": true,
+        "notificationNeeded": {
+          "event": "submit_task",
+          "projectId": "cov-32447df06f-partial-b-project",
+          "summary": "submit_task: cov-32447df06f-partial-b-task (SUCCESS)",
+          "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:22.004643+00:00",
+      "transport": "real-Controller-HTTP",
+      "method": "POST",
+      "path": "/api/v1/projects/cov-32447df06f-partial-b-project/replan?team=coverage-race-32447df06f",
+      "request": {
+        "tasks": [
+          {
+            "taskId": "cov-32447df06f-partial-b-new"
+          }
+        ]
+      },
+      "status": 409,
+      "response": {
+        "message": "project has in-flight tasks; replan is only safe before execution"
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:22.038016+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-states-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\"project_id\":\"cov-32447df06f-states-project\",\"title\":\"cov-32447df06f-states-project\",\"status\":\"active\",\"plan_type\":\"dag\",\"team_id\":\"coverage-race-32447df06f\",\"mode\":\"\",\"source\":\"matrix\",\"tasks\":[{\"task_id\":\"cov-32447df06f-states-round2-task\",\"title\":\"Next finite DAG\",\"assigned_to\":\"\",\"depends_on\":[],\"status\":\"planned\"}],\"requester_report\":{\"pending\":true,\"reason\":\"task_result_accepted\",\"report_path\":\"shared/projects/cov-32447df06f-states-project/result.md\",\"result_status\":\"SUCCESS\",\"summary\":\"\",\"task_id\":\"cov-32447df06f-states-task\"},\"source_room_id\":\"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\"updated_by\":\"admin\",\"updated_at\":\"2026-09-09T16:52:20Z\"}",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:22.070274+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-partial-b-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"plan_type\": \"dag\",\n  \"project_id\": \"cov-32447df06f-partial-b-project\",\n  \"source\": \"matrix\",\n  \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n  \"status\": \"active\",\n  \"tasks\": [\n    {\n      \"assigned_to\": \"@mxv_21f3caf31d_bob:rv-a.matrix.invalid\",\n      \"depends_on\": [],\n      \"source_room_id\": \"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\n      \"status\": \"submitted\",\n      \"task_id\": \"cov-32447df06f-partial-b-task\",\n      \"title\": \"cov-32447df06f-partial-b-task\"\n    }\n  ],\n  \"team_id\": \"coverage-race-32447df06f\",\n  \"title\": \"cov-32447df06f-partial-b-project\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "at_utc": "2026-09-09T16:52:22.211253+00:00",
+      "transport": "real-server.call_tool",
+      "tool": "projectflow",
+      "arguments": {
+        "action": "accept_task_result",
+        "workspaceDir": "/tmp/repomesh-control-race/32447df06f/states",
+        "storage": {
+          "sharedPrefix": "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared"
+        },
+        "projectId": "cov-32447df06f-states-project",
+        "taskId": "cov-32447df06f-states-round2-task",
+        "accepted": true,
+        "resultStatus": "SUCCESS"
+      },
+      "response": {
+        "ok": true,
+        "tool": "projectflow",
+        "action": "accept_task_result",
+        "project": {
+          "mode": "",
+          "plan_type": "dag",
+          "project_id": "cov-32447df06f-states-project",
+          "requester_report": {
+            "pending": true,
+            "reason": "task_result_accepted",
+            "task_id": "cov-32447df06f-states-round2-task",
+            "result_status": "SUCCESS",
+            "summary": "",
+            "report_path": "shared/projects/cov-32447df06f-states-project/result.md"
+          },
+          "source": "matrix",
+          "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+          "status": "active",
+          "tasks": [
+            {
+              "assigned_to": "",
+              "depends_on": [],
+              "status": "completed",
+              "task_id": "cov-32447df06f-states-round2-task",
+              "title": "Next finite DAG"
+            }
+          ],
+          "team_id": "coverage-race-32447df06f",
+          "title": "cov-32447df06f-states-project",
+          "updated_at": "2026-09-09T16:52:20Z",
+          "updated_by": "admin"
+        },
+        "taskId": "cov-32447df06f-states-round2-task",
+        "nodeStatus": "completed",
+        "accepted": true,
+        "publishedArtifacts": [],
+        "notificationNeeded": {
+          "event": "accept_task_result",
+          "projectId": "cov-32447df06f-states-project",
+          "summary": "accept_task_result: cov-32447df06f-states-round2-task -> completed",
+          "targetRoom": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid"
+        }
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:22.477390+00:00",
+      "transport": "real-Controller-HTTP",
+      "method": "POST",
+      "path": "/api/v1/projects/cov-32447df06f-states-project/complete?team=coverage-race-32447df06f",
+      "request": {},
+      "status": 200,
+      "response": {
+        "project_id": "cov-32447df06f-states-project",
+        "title": "cov-32447df06f-states-project",
+        "status": "completed",
+        "plan_type": "dag",
+        "team_id": "coverage-race-32447df06f",
+        "mode": "",
+        "source": "matrix",
+        "nodes": [
+          {
+            "id": "cov-32447df06f-states-round2-task",
+            "name": "Next finite DAG",
+            "status": "completed"
+          }
+        ],
+        "edges": [],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "cov-32447df06f-states-project",
+          "title": "cov-32447df06f-states-project",
+          "status": "completed",
+          "plan_type": "dag",
+          "team_id": "coverage-race-32447df06f",
+          "mode": "",
+          "task_count": {
+            "completed": 1
+          }
+        },
+        "requester_report": {
+          "pending": true,
+          "reason": "task_result_accepted",
+          "report_path": "shared/projects/cov-32447df06f-states-project/result.md",
+          "result_status": "SUCCESS",
+          "summary": "",
+          "task_id": "cov-32447df06f-states-round2-task"
+        },
+        "source_room_id": "!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid",
+        "updated_by": "admin",
+        "updated_at": "2026-09-09T16:52:22Z"
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:22.569452+00:00",
+      "transport": "real-Controller-HTTP",
+      "method": "POST",
+      "path": "/api/v1/projects/cov-32447df06f-states-project/replan?team=coverage-race-32447df06f",
+      "request": {
+        "tasks": [
+          {
+            "taskId": "cov-32447df06f-states-after-close"
+          }
+        ]
+      },
+      "status": 409,
+      "response": {
+        "message": "replan requires an active project"
+      }
+    },
+    {
+      "at_utc": "2026-09-09T16:52:22.613023+00:00",
+      "transport": "real-mc-fixture",
+      "args": [
+        "cat",
+        "agentteams/rv-a-storage/teams/coverage-race-32447df06f/shared/projects/cov-32447df06f-states-project/meta.json"
+      ],
+      "returncode": 0,
+      "stdout": "{\"project_id\":\"cov-32447df06f-states-project\",\"title\":\"cov-32447df06f-states-project\",\"status\":\"completed\",\"plan_type\":\"dag\",\"team_id\":\"coverage-race-32447df06f\",\"mode\":\"\",\"source\":\"matrix\",\"tasks\":[{\"task_id\":\"cov-32447df06f-states-round2-task\",\"title\":\"Next finite DAG\",\"assigned_to\":\"\",\"depends_on\":[],\"status\":\"completed\"}],\"requester_report\":{\"pending\":true,\"reason\":\"task_result_accepted\",\"report_path\":\"shared/projects/cov-32447df06f-states-project/result.md\",\"result_status\":\"SUCCESS\",\"summary\":\"\",\"task_id\":\"cov-32447df06f-states-round2-task\"},\"source_room_id\":\"!jTrBA6L1EQS55sSru7:rv-a.matrix.invalid\",\"updated_by\":\"admin\",\"updated_at\":\"2026-09-09T16:52:22Z\"}",
+      "stderr": ""
+    }
+  ],
+  "boundary": "Unmodified disk source; real services with explicit process-local filesync barrier/auth-fault wrapper; fresh Python retry processes; no runtime/model or RepoMesh transaction"
+}

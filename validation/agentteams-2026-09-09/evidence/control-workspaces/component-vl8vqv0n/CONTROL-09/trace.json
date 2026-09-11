@@ -1,0 +1,268 @@
+{
+  "id": "CONTROL-09",
+  "title": "Distinct upstream task IDs preserve separate attempt records",
+  "at": [
+    "AT-05"
+  ],
+  "expected_product_disposition": "SUPPORTED_COMPONENT_BEHAVIOR",
+  "source_lines": [
+    2807,
+    4049
+  ],
+  "fixture_directory": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09",
+  "observations": {
+    "separate_task_files": true,
+    "separate_notification_ids": true,
+    "limitation": "No RepoMesh Attempt, process, worktree, or Worker lease exists in this fixture"
+  },
+  "expectation_check": "PASS",
+  "observed_product_disposition": "SUPPORTED_COMPONENT_BEHAVIOR",
+  "tool_calls": [
+    {
+      "tool": "taskflow",
+      "arguments": {
+        "action": "delegate_task",
+        "workspaceDir": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace",
+        "storage": {
+          "sharedPrefix": "control-store/teams/control-team/shared"
+        },
+        "projectId": "issue-a",
+        "taskId": "a-round1-attempt1",
+        "assignedTo": "@control-worker:validation.invalid",
+        "roomId": "!control-room:validation.invalid",
+        "spec": "Fixture specification for issue-a/a-round1-attempt1",
+        "role": "leader"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "delegate_task",
+        "task": {
+          "task_id": "a-round1-attempt1",
+          "project_id": "issue-a",
+          "room_id": "!control-room:validation.invalid",
+          "status": "assigned",
+          "spec_path": "shared/tasks/a-round1-attempt1/spec.md",
+          "assigned_to": "@control-worker:validation.invalid",
+          "source_room_id": "!control-room:validation.invalid",
+          "task_title": "a-round1-attempt1",
+          "assigned_at": "2026-09-09T16:20:54Z",
+          "notification": {
+            "sent": true,
+            "eventId": "$control-event-1",
+            "roomId": "!control-room:validation.invalid",
+            "assignee": "@control-worker:validation.invalid"
+          },
+          "eventId": "$control-event-1"
+        },
+        "synced": true,
+        "notification": {
+          "sent": true,
+          "eventId": "$control-event-1",
+          "roomId": "!control-room:validation.invalid",
+          "assignee": "@control-worker:validation.invalid"
+        },
+        "notificationNeeded": {
+          "event": "delegate_task",
+          "projectId": "issue-a",
+          "summary": "delegate_task: a-round1-attempt1 assigned to @control-worker:validation.invalid",
+          "targetRoom": "!control-room:validation.invalid"
+        }
+      }
+    },
+    {
+      "tool": "taskflow",
+      "arguments": {
+        "action": "delegate_task",
+        "workspaceDir": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace",
+        "storage": {
+          "sharedPrefix": "control-store/teams/control-team/shared"
+        },
+        "projectId": "issue-a",
+        "taskId": "a-round1-attempt2",
+        "assignedTo": "@control-worker:validation.invalid",
+        "roomId": "!control-room:validation.invalid",
+        "spec": "Fixture specification for issue-a/a-round1-attempt2",
+        "role": "leader"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "delegate_task",
+        "task": {
+          "task_id": "a-round1-attempt2",
+          "project_id": "issue-a",
+          "room_id": "!control-room:validation.invalid",
+          "status": "assigned",
+          "spec_path": "shared/tasks/a-round1-attempt2/spec.md",
+          "assigned_to": "@control-worker:validation.invalid",
+          "source_room_id": "!control-room:validation.invalid",
+          "task_title": "a-round1-attempt2",
+          "assigned_at": "2026-09-09T16:20:54Z",
+          "notification": {
+            "sent": true,
+            "eventId": "$control-event-2",
+            "roomId": "!control-room:validation.invalid",
+            "assignee": "@control-worker:validation.invalid"
+          },
+          "eventId": "$control-event-2"
+        },
+        "synced": true,
+        "notification": {
+          "sent": true,
+          "eventId": "$control-event-2",
+          "roomId": "!control-room:validation.invalid",
+          "assignee": "@control-worker:validation.invalid"
+        },
+        "notificationNeeded": {
+          "event": "delegate_task",
+          "projectId": "issue-a",
+          "summary": "delegate_task: a-round1-attempt2 assigned to @control-worker:validation.invalid",
+          "targetRoom": "!control-room:validation.invalid"
+        }
+      }
+    }
+  ],
+  "transport_events": [
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "cp",
+        "control-store/teams/control-team/shared/projects/issue-a/meta.json",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace\\shared\\projects\\issue-a\\meta.json"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-Matrix",
+      "method": "GET",
+      "url": "https://matrix.validation.invalid/_matrix/client/v3/rooms/%21control-room%3Avalidation.invalid/members",
+      "body": null
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace\\shared\\tasks\\a-round1-attempt1/",
+        "control-store/teams/control-team/shared/tasks/a-round1-attempt1/",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-Matrix",
+      "method": "PUT",
+      "url": "https://matrix.validation.invalid/_matrix/client/v3/rooms/%21control-room%3Avalidation.invalid/send/m.room.message/delegate-a-round1-attempt1",
+      "body": {
+        "msgtype": "m.text",
+        "body": "@control-worker:validation.invalid You are assigned task **a-round1-attempt1**: a-round1-attempt1\n\nFixture specification for issue-a/a-round1-attempt1",
+        "format": "org.matrix.custom.html",
+        "formatted_body": "<p><a href=\"https://matrix.to/#/%40control-worker%3Avalidation.invalid\">control-worker</a> You are assigned task <strong>a-round1-attempt1</strong>: a-round1-attempt1</p>\n<p>Fixture specification for issue-a/a-round1-attempt1</p>",
+        "m.mentions": {
+          "user_ids": [
+            "@control-worker:validation.invalid"
+          ]
+        }
+      },
+      "event_id": "$control-event-1"
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace\\shared\\projects\\issue-a/",
+        "control-store/teams/control-team/shared/projects/issue-a/",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace\\shared\\tasks\\a-round1-attempt1/",
+        "control-store/teams/control-team/shared/tasks/a-round1-attempt1/",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "cp",
+        "control-store/teams/control-team/shared/projects/issue-a/meta.json",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace\\shared\\projects\\issue-a\\meta.json"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-Matrix",
+      "method": "GET",
+      "url": "https://matrix.validation.invalid/_matrix/client/v3/rooms/%21control-room%3Avalidation.invalid/members",
+      "body": null
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace\\shared\\tasks\\a-round1-attempt2/",
+        "control-store/teams/control-team/shared/tasks/a-round1-attempt2/",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-Matrix",
+      "method": "PUT",
+      "url": "https://matrix.validation.invalid/_matrix/client/v3/rooms/%21control-room%3Avalidation.invalid/send/m.room.message/delegate-a-round1-attempt2",
+      "body": {
+        "msgtype": "m.text",
+        "body": "@control-worker:validation.invalid You are assigned task **a-round1-attempt2**: a-round1-attempt2\n\nFixture specification for issue-a/a-round1-attempt2",
+        "format": "org.matrix.custom.html",
+        "formatted_body": "<p><a href=\"https://matrix.to/#/%40control-worker%3Avalidation.invalid\">control-worker</a> You are assigned task <strong>a-round1-attempt2</strong>: a-round1-attempt2</p>\n<p>Fixture specification for issue-a/a-round1-attempt2</p>",
+        "m.mentions": {
+          "user_ids": [
+            "@control-worker:validation.invalid"
+          ]
+        }
+      },
+      "event_id": "$control-event-2"
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace\\shared\\projects\\issue-a/",
+        "control-store/teams/control-team/shared/projects/issue-a/",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-09\\workspace\\shared\\tasks\\a-round1-attempt2/",
+        "control-store/teams/control-team/shared/tasks/a-round1-attempt2/",
+        "--overwrite"
+      ],
+      "completed": true
+    }
+  ]
+}

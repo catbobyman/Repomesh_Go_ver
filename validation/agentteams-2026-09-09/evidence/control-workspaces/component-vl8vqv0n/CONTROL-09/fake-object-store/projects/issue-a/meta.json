@@ -1,0 +1,27 @@
+{
+  "plan_type": "dag",
+  "project_id": "issue-a",
+  "source": "matrix",
+  "source_room_id": "!control-room:validation.invalid",
+  "status": "active",
+  "tasks": [
+    {
+      "assigned_to": "@control-worker:validation.invalid",
+      "depends_on": [],
+      "source_room_id": "!control-room:validation.invalid",
+      "status": "assigned",
+      "task_id": "a-round1-attempt1",
+      "title": "a-round1-attempt1"
+    },
+    {
+      "assigned_to": "@control-worker:validation.invalid",
+      "depends_on": [],
+      "source_room_id": "!control-room:validation.invalid",
+      "status": "assigned",
+      "task_id": "a-round1-attempt2",
+      "title": "a-round1-attempt2"
+    }
+  ],
+  "team_id": "control-team",
+  "title": "issue-a"
+}

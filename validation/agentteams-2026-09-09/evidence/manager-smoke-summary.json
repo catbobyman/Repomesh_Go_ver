@@ -1,0 +1,157 @@
+[
+  {
+    "name": "python-metadata",
+    "exitcode": 0,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "/opt/venv/qwenpaw/bin/python",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "-c",
+      "import sys,json,importlib.metadata as m; print(json.dumps({\"python\":sys.version,\"packages\":{n:m.version(n) for n in (\"qwenpaw\",\"copaw-worker\",\"agentscope\",\"wrapt\",\"loongsuite-instrumentation-qwenpaw\")}},indent=2))"
+    ]
+  },
+  {
+    "name": "pip-check",
+    "exitcode": 1,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "/opt/venv/qwenpaw/bin/pip",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "check"
+    ]
+  },
+  {
+    "name": "pip-freeze",
+    "exitcode": 0,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "/opt/venv/qwenpaw/bin/pip",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "freeze"
+    ]
+  },
+  {
+    "name": "qwenpaw-help",
+    "exitcode": 0,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "/opt/venv/qwenpaw/bin/qwenpaw",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "--help"
+    ]
+  },
+  {
+    "name": "agt-help",
+    "exitcode": 0,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "agt",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "--help"
+    ]
+  },
+  {
+    "name": "mcporter-help",
+    "exitcode": 0,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "mcporter",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "--help"
+    ]
+  },
+  {
+    "name": "node-version",
+    "exitcode": 0,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "node",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "--version"
+    ]
+  },
+  {
+    "name": "npm-packages",
+    "exitcode": 0,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "npm",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "list",
+      "-g",
+      "--depth=0"
+    ]
+  },
+  {
+    "name": "plugin-manifests",
+    "exitcode": 0,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "/opt/venv/qwenpaw/bin/python",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "-c",
+      "import json,pathlib; root=pathlib.Path(\"/opt/agentteams/plugins\"); print(json.dumps({str(p):json.loads(p.read_text()) for p in root.glob(\"*/plugin.json\")},indent=2)); assert (root/\"agentteams-matrix-channel/plugin.json\").is_file(); assert (root/\"agentteams-manager-tools/plugin.json\").is_file()"
+    ]
+  },
+  {
+    "name": "bridge-tools",
+    "exitcode": 0,
+    "command": [
+      "docker",
+      "run",
+      "--rm",
+      "--network",
+      "none",
+      "--entrypoint",
+      "/opt/venv/qwenpaw/bin/python",
+      "repomesh-validation/manager-qwenpaw:eeaab643",
+      "-c",
+      "import copaw_worker.bridge, copaw_worker.run_copaw_app\nfrom copaw_worker.hooks.tools.projectflow import projectflow\nfrom copaw_worker.hooks.tools.taskflow import taskflow\nfrom copaw_worker.hooks.tools.message import message\nfrom copaw_worker.hooks.tools.filesync import filesync\nimport importlib.util\nfrom pathlib import Path\np=Path(\"/opt/agentteams/plugins/agentteams-manager-tools/plugin.py\")\ns=importlib.util.spec_from_file_location(\"manager_tools\",p); m=importlib.util.module_from_spec(s); s.loader.exec_module(m)\nclass API:\n def __init__(self):self.tools=[]\n def register_tool(self,**kw):self.tools.append(kw[\"tool_name\"])\na=API();m.AgentTeamsManagerToolsPlugin().register(a);print(\"imports_ok; tools=\"+repr(a.tools));assert sorted(a.tools)==[\"filesync\",\"message\",\"projectflow\",\"taskflow\"]\n"
+    ]
+  }
+]

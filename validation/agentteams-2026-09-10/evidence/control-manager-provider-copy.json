@@ -1,0 +1,16 @@
+{
+  "at_utc": "2026-09-10T10:33:03.183432+00:00",
+  "acl_evidence": "control-manager-private-acl.json",
+  "provider_source": "agentteams-2026-09-09/private/provider.json",
+  "provider_destination": "private/provider.json",
+  "provider_sha256": "d7a137557383092e89591970256da35495d9ccb7202515e5d2ae69f982ba8b32",
+  "same_bytes": true,
+  "provider_key_names": [
+    "AGENTTEAMS_LLM_PROVIDER",
+    "AGENTTEAMS_OPENAI_BASE_URL",
+    "AGENTTEAMS_DEFAULT_MODEL",
+    "AGENTTEAMS_LLM_API_KEY"
+  ],
+  "model": "deepseek-chat",
+  "secret_printed": false
+}

@@ -1,0 +1,521 @@
+{
+  "at_utc": "2026-09-09T16:50:46.778920+00:00",
+  "containers": [
+    {
+      "name": "rv-a-controller",
+      "id": "b87af2f3f940e51c24d8ed9586e055ce0b444b2168322cb5b9dc2d35cd4f439c",
+      "image_id": "sha256:84ec2dfd1c8062785e867f2d6f6ce0875d1a67fab7106d54f257c2326966a150",
+      "running": true,
+      "started_at": "2026-09-09T16:39:16.069109639Z",
+      "size_rw_bytes": 17138207,
+      "size_rootfs_bytes": 2490071588,
+      "ports": {
+        "8001/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "28001"
+          }
+        ],
+        "8080/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "28080"
+          }
+        ],
+        "8088/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "28088"
+          }
+        ],
+        "8090/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "28090"
+          }
+        ]
+      },
+      "networks": [
+        "rv-a-net"
+      ],
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "rv-a-data",
+          "Source": "/var/lib/docker/volumes/rv-a-data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "rv-a-agentfs",
+          "Source": "/var/lib/docker/volumes/rv-a-agentfs/_data",
+          "Destination": "/root/agentteams-fs",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-09/runtime/instance-a/workspace",
+          "Destination": "/root/agentteams-fs/agents/manager",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-09/runtime/instance-a/host-share",
+          "Destination": "/validation-host-share",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "//var/run/docker.sock",
+          "Destination": "/var/run/docker.sock",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "disk": {
+        "exit_code": 0,
+        "du_kib": "97396\t/data\n6308\t/root/agentteams-fs"
+      }
+    },
+    {
+      "name": "rv-a-manager",
+      "id": "90648a5b386310775ef6eb9d37496bf7141022f77f0b19d4dc9bcd0a7efd317d",
+      "image_id": "sha256:3d1d4d42b4329577bf5f45743f4aad86da112704e85cca0df8ea7b0373e696ea",
+      "running": true,
+      "started_at": "2026-09-09T16:39:31.533493465Z",
+      "size_rw_bytes": 1818709,
+      "size_rootfs_bytes": 1886690055,
+      "ports": {
+        "18799/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "28099"
+          }
+        ]
+      },
+      "networks": [
+        "rv-a-net"
+      ],
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-09/runtime/instance-a/workspace",
+          "Destination": "/root/manager-workspace",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-09/runtime/instance-a/host-share",
+          "Destination": "/host-share",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "usage_read_exit": 0,
+      "native_token_usage": {
+        "2026-09-09": {
+          "agentteams-gateway:deepseek-chat": {
+            "provider_id": "agentteams-gateway",
+            "model_name": "deepseek-chat",
+            "prompt_tokens": 71086,
+            "completion_tokens": 160,
+            "call_count": 4
+          }
+        }
+      }
+    },
+    {
+      "name": "rv-a-worker-live-twin-leader",
+      "id": "4cc82fddf8e26a245c9436a9162d449acb55a6c1b98aaa95747fa38574e1a810",
+      "image_id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+      "running": true,
+      "started_at": "2026-09-09T16:45:05.516747573Z",
+      "size_rw_bytes": 5758223,
+      "size_rootfs_bytes": 1872939062,
+      "ports": {
+        "8088/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13429"
+          }
+        ]
+      },
+      "networks": [
+        "rv-a-net"
+      ],
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "rv-a-worker-live-twin-leader-auth",
+          "Source": "/var/lib/docker/volumes/rv-a-worker-live-twin-leader-auth/_data",
+          "Destination": "/var/run/secrets/agentteams",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "usage_read_exit": 0,
+      "native_token_usage": {
+        "2026-09-09": {
+          "agentteams-gateway:deepseek-chat": {
+            "provider_id": "agentteams-gateway",
+            "model_name": "deepseek-chat",
+            "prompt_tokens": 15724,
+            "completion_tokens": 32,
+            "call_count": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "rv-a-worker-live-twin-worker",
+      "id": "1b8bdff6e607536dc2e6e9a5e01c8134a993486c59bdb4ee2a4946814668eb3c",
+      "image_id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+      "running": true,
+      "started_at": "2026-09-09T16:47:25.407351891Z",
+      "size_rw_bytes": 5760209,
+      "size_rootfs_bytes": 1872941048,
+      "ports": {
+        "8088/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "17680"
+          }
+        ]
+      },
+      "networks": [
+        "rv-a-net"
+      ],
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "rv-a-worker-live-twin-worker-auth",
+          "Source": "/var/lib/docker/volumes/rv-a-worker-live-twin-worker-auth/_data",
+          "Destination": "/var/run/secrets/agentteams",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "usage_read_exit": 0,
+      "native_token_usage": {
+        "2026-09-09": {
+          "agentteams-gateway:deepseek-chat": {
+            "provider_id": "agentteams-gateway",
+            "model_name": "deepseek-chat",
+            "prompt_tokens": 14883,
+            "completion_tokens": 35,
+            "call_count": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "rv-b-controller",
+      "id": "c4a73487e935850572f1cd5e70c5f4479a2964c7d976bf12974aea4bd9fa4f20",
+      "image_id": "sha256:84ec2dfd1c8062785e867f2d6f6ce0875d1a67fab7106d54f257c2326966a150",
+      "running": true,
+      "started_at": "2026-09-09T16:43:58.11171881Z",
+      "size_rw_bytes": 16721780,
+      "size_rootfs_bytes": 2489655161,
+      "ports": {
+        "8001/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "38001"
+          }
+        ],
+        "8080/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "38080"
+          }
+        ],
+        "8088/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "38088"
+          }
+        ],
+        "8090/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "38090"
+          }
+        ]
+      },
+      "networks": [
+        "rv-b-net"
+      ],
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "rv-b-data",
+          "Source": "/var/lib/docker/volumes/rv-b-data/_data",
+          "Destination": "/data",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "volume",
+          "Name": "rv-b-agentfs",
+          "Source": "/var/lib/docker/volumes/rv-b-agentfs/_data",
+          "Destination": "/root/agentteams-fs",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-09/runtime/instance-b/workspace",
+          "Destination": "/root/agentteams-fs/agents/manager",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-09/runtime/instance-b/host-share",
+          "Destination": "/validation-host-share",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "//var/run/docker.sock",
+          "Destination": "/var/run/docker.sock",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "disk": {
+        "exit_code": 0,
+        "du_kib": "95768\t/data\n6316\t/root/agentteams-fs"
+      }
+    },
+    {
+      "name": "rv-b-manager",
+      "id": "7f69693349d0720aad5fbf40b529e46505f42064f9094c6dd3d4b0abea641b7d",
+      "image_id": "sha256:3d1d4d42b4329577bf5f45743f4aad86da112704e85cca0df8ea7b0373e696ea",
+      "running": true,
+      "started_at": "2026-09-09T16:44:14.670970995Z",
+      "size_rw_bytes": 1640185,
+      "size_rootfs_bytes": 1886511531,
+      "ports": {
+        "18799/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "38099"
+          }
+        ]
+      },
+      "networks": [
+        "rv-b-net"
+      ],
+      "mounts": [
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-09/runtime/instance-b/workspace",
+          "Destination": "/root/manager-workspace",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        },
+        {
+          "Type": "bind",
+          "Source": "/run/desktop/mnt/host/d/Project4work/Repomesh_Go_ver/validation/agentteams-2026-09-09/runtime/instance-b/host-share",
+          "Destination": "/host-share",
+          "Mode": "",
+          "RW": true,
+          "Propagation": "rprivate"
+        }
+      ],
+      "usage_read_exit": 0,
+      "native_token_usage": {
+        "2026-09-09": {
+          "agentteams-gateway:deepseek-chat": {
+            "provider_id": "agentteams-gateway",
+            "model_name": "deepseek-chat",
+            "prompt_tokens": 57137,
+            "completion_tokens": 815,
+            "call_count": 3
+          }
+        }
+      }
+    },
+    {
+      "name": "rv-b-worker-live-twin-leader",
+      "id": "e27e28dc564def5641e3d4375a5d0a31a9712e50a90014d7f2c4c0b05fe086b4",
+      "image_id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+      "running": true,
+      "started_at": "2026-09-09T16:45:05.556201095Z",
+      "size_rw_bytes": 5756624,
+      "size_rootfs_bytes": 1872937463,
+      "ports": {
+        "8088/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "16333"
+          }
+        ]
+      },
+      "networks": [
+        "rv-b-net"
+      ],
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "rv-b-worker-live-twin-leader-auth",
+          "Source": "/var/lib/docker/volumes/rv-b-worker-live-twin-leader-auth/_data",
+          "Destination": "/var/run/secrets/agentteams",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "usage_read_exit": 0,
+      "native_token_usage": {
+        "2026-09-09": {
+          "agentteams-gateway:deepseek-chat": {
+            "provider_id": "agentteams-gateway",
+            "model_name": "deepseek-chat",
+            "prompt_tokens": 15686,
+            "completion_tokens": 41,
+            "call_count": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "rv-b-worker-live-twin-worker",
+      "id": "90554c015408185243925b6b695158ea2588bb4e7d5c60c8e6bac720e05af811",
+      "image_id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+      "running": true,
+      "started_at": "2026-09-09T16:47:27.60465926Z",
+      "size_rw_bytes": 5765027,
+      "size_rootfs_bytes": 1872945866,
+      "ports": {
+        "8088/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "17693"
+          }
+        ]
+      },
+      "networks": [
+        "rv-b-net"
+      ],
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "rv-b-worker-live-twin-worker-auth",
+          "Source": "/var/lib/docker/volumes/rv-b-worker-live-twin-worker-auth/_data",
+          "Destination": "/var/run/secrets/agentteams",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "usage_read_exit": 0,
+      "native_token_usage": {
+        "2026-09-09": {
+          "agentteams-gateway:deepseek-chat": {
+            "provider_id": "agentteams-gateway",
+            "model_name": "deepseek-chat",
+            "prompt_tokens": 14898,
+            "completion_tokens": 70,
+            "call_count": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "rv-a-worker-live-runtime-worker-a",
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "image_id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+      "running": true,
+      "started_at": "2026-09-09T16:41:38.289948479Z",
+      "size_rw_bytes": 5913799,
+      "size_rootfs_bytes": 1873094638,
+      "ports": {
+        "8088/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "19250"
+          }
+        ]
+      },
+      "networks": [
+        "rv-a-net"
+      ],
+      "mounts": [
+        {
+          "Type": "volume",
+          "Name": "rv-a-worker-live-runtime-worker-a-auth",
+          "Source": "/var/lib/docker/volumes/rv-a-worker-live-runtime-worker-a-auth/_data",
+          "Destination": "/var/run/secrets/agentteams",
+          "Driver": "local",
+          "Mode": "z",
+          "RW": true,
+          "Propagation": ""
+        }
+      ],
+      "usage_read_exit": 1
+    }
+  ],
+  "scope": "Native cumulative token counters are not provider billing; Docker image logical sizes overlap shared layers; du is in KiB.",
+  "images": [
+    {
+      "id": "sha256:9c89e9800590e12b824703e5d62aa05d41259f5ae48b93015a1a0abd7ee6ddfa",
+      "tags": [
+        "repomesh-validation/controller:eeaab643"
+      ],
+      "size_bytes": 311577666
+    },
+    {
+      "id": "sha256:84ec2dfd1c8062785e867f2d6f6ce0875d1a67fab7106d54f257c2326966a150",
+      "tags": [
+        "repomesh-validation/embedded:eeaab643"
+      ],
+      "size_bytes": 2472933381
+    },
+    {
+      "id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+      "tags": [
+        "repomesh-validation/qwenpaw-worker:eeaab643"
+      ],
+      "size_bytes": 1867180839
+    },
+    {
+      "id": "sha256:3d1d4d42b4329577bf5f45743f4aad86da112704e85cca0df8ea7b0373e696ea",
+      "tags": [
+        "repomesh-validation/manager-qwenpaw:eeaab643"
+      ],
+      "size_bytes": 1884871346
+    }
+  ]
+}

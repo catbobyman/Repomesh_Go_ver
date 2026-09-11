@@ -1,0 +1,877 @@
+{
+  "records": [
+    {
+      "kind": "minio_hashes_before",
+      "time": "2026-09-10T10:28:55.273260+00:00",
+      "objects": {
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78/meta.json": "85a0a54421c967e59185f09415243146c5ef2b8c9df9342905faf5b8d3f6f948",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-raw/meta.json": "73b8583238e103198472e08052a72f54b3312acc58a6012ef5eba1d04028d055",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-badjson/meta.json": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongowner/meta.json": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongtask/meta.json": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-historytype/meta.json": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-nostatus/meta.json": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/projects/delta-project-d33b63db78/meta.json": "4d58dc26583e00326222baca7051c3826cd5bd08ea708237505b96f4c4d3c6ab",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-raw/meta.json": "02d1e3af367ee5bd6d5b78416884ed1ae8f1256d6da4721b9f158077bf3d0c22",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-badjson/meta.json": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongowner/meta.json": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongtask/meta.json": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-historytype/meta.json": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-nostatus/meta.json": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+        "agentteams/rv-c-storage/shared/tasks/delta-d33b63db78-missing/meta.json": "35a270a4c9e965d3359c83d62ae1ef6bd80ac663b61f4637404d510f16bcfbf6",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78-reserved-end/meta.json": "851d6d93b5c6e1f3a634a7444a1e575d963738a36745e9d088d7970a0978b863"
+      }
+    },
+    {
+      "kind": "actual_sa_tokenrequest_identity",
+      "time": "2026-09-10T10:28:55.294631+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "worker_uid": "48fb9d85-3239-4a59-b8aa-d96cd47b5eac",
+      "worker_state": "Stopped",
+      "container_managed": false,
+      "team": "delta-d33b63db78-left",
+      "team_uid": "215bc320-c260-4eb3-a0d1-5721645f6e22",
+      "membership_role": "team_leader",
+      "sa_name": "rv-c-worker-delta-leader-d33b63db78-0",
+      "sa_uid": "158bc0e4-db85-46af-b306-7bf0652d52ec",
+      "sa_labels": {
+        "agentteams.io/controller": "rv-c",
+        "agentteams.io/worker": "delta-leader-d33b63db78-0",
+        "app": "rv-c-worker"
+      },
+      "claim_sa_uid": "158bc0e4-db85-46af-b306-7bf0652d52ec",
+      "subject": "system:serviceaccount:default:rv-c-worker-delta-leader-d33b63db78-0",
+      "audience": [
+        "agentteams-controller"
+      ],
+      "expiration": "2026-09-10T10:38:55Z",
+      "token_source": "Kubernetes TokenRequest against Controller-generated existing SA; token never persisted"
+    },
+    {
+      "kind": "safe_tokenreview_status",
+      "time": "2026-09-10T10:28:55.299043+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "http_status": 201,
+      "authenticated": true,
+      "username": "system:serviceaccount:default:rv-c-worker-delta-leader-d33b63db78-0",
+      "error": null
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.402823+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "team": "delta-d33b63db78-left",
+      "scope": "own",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-left",
+      "status": 200,
+      "response": {
+        "task_id": "delta-d33b63db78-raw",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in_progress",
+        "spec_path": "fixture/spec.md",
+        "assigned_to": "fixture-meta-delta-d33b63db78-left",
+        "summary": "owned-by:delta-d33b63db78-left",
+        "result_status": "SUCCESS",
+        "deliverables": [
+          {
+            "path": "fixture/nonexistent-result.md"
+          }
+        ],
+        "result_path": "fixture/nonexistent-result.md",
+        "history": [
+          {
+            "ts": "2026-09-10T00:00:00Z",
+            "from": "planned",
+            "to": "assigned",
+            "action": "fixture"
+          },
+          {
+            "ts": "",
+            "from": "",
+            "to": "",
+            "action": "fixture-without-ts"
+          },
+          {
+            "ts": "fixture-non-date",
+            "from": "",
+            "to": "",
+            "action": ""
+          }
+        ],
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-raw"
+        }
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.403780+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "team": "delta-d33b63db78-left",
+      "scope": "other",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-right",
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.491830+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "team": "delta-d33b63db78-left",
+      "scope": "unqualified",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw",
+      "status": 200,
+      "response": {
+        "task_id": "delta-d33b63db78-raw",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in_progress",
+        "spec_path": "fixture/spec.md",
+        "assigned_to": "fixture-meta-delta-d33b63db78-left",
+        "summary": "owned-by:delta-d33b63db78-left",
+        "result_status": "SUCCESS",
+        "deliverables": [
+          {
+            "path": "fixture/nonexistent-result.md"
+          }
+        ],
+        "result_path": "fixture/nonexistent-result.md",
+        "history": [
+          {
+            "ts": "2026-09-10T00:00:00Z",
+            "from": "planned",
+            "to": "assigned",
+            "action": "fixture"
+          },
+          {
+            "ts": "",
+            "from": "",
+            "to": "",
+            "action": "fixture-without-ts"
+          },
+          {
+            "ts": "fixture-non-date",
+            "from": "",
+            "to": "",
+            "action": ""
+          }
+        ],
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-raw"
+        }
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.552563+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "team": "delta-d33b63db78-left",
+      "scope": "own",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left",
+      "status": 200,
+      "response": {
+        "project_id": "delta-project-d33b63db78",
+        "title": "fixture:delta-d33b63db78-left",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "delta-d33b63db78-left",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "delta-d33b63db78-raw",
+            "name": "raw title \"quoted\"\nsecond line",
+            "status": "completed",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-missing",
+            "name": "missing",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-badjson",
+            "name": "badjson",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongowner",
+            "name": "wrongowner",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongtask",
+            "name": "wrongtask",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-historytype",
+            "name": "historytype",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-nostatus",
+            "name": "nostatus",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          }
+        ],
+        "edges": [
+          {
+            "source": "delta-d33b63db78-raw",
+            "target": "delta-d33b63db78-missing",
+            "conditional": false
+          }
+        ],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "delta-project-d33b63db78",
+          "title": "fixture:delta-d33b63db78-left",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "delta-d33b63db78-left",
+          "mode": "",
+          "task_count": {
+            "completed": 1,
+            "in-progress": 6
+          }
+        }
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.553499+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "team": "delta-d33b63db78-left",
+      "scope": "other",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-right",
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.616199+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "team": "delta-d33b63db78-left",
+      "scope": "unqualified",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow",
+      "status": 200,
+      "response": {
+        "project_id": "delta-project-d33b63db78",
+        "title": "fixture:delta-d33b63db78-left",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "delta-d33b63db78-left",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "delta-d33b63db78-raw",
+            "name": "raw title \"quoted\"\nsecond line",
+            "status": "completed",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-missing",
+            "name": "missing",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-badjson",
+            "name": "badjson",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongowner",
+            "name": "wrongowner",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-wrongtask",
+            "name": "wrongtask",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-historytype",
+            "name": "historytype",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          },
+          {
+            "id": "delta-d33b63db78-nostatus",
+            "name": "nostatus",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-left"
+          }
+        ],
+        "edges": [
+          {
+            "source": "delta-d33b63db78-raw",
+            "target": "delta-d33b63db78-missing",
+            "conditional": false
+          }
+        ],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "delta-project-d33b63db78",
+          "title": "fixture:delta-d33b63db78-left",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "delta-d33b63db78-left",
+          "mode": "",
+          "task_count": {
+            "completed": 1,
+            "in-progress": 6
+          }
+        }
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.677549+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "team": "delta-d33b63db78-left",
+      "scope": "own",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?format=mermaid&team=delta-d33b63db78-left",
+      "status": 200,
+      "response": "flowchart LR\n    delta-d33b63db78-raw[\"raw title #quot;quoted#quot;<br>second line: completed\"]:::completed\n    delta-d33b63db78-missing[\"missing: in-progress\"]:::inProgress\n    delta-d33b63db78-badjson[\"badjson: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongowner[\"wrongowner: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongtask[\"wrongtask: in-progress\"]:::inProgress\n    delta-d33b63db78-historytype[\"historytype: in-progress\"]:::inProgress\n    delta-d33b63db78-nostatus[\"nostatus: in-progress\"]:::inProgress\n    delta-d33b63db78-raw --> delta-d33b63db78-missing\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n"
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.678550+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "team": "delta-d33b63db78-left",
+      "scope": "other",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?format=mermaid&team=delta-d33b63db78-right",
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.738218+00:00",
+      "worker": "delta-leader-d33b63db78-0",
+      "team": "delta-d33b63db78-left",
+      "scope": "unqualified",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?format=mermaid",
+      "status": 200,
+      "response": "flowchart LR\n    delta-d33b63db78-raw[\"raw title #quot;quoted#quot;<br>second line: completed\"]:::completed\n    delta-d33b63db78-missing[\"missing: in-progress\"]:::inProgress\n    delta-d33b63db78-badjson[\"badjson: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongowner[\"wrongowner: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongtask[\"wrongtask: in-progress\"]:::inProgress\n    delta-d33b63db78-historytype[\"historytype: in-progress\"]:::inProgress\n    delta-d33b63db78-nostatus[\"nostatus: in-progress\"]:::inProgress\n    delta-d33b63db78-raw --> delta-d33b63db78-missing\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n"
+    },
+    {
+      "kind": "actual_sa_tokenrequest_identity",
+      "time": "2026-09-10T10:28:55.755831+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "worker_uid": "ec92bfdc-1fc7-4e96-9759-20b34f4ef660",
+      "worker_state": "Stopped",
+      "container_managed": false,
+      "team": "delta-d33b63db78-right",
+      "team_uid": "a5e691a4-65d5-41f5-8214-0ae408d12729",
+      "membership_role": "team_leader",
+      "sa_name": "rv-c-worker-delta-leader-d33b63db78-1",
+      "sa_uid": "f0f7ca7b-7ef4-42aa-be09-9c762eff7b3e",
+      "sa_labels": {
+        "agentteams.io/controller": "rv-c",
+        "agentteams.io/worker": "delta-leader-d33b63db78-1",
+        "app": "rv-c-worker"
+      },
+      "claim_sa_uid": "f0f7ca7b-7ef4-42aa-be09-9c762eff7b3e",
+      "subject": "system:serviceaccount:default:rv-c-worker-delta-leader-d33b63db78-1",
+      "audience": [
+        "agentteams-controller"
+      ],
+      "expiration": "2026-09-10T10:38:55Z",
+      "token_source": "Kubernetes TokenRequest against Controller-generated existing SA; token never persisted"
+    },
+    {
+      "kind": "safe_tokenreview_status",
+      "time": "2026-09-10T10:28:55.759633+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "http_status": 201,
+      "authenticated": true,
+      "username": "system:serviceaccount:default:rv-c-worker-delta-leader-d33b63db78-1",
+      "error": null
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.851176+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "team": "delta-d33b63db78-right",
+      "scope": "own",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-right",
+      "status": 200,
+      "response": {
+        "task_id": "delta-d33b63db78-raw",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in_progress",
+        "spec_path": "fixture/spec.md",
+        "assigned_to": "fixture-meta-delta-d33b63db78-right",
+        "summary": "owned-by:delta-d33b63db78-right",
+        "result_status": "SUCCESS",
+        "deliverables": [
+          {
+            "path": "fixture/nonexistent-result.md"
+          }
+        ],
+        "result_path": "fixture/nonexistent-result.md",
+        "history": [
+          {
+            "ts": "2026-09-10T00:00:00Z",
+            "from": "planned",
+            "to": "assigned",
+            "action": "fixture"
+          },
+          {
+            "ts": "",
+            "from": "",
+            "to": "",
+            "action": "fixture-without-ts"
+          },
+          {
+            "ts": "fixture-non-date",
+            "from": "",
+            "to": "",
+            "action": ""
+          }
+        ],
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-raw"
+        }
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.852068+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "team": "delta-d33b63db78-right",
+      "scope": "other",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw?team=delta-d33b63db78-left",
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.937181+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "team": "delta-d33b63db78-right",
+      "scope": "unqualified",
+      "path": "/api/v1/projects/delta-project-d33b63db78/tasks/delta-d33b63db78-raw",
+      "status": 200,
+      "response": {
+        "task_id": "delta-d33b63db78-raw",
+        "project_id": "delta-project-d33b63db78",
+        "status": "in_progress",
+        "spec_path": "fixture/spec.md",
+        "assigned_to": "fixture-meta-delta-d33b63db78-right",
+        "summary": "owned-by:delta-d33b63db78-right",
+        "result_status": "SUCCESS",
+        "deliverables": [
+          {
+            "path": "fixture/nonexistent-result.md"
+          }
+        ],
+        "result_path": "fixture/nonexistent-result.md",
+        "history": [
+          {
+            "ts": "2026-09-10T00:00:00Z",
+            "from": "planned",
+            "to": "assigned",
+            "action": "fixture"
+          },
+          {
+            "ts": "",
+            "from": "",
+            "to": "",
+            "action": "fixture-without-ts"
+          },
+          {
+            "ts": "fixture-non-date",
+            "from": "",
+            "to": "",
+            "action": ""
+          }
+        ],
+        "trace": {
+          "project_id": "delta-project-d33b63db78",
+          "task_id": "delta-d33b63db78-raw"
+        }
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.998616+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "team": "delta-d33b63db78-right",
+      "scope": "own",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-right",
+      "status": 200,
+      "response": {
+        "project_id": "delta-project-d33b63db78",
+        "title": "fixture:delta-d33b63db78-right",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "delta-d33b63db78-right",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "delta-d33b63db78-raw",
+            "name": "raw title \"quoted\"\nsecond line",
+            "status": "completed",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-missing",
+            "name": "missing",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-badjson",
+            "name": "badjson",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-wrongowner",
+            "name": "wrongowner",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-wrongtask",
+            "name": "wrongtask",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-historytype",
+            "name": "historytype",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-nostatus",
+            "name": "nostatus",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          }
+        ],
+        "edges": [
+          {
+            "source": "delta-d33b63db78-raw",
+            "target": "delta-d33b63db78-missing",
+            "conditional": false
+          }
+        ],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "delta-project-d33b63db78",
+          "title": "fixture:delta-d33b63db78-right",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "delta-d33b63db78-right",
+          "mode": "",
+          "task_count": {
+            "completed": 1,
+            "in-progress": 6
+          }
+        }
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:55.999618+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "team": "delta-d33b63db78-right",
+      "scope": "other",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?team=delta-d33b63db78-left",
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:56.059540+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "team": "delta-d33b63db78-right",
+      "scope": "unqualified",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow",
+      "status": 200,
+      "response": {
+        "project_id": "delta-project-d33b63db78",
+        "title": "fixture:delta-d33b63db78-right",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "delta-d33b63db78-right",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "delta-d33b63db78-raw",
+            "name": "raw title \"quoted\"\nsecond line",
+            "status": "completed",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-missing",
+            "name": "missing",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-badjson",
+            "name": "badjson",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-wrongowner",
+            "name": "wrongowner",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-wrongtask",
+            "name": "wrongtask",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-historytype",
+            "name": "historytype",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          },
+          {
+            "id": "delta-d33b63db78-nostatus",
+            "name": "nostatus",
+            "status": "in-progress",
+            "assignee": "fixture-graph-delta-d33b63db78-right"
+          }
+        ],
+        "edges": [
+          {
+            "source": "delta-d33b63db78-raw",
+            "target": "delta-d33b63db78-missing",
+            "conditional": false
+          }
+        ],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "delta-project-d33b63db78",
+          "title": "fixture:delta-d33b63db78-right",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "delta-d33b63db78-right",
+          "mode": "",
+          "task_count": {
+            "completed": 1,
+            "in-progress": 6
+          }
+        }
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:56.123835+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "team": "delta-d33b63db78-right",
+      "scope": "own",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?format=mermaid&team=delta-d33b63db78-right",
+      "status": 200,
+      "response": "flowchart LR\n    delta-d33b63db78-raw[\"raw title #quot;quoted#quot;<br>second line: completed\"]:::completed\n    delta-d33b63db78-missing[\"missing: in-progress\"]:::inProgress\n    delta-d33b63db78-badjson[\"badjson: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongowner[\"wrongowner: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongtask[\"wrongtask: in-progress\"]:::inProgress\n    delta-d33b63db78-historytype[\"historytype: in-progress\"]:::inProgress\n    delta-d33b63db78-nostatus[\"nostatus: in-progress\"]:::inProgress\n    delta-d33b63db78-raw --> delta-d33b63db78-missing\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n"
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:56.124776+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "team": "delta-d33b63db78-right",
+      "scope": "other",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?format=mermaid&team=delta-d33b63db78-left",
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "scoped_controller_http",
+      "time": "2026-09-10T10:28:56.184100+00:00",
+      "worker": "delta-leader-d33b63db78-1",
+      "team": "delta-d33b63db78-right",
+      "scope": "unqualified",
+      "path": "/api/v1/projects/delta-project-d33b63db78/workflow?format=mermaid",
+      "status": 200,
+      "response": "flowchart LR\n    delta-d33b63db78-raw[\"raw title #quot;quoted#quot;<br>second line: completed\"]:::completed\n    delta-d33b63db78-missing[\"missing: in-progress\"]:::inProgress\n    delta-d33b63db78-badjson[\"badjson: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongowner[\"wrongowner: in-progress\"]:::inProgress\n    delta-d33b63db78-wrongtask[\"wrongtask: in-progress\"]:::inProgress\n    delta-d33b63db78-historytype[\"historytype: in-progress\"]:::inProgress\n    delta-d33b63db78-nostatus[\"nostatus: in-progress\"]:::inProgress\n    delta-d33b63db78-raw --> delta-d33b63db78-missing\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n"
+    },
+    {
+      "kind": "minio_hashes_after",
+      "time": "2026-09-10T10:28:56.661481+00:00",
+      "objects": {
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78/meta.json": "85a0a54421c967e59185f09415243146c5ef2b8c9df9342905faf5b8d3f6f948",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-raw/meta.json": "73b8583238e103198472e08052a72f54b3312acc58a6012ef5eba1d04028d055",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-badjson/meta.json": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongowner/meta.json": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-wrongtask/meta.json": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-historytype/meta.json": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/tasks/delta-d33b63db78-nostatus/meta.json": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/projects/delta-project-d33b63db78/meta.json": "4d58dc26583e00326222baca7051c3826cd5bd08ea708237505b96f4c4d3c6ab",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-raw/meta.json": "02d1e3af367ee5bd6d5b78416884ed1ae8f1256d6da4721b9f158077bf3d0c22",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-badjson/meta.json": "c75b56558318e0bb79f905dc56df66a6b004515a28471271b00f9c66dee349a0",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongowner/meta.json": "9563e6a1d55e07687a9dab663b6d40682762703f127edcc928a406bf6f0fc994",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-wrongtask/meta.json": "afc1ab94bdc6998d7342ca9f406b1ec5d4fc835ffeeac88300c4fa80592a78b8",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-historytype/meta.json": "4d16efecdb2bce4eefa307538ddfd8824d51d1db123757422524e5fdc66bd3de",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-right/shared/tasks/delta-d33b63db78-nostatus/meta.json": "d470a40a0a995120e2b3179dcbc4f28b2e5c54895d6ff869010f849f2f1d77b3",
+        "agentteams/rv-c-storage/shared/tasks/delta-d33b63db78-missing/meta.json": "35a270a4c9e965d3359c83d62ae1ef6bd80ac663b61f4637404d510f16bcfbf6",
+        "agentteams/rv-c-storage/teams/delta-d33b63db78-left/shared/projects/delta-project-d33b63db78-reserved-end/meta.json": "851d6d93b5c6e1f3a634a7444a1e575d963738a36745e9d088d7970a0978b863"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "delta-leader-d33b63db78-0/token-uid-matches-real-sa",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/tokenreview-authenticated",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/tasks/delta-d33b63db78-raw/own",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/tasks/delta-d33b63db78-raw/own/correct-meta",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/tasks/delta-d33b63db78-raw/other",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/tasks/delta-d33b63db78-raw/unqualified",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/tasks/delta-d33b63db78-raw/unqualified/correct-meta",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/workflow/own",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/workflow/own/correct-team",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/workflow/other",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/workflow/unqualified",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/workflow/unqualified/correct-team",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/workflow?format=mermaid/own",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/workflow?format=mermaid/other",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-0/workflow?format=mermaid/unqualified",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/token-uid-matches-real-sa",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/tokenreview-authenticated",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/tasks/delta-d33b63db78-raw/own",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/tasks/delta-d33b63db78-raw/own/correct-meta",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/tasks/delta-d33b63db78-raw/other",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/tasks/delta-d33b63db78-raw/unqualified",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/tasks/delta-d33b63db78-raw/unqualified/correct-meta",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/workflow/own",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/workflow/own/correct-team",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/workflow/other",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/workflow/unqualified",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/workflow/unqualified/correct-team",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/workflow?format=mermaid/own",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/workflow?format=mermaid/other",
+      "passed": true
+    },
+    {
+      "name": "delta-leader-d33b63db78-1/workflow?format=mermaid/unqualified",
+      "passed": true
+    },
+    {
+      "name": "all-fixture-hashes-unchanged",
+      "passed": true
+    }
+  ],
+  "boundary": "Actual existing Worker SA TokenRequest; Team CR membership promotes these identities to team-leader. No projected runtime token and no ordinary-worker-role claim.",
+  "exit_code": 0,
+  "process_exit_code": 0
+}

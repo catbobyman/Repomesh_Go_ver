@@ -1,0 +1,157 @@
+{
+  "at_utc": "2026-09-09T17:16:02.548961+00:00",
+  "nonce": "19ff82a44f",
+  "worker": "coverage-mcp-ab69215252",
+  "helper": "rv-mcp-contract-native-19ff82a44f",
+  "records": [
+    {
+      "kind": "controller",
+      "method": "GET",
+      "status": 200,
+      "worker": "coverage-mcp-ab69215252",
+      "runtime": "qwenpaw",
+      "image": "repomesh-validation/qwenpaw-worker:eeaab643",
+      "mcp_servers": []
+    },
+    {
+      "kind": "controller",
+      "method": "PUT",
+      "status": 200,
+      "worker": "coverage-mcp-ab69215252",
+      "runtime": "qwenpaw",
+      "image": "repomesh-validation/qwenpaw-worker:eeaab643",
+      "mcp_servers": [
+        {
+          "name": "validation-contract",
+          "url": "http://rv-mcp-contract-native-19ff82a44f:8123/mcp",
+          "transport": "http"
+        }
+      ]
+    },
+    {
+      "kind": "controller",
+      "method": "GET",
+      "status": 200,
+      "worker": "coverage-mcp-ab69215252",
+      "runtime": "qwenpaw",
+      "image": "repomesh-validation/qwenpaw-worker:eeaab643",
+      "mcp_servers": [
+        {
+          "name": "validation-contract",
+          "url": "http://rv-mcp-contract-native-19ff82a44f:8123/mcp",
+          "transport": "http"
+        }
+      ]
+    },
+    {
+      "kind": "qwenpaw_native_projection",
+      "attempt": 0,
+      "desired_servers": [],
+      "client_http": 404,
+      "driver_card_path": "/root/agentteams-fs/agents/coverage-mcp-ab69215252/.qwenpaw/workspaces/default/drivers/mcp/validation-contract.yaml",
+      "driver_card_exists": false,
+      "mcporter_paths": []
+    },
+    {
+      "kind": "qwenpaw_native_projection",
+      "attempt": 1,
+      "desired_servers": [
+        {
+          "name": "validation-contract",
+          "transport": "http",
+          "url": "http://rv-mcp-contract-native-19ff82a44f:8123/mcp"
+        }
+      ],
+      "client_http": 200,
+      "client": {
+        "key": "validation-contract",
+        "name": "validation-contract",
+        "enabled": true,
+        "transport": "streamable_http",
+        "url": "http://rv-mcp-contract-native-19ff82a44f:8123/mcp"
+      },
+      "tools_http": 200,
+      "tools": [
+        {
+          "name": "validation_echo",
+          "enabled": true
+        }
+      ],
+      "driver_card_path": "/root/agentteams-fs/agents/coverage-mcp-ab69215252/.qwenpaw/workspaces/default/drivers/mcp/validation-contract.yaml",
+      "driver_card_exists": true,
+      "driver_card": {
+        "name": "validation-contract",
+        "protocol": "mcp",
+        "enabled": true
+      },
+      "driver_endpoint": {
+        "url": "http://rv-mcp-contract-native-19ff82a44f:8123/mcp",
+        "transport": "streamable_http"
+      },
+      "mcporter_paths": []
+    },
+    {
+      "kind": "actual_installed_native_client_call",
+      "client_class": "qwenpaw.drivers.handlers.mcp_stateful_client.HttpStatefulClient",
+      "loaded_url": "http://rv-mcp-contract-native-19ff82a44f:8123/mcp",
+      "loaded_transport": "streamable_http",
+      "tools": [
+        "validation_echo"
+      ],
+      "result": {
+        "meta": null,
+        "content": [
+          {
+            "type": "text",
+            "text": "19ff82a44f",
+            "annotations": null,
+            "meta": null
+          }
+        ],
+        "structuredContent": {
+          "result": "19ff82a44f"
+        },
+        "isError": false
+      },
+      "new_client_process": true,
+      "credentials_required_by_fixture": false
+    },
+    {
+      "kind": "fixture_echo_observed",
+      "exact_nonce": true,
+      "call_count": 1
+    },
+    {
+      "kind": "result",
+      "controller_saved": true,
+      "desired_projected": true,
+      "native_driver_materialized": true,
+      "runtime_tools_loaded": true,
+      "installed_client_echo": true,
+      "model_requested": false,
+      "agent_policy_call_exercised": false,
+      "credentials_contract_exercised": false,
+      "no_product_files_edited": true,
+      "no_service_restart": true
+    },
+    {
+      "kind": "controller",
+      "method": "PUT",
+      "status": 200,
+      "worker": "coverage-mcp-ab69215252",
+      "runtime": "qwenpaw",
+      "image": "repomesh-validation/qwenpaw-worker:eeaab643",
+      "mcp_servers": []
+    },
+    {
+      "kind": "native_client_cleanup",
+      "removed": true,
+      "attempts": 2
+    },
+    {
+      "kind": "helper_cleanup",
+      "removed": true,
+      "exact_owned_helper_only": true
+    }
+  ]
+}

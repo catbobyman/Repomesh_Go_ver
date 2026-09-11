@@ -1,0 +1,16 @@
+{
+  "at_utc": "2026-09-10T03:46:47.737409+00:00",
+  "handoff_files": [
+    "docs\\current\\HANDOFF.md",
+    "docs\\current\\graph-loop-design.md",
+    "docs\\current\\NEXT-SESSION-PROMPT.md",
+    "docs\\current\\NEXT-BACKEND-SESSION-PROMPT.md",
+    "docs\\current\\agentteams-validation-plan.md"
+  ],
+  "local_links_checked": 141,
+  "python_scripts_parsed": 20,
+  "upstream_head": "517caff9280242a00a4d4c06365352b9e41659c6",
+  "upstream_clean": true,
+  "errors": [],
+  "passed": true
+}

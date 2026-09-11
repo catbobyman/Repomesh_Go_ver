@@ -1,0 +1,278 @@
+{
+  "time_utc": "2026-09-09T16:32:05.269442+00:00",
+  "all_observations_confirmed": false,
+  "error": "AssertionError: [409, 409, 409, 409]",
+  "records": [
+    {
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/workers",
+      "auth": "none",
+      "request": null,
+      "status": 401,
+      "response": {
+        "message": "invalid or missing bearer token"
+      }
+    },
+    {
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/workers",
+      "auth": "other-instance",
+      "request": null,
+      "status": 401,
+      "response": {
+        "message": "invalid or missing bearer token"
+      }
+    },
+    {
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/workers",
+      "auth": "own",
+      "request": null,
+      "status": 200,
+      "response": {
+        "workers": [
+          {
+            "name": "live-control-worker",
+            "phase": "Stopped",
+            "containerManaged": false,
+            "state": "Stopped",
+            "model": "deepseek-chat",
+            "runtime": "qwenpaw",
+            "matrixUserID": "@live-control-worker:rv-a.matrix.invalid",
+            "roomID": "!5plZIpvSugOvuG1eII:rv-a.matrix.invalid"
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/workers",
+      "auth": "none",
+      "request": null,
+      "status": 401,
+      "response": {
+        "message": "invalid or missing bearer token"
+      }
+    },
+    {
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/workers",
+      "auth": "other-instance",
+      "request": null,
+      "status": 401,
+      "response": {
+        "message": "invalid or missing bearer token"
+      }
+    },
+    {
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/workers",
+      "auth": "own",
+      "request": null,
+      "status": 200,
+      "response": {
+        "workers": [],
+        "total": 0
+      }
+    },
+    {
+      "experiment": "LIVE-C01",
+      "observation": "Own admin auth succeeds; absent and cross-instance admin tokens rejected",
+      "at": [
+        "AT-02",
+        "AT-09"
+      ]
+    },
+    {
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/workers",
+      "auth": "own",
+      "request": {
+        "name": "live-control-worker",
+        "runtime": "qwenpaw",
+        "model": "deepseek-chat",
+        "state": "Stopped",
+        "containerManaged": false,
+        "resources": {
+          "limits": {
+            "cpu": "1",
+            "memory": "512Mi"
+          }
+        },
+        "remoteSkills": [
+          {
+            "source": "https://example.invalid/skills",
+            "skills": [
+              {
+                "name": "validation-skill"
+              }
+            ]
+          }
+        ]
+      },
+      "status": 409,
+      "response": {
+        "message": "create worker: already exists"
+      }
+    },
+    {
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/workers/live-control-worker",
+      "auth": "own",
+      "request": null,
+      "status": 200,
+      "response": {
+        "name": "live-control-worker",
+        "phase": "Stopped",
+        "containerManaged": false,
+        "state": "Stopped",
+        "model": "deepseek-chat",
+        "runtime": "qwenpaw",
+        "matrixUserID": "@live-control-worker:rv-a.matrix.invalid",
+        "roomID": "!5plZIpvSugOvuG1eII:rv-a.matrix.invalid"
+      }
+    },
+    {
+      "experiment": "LIVE-C02",
+      "observation": "201/CR persistence: remoteSkills ignored, resource/model/runtime/state preserved",
+      "at": [
+        "AT-01"
+      ],
+      "cr_name": "live-control-worker",
+      "cr_spec": {
+        "containerManaged": false,
+        "model": "deepseek-chat",
+        "resources": {
+          "limits": {
+            "cpu": "1",
+            "memory": "512Mi"
+          },
+          "requests": {}
+        },
+        "runtime": "qwenpaw",
+        "state": "Stopped"
+      },
+      "raw_read_boundary": "privileged container-local embedded Kubernetes read"
+    },
+    {
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/live-control-project/workflow",
+      "auth": "own",
+      "request": null,
+      "status": 200,
+      "response": {
+        "project_id": "live-control-project",
+        "title": "Live validation fixture",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "",
+        "mode": "",
+        "nodes": [
+          {
+            "id": "live-control-t1",
+            "name": "Fixture",
+            "status": "pending"
+          }
+        ],
+        "edges": [],
+        "next": [
+          "live-control-t1"
+        ],
+        "interrupts": [],
+        "values": {
+          "project_id": "live-control-project",
+          "title": "Live validation fixture",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "",
+          "mode": "",
+          "task_count": {
+            "pending": 1
+          }
+        }
+      }
+    },
+    {
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/live-control-project/workflow",
+      "auth": "own",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/projects/live-control-project/pause",
+      "auth": "own",
+      "request": {},
+      "status": 409,
+      "response": {
+        "message": "conflict: project was modified concurrently"
+      }
+    },
+    {
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/projects/live-control-project/replan",
+      "auth": "own",
+      "request": {
+        "tasks": [
+          {
+            "taskId": "live-control-t2",
+            "title": "New",
+            "dependsOn": []
+          }
+        ]
+      },
+      "status": 409,
+      "response": {
+        "message": "conflict: project was modified concurrently"
+      }
+    },
+    {
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/projects/live-control-project/resume",
+      "auth": "own",
+      "request": {},
+      "status": 409,
+      "response": {
+        "message": "project is not paused"
+      }
+    },
+    {
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/projects/live-control-project/replan",
+      "auth": "own",
+      "request": {
+        "tasks": [
+          {
+            "taskId": "live-control-t2",
+            "title": "New",
+            "dependsOn": []
+          }
+        ]
+      },
+      "status": 409,
+      "response": {
+        "message": "conflict: project was modified concurrently"
+      }
+    }
+  ],
+  "scope": "real Controller HTTP + MinIO + persisted CR; not runtime/model or RepoMesh acceptance"
+}

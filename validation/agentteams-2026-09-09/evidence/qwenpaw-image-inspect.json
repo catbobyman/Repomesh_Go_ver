@@ -1,0 +1,86 @@
+[
+    {
+        "Id": "sha256:4951052caa5ee7e3ea33a823f5f630de358bda31cd672d1d4a736d88d2ed0d58",
+        "RepoTags": [
+            "repomesh-validation/qwenpaw-worker:eeaab643"
+        ],
+        "RepoDigests": [],
+        "Parent": "",
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-09-09T16:35:17.945460833Z",
+        "DockerVersion": "",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+                "PYTHON_VERSION=3.11.15",
+                "PYTHON_SHA256=272179ddd9a2e41a0fc8e42e33dfbdca0b3711aa5abf372d3f2d51543d09b625"
+            ],
+            "Cmd": null,
+            "Image": "",
+            "Volumes": null,
+            "WorkingDir": "/root/agentteams-fs/agents",
+            "Entrypoint": [
+                "/opt/agentteams/scripts/qwenpaw-worker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 1867180839,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/yaa130w5ajg9m7ddt7pd8q7tj/diff:/var/lib/docker/overlay2/36dwa0a572kfjasix82uxhr8t/diff:/var/lib/docker/overlay2/rnrwf8zp65nep7rtvnrjli2nb/diff:/var/lib/docker/overlay2/i1vu7bcuocbsmacf4z78bkif1/diff:/var/lib/docker/overlay2/kas49kjdtedccosvpobd3o2sj/diff:/var/lib/docker/overlay2/j0tbs1azsm2kh3rurg15b8dt7/diff:/var/lib/docker/overlay2/c1081331lp3va5u9757cj012u/diff:/var/lib/docker/overlay2/rooyt6669nka8emwjn3ylp0uw/diff:/var/lib/docker/overlay2/mfq3k3e8ipguht72ayb9j3qyu/diff:/var/lib/docker/overlay2/0kkm33r447hwisxjvglcx2j6q/diff:/var/lib/docker/overlay2/sn3gg7hg4hl3qtxp40ihqwhlq/diff:/var/lib/docker/overlay2/xs291vzvjvqiyko5yxtao6jje/diff:/var/lib/docker/overlay2/5210lhubzoragd9g011yolgw6/diff:/var/lib/docker/overlay2/9aa0slw0qruyzq8lxfcwka67f/diff:/var/lib/docker/overlay2/mxjuk440vrlrcxyw65v61mcfa/diff:/var/lib/docker/overlay2/o0rhf68dfbg41grmjg1mg4wr6/diff:/var/lib/docker/overlay2/i02jgmuu0g2tkqsnp36a7blap/diff:/var/lib/docker/overlay2/wunmqe99g6yek3icny9vqzp3j/diff:/var/lib/docker/overlay2/ho944au9meybwwkmivxgbv793/diff:/var/lib/docker/overlay2/s1l6utibg1bix7gq8t1ciccxm/diff:/var/lib/docker/overlay2/d972c13604f3f3de98823f7d813b0d30a1adfd296115964ab54ccbe7307e6503/diff:/var/lib/docker/overlay2/71d1f7a700460a043b16c0e4ab370af64cbcb07e01ee40b131ffc5f4d621252b/diff:/var/lib/docker/overlay2/984d4a58715274336aaee5a9075cb979777a35498a3ac54135fad4948d079f02/diff:/var/lib/docker/overlay2/4c08e0b3644c728fbf7c1eee4509694b50b714261f4a1f81462602b41241b35c/diff",
+                "MergedDir": "/var/lib/docker/overlay2/pz3oa3x0umqy72ra6lrkqzy0p/merged",
+                "UpperDir": "/var/lib/docker/overlay2/pz3oa3x0umqy72ra6lrkqzy0p/diff",
+                "WorkDir": "/var/lib/docker/overlay2/pz3oa3x0umqy72ra6lrkqzy0p/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:a257f20c716c7b5d0474b1b5998f4d1090b573d90b82f764b8f1f1faeb4b524f",
+                "sha256:b0c20bcd44fe6f9409169c06f4f80b568f70ef42c7e86c88632508572ed7a225",
+                "sha256:5184c31ad48fd9ec9641bf2f10a87e557975e7c6601becf64bc526305da294b5",
+                "sha256:fa1d322086e628349a634a6aef70b36d56c353f585b40fbd7362768018e78c94",
+                "sha256:7155714292900c1b8219c214d3dd36f421a686f019e9ad086a767b211e1769dc",
+                "sha256:a29626d9fedc11b7a04f418babd8839227aaf8146361a3991f4f48ed89c3f1e6",
+                "sha256:64a8a7cebfceb720ed6b0677caa64cb6858930c25c6fb0b24a9a64eec342d8f4",
+                "sha256:10d23b0c5fe2a93f5fa187a9ed147ad72943fa7b01bd89dd6e88b587e6fea029",
+                "sha256:d05954e0c205c4f755775d1fff619b7e9faa43c74c1c6f78976417b41defca6b",
+                "sha256:81ebcaf6e52dfa0046f9633e33786d160f58b2d6302ca18baf149754c21afbea",
+                "sha256:5b4be17c08e6f4bf50ca95ed78b8453a58d5ec1484e19b2858a40c9e63908bd9",
+                "sha256:fc5800de572a291f6c4d1bb7892ac27bbb9e0fb4ca105a4b2d4475262173fa21",
+                "sha256:75e22b3e70f0e018509c46b748edebb510c1a4413f4971b29c8f2e40777f4df4",
+                "sha256:947e4138b6cba85c1c5cf7d2dd600f05a47b8ef671c5cafc265873a85b53b292",
+                "sha256:efc8f50f706300a83a684b47b96fa01de2b1cd2adaacd3c57b5f396df6fbf883",
+                "sha256:ae18199d291dbb29747963431806acfd5316dd436c036e99818243bcd599b461",
+                "sha256:09eeb981e51c81eb59ab64cad838465fccd0dcf6669d9bcf2e6742a48bc50c65",
+                "sha256:1d47a83fb15d37089765fabf33d04bb7e89192d9b94152b7655a56d19d3e3dbc",
+                "sha256:5ca131144d223b292b7a6114e7728bb5608840efda1788ffdf7db18907e4d083",
+                "sha256:9620df83c00d3f4d41f24412f74711829c1b4b18981bbc0450793883458e1264",
+                "sha256:34932268b4bb4003cfdf81cbf7f89bbb1fe67bd340fec5652ff345e9c93404ea",
+                "sha256:ea63cb649cf6e1cd898aeda8d04c636e29e0836b078b66322423e449da93e597",
+                "sha256:68d4f36032cb5f7a309cfb67baf005367c674d15979040f33ff927a9be5d72c1",
+                "sha256:1519b9c43f48a78220e79f9c96fb079dfa6e4b827e588a3727ab59b6ce9f6f74",
+                "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-09-09T16:35:30.692481848Z"
+        }
+    }
+]

@@ -1,0 +1,38 @@
+{
+  "login_http": 201,
+  "route_http": 200,
+  "route_field_names": [
+    "name",
+    "version",
+    "domains",
+    "pathPredicate",
+    "headerPredicates",
+    "urlParamPredicates",
+    "upstreams",
+    "modelPredicates",
+    "authConfig",
+    "fallbackConfig",
+    "cors",
+    "headerControl",
+    "proxyNextUpstream",
+    "customConfigs",
+    "customLabels"
+  ],
+  "safe_route": {
+    "name": "default-ai-route",
+    "pathPredicate": {
+      "matchType": "PRE",
+      "matchValue": "/v1",
+      "caseSensitive": false
+    },
+    "domains": []
+  },
+  "safe_upstreams": [
+    {
+      "provider": "openai-compat",
+      "weight": 100
+    }
+  ],
+  "at_utc": "2026-09-10T03:39:12.083238+00:00",
+  "boundary": "Existing route read only; session login only; no provider mutation or model call; token/header suppressed"
+}

@@ -1,0 +1,50 @@
+{
+  "at_utc": "2026-09-09T17:13:31.732277+00:00",
+  "scope": "Read-only dependency verification after isolated test copying; no installed-package changes",
+  "instances": {
+    "a": {
+      "/usr/local/bin/python": {
+        "python": "/usr/local/bin/python",
+        "version": "3.11.15 (main, Mar  3 2026, 20:22:58) [GCC 14.2.0]",
+        "packages": {
+          "pytest": false,
+          "mcp": false,
+          "yaml": false
+        },
+        "ruby": null
+      },
+      "/opt/venv/qwenpaw/bin/python": {
+        "python": "/opt/venv/qwenpaw/bin/python",
+        "version": "3.11.15 (main, Mar  3 2026, 20:22:58) [GCC 14.2.0]",
+        "packages": {
+          "pytest": false,
+          "mcp": true,
+          "yaml": true
+        },
+        "ruby": null
+      }
+    },
+    "b": {
+      "/usr/local/bin/python": {
+        "python": "/usr/local/bin/python",
+        "version": "3.11.15 (main, Mar  3 2026, 20:22:58) [GCC 14.2.0]",
+        "packages": {
+          "pytest": false,
+          "mcp": false,
+          "yaml": false
+        },
+        "ruby": null
+      },
+      "/opt/venv/qwenpaw/bin/python": {
+        "python": "/opt/venv/qwenpaw/bin/python",
+        "version": "3.11.15 (main, Mar  3 2026, 20:22:58) [GCC 14.2.0]",
+        "packages": {
+          "pytest": false,
+          "mcp": true,
+          "yaml": true
+        },
+        "ruby": null
+      }
+    }
+  }
+}

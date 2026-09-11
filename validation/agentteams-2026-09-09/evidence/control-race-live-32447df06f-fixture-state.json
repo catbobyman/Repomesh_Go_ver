@@ -1,0 +1,18 @@
+{
+  "at_utc": "2026-09-09T16:53:06.674934+00:00",
+  "worker_read_exitcode": 0,
+  "worker": {
+    "name": "coverage-race-leader-32447df06f",
+    "phase": "Stopped",
+    "containerManaged": false,
+    "state": "Stopped",
+    "model": "deepseek-chat",
+    "runtime": "qwenpaw",
+    "matrixUserID": "@coverage-race-leader-32447df06f:rv-a.matrix.invalid",
+    "roomID": "!E4TgxGF51q1M29cxQc:rv-a.matrix.invalid",
+    "team": "coverage-race-32447df06f",
+    "role": "team_leader"
+  },
+  "expected_worker_container_exists": false,
+  "scope": "Read-only check of this run fixture only; no lifecycle calls"
+}

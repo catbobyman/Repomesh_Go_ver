@@ -1,0 +1,167 @@
+{
+  "executed_at_utc": "2026-09-09T16:23:51.100793+00:00",
+  "python": "3.11.7",
+  "upstream_commit": "eeaab64391ccaec9118e84977f538aefd40720d6",
+  "source_sha256": "a9a67fed5032e3fcbc0f149f075774fd251dac34c5c3b5bb0155931d32b96197",
+  "loader_sha256": "9c19b3105206409dfa639460a05181b7771cf06e5237879a7021900c87467097",
+  "boundary": "Unmodified channel functions; upstream loader stubs QwenPaw/nio; fake transport, request builder and queue; no model or live server",
+  "cases": [
+    {
+      "id": "MX-01",
+      "gate": "AT-06",
+      "name": "sessions",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "sessions": [
+          "matrix:!conversation-a:fixture.test",
+          "matrix:!conversation-a:fixture.test",
+          "matrix:!other:fixture.test"
+        ],
+        "user_key": "!conversation-a:fixture.test",
+        "actual_sender_retained": true,
+        "source_issue_id_projected": false,
+        "scope": "Captured arguments to fake BaseChannel request builder; not real persisted session behavior"
+      },
+      "elapsed_seconds": 0.000336
+    },
+    {
+      "id": "MX-02",
+      "gate": "AT-10",
+      "name": "history_limit",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "input": 55,
+        "retained": 50,
+        "first": "history-5",
+        "last": "history-54",
+        "queue_after_trigger": 1,
+        "history_cleared_after_enqueue": true,
+        "cross_issue_context": "room history prepended to issue-b trigger without issue partition"
+      },
+      "elapsed_seconds": 0.000448
+    },
+    {
+      "id": "MX-03",
+      "gate": "AT-07/10",
+      "name": "restart",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "old_buffer": 1,
+        "new_instance_buffer": 0,
+        "scope": "Constructed fresh channel; Matrix replay/session restoration not simulated"
+      },
+      "elapsed_seconds": 4.4e-05
+    },
+    {
+      "id": "MX-04",
+      "gate": "AT-06/10",
+      "name": "threads",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "unmentioned_thread": "dropped, not buffered",
+        "mentioned_thread": "queued without room history",
+        "ordinary_reply": "queued with room history",
+        "thread_payload_root": "$thread"
+      },
+      "elapsed_seconds": 8.3e-05
+    },
+    {
+      "id": "MX-05",
+      "gate": "AT-07",
+      "name": "readiness",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "reply": "READY",
+        "enqueued": 0,
+        "model_process_calls": 0,
+        "read_receipts": 0
+      },
+      "elapsed_seconds": 5.6e-05
+    },
+    {
+      "id": "MX-06",
+      "gate": "AT-07/10",
+      "name": "receipt_before_process",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "trace": [
+          [
+            "receipt",
+            "$e"
+          ],
+          [
+            "typing",
+            true
+          ],
+          [
+            "enqueue",
+            "$e"
+          ]
+        ],
+        "process_calls": 0,
+        "scope": "queue consumer intentionally not running"
+      },
+      "elapsed_seconds": 5.2e-05
+    },
+    {
+      "id": "MX-07",
+      "gate": "AT-10",
+      "name": "replay",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "same_event_callbacks": 2,
+        "enqueues": 2,
+        "scope": "No callback-level duplicate suppression; real nio sync replay behavior not claimed"
+      },
+      "elapsed_seconds": 7.3e-05
+    },
+    {
+      "id": "MX-08",
+      "gate": "AT-10",
+      "name": "enqueue_failure",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "queue_failure_propagated": true,
+        "buffer_retained": 1,
+        "receipt_already_sent": true
+      },
+      "elapsed_seconds": 7e-05
+    },
+    {
+      "id": "MX-09",
+      "gate": "AT-10",
+      "name": "queue_order",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "sequential_callbacks": [
+          "$seq0",
+          "$seq1",
+          "$seq2"
+        ],
+        "concurrent_callbacks_delayed_first_receipt": [
+          "$second",
+          "$first"
+        ],
+        "scope": "Channel callback injection only; does not demonstrate actual nio callback concurrency or QwenPaw queue scheduling"
+      },
+      "elapsed_seconds": 0.000442
+    },
+    {
+      "id": "MX-10",
+      "gate": "AT-10",
+      "name": "lost_response_retry",
+      "status": "OBSERVATION_CONFIRMED",
+      "observed": {
+        "tx_ids": [
+          "c222f635-0e12-4342-a529-8f94abb30fb5",
+          "c222f635-0e12-4342-a529-8f94abb30fb5",
+          "1dd0331a-4d5f-441c-b912-9c8d933e5d19"
+        ],
+        "same_invocation_retry_id_stable": true,
+        "new_invocation_new_id": true,
+        "server_deduplication": "not tested; transport fake records IDs only"
+      },
+      "elapsed_seconds": 0.207269
+    }
+  ]
+}

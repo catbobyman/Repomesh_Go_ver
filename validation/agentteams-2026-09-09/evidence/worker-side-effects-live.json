@@ -1,0 +1,1231 @@
+[
+  {
+    "kind": "setup",
+    "time": "2026-09-09T16:45:44.441027+00:00",
+    "result": {
+      "project": "sidefx-project-f5834a8696",
+      "tasks": {
+        "cancel": "sidefx-cancel-f5834a8696",
+        "missing": "sidefx-missing-f5834a8696",
+        "upload": "sidefx-upload-f5834a8696"
+      },
+      "prefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+    },
+    "trace": [
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "delegate_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "projectId": "sidefx-project-f5834a8696",
+          "taskId": "sidefx-cancel-f5834a8696",
+          "assignedTo": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "role": "leader",
+          "spec": "Isolated runtime side-effect fixture; no model work"
+        },
+        "result": {
+          "ok": true,
+          "tool": "taskflow",
+          "action": "delegate_task",
+          "task": {
+            "task_id": "sidefx-cancel-f5834a8696",
+            "project_id": "sidefx-project-f5834a8696",
+            "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "assigned",
+            "spec_path": "shared/tasks/sidefx-cancel-f5834a8696/spec.md",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "task_title": "sidefx-cancel-f5834a8696",
+            "assigned_at": "2026-09-09T16:45:42Z",
+            "notification": {
+              "sent": true,
+              "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+              "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+            },
+            "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww"
+          },
+          "synced": true,
+          "notification": {
+            "sent": true,
+            "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+            "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+          },
+          "notificationNeeded": {
+            "event": "delegate_task",
+            "projectId": "sidefx-project-f5834a8696",
+            "summary": "delegate_task: sidefx-cancel-f5834a8696 assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+          }
+        }
+      },
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "ack_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "taskId": "sidefx-cancel-f5834a8696"
+        },
+        "result": {
+          "ok": true,
+          "tool": "taskflow",
+          "action": "ack_task",
+          "task": {
+            "assigned_at": "2026-09-09T16:45:42Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+              "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "sidefx-project-f5834a8696",
+            "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/sidefx-cancel-f5834a8696/spec.md",
+            "status": "in_progress",
+            "task_id": "sidefx-cancel-f5834a8696",
+            "task_title": "sidefx-cancel-f5834a8696",
+            "acknowledged_by_role": "worker"
+          },
+          "spec": "Isolated runtime side-effect fixture; no model work\n",
+          "pulled": true,
+          "synced": true
+        }
+      },
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "delegate_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "projectId": "sidefx-project-f5834a8696",
+          "taskId": "sidefx-missing-f5834a8696",
+          "assignedTo": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "role": "leader",
+          "spec": "Isolated runtime side-effect fixture; no model work"
+        },
+        "result": {
+          "ok": true,
+          "tool": "taskflow",
+          "action": "delegate_task",
+          "task": {
+            "task_id": "sidefx-missing-f5834a8696",
+            "project_id": "sidefx-project-f5834a8696",
+            "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "assigned",
+            "spec_path": "shared/tasks/sidefx-missing-f5834a8696/spec.md",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "task_title": "sidefx-missing-f5834a8696",
+            "assigned_at": "2026-09-09T16:45:43Z",
+            "notification": {
+              "sent": true,
+              "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+              "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+            },
+            "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw"
+          },
+          "synced": true,
+          "notification": {
+            "sent": true,
+            "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+            "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+          },
+          "notificationNeeded": {
+            "event": "delegate_task",
+            "projectId": "sidefx-project-f5834a8696",
+            "summary": "delegate_task: sidefx-missing-f5834a8696 assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+          }
+        }
+      },
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "ack_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "taskId": "sidefx-missing-f5834a8696"
+        },
+        "result": {
+          "ok": true,
+          "tool": "taskflow",
+          "action": "ack_task",
+          "task": {
+            "assigned_at": "2026-09-09T16:45:43Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+              "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "sidefx-project-f5834a8696",
+            "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/sidefx-missing-f5834a8696/spec.md",
+            "status": "in_progress",
+            "task_id": "sidefx-missing-f5834a8696",
+            "task_title": "sidefx-missing-f5834a8696",
+            "acknowledged_by_role": "worker"
+          },
+          "spec": "Isolated runtime side-effect fixture; no model work\n",
+          "pulled": true,
+          "synced": true
+        }
+      },
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "delegate_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "projectId": "sidefx-project-f5834a8696",
+          "taskId": "sidefx-upload-f5834a8696",
+          "assignedTo": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "role": "leader",
+          "spec": "Isolated runtime side-effect fixture; no model work"
+        },
+        "result": {
+          "ok": true,
+          "tool": "taskflow",
+          "action": "delegate_task",
+          "task": {
+            "task_id": "sidefx-upload-f5834a8696",
+            "project_id": "sidefx-project-f5834a8696",
+            "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "assigned",
+            "spec_path": "shared/tasks/sidefx-upload-f5834a8696/spec.md",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "task_title": "sidefx-upload-f5834a8696",
+            "assigned_at": "2026-09-09T16:45:43Z",
+            "notification": {
+              "sent": true,
+              "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+              "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+            },
+            "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM"
+          },
+          "synced": true,
+          "notification": {
+            "sent": true,
+            "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+            "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid"
+          },
+          "notificationNeeded": {
+            "event": "delegate_task",
+            "projectId": "sidefx-project-f5834a8696",
+            "summary": "delegate_task: sidefx-upload-f5834a8696 assigned to @mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+          }
+        }
+      },
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "ack_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "taskId": "sidefx-upload-f5834a8696"
+        },
+        "result": {
+          "ok": true,
+          "tool": "taskflow",
+          "action": "ack_task",
+          "task": {
+            "assigned_at": "2026-09-09T16:45:43Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+              "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "sidefx-project-f5834a8696",
+            "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/sidefx-upload-f5834a8696/spec.md",
+            "status": "in_progress",
+            "task_id": "sidefx-upload-f5834a8696",
+            "task_title": "sidefx-upload-f5834a8696",
+            "acknowledged_by_role": "worker"
+          },
+          "spec": "Isolated runtime side-effect fixture; no model work\n",
+          "pulled": true,
+          "synced": true
+        }
+      }
+    ]
+  },
+  {
+    "kind": "boundary",
+    "time": "2026-09-09T16:45:44.442621+00:00",
+    "worker": "rv-a-worker-live-runtime-worker-a",
+    "fixture": "/tmp/repomesh-worker-side-effects/f5834a8696",
+    "note": "Native fixture task is assigned to fixture Matrix user; heartbeat is harness-spawned in real Worker, not a model-launched task or execution-lease integration."
+  },
+  {
+    "kind": "cancel",
+    "time": "2026-09-09T16:45:45.944654+00:00",
+    "result": {
+      "cancel": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "cancel_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:45:42Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+            "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "sidefx-project-f5834a8696",
+          "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/sidefx-cancel-f5834a8696/spec.md",
+          "status": "cancelled",
+          "task_id": "sidefx-cancel-f5834a8696",
+          "task_title": "sidefx-cancel-f5834a8696",
+          "cancel_reason": "Validation fixture cancellation"
+        },
+        "project": {
+          "plan_type": "dag",
+          "project_id": "sidefx-project-f5834a8696",
+          "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "status": "active",
+          "tasks": [
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "status": "cancelled",
+              "task_id": "sidefx-cancel-f5834a8696",
+              "title": "sidefx-cancel-f5834a8696"
+            },
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "status": "in_progress",
+              "task_id": "sidefx-missing-f5834a8696",
+              "title": "sidefx-missing-f5834a8696"
+            },
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "status": "in_progress",
+              "task_id": "sidefx-upload-f5834a8696",
+              "title": "sidefx-upload-f5834a8696"
+            }
+          ],
+          "team_id": "live-harness",
+          "title": "sidefx-project-f5834a8696"
+        },
+        "synced": true
+      },
+      "task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:45:42Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "cancel_reason": "Validation fixture cancellation",
+        "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+          "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "sidefx-project-f5834a8696",
+        "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/sidefx-cancel-f5834a8696/spec.md",
+        "status": "cancelled",
+        "task_id": "sidefx-cancel-f5834a8696",
+        "task_title": "sidefx-cancel-f5834a8696"
+      },
+      "project": {
+        "plan_type": "dag",
+        "project_id": "sidefx-project-f5834a8696",
+        "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "status": "active",
+        "tasks": [
+          {
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "depends_on": [],
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "cancelled",
+            "task_id": "sidefx-cancel-f5834a8696",
+            "title": "sidefx-cancel-f5834a8696"
+          },
+          {
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "depends_on": [],
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "in_progress",
+            "task_id": "sidefx-missing-f5834a8696",
+            "title": "sidefx-missing-f5834a8696"
+          },
+          {
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "depends_on": [],
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "in_progress",
+            "task_id": "sidefx-upload-f5834a8696",
+            "title": "sidefx-upload-f5834a8696"
+          }
+        ],
+        "team_id": "live-harness",
+        "title": "sidefx-project-f5834a8696"
+      }
+    },
+    "trace": [
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "cancel_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "taskId": "sidefx-cancel-f5834a8696",
+          "role": "leader",
+          "reason": "Validation fixture cancellation"
+        },
+        "result": {
+          "ok": true,
+          "tool": "taskflow",
+          "action": "cancel_task",
+          "task": {
+            "acknowledged_by_role": "worker",
+            "assigned_at": "2026-09-09T16:45:42Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+              "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "sidefx-project-f5834a8696",
+            "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/sidefx-cancel-f5834a8696/spec.md",
+            "status": "cancelled",
+            "task_id": "sidefx-cancel-f5834a8696",
+            "task_title": "sidefx-cancel-f5834a8696",
+            "cancel_reason": "Validation fixture cancellation"
+          },
+          "project": {
+            "plan_type": "dag",
+            "project_id": "sidefx-project-f5834a8696",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+                "status": "cancelled",
+                "task_id": "sidefx-cancel-f5834a8696",
+                "title": "sidefx-cancel-f5834a8696"
+              },
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+                "status": "in_progress",
+                "task_id": "sidefx-missing-f5834a8696",
+                "title": "sidefx-missing-f5834a8696"
+              },
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+                "status": "in_progress",
+                "task_id": "sidefx-upload-f5834a8696",
+                "title": "sidefx-upload-f5834a8696"
+              }
+            ],
+            "team_id": "live-harness",
+            "title": "sidefx-project-f5834a8696"
+          },
+          "synced": true
+        }
+      }
+    ]
+  },
+  {
+    "kind": "post_cancel_real_worker_write",
+    "time": "2026-09-09T16:45:47.225113+00:00",
+    "before": {
+      "pid": 1976,
+      "lines": 7
+    },
+    "at_cancel": {
+      "pid": 1976,
+      "lines": 15
+    },
+    "after": {
+      "pid": 1976,
+      "lines": 25
+    },
+    "process_alive": true
+  },
+  {
+    "kind": "cleanup",
+    "time": "2026-09-09T16:45:47.536874+00:00",
+    "pid": 1976,
+    "signal": "SIGTERM",
+    "identity_checked": true,
+    "docker_exec_exitcode": 143
+  },
+  {
+    "kind": "late",
+    "time": "2026-09-09T16:45:48.225694+00:00",
+    "result": {
+      "ack": {
+        "ok": false,
+        "tool": "taskflow",
+        "action": "ack_task",
+        "error": "ack_task cannot update terminal task: cancelled"
+      },
+      "submit": {
+        "ok": false,
+        "tool": "taskflow",
+        "action": "submit_task",
+        "error": "submit_task cannot update terminal task: cancelled"
+      },
+      "accept": {
+        "ok": true,
+        "tool": "projectflow",
+        "action": "accept_task_result",
+        "project": {
+          "plan_type": "dag",
+          "project_id": "sidefx-project-f5834a8696",
+          "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "status": "active",
+          "tasks": [
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "status": "completed",
+              "task_id": "sidefx-cancel-f5834a8696",
+              "title": "sidefx-cancel-f5834a8696"
+            },
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "status": "in_progress",
+              "task_id": "sidefx-missing-f5834a8696",
+              "title": "sidefx-missing-f5834a8696"
+            },
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "status": "in_progress",
+              "task_id": "sidefx-upload-f5834a8696",
+              "title": "sidefx-upload-f5834a8696"
+            }
+          ],
+          "team_id": "live-harness",
+          "title": "sidefx-project-f5834a8696",
+          "requester_report": {
+            "pending": true,
+            "reason": "task_result_accepted",
+            "task_id": "sidefx-cancel-f5834a8696",
+            "result_status": "SUCCESS",
+            "summary": "late fixture acceptance",
+            "report_path": "shared/projects/sidefx-project-f5834a8696/result.md"
+          }
+        },
+        "taskId": "sidefx-cancel-f5834a8696",
+        "nodeStatus": "completed",
+        "accepted": true,
+        "publishedArtifacts": [],
+        "notificationNeeded": {
+          "event": "accept_task_result",
+          "projectId": "sidefx-project-f5834a8696",
+          "summary": "accept_task_result: sidefx-cancel-f5834a8696 -> completed",
+          "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+        }
+      },
+      "task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:45:42Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "cancel_reason": "Validation fixture cancellation",
+        "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$x3iEUn5X-hfPFeS2zYScQpJ-TftIHd9r4dx06Ypfkww",
+          "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "sidefx-project-f5834a8696",
+        "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/sidefx-cancel-f5834a8696/spec.md",
+        "status": "cancelled",
+        "task_id": "sidefx-cancel-f5834a8696",
+        "task_title": "sidefx-cancel-f5834a8696"
+      },
+      "project": {
+        "plan_type": "dag",
+        "project_id": "sidefx-project-f5834a8696",
+        "requester_report": {
+          "pending": true,
+          "reason": "task_result_accepted",
+          "report_path": "shared/projects/sidefx-project-f5834a8696/result.md",
+          "result_status": "SUCCESS",
+          "summary": "late fixture acceptance",
+          "task_id": "sidefx-cancel-f5834a8696"
+        },
+        "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "status": "active",
+        "tasks": [
+          {
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "depends_on": [],
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "completed",
+            "task_id": "sidefx-cancel-f5834a8696",
+            "title": "sidefx-cancel-f5834a8696"
+          },
+          {
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "depends_on": [],
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "in_progress",
+            "task_id": "sidefx-missing-f5834a8696",
+            "title": "sidefx-missing-f5834a8696"
+          },
+          {
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "depends_on": [],
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "in_progress",
+            "task_id": "sidefx-upload-f5834a8696",
+            "title": "sidefx-upload-f5834a8696"
+          }
+        ],
+        "team_id": "live-harness",
+        "title": "sidefx-project-f5834a8696"
+      }
+    },
+    "trace": [
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "ack_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "taskId": "sidefx-cancel-f5834a8696"
+        },
+        "result": {
+          "ok": false,
+          "tool": "taskflow",
+          "action": "ack_task",
+          "error": "ack_task cannot update terminal task: cancelled"
+        }
+      },
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "submit_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "taskId": "sidefx-cancel-f5834a8696",
+          "summary": "late fixture result",
+          "status": "SUCCESS"
+        },
+        "result": {
+          "ok": false,
+          "tool": "taskflow",
+          "action": "submit_task",
+          "error": "submit_task cannot update terminal task: cancelled"
+        }
+      },
+      {
+        "tool": "projectflow",
+        "arguments": {
+          "action": "accept_task_result",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "projectId": "sidefx-project-f5834a8696",
+          "taskId": "sidefx-cancel-f5834a8696",
+          "accepted": true,
+          "summary": "late fixture acceptance"
+        },
+        "result": {
+          "ok": true,
+          "tool": "projectflow",
+          "action": "accept_task_result",
+          "project": {
+            "plan_type": "dag",
+            "project_id": "sidefx-project-f5834a8696",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+                "status": "completed",
+                "task_id": "sidefx-cancel-f5834a8696",
+                "title": "sidefx-cancel-f5834a8696"
+              },
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+                "status": "in_progress",
+                "task_id": "sidefx-missing-f5834a8696",
+                "title": "sidefx-missing-f5834a8696"
+              },
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+                "status": "in_progress",
+                "task_id": "sidefx-upload-f5834a8696",
+                "title": "sidefx-upload-f5834a8696"
+              }
+            ],
+            "team_id": "live-harness",
+            "title": "sidefx-project-f5834a8696",
+            "requester_report": {
+              "pending": true,
+              "reason": "task_result_accepted",
+              "task_id": "sidefx-cancel-f5834a8696",
+              "result_status": "SUCCESS",
+              "summary": "late fixture acceptance",
+              "report_path": "shared/projects/sidefx-project-f5834a8696/result.md"
+            }
+          },
+          "taskId": "sidefx-cancel-f5834a8696",
+          "nodeStatus": "completed",
+          "accepted": true,
+          "publishedArtifacts": [],
+          "notificationNeeded": {
+            "event": "accept_task_result",
+            "projectId": "sidefx-project-f5834a8696",
+            "summary": "accept_task_result: sidefx-cancel-f5834a8696 -> completed",
+            "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "kind": "artifacts",
+    "time": "2026-09-09T16:45:49.512876+00:00",
+    "result": {
+      "missing": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "submit_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:45:43Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+            "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "sidefx-project-f5834a8696",
+          "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/sidefx-missing-f5834a8696/spec.md",
+          "status": "submitted",
+          "task_id": "sidefx-missing-f5834a8696",
+          "task_title": "sidefx-missing-f5834a8696",
+          "result_status": "SUCCESS",
+          "summary": "claims success but declared file is absent",
+          "deliverables": [
+            "shared/tasks/sidefx-missing-f5834a8696/missing.txt"
+          ],
+          "submitted_by_role": "worker"
+        },
+        "publishedArtifacts": [
+          {
+            "sourcePath": "shared/tasks/sidefx-missing-f5834a8696/missing.txt",
+            "filename": "sidefx-missing-f5834a8696-missing.txt",
+            "size": null,
+            "mimetype": "",
+            "mxcUri": "",
+            "eventId": "",
+            "parentEventId": "",
+            "status": "failed",
+            "error": "artifact file not found"
+          }
+        ],
+        "synced": true,
+        "notificationNeeded": {
+          "event": "submit_task",
+          "projectId": "sidefx-project-f5834a8696",
+          "summary": "submit_task: sidefx-missing-f5834a8696 (SUCCESS)",
+          "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+        }
+      },
+      "missing_accept": {
+        "ok": true,
+        "tool": "projectflow",
+        "action": "accept_task_result",
+        "project": {
+          "plan_type": "dag",
+          "project_id": "sidefx-project-f5834a8696",
+          "requester_report": {
+            "pending": true,
+            "reason": "task_result_accepted",
+            "task_id": "sidefx-missing-f5834a8696",
+            "result_status": "SUCCESS",
+            "summary": "",
+            "report_path": "shared/projects/sidefx-project-f5834a8696/result.md"
+          },
+          "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "status": "active",
+          "tasks": [
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "status": "completed",
+              "task_id": "sidefx-cancel-f5834a8696",
+              "title": "sidefx-cancel-f5834a8696"
+            },
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "status": "completed",
+              "task_id": "sidefx-missing-f5834a8696",
+              "title": "sidefx-missing-f5834a8696"
+            },
+            {
+              "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "depends_on": [],
+              "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "status": "in_progress",
+              "task_id": "sidefx-upload-f5834a8696",
+              "title": "sidefx-upload-f5834a8696"
+            }
+          ],
+          "team_id": "live-harness",
+          "title": "sidefx-project-f5834a8696"
+        },
+        "taskId": "sidefx-missing-f5834a8696",
+        "nodeStatus": "completed",
+        "accepted": true,
+        "publishedArtifacts": [],
+        "notificationNeeded": {
+          "event": "accept_task_result",
+          "projectId": "sidefx-project-f5834a8696",
+          "summary": "accept_task_result: sidefx-missing-f5834a8696 -> completed",
+          "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+        }
+      },
+      "missing_task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:45:43Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "deliverables": [
+          "shared/tasks/sidefx-missing-f5834a8696/missing.txt"
+        ],
+        "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+          "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "sidefx-project-f5834a8696",
+        "result_status": "SUCCESS",
+        "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/sidefx-missing-f5834a8696/spec.md",
+        "status": "submitted",
+        "submitted_by_role": "worker",
+        "summary": "claims success but declared file is absent",
+        "task_id": "sidefx-missing-f5834a8696",
+        "task_title": "sidefx-missing-f5834a8696"
+      },
+      "upload": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "submit_task",
+        "task": {
+          "acknowledged_by_role": "worker",
+          "assigned_at": "2026-09-09T16:45:43Z",
+          "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+          "notification": {
+            "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+            "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "sent": true
+          },
+          "project_id": "sidefx-project-f5834a8696",
+          "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "spec_path": "shared/tasks/sidefx-upload-f5834a8696/spec.md",
+          "status": "submitted",
+          "task_id": "sidefx-upload-f5834a8696",
+          "task_title": "sidefx-upload-f5834a8696",
+          "result_status": "SUCCESS",
+          "summary": "valid local fixture, upload authorization injected failure",
+          "deliverables": [
+            "shared/tasks/sidefx-upload-f5834a8696/deliverable.txt"
+          ],
+          "submitted_by_role": "worker"
+        },
+        "publishedArtifacts": [
+          {
+            "sourcePath": "shared/tasks/sidefx-upload-f5834a8696/deliverable.txt",
+            "filename": "sidefx-upload-f5834a8696-deliverable.txt",
+            "size": 36,
+            "mimetype": "text/plain",
+            "mxcUri": "",
+            "eventId": "",
+            "parentEventId": "",
+            "status": "failed",
+            "error": "Matrix artifact publish failed: HTTP 401"
+          }
+        ],
+        "synced": true,
+        "notificationNeeded": {
+          "event": "submit_task",
+          "projectId": "sidefx-project-f5834a8696",
+          "summary": "submit_task: sidefx-upload-f5834a8696 (SUCCESS)",
+          "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+        }
+      },
+      "upload_task": {
+        "acknowledged_by_role": "worker",
+        "assigned_at": "2026-09-09T16:45:43Z",
+        "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+        "deliverables": [
+          "shared/tasks/sidefx-upload-f5834a8696/deliverable.txt"
+        ],
+        "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+        "notification": {
+          "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+          "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+          "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+          "sent": true
+        },
+        "project_id": "sidefx-project-f5834a8696",
+        "result_status": "SUCCESS",
+        "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "spec_path": "shared/tasks/sidefx-upload-f5834a8696/spec.md",
+        "status": "submitted",
+        "submitted_by_role": "worker",
+        "summary": "valid local fixture, upload authorization injected failure",
+        "task_id": "sidefx-upload-f5834a8696",
+        "task_title": "sidefx-upload-f5834a8696"
+      },
+      "project": {
+        "plan_type": "dag",
+        "project_id": "sidefx-project-f5834a8696",
+        "requester_report": {
+          "pending": true,
+          "reason": "task_result_accepted",
+          "report_path": "shared/projects/sidefx-project-f5834a8696/result.md",
+          "result_status": "SUCCESS",
+          "summary": "",
+          "task_id": "sidefx-missing-f5834a8696"
+        },
+        "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+        "status": "active",
+        "tasks": [
+          {
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "depends_on": [],
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "completed",
+            "task_id": "sidefx-cancel-f5834a8696",
+            "title": "sidefx-cancel-f5834a8696"
+          },
+          {
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "depends_on": [],
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "completed",
+            "task_id": "sidefx-missing-f5834a8696",
+            "title": "sidefx-missing-f5834a8696"
+          },
+          {
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "depends_on": [],
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "submitted",
+            "task_id": "sidefx-upload-f5834a8696",
+            "title": "sidefx-upload-f5834a8696"
+          }
+        ],
+        "team_id": "live-harness",
+        "title": "sidefx-project-f5834a8696"
+      }
+    },
+    "trace": [
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "submit_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "taskId": "sidefx-missing-f5834a8696",
+          "summary": "claims success but declared file is absent",
+          "status": "SUCCESS",
+          "deliverables": [
+            "shared/tasks/sidefx-missing-f5834a8696/missing.txt"
+          ]
+        },
+        "result": {
+          "ok": true,
+          "tool": "taskflow",
+          "action": "submit_task",
+          "task": {
+            "acknowledged_by_role": "worker",
+            "assigned_at": "2026-09-09T16:45:43Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$4-dppcG3XnvE7G7gjgFoZKM1jJV5YWg19iKqScjjMnw",
+              "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "sidefx-project-f5834a8696",
+            "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/sidefx-missing-f5834a8696/spec.md",
+            "status": "submitted",
+            "task_id": "sidefx-missing-f5834a8696",
+            "task_title": "sidefx-missing-f5834a8696",
+            "result_status": "SUCCESS",
+            "summary": "claims success but declared file is absent",
+            "deliverables": [
+              "shared/tasks/sidefx-missing-f5834a8696/missing.txt"
+            ],
+            "submitted_by_role": "worker"
+          },
+          "publishedArtifacts": [
+            {
+              "sourcePath": "shared/tasks/sidefx-missing-f5834a8696/missing.txt",
+              "filename": "sidefx-missing-f5834a8696-missing.txt",
+              "size": null,
+              "mimetype": "",
+              "mxcUri": "",
+              "eventId": "",
+              "parentEventId": "",
+              "status": "failed",
+              "error": "artifact file not found"
+            }
+          ],
+          "synced": true,
+          "notificationNeeded": {
+            "event": "submit_task",
+            "projectId": "sidefx-project-f5834a8696",
+            "summary": "submit_task: sidefx-missing-f5834a8696 (SUCCESS)",
+            "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+          }
+        }
+      },
+      {
+        "tool": "projectflow",
+        "arguments": {
+          "action": "accept_task_result",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "projectId": "sidefx-project-f5834a8696",
+          "taskId": "sidefx-missing-f5834a8696",
+          "accepted": true
+        },
+        "result": {
+          "ok": true,
+          "tool": "projectflow",
+          "action": "accept_task_result",
+          "project": {
+            "plan_type": "dag",
+            "project_id": "sidefx-project-f5834a8696",
+            "requester_report": {
+              "pending": true,
+              "reason": "task_result_accepted",
+              "task_id": "sidefx-missing-f5834a8696",
+              "result_status": "SUCCESS",
+              "summary": "",
+              "report_path": "shared/projects/sidefx-project-f5834a8696/result.md"
+            },
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "status": "active",
+            "tasks": [
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+                "status": "completed",
+                "task_id": "sidefx-cancel-f5834a8696",
+                "title": "sidefx-cancel-f5834a8696"
+              },
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+                "status": "completed",
+                "task_id": "sidefx-missing-f5834a8696",
+                "title": "sidefx-missing-f5834a8696"
+              },
+              {
+                "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+                "depends_on": [],
+                "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+                "status": "in_progress",
+                "task_id": "sidefx-upload-f5834a8696",
+                "title": "sidefx-upload-f5834a8696"
+              }
+            ],
+            "team_id": "live-harness",
+            "title": "sidefx-project-f5834a8696"
+          },
+          "taskId": "sidefx-missing-f5834a8696",
+          "nodeStatus": "completed",
+          "accepted": true,
+          "publishedArtifacts": [],
+          "notificationNeeded": {
+            "event": "accept_task_result",
+            "projectId": "sidefx-project-f5834a8696",
+            "summary": "accept_task_result: sidefx-missing-f5834a8696 -> completed",
+            "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+          }
+        }
+      },
+      {
+        "tool": "taskflow",
+        "arguments": {
+          "action": "submit_task",
+          "workspaceDir": "/tmp/repomesh-worker-side-effects/f5834a8696",
+          "storage": {
+            "sharedPrefix": "agentteams/rv-a-storage/teams/live-harness/shared/c39a1bde1e/worker-side-effects-f5834a8696"
+          },
+          "taskId": "sidefx-upload-f5834a8696",
+          "summary": "valid local fixture, upload authorization injected failure",
+          "status": "SUCCESS",
+          "deliverables": [
+            "shared/tasks/sidefx-upload-f5834a8696/deliverable.txt"
+          ]
+        },
+        "result": {
+          "ok": true,
+          "tool": "taskflow",
+          "action": "submit_task",
+          "task": {
+            "acknowledged_by_role": "worker",
+            "assigned_at": "2026-09-09T16:45:43Z",
+            "assigned_to": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+            "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+            "notification": {
+              "assignee": "@mxv_21f3caf31d_bob:rv-a.matrix.invalid",
+              "eventId": "$mz8ZCdh_aIBNlrbNX9d9WNWzX8n1z0iakUOQ3tzKqLM",
+              "roomId": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+              "sent": true
+            },
+            "project_id": "sidefx-project-f5834a8696",
+            "room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "source_room_id": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid",
+            "spec_path": "shared/tasks/sidefx-upload-f5834a8696/spec.md",
+            "status": "submitted",
+            "task_id": "sidefx-upload-f5834a8696",
+            "task_title": "sidefx-upload-f5834a8696",
+            "result_status": "SUCCESS",
+            "summary": "valid local fixture, upload authorization injected failure",
+            "deliverables": [
+              "shared/tasks/sidefx-upload-f5834a8696/deliverable.txt"
+            ],
+            "submitted_by_role": "worker"
+          },
+          "publishedArtifacts": [
+            {
+              "sourcePath": "shared/tasks/sidefx-upload-f5834a8696/deliverable.txt",
+              "filename": "sidefx-upload-f5834a8696-deliverable.txt",
+              "size": 36,
+              "mimetype": "text/plain",
+              "mxcUri": "",
+              "eventId": "",
+              "parentEventId": "",
+              "status": "failed",
+              "error": "Matrix artifact publish failed: HTTP 401"
+            }
+          ],
+          "synced": true,
+          "notificationNeeded": {
+            "event": "submit_task",
+            "projectId": "sidefx-project-f5834a8696",
+            "summary": "submit_task: sidefx-upload-f5834a8696 (SUCCESS)",
+            "targetRoom": "!Funjq2MWCDFBx6i5ao:rv-a.matrix.invalid"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "kind": "complete",
+    "time": "2026-09-09T16:45:49.516237+00:00",
+    "fixture_id": "f5834a8696",
+    "process_cleaned": true
+  },
+  {
+    "kind": "cleanup_verification",
+    "time": "2026-09-09T16:46:34.626641+00:00",
+    "original_pid_exists": false,
+    "worker_container_running": "true"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-09",
+  "basis": "Pre-review working tree; snapshots preserve original bytes and relative links.",
+  "files": [
+    {
+      "original_path": "docs/current/HANDOFF.md",
+      "snapshot_path": "current/HANDOFF.md",
+      "bytes": 32681,
+      "sha256": "908f10e19ec38e0f724dfccffdb1ab7b9a8b1dcf55a135535422361ff442086f"
+    },
+    {
+      "original_path": "docs/current/NEXT-SESSION-PROMPT.md",
+      "snapshot_path": "current/NEXT-SESSION-PROMPT.md",
+      "bytes": 28151,
+      "sha256": "24c5bdbb2644237679dcdd131d32b56b6205628e102aab812c02dce143715599"
+    },
+    {
+      "original_path": "docs/current/NEXT-BACKEND-SESSION-PROMPT.md",
+      "snapshot_path": "current/NEXT-BACKEND-SESSION-PROMPT.md",
+      "bytes": 33009,
+      "sha256": "4a5b25f6f39691dd364305e9361d5cdc35f5f794b6b421e266fa94c0da75dab3"
+    }
+  ]
+}

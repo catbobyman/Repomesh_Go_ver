@@ -1,0 +1,174 @@
+{
+  "run_id": "b0d62ab76cd4",
+  "project_id": "trace-project-b0d62ab76cd4",
+  "task_id": "trace-task-b0d62ab76cd4",
+  "container": "rv-c-controller",
+  "trace_events": [
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:27.911447424Z",
+      "received_at": "2026-09-10T03:53:27.915093+00:00",
+      "received_monotonic": 0.24184
+    },
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:31.953377422Z",
+      "received_at": "2026-09-10T03:53:31.954296+00:00",
+      "received_monotonic": 4.281049
+    },
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:31.954445071Z",
+      "received_at": "2026-09-10T03:53:31.955045+00:00",
+      "received_monotonic": 4.281787
+    },
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:35.258376924Z",
+      "received_at": "2026-09-10T03:53:35.259182+00:00",
+      "received_monotonic": 7.585937
+    },
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:35.25875933Z",
+      "received_at": "2026-09-10T03:53:35.259595+00:00",
+      "received_monotonic": 7.586332
+    },
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/tasks/trace-task-b0d62ab76cd4/meta.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:35.263658206Z",
+      "received_at": "2026-09-10T03:53:35.264505+00:00",
+      "received_monotonic": 7.591255
+    },
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:36.004396428Z",
+      "received_at": "2026-09-10T03:53:36.005049+00:00",
+      "received_monotonic": 8.333106
+    },
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:36.005298951Z",
+      "received_at": "2026-09-10T03:53:36.006001+00:00",
+      "received_monotonic": 8.334045
+    },
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:40.053011114Z",
+      "received_at": "2026-09-10T03:53:40.053788+00:00",
+      "received_monotonic": 12.381845
+    },
+    {
+      "method": null,
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+      "status": 200,
+      "time": "2026-09-10T03:53:40.053923796Z",
+      "received_at": "2026-09-10T03:53:40.054574+00:00",
+      "received_monotonic": 12.382618
+    }
+  ],
+  "cases": [],
+  "checks": [
+    {
+      "name": "listener-positive-probe-observed-before-cases",
+      "passed": false
+    }
+  ],
+  "trace_schema_paths": [
+    "api",
+    "client",
+    "duration",
+    "error",
+    "extra",
+    "host",
+    "path",
+    "query",
+    "status",
+    "statusCode",
+    "statusMsg",
+    "time",
+    "timeToFirstByte",
+    "type"
+  ],
+  "boundary": "Real Controller HTTP and real MinIO admin trace, direct nonce metadata fixtures. No mock, model, service change, or inference about other requests.",
+  "started_at": "2026-09-10T03:53:27.673282+00:00",
+  "fixtures": [
+    {
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/meta.json",
+      "sha256": "c36f3f3f17ba173389b43fd492f8a59663338921f85bf8e1ff913ecb982df456",
+      "content": {
+        "project_id": "trace-project-b0d62ab76cd4",
+        "title": "Storage trace fixture b0d62ab76cd4",
+        "status": "active",
+        "plan_type": "dag",
+        "tasks": [
+          {
+            "task_id": "trace-task-b0d62ab76cd4",
+            "title": "Trace task",
+            "status": "planned",
+            "depends_on": []
+          }
+        ],
+        "source_room_id": ""
+      }
+    },
+    {
+      "path": "rv-c-storage/shared/tasks/trace-task-b0d62ab76cd4/meta.json",
+      "sha256": "44eeaf46620e6715f918917484bd05f6c6d192fdf75b4794a3acf741ba2563aa",
+      "content": {
+        "task_id": "trace-task-b0d62ab76cd4",
+        "project_id": "trace-project-b0d62ab76cd4",
+        "status": "in_progress",
+        "summary": "TaskMeta-only marker b0d62ab76cd4",
+        "history": []
+      }
+    },
+    {
+      "path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+      "sha256": "adecc34a1745d3edb584149b80033a5cc752a742586f769e013e44113215acea",
+      "content": {
+        "probe": "b0d62ab76cd4"
+      }
+    }
+  ],
+  "listener": {
+    "pid": 16164,
+    "command": [
+      "mc",
+      "admin",
+      "trace",
+      "--json",
+      "--all",
+      "agentteams"
+    ],
+    "timeout_seconds": 70,
+    "ready_probe_path": "rv-c-storage/shared/projects/trace-project-b0d62ab76cd4/trace-probe.json",
+    "exit_code": 143,
+    "terminated": true
+  },
+  "error": {
+    "type": "RuntimeError",
+    "message": "Trace readiness not established; no measured API cases issued"
+  },
+  "ended_at": "2026-09-10T03:53:44.076580+00:00",
+  "elapsed_seconds": 16.405,
+  "exit_code": 1
+}

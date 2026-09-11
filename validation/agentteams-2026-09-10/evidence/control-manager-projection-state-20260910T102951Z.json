@@ -1,0 +1,64 @@
+{
+  "at_utc": "2026-09-10T10:29:51.852548+00:00",
+  "manager": "cfg-clear-2b043b42f8",
+  "cr": {
+    "metadata": {
+      "name": "cfg-clear-2b043b42f8",
+      "namespace": "default",
+      "uid": "170c88f2-8028-427c-acda-b191a573e181",
+      "resourceVersion": "140",
+      "generation": 12
+    },
+    "spec": {
+      "model": "fixture-model-a-2b043b42f8",
+      "runtime": "qwenpaw",
+      "image": null,
+      "state": "Stopped"
+    },
+    "model_provider_field_present": false,
+    "model_provider": "",
+    "status": {
+      "phase": null,
+      "observedGeneration": null,
+      "welcomeSent": null
+    },
+    "fixture_provider_error": false
+  },
+  "safe_environment": {
+    "AGENTTEAMS_MANAGER_ENABLED": "false",
+    "AGENTTEAMS_AI_GATEWAY_URL": "http://127.0.0.1:8080",
+    "AGENTTEAMS_MANAGER_MODEL": null,
+    "AGENTTEAMS_DEFAULT_MODEL": "qwen3.6-plus",
+    "AGENTTEAMS_MANAGER_IMAGE": "repomesh-validation/manager-qwenpaw:517caff9"
+  },
+  "objects": [
+    {
+      "key": "agentteams/rv-c-storage/agents/cfg-clear-2b043b42f8/openclaw.json",
+      "exit_code": 1,
+      "error_summary": {
+        "not_found": true,
+        "access_denied": false,
+        "alias_not_configured": false
+      }
+    },
+    {
+      "key": "agentteams/rv-c-storage/agents/cfg-clear-2b043b42f8/runtime/runtime.yaml",
+      "exit_code": 1,
+      "error_summary": {
+        "not_found": true,
+        "access_denied": false,
+        "alias_not_configured": false
+      }
+    },
+    {
+      "key": "agentteams/rv-c-storage/agents/manager/openclaw.json",
+      "exit_code": 1,
+      "error_summary": {
+        "not_found": true,
+        "access_denied": false,
+        "alias_not_configured": false
+      }
+    }
+  ],
+  "boundary": "Read-only native storage/config and CR; no model, state change, fake projection or server modification"
+}

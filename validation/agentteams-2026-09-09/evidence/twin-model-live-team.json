@@ -1,0 +1,495 @@
+{
+  "phase": "team",
+  "completed_utc": "2026-09-09T16:48:28.918258+00:00",
+  "results": [
+    {
+      "id": "a-leader",
+      "status": "PASS_REAL_MODEL_REPLY",
+      "marker": "RV_TWIN_A_LEADER_2ec45857",
+      "event_id": "$QG8uOrWjkplNR8O0aUWlwH_TE4broQpIBQOWZ3Kqm6s",
+      "target_user": "@live-twin-leader:rv-a.matrix.invalid",
+      "room": "!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid",
+      "body_exact": true,
+      "elapsed_seconds": 3.312,
+      "reply": {
+        "event_id": "$tG4Kpbgla8IoPW_6SUGHj2qdCUMN_rzhXIEEd4U3eR8",
+        "sender": "@live-twin-leader:rv-a.matrix.invalid",
+        "room": "!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid",
+        "origin_server_ts": 1788972503772,
+        "content": {
+          "body": "* RV_TWIN_A_LEADER_2ec45857",
+          "format": "org.matrix.custom.html",
+          "formatted_body": "<p>* RV_TWIN_A_LEADER_2ec45857</p>",
+          "m.new_content": {
+            "body": "RV_TWIN_A_LEADER_2ec45857",
+            "format": "org.matrix.custom.html",
+            "formatted_body": "<p>RV_TWIN_A_LEADER_2ec45857</p>",
+            "msgtype": "m.text"
+          },
+          "m.relates_to": {
+            "event_id": "$l0tFlvgw1loVc_UXV7BERdkFMst-EbCI8PzjU8o0ET8",
+            "rel_type": "m.replace"
+          },
+          "msgtype": "m.text"
+        }
+      }
+    },
+    {
+      "id": "a-worker",
+      "status": "PASS_REAL_MODEL_REPLY",
+      "marker": "RV_TWIN_A_WORKER_38990409",
+      "event_id": "$2WvYBuOQBOPoTAea7PFYlQWNHyTLGh_r4DrYZ5QGemw",
+      "target_user": "@live-twin-worker:rv-a.matrix.invalid",
+      "room": "!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid",
+      "body_exact": true,
+      "elapsed_seconds": 5.578,
+      "reply": {
+        "event_id": "$2kHC43fQ_TTweI1wcld5e6dPvHGjKK64xGYFa7UVCgk",
+        "sender": "@live-twin-worker:rv-a.matrix.invalid",
+        "room": "!Ff6iZ4IGTwHpkhX922:rv-a.matrix.invalid",
+        "origin_server_ts": 1788972504115,
+        "content": {
+          "body": "* RV_TWIN_A_WORKER_38990409",
+          "format": "org.matrix.custom.html",
+          "formatted_body": "<p>* RV_TWIN_A_WORKER_38990409</p>",
+          "m.new_content": {
+            "body": "RV_TWIN_A_WORKER_38990409",
+            "format": "org.matrix.custom.html",
+            "formatted_body": "<p>RV_TWIN_A_WORKER_38990409</p>",
+            "msgtype": "m.text"
+          },
+          "m.relates_to": {
+            "event_id": "$hbzXQfmncq-zReubIAOXtMkCkymKBx7lFSM4wS9kNhA",
+            "rel_type": "m.replace"
+          },
+          "msgtype": "m.text"
+        }
+      }
+    },
+    {
+      "id": "b-leader",
+      "status": "PASS_REAL_MODEL_REPLY",
+      "marker": "RV_TWIN_B_LEADER_eb06d768",
+      "event_id": "$UrsP5X_YumNAdTd5L26DcTx0nOdSe6tdgtKmMZIhVRU",
+      "target_user": "@live-twin-leader:rv-b.matrix.invalid",
+      "room": "!pgSItIpN055Z7RrhYv:rv-b.matrix.invalid",
+      "body_exact": true,
+      "elapsed_seconds": 5.485,
+      "reply": {
+        "event_id": "$vgvf36DiKf6dn_puBNN7qWwYNxPl22D8ix3-y2f1Yu8",
+        "sender": "@live-twin-leader:rv-b.matrix.invalid",
+        "room": "!pgSItIpN055Z7RrhYv:rv-b.matrix.invalid",
+        "origin_server_ts": 1788972503678,
+        "content": {
+          "body": "* RV_TWIN_B_LEADER_eb06d768",
+          "format": "org.matrix.custom.html",
+          "formatted_body": "<p>* RV_TWIN_B_LEADER_eb06d768</p>",
+          "m.new_content": {
+            "body": "RV_TWIN_B_LEADER_eb06d768",
+            "format": "org.matrix.custom.html",
+            "formatted_body": "<p>RV_TWIN_B_LEADER_eb06d768</p>",
+            "msgtype": "m.text"
+          },
+          "m.relates_to": {
+            "event_id": "$zXfu46GDFQyYD4b86MkPcrqkCOg_LwBVj_1GwrpxHQE",
+            "rel_type": "m.replace"
+          },
+          "msgtype": "m.text"
+        }
+      }
+    },
+    {
+      "id": "b-worker",
+      "status": "PASS_REAL_MODEL_REPLY",
+      "marker": "RV_TWIN_B_WORKER_586da857",
+      "event_id": "$EAjhW8SJ0ahA_zQ0QKXMvIDzNOwzvjjCqKgTHZClQYM",
+      "target_user": "@live-twin-worker:rv-b.matrix.invalid",
+      "room": "!pgSItIpN055Z7RrhYv:rv-b.matrix.invalid",
+      "body_exact": true,
+      "elapsed_seconds": 5.578,
+      "reply": {
+        "event_id": "$JfJP37-NHTpRGcIib1zysgVid3rV9HVWel9FP6T2mvk",
+        "sender": "@live-twin-worker:rv-b.matrix.invalid",
+        "room": "!pgSItIpN055Z7RrhYv:rv-b.matrix.invalid",
+        "origin_server_ts": 1788972503779,
+        "content": {
+          "body": "* RV_TWIN_B_WORKER_586da857\n\n收到隔离验证。我是 live-twin-worker，按要求仅回复此验证码，不调用工具、不创建资源、不委派或联系其他成员。",
+          "format": "org.matrix.custom.html",
+          "formatted_body": "<p>* RV_TWIN_B_WORKER_586da857<br>\n<br>\n收到隔离验证。我是 live-twin-worker，按要求仅回复此验证码，不调用工具、不创建资源、不委派或联系其他成员。</p>",
+          "m.new_content": {
+            "body": "RV_TWIN_B_WORKER_586da857\n\n收到隔离验证。我是 live-twin-worker，按要求仅回复此验证码，不调用工具、不创建资源、不委派或联系其他成员。",
+            "format": "org.matrix.custom.html",
+            "formatted_body": "<p>RV_TWIN_B_WORKER_586da857</p>\n<p>收到隔离验证。我是 live-twin-worker，按要求仅回复此验证码，不调用工具、不创建资源、不委派或联系其他成员。</p>",
+            "msgtype": "m.text"
+          },
+          "m.relates_to": {
+            "event_id": "$aNCWYErOXhmYw60XoaPcz-ugKbSDBkf-8b96omiVOuE",
+            "rel_type": "m.replace"
+          },
+          "msgtype": "m.text"
+        }
+      }
+    }
+  ],
+  "health_samples": [
+    {
+      "utc": "2026-09-09T16:48:20.278859+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.031
+    },
+    {
+      "utc": "2026-09-09T16:48:20.285339+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    },
+    {
+      "utc": "2026-09-09T16:48:20.803488+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    },
+    {
+      "utc": "2026-09-09T16:48:20.810448+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.016
+    },
+    {
+      "utc": "2026-09-09T16:48:21.327003+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.015
+    },
+    {
+      "utc": "2026-09-09T16:48:21.332052+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    },
+    {
+      "utc": "2026-09-09T16:48:21.859748+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.016
+    },
+    {
+      "utc": "2026-09-09T16:48:21.864587+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    },
+    {
+      "utc": "2026-09-09T16:48:22.377656+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    },
+    {
+      "utc": "2026-09-09T16:48:22.392075+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.016
+    },
+    {
+      "utc": "2026-09-09T16:48:22.922459+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.016
+    },
+    {
+      "utc": "2026-09-09T16:48:22.926679+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    },
+    {
+      "utc": "2026-09-09T16:48:23.444332+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.016
+    },
+    {
+      "utc": "2026-09-09T16:48:23.460394+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.015
+    },
+    {
+      "utc": "2026-09-09T16:48:23.977313+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.016
+    },
+    {
+      "utc": "2026-09-09T16:48:23.981550+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.016
+    },
+    {
+      "utc": "2026-09-09T16:48:24.495341+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    },
+    {
+      "utc": "2026-09-09T16:48:24.498299+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.015
+    },
+    {
+      "utc": "2026-09-09T16:48:25.013378+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.016
+    },
+    {
+      "utc": "2026-09-09T16:48:25.016009+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    },
+    {
+      "utc": "2026-09-09T16:48:25.543415+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.031
+    },
+    {
+      "utc": "2026-09-09T16:48:25.546707+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    },
+    {
+      "utc": "2026-09-09T16:48:26.061300+00:00",
+      "instance": "a",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.016
+    },
+    {
+      "utc": "2026-09-09T16:48:26.065753+00:00",
+      "instance": "b",
+      "path": "/healthz",
+      "status": 200,
+      "seconds": 0.0
+    }
+  ],
+  "resources_before": {
+    "utc": "2026-09-09T16:48:20.247995+00:00",
+    "samples": [
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "11.23%",
+        "Container": "rv-a-controller",
+        "ID": "b87af2f3f940",
+        "MemPerc": "12.37%",
+        "MemUsage": "1.888GiB / 15.27GiB",
+        "Name": "rv-a-controller",
+        "NetIO": "10MB / 4.47MB",
+        "PIDs": "860"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "9.05%",
+        "Container": "rv-b-controller",
+        "ID": "c4a73487e935",
+        "MemPerc": "11.57%",
+        "MemUsage": "1.767GiB / 15.27GiB",
+        "Name": "rv-b-controller",
+        "NetIO": "9.13MB / 2.97MB",
+        "PIDs": "853"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "6.50%",
+        "Container": "rv-a-manager",
+        "ID": "90648a5b3863",
+        "MemPerc": "2.80%",
+        "MemUsage": "437.3MiB / 15.27GiB",
+        "Name": "rv-a-manager",
+        "NetIO": "1.99MB / 7.63MB",
+        "PIDs": "30"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "2.31%",
+        "Container": "rv-b-manager",
+        "ID": "7f69693349d0",
+        "MemPerc": "2.69%",
+        "MemUsage": "420.6MiB / 15.27GiB",
+        "Name": "rv-b-manager",
+        "NetIO": "1.31MB / 7.33MB",
+        "PIDs": "29"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.20%",
+        "Container": "rv-a-worker-live-twin-leader",
+        "ID": "4cc82fddf8e2",
+        "MemPerc": "2.98%",
+        "MemUsage": "465.4MiB / 15.27GiB",
+        "Name": "rv-a-worker-live-twin-leader",
+        "NetIO": "729kB / 754kB",
+        "PIDs": "44"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.27%",
+        "Container": "rv-b-worker-live-twin-leader",
+        "ID": "e27e28dc564d",
+        "MemPerc": "3.00%",
+        "MemUsage": "469.6MiB / 15.27GiB",
+        "Name": "rv-b-worker-live-twin-leader",
+        "NetIO": "728kB / 756kB",
+        "PIDs": "43"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.32%",
+        "Container": "rv-a-worker-live-twin-worker",
+        "ID": "1b8bdff6e607",
+        "MemPerc": "2.93%",
+        "MemUsage": "458.1MiB / 15.27GiB",
+        "Name": "rv-a-worker-live-twin-worker",
+        "NetIO": "441kB / 559kB",
+        "PIDs": "42"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "1.46%",
+        "Container": "rv-b-worker-live-twin-worker",
+        "ID": "90554c015408",
+        "MemPerc": "2.96%",
+        "MemUsage": "462.2MiB / 15.27GiB",
+        "Name": "rv-b-worker-live-twin-worker",
+        "NetIO": "466kB / 563kB",
+        "PIDs": "43"
+      }
+    ],
+    "exit_code": 0,
+    "scope": "Docker instant sample, not peak/cgroup enforcement proof"
+  },
+  "resources_after": {
+    "utc": "2026-09-09T16:48:28.918258+00:00",
+    "samples": [
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "8.94%",
+        "Container": "rv-a-controller",
+        "ID": "b87af2f3f940",
+        "MemPerc": "12.46%",
+        "MemUsage": "1.903GiB / 15.27GiB",
+        "Name": "rv-a-controller",
+        "NetIO": "10.6MB / 4.86MB",
+        "PIDs": "860"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "8.19%",
+        "Container": "rv-b-controller",
+        "ID": "c4a73487e935",
+        "MemPerc": "11.60%",
+        "MemUsage": "1.771GiB / 15.27GiB",
+        "Name": "rv-b-controller",
+        "NetIO": "9.73MB / 3.6MB",
+        "PIDs": "853"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "6.76%",
+        "Container": "rv-a-manager",
+        "ID": "90648a5b3863",
+        "MemPerc": "2.80%",
+        "MemUsage": "437.2MiB / 15.27GiB",
+        "Name": "rv-a-manager",
+        "NetIO": "2.01MB / 7.63MB",
+        "PIDs": "30"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "3.73%",
+        "Container": "rv-b-manager",
+        "ID": "7f69693349d0",
+        "MemPerc": "2.70%",
+        "MemUsage": "422.2MiB / 15.27GiB",
+        "Name": "rv-b-manager",
+        "NetIO": "1.6MB / 7.37MB",
+        "PIDs": "29"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.56%",
+        "Container": "rv-a-worker-live-twin-leader",
+        "ID": "4cc82fddf8e2",
+        "MemPerc": "3.02%",
+        "MemUsage": "472.7MiB / 15.27GiB",
+        "Name": "rv-a-worker-live-twin-leader",
+        "NetIO": "825kB / 1.05MB",
+        "PIDs": "44"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "1.42%",
+        "Container": "rv-b-worker-live-twin-leader",
+        "ID": "e27e28dc564d",
+        "MemPerc": "3.05%",
+        "MemUsage": "476.6MiB / 15.27GiB",
+        "Name": "rv-b-worker-live-twin-leader",
+        "NetIO": "821kB / 971kB",
+        "PIDs": "43"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "0.17%",
+        "Container": "rv-a-worker-live-twin-worker",
+        "ID": "1b8bdff6e607",
+        "MemPerc": "2.97%",
+        "MemUsage": "464.8MiB / 15.27GiB",
+        "Name": "rv-a-worker-live-twin-worker",
+        "NetIO": "563kB / 769kB",
+        "PIDs": "42"
+      },
+      {
+        "BlockIO": "0B / 0B",
+        "CPUPerc": "5.78%",
+        "Container": "rv-b-worker-live-twin-worker",
+        "ID": "90554c015408",
+        "MemPerc": "3.01%",
+        "MemUsage": "470.2MiB / 15.27GiB",
+        "Name": "rv-b-worker-live-twin-worker",
+        "NetIO": "569kB / 852kB",
+        "PIDs": "43"
+      }
+    ],
+    "exit_code": 0,
+    "scope": "Docker instant sample, not peak/cgroup enforcement proof"
+  },
+  "submission_policy": "One per new case; unknown or previous sends never resent"
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "name": "actual_controller_api_reserved_end",
+    "snapshot": {
+      "nodes": [
+        {
+          "id": "end"
+        }
+      ],
+      "edges": []
+    },
+    "mermaid": "flowchart LR\n    end[\"Ordinary task: pending\"]:::ready\n    classDef ready fill:#d4edda,stroke:#28a745;\n    classDef pending fill:#e9ecef,stroke:#6c757d;\n    classDef delegated fill:#cfe2ff,stroke:#0d6efd;\n    classDef inProgress fill:#fff3cd,stroke:#ffc107;\n    classDef completed fill:#d4edda,stroke:#198754;\n    classDef revision fill:#ffe5d0,stroke:#fd7e14;\n    classDef blocked fill:#f8d7da,stroke:#dc3545;\n",
+    "source_evidence": "controller-delta-live-d33b63db78-reserved-end.mmd",
+    "sha256": "026597812b4c8205cf7070ac2c2ef812621344a8c4da1d60b97ca488b090f0cc"
+  }
+]

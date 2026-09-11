@@ -1,0 +1,69 @@
+[
+  {
+    "file": "teamharness-qwenpaw.zip",
+    "size": 120691,
+    "sha256": "17eaee762455dde4ddce17d2db4c214af292a44892f80b76ed3b8340c1924c53",
+    "members": 36,
+    "manifest": {
+      "id": "teamharness",
+      "name": "TeamHarness",
+      "version": "0.1.0",
+      "type": "general",
+      "description": "AgentTeams TeamHarness runtime plugin for QwenPaw.",
+      "author": "AgentTeams",
+      "entry": {
+        "backend": "plugin.py"
+      },
+      "dependencies": [],
+      "min_version": "2.0.1",
+      "qwenpaw_version": {
+        "min": "2.0.1",
+        "max": "2.1.0"
+      },
+      "meta": {
+        "category": "teamharness",
+        "features": [
+          "team-context",
+          "tool-output-sanitizer",
+          "teamharness-skills",
+          "teamharness-mcp"
+        ]
+      }
+    },
+    "all_python_syntax": "passed",
+    "crc": "passed"
+  },
+  {
+    "file": "workerflow-qwenpaw.zip",
+    "size": 22709,
+    "sha256": "7897e857b4f2e8b4b405d203400bddd7910942d431dd62442a3e491a7a1020d7",
+    "members": 9,
+    "manifest": {
+      "id": "workerflow",
+      "name": "WorkerFlow",
+      "version": "0.1.0",
+      "type": "general",
+      "description": "Worker-local workflow plugin for QwenPaw agents and subagents.",
+      "author": "AgentTeams",
+      "entry": {
+        "backend": "plugin.py"
+      },
+      "dependencies": [],
+      "min_version": "2.0.1",
+      "qwenpaw_version": {
+        "min": "2.0.1",
+        "max": "2.1.0"
+      },
+      "meta": {
+        "category": "workerflow",
+        "features": [
+          "worker-internal-workflow",
+          "temporary-agent-lifecycle",
+          "workerflow-mcp"
+        ]
+      }
+    },
+    "all_python_syntax": "passed",
+    "crc": "passed"
+  }
+]

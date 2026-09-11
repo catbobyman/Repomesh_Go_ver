@@ -22,9 +22,19 @@ coverage/
 *.test
 *.out
 *.log
+*.tsbuildinfo
+
+# Local skeleton tooling
+/.playwright-cli/
+/.playwright-mcp/
+/output/playwright/
+
+# Independent upstream checkout; version recorded in third_party/agentteams-source.json
+/third_party/AgentTeams/
 
 # Local dashboard report
 /Cursor_Dashboard_Report_2026-09-07/
 
 # Local product requirements
 /docs/Cloud-Agent平台产品PRD.md
+/docs/archive/reference/Cloud-Agent平台产品PRD.md

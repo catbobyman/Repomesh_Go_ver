@@ -1,0 +1,1101 @@
+{
+  "run_id": "f802e49e2a",
+  "project_id": "scope-project-f802e49e2a",
+  "teams": [
+    "coverage-scope-f802e49e2a-left",
+    "coverage-scope-f802e49e2a-right"
+  ],
+  "scope": "Controller admin HTTP; new stopped unmanaged resource references and direct MinIO metadata fixtures; no Worker authorization claim",
+  "records": [
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:27.668516+00:00",
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/workers",
+      "request": {
+        "name": "coverage-scope-leader-f802e49e2a-0",
+        "runtime": "qwenpaw",
+        "model": "deepseek-chat",
+        "state": "Stopped",
+        "containerManaged": false
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-scope-leader-f802e49e2a-0",
+        "state": "Stopped",
+        "containerManaged": false,
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:27.678685+00:00",
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/teams",
+      "request": {
+        "name": "coverage-scope-f802e49e2a-left",
+        "teamName": "coverage-scope-f802e49e2a-left",
+        "description": "Dedicated Project scope metadata fixture; stopped unmanaged leader; no model tasks",
+        "workerMembers": [
+          {
+            "name": "coverage-scope-leader-f802e49e2a-0",
+            "role": "team_leader"
+          }
+        ]
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-scope-f802e49e2a-left",
+        "teamName": "coverage-scope-f802e49e2a-left",
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:27.726458+00:00",
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-left",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "direct_minio_fixture_write",
+      "time": "2026-09-09T17:19:28.084066+00:00",
+      "object": "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a",
+      "key": "agentteams/rv-a-storage/teams/coverage-scope-f802e49e2a-left/shared/projects/scope-project-f802e49e2a/meta.json",
+      "sha256": "4f0f7b1bdeae2da7222ed4cb32c89a1576db95d0f4741633b5903fea8a74975a",
+      "value": {
+        "project_id": "scope-project-f802e49e2a",
+        "title": "fixture:a:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-left",
+        "mode": "fixture",
+        "source": "validation",
+        "tasks": [],
+        "source_room_id": ""
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:28.095540+00:00",
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/workers",
+      "request": {
+        "name": "coverage-scope-leader-f802e49e2a-1",
+        "runtime": "qwenpaw",
+        "model": "deepseek-chat",
+        "state": "Stopped",
+        "containerManaged": false
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-scope-leader-f802e49e2a-1",
+        "state": "Stopped",
+        "containerManaged": false,
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:28.107627+00:00",
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/teams",
+      "request": {
+        "name": "coverage-scope-f802e49e2a-right",
+        "teamName": "coverage-scope-f802e49e2a-right",
+        "description": "Dedicated Project scope metadata fixture; stopped unmanaged leader; no model tasks",
+        "workerMembers": [
+          {
+            "name": "coverage-scope-leader-f802e49e2a-1",
+            "role": "team_leader"
+          }
+        ]
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-scope-f802e49e2a-right",
+        "teamName": "coverage-scope-f802e49e2a-right",
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:28.153848+00:00",
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-right",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "direct_minio_fixture_write",
+      "time": "2026-09-09T17:19:28.494869+00:00",
+      "object": "a/coverage-scope-f802e49e2a-right/scope-project-f802e49e2a",
+      "key": "agentteams/rv-a-storage/teams/coverage-scope-f802e49e2a-right/shared/projects/scope-project-f802e49e2a/meta.json",
+      "sha256": "4832e2c48da6552faf12e405d9268447a9f0109cb97b33298787c0b75ecc491b",
+      "value": {
+        "project_id": "scope-project-f802e49e2a",
+        "title": "fixture:a:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-right",
+        "mode": "fixture",
+        "source": "validation",
+        "tasks": [],
+        "source_room_id": ""
+      }
+    },
+    {
+      "kind": "direct_minio_fixture_write",
+      "time": "2026-09-09T17:19:28.788323+00:00",
+      "object": "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a-left-only",
+      "key": "agentteams/rv-a-storage/teams/coverage-scope-f802e49e2a-left/shared/projects/scope-project-f802e49e2a-left-only/meta.json",
+      "sha256": "51a80e1e8ef46f8155bb32a1ccdca9e29b77fbb0d37fe804d05751e55c61d2a8",
+      "value": {
+        "project_id": "scope-project-f802e49e2a-left-only",
+        "title": "fixture:a:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a-left-only",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-left",
+        "mode": "fixture",
+        "source": "validation",
+        "tasks": [],
+        "source_room_id": ""
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:29.060842+00:00",
+      "instance": "b",
+      "method": "POST",
+      "path": "/api/v1/workers",
+      "request": {
+        "name": "coverage-scope-leader-f802e49e2a-0",
+        "runtime": "qwenpaw",
+        "model": "deepseek-chat",
+        "state": "Stopped",
+        "containerManaged": false
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-scope-leader-f802e49e2a-0",
+        "state": "Stopped",
+        "containerManaged": false,
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:29.094177+00:00",
+      "instance": "b",
+      "method": "POST",
+      "path": "/api/v1/teams",
+      "request": {
+        "name": "coverage-scope-f802e49e2a-left",
+        "teamName": "coverage-scope-f802e49e2a-left",
+        "description": "Dedicated Project scope metadata fixture; stopped unmanaged leader; no model tasks",
+        "workerMembers": [
+          {
+            "name": "coverage-scope-leader-f802e49e2a-0",
+            "role": "team_leader"
+          }
+        ]
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-scope-f802e49e2a-left",
+        "teamName": "coverage-scope-f802e49e2a-left",
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:29.177891+00:00",
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-left",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "direct_minio_fixture_write",
+      "time": "2026-09-09T17:19:29.514345+00:00",
+      "object": "b/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a",
+      "key": "agentteams/rv-b-storage/teams/coverage-scope-f802e49e2a-left/shared/projects/scope-project-f802e49e2a/meta.json",
+      "sha256": "6b15eef60775b6f7eb4a7e5fac6fccac952026ca4259dc88b1daeab5eb9036fa",
+      "value": {
+        "project_id": "scope-project-f802e49e2a",
+        "title": "fixture:b:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-left",
+        "mode": "fixture",
+        "source": "validation",
+        "tasks": [],
+        "source_room_id": ""
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:29.544163+00:00",
+      "instance": "b",
+      "method": "POST",
+      "path": "/api/v1/workers",
+      "request": {
+        "name": "coverage-scope-leader-f802e49e2a-1",
+        "runtime": "qwenpaw",
+        "model": "deepseek-chat",
+        "state": "Stopped",
+        "containerManaged": false
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-scope-leader-f802e49e2a-1",
+        "state": "Stopped",
+        "containerManaged": false,
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:29.577285+00:00",
+      "instance": "b",
+      "method": "POST",
+      "path": "/api/v1/teams",
+      "request": {
+        "name": "coverage-scope-f802e49e2a-right",
+        "teamName": "coverage-scope-f802e49e2a-right",
+        "description": "Dedicated Project scope metadata fixture; stopped unmanaged leader; no model tasks",
+        "workerMembers": [
+          {
+            "name": "coverage-scope-leader-f802e49e2a-1",
+            "role": "team_leader"
+          }
+        ]
+      },
+      "status": 201,
+      "response": {
+        "name": "coverage-scope-f802e49e2a-right",
+        "teamName": "coverage-scope-f802e49e2a-right",
+        "phase": "Pending"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:29.643756+00:00",
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-right",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "direct_minio_fixture_write",
+      "time": "2026-09-09T17:19:30.013156+00:00",
+      "object": "b/coverage-scope-f802e49e2a-right/scope-project-f802e49e2a",
+      "key": "agentteams/rv-b-storage/teams/coverage-scope-f802e49e2a-right/shared/projects/scope-project-f802e49e2a/meta.json",
+      "sha256": "98dc067d6a3b72c21a5ccdbd126b4493c237dfb7c5ff4d3ced4270389b7a8085",
+      "value": {
+        "project_id": "scope-project-f802e49e2a",
+        "title": "fixture:b:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-right",
+        "mode": "fixture",
+        "source": "validation",
+        "tasks": [],
+        "source_room_id": ""
+      }
+    },
+    {
+      "kind": "direct_minio_fixture_write",
+      "time": "2026-09-09T17:19:30.333815+00:00",
+      "object": "b/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a-left-only",
+      "key": "agentteams/rv-b-storage/teams/coverage-scope-f802e49e2a-left/shared/projects/scope-project-f802e49e2a-left-only/meta.json",
+      "sha256": "1f4761e4b24639837ca1c3b143b70aa25d639ffbfebf6f883b5f4f60b0b903fd",
+      "value": {
+        "project_id": "scope-project-f802e49e2a-left-only",
+        "title": "fixture:b:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a-left-only",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-left",
+        "mode": "fixture",
+        "source": "validation",
+        "tasks": [],
+        "source_room_id": ""
+      }
+    },
+    {
+      "kind": "independent_minio_snapshot",
+      "time": "2026-09-09T17:19:32.721620+00:00",
+      "label": "baseline-six-new-objects",
+      "objects": {
+        "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a": {
+          "sha256": "4f0f7b1bdeae2da7222ed4cb32c89a1576db95d0f4741633b5903fea8a74975a",
+          "value": {
+            "project_id": "scope-project-f802e49e2a",
+            "title": "fixture:a:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-left",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "a/coverage-scope-f802e49e2a-right/scope-project-f802e49e2a": {
+          "sha256": "4832e2c48da6552faf12e405d9268447a9f0109cb97b33298787c0b75ecc491b",
+          "value": {
+            "project_id": "scope-project-f802e49e2a",
+            "title": "fixture:a:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-right",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a-left-only": {
+          "sha256": "51a80e1e8ef46f8155bb32a1ccdca9e29b77fbb0d37fe804d05751e55c61d2a8",
+          "value": {
+            "project_id": "scope-project-f802e49e2a-left-only",
+            "title": "fixture:a:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a-left-only",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-left",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "b/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a": {
+          "sha256": "6b15eef60775b6f7eb4a7e5fac6fccac952026ca4259dc88b1daeab5eb9036fa",
+          "value": {
+            "project_id": "scope-project-f802e49e2a",
+            "title": "fixture:b:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-left",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "b/coverage-scope-f802e49e2a-right/scope-project-f802e49e2a": {
+          "sha256": "98dc067d6a3b72c21a5ccdbd126b4493c237dfb7c5ff4d3ced4270389b7a8085",
+          "value": {
+            "project_id": "scope-project-f802e49e2a",
+            "title": "fixture:b:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-right",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "b/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a-left-only": {
+          "sha256": "1f4761e4b24639837ca1c3b143b70aa25d639ffbfebf6f883b5f4f60b0b903fd",
+          "value": {
+            "project_id": "scope-project-f802e49e2a-left-only",
+            "title": "fixture:b:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a-left-only",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-left",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        }
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:32.962592+00:00",
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow",
+      "request": null,
+      "status": 409,
+      "response": {
+        "message": "project id is ambiguous across teams; retry with ?team="
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.061842+00:00",
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-left",
+      "request": null,
+      "status": 200,
+      "response": {
+        "project_id": "scope-project-f802e49e2a",
+        "title": "fixture:a:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-left",
+        "mode": "fixture",
+        "source": "validation",
+        "nodes": [],
+        "edges": [],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "scope-project-f802e49e2a",
+          "title": "fixture:a:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "coverage-scope-f802e49e2a-left",
+          "mode": "fixture",
+          "task_count": {}
+        }
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.137046+00:00",
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-right",
+      "request": null,
+      "status": 200,
+      "response": {
+        "project_id": "scope-project-f802e49e2a",
+        "title": "fixture:a:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-right",
+        "mode": "fixture",
+        "source": "validation",
+        "nodes": [],
+        "edges": [],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "scope-project-f802e49e2a",
+          "title": "fixture:a:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "coverage-scope-f802e49e2a-right",
+          "mode": "fixture",
+          "task_count": {}
+        }
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.176488+00:00",
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-left-only/workflow?team=coverage-scope-f802e49e2a-right",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.243932+00:00",
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-left-only/pause?team=coverage-scope-f802e49e2a-right",
+      "request": {
+        "reason": "fixture-negative-f802e49e2a"
+      },
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.272189+00:00",
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-absent",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.278515+00:00",
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/pause?team=coverage-scope-f802e49e2a-absent",
+      "request": {
+        "reason": "fixture-negative-f802e49e2a"
+      },
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.315983+00:00",
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-absent/workflow?team=coverage-scope-f802e49e2a-left",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.357196+00:00",
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-absent/pause?team=coverage-scope-f802e49e2a-left",
+      "request": {
+        "reason": "fixture-negative-f802e49e2a"
+      },
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.518925+00:00",
+      "instance": "a",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-absent/workflow",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:33.802167+00:00",
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/pause",
+      "request": {
+        "reason": "fixture-ambiguous-f802e49e2a"
+      },
+      "status": 409,
+      "response": {
+        "message": "project id is ambiguous across teams; retry with ?team="
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.059250+00:00",
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow",
+      "request": null,
+      "status": 409,
+      "response": {
+        "message": "project id is ambiguous across teams; retry with ?team="
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.134199+00:00",
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-left",
+      "request": null,
+      "status": 200,
+      "response": {
+        "project_id": "scope-project-f802e49e2a",
+        "title": "fixture:b:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-left",
+        "mode": "fixture",
+        "source": "validation",
+        "nodes": [],
+        "edges": [],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "scope-project-f802e49e2a",
+          "title": "fixture:b:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "coverage-scope-f802e49e2a-left",
+          "mode": "fixture",
+          "task_count": {}
+        }
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.207328+00:00",
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-right",
+      "request": null,
+      "status": 200,
+      "response": {
+        "project_id": "scope-project-f802e49e2a",
+        "title": "fixture:b:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+        "status": "active",
+        "plan_type": "dag",
+        "team_id": "coverage-scope-f802e49e2a-right",
+        "mode": "fixture",
+        "source": "validation",
+        "nodes": [],
+        "edges": [],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "project_id": "scope-project-f802e49e2a",
+          "title": "fixture:b:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+          "status": "active",
+          "plan_type": "dag",
+          "team_id": "coverage-scope-f802e49e2a-right",
+          "mode": "fixture",
+          "task_count": {}
+        }
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.249049+00:00",
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-left-only/workflow?team=coverage-scope-f802e49e2a-right",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.297675+00:00",
+      "instance": "b",
+      "method": "POST",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-left-only/pause?team=coverage-scope-f802e49e2a-right",
+      "request": {
+        "reason": "fixture-negative-f802e49e2a"
+      },
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.305968+00:00",
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/workflow?team=coverage-scope-f802e49e2a-absent",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.313388+00:00",
+      "instance": "b",
+      "method": "POST",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/pause?team=coverage-scope-f802e49e2a-absent",
+      "request": {
+        "reason": "fixture-negative-f802e49e2a"
+      },
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.368819+00:00",
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-absent/workflow?team=coverage-scope-f802e49e2a-left",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.408876+00:00",
+      "instance": "b",
+      "method": "POST",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-absent/pause?team=coverage-scope-f802e49e2a-left",
+      "request": {
+        "reason": "fixture-negative-f802e49e2a"
+      },
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.564509+00:00",
+      "instance": "b",
+      "method": "GET",
+      "path": "/api/v1/projects/scope-project-f802e49e2a-absent/workflow",
+      "request": null,
+      "status": 404,
+      "response": {
+        "message": "project not found"
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:34.792424+00:00",
+      "instance": "b",
+      "method": "POST",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/pause",
+      "request": {
+        "reason": "fixture-ambiguous-f802e49e2a"
+      },
+      "status": 409,
+      "response": {
+        "message": "project id is ambiguous across teams; retry with ?team="
+      }
+    },
+    {
+      "kind": "independent_minio_snapshot",
+      "time": "2026-09-09T17:19:36.638280+00:00",
+      "label": "after-read-and-rejected-write-probes",
+      "objects": {
+        "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a": {
+          "sha256": "4f0f7b1bdeae2da7222ed4cb32c89a1576db95d0f4741633b5903fea8a74975a",
+          "value": {
+            "project_id": "scope-project-f802e49e2a",
+            "title": "fixture:a:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-left",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "a/coverage-scope-f802e49e2a-right/scope-project-f802e49e2a": {
+          "sha256": "4832e2c48da6552faf12e405d9268447a9f0109cb97b33298787c0b75ecc491b",
+          "value": {
+            "project_id": "scope-project-f802e49e2a",
+            "title": "fixture:a:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-right",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a-left-only": {
+          "sha256": "51a80e1e8ef46f8155bb32a1ccdca9e29b77fbb0d37fe804d05751e55c61d2a8",
+          "value": {
+            "project_id": "scope-project-f802e49e2a-left-only",
+            "title": "fixture:a:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a-left-only",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-left",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "b/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a": {
+          "sha256": "6b15eef60775b6f7eb4a7e5fac6fccac952026ca4259dc88b1daeab5eb9036fa",
+          "value": {
+            "project_id": "scope-project-f802e49e2a",
+            "title": "fixture:b:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-left",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "b/coverage-scope-f802e49e2a-right/scope-project-f802e49e2a": {
+          "sha256": "98dc067d6a3b72c21a5ccdbd126b4493c237dfb7c5ff4d3ced4270389b7a8085",
+          "value": {
+            "project_id": "scope-project-f802e49e2a",
+            "title": "fixture:b:coverage-scope-f802e49e2a-right:scope-project-f802e49e2a",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-right",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        },
+        "b/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a-left-only": {
+          "sha256": "1f4761e4b24639837ca1c3b143b70aa25d639ffbfebf6f883b5f4f60b0b903fd",
+          "value": {
+            "project_id": "scope-project-f802e49e2a-left-only",
+            "title": "fixture:b:coverage-scope-f802e49e2a-left:scope-project-f802e49e2a-left-only",
+            "status": "active",
+            "plan_type": "dag",
+            "team_id": "coverage-scope-f802e49e2a-left",
+            "mode": "fixture",
+            "source": "validation",
+            "tasks": [],
+            "source_room_id": ""
+          }
+        }
+      }
+    },
+    {
+      "kind": "controller_http",
+      "time": "2026-09-09T17:19:36.817713+00:00",
+      "instance": "a",
+      "method": "POST",
+      "path": "/api/v1/projects/scope-project-f802e49e2a/pause?team=coverage-scope-f802e49e2a-left",
+      "request": {
+        "reason": "scope-fixture-f802e49e2a"
+      },
+      "status": 409,
+      "response": {
+        "message": "conflict: project was modified concurrently"
+      }
+    },
+    {
+      "kind": "finally_registered_fixture_resources",
+      "time": "2026-09-09T17:19:37.070030+00:00",
+      "resources": [
+        {
+          "instance": "a",
+          "team": "coverage-scope-f802e49e2a-left",
+          "worker": "coverage-scope-leader-f802e49e2a-0"
+        },
+        {
+          "instance": "a",
+          "team": "coverage-scope-f802e49e2a-right",
+          "worker": "coverage-scope-leader-f802e49e2a-1"
+        },
+        {
+          "instance": "b",
+          "team": "coverage-scope-f802e49e2a-left",
+          "worker": "coverage-scope-leader-f802e49e2a-0"
+        },
+        {
+          "instance": "b",
+          "team": "coverage-scope-f802e49e2a-right",
+          "worker": "coverage-scope-leader-f802e49e2a-1"
+        }
+      ],
+      "own_runtime_containers": [],
+      "objects": [
+        {
+          "identity": "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a",
+          "minio_key": "agentteams/rv-a-storage/teams/coverage-scope-f802e49e2a-left/shared/projects/scope-project-f802e49e2a/meta.json"
+        },
+        {
+          "identity": "a/coverage-scope-f802e49e2a-right/scope-project-f802e49e2a",
+          "minio_key": "agentteams/rv-a-storage/teams/coverage-scope-f802e49e2a-right/shared/projects/scope-project-f802e49e2a/meta.json"
+        },
+        {
+          "identity": "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a-left-only",
+          "minio_key": "agentteams/rv-a-storage/teams/coverage-scope-f802e49e2a-left/shared/projects/scope-project-f802e49e2a-left-only/meta.json"
+        },
+        {
+          "identity": "b/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a",
+          "minio_key": "agentteams/rv-b-storage/teams/coverage-scope-f802e49e2a-left/shared/projects/scope-project-f802e49e2a/meta.json"
+        },
+        {
+          "identity": "b/coverage-scope-f802e49e2a-right/scope-project-f802e49e2a",
+          "minio_key": "agentteams/rv-b-storage/teams/coverage-scope-f802e49e2a-right/shared/projects/scope-project-f802e49e2a/meta.json"
+        },
+        {
+          "identity": "b/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a-left-only",
+          "minio_key": "agentteams/rv-b-storage/teams/coverage-scope-f802e49e2a-left/shared/projects/scope-project-f802e49e2a-left-only/meta.json"
+        }
+      ],
+      "retained": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "a/coverage-scope-f802e49e2a-left/stopped-unmanaged-registration",
+      "passed": true
+    },
+    {
+      "name": "a/coverage-scope-f802e49e2a-left/team-registration",
+      "passed": true
+    },
+    {
+      "name": "a/coverage-scope-f802e49e2a-left/new-project-absent",
+      "passed": true
+    },
+    {
+      "name": "a/coverage-scope-f802e49e2a-right/stopped-unmanaged-registration",
+      "passed": true
+    },
+    {
+      "name": "a/coverage-scope-f802e49e2a-right/team-registration",
+      "passed": true
+    },
+    {
+      "name": "a/coverage-scope-f802e49e2a-right/new-project-absent",
+      "passed": true
+    },
+    {
+      "name": "b/coverage-scope-f802e49e2a-left/stopped-unmanaged-registration",
+      "passed": true
+    },
+    {
+      "name": "b/coverage-scope-f802e49e2a-left/team-registration",
+      "passed": true
+    },
+    {
+      "name": "b/coverage-scope-f802e49e2a-left/new-project-absent",
+      "passed": true
+    },
+    {
+      "name": "b/coverage-scope-f802e49e2a-right/stopped-unmanaged-registration",
+      "passed": true
+    },
+    {
+      "name": "b/coverage-scope-f802e49e2a-right/team-registration",
+      "passed": true
+    },
+    {
+      "name": "b/coverage-scope-f802e49e2a-right/new-project-absent",
+      "passed": true
+    },
+    {
+      "name": "a/unqualified-read-ambiguous",
+      "passed": true
+    },
+    {
+      "name": "a/coverage-scope-f802e49e2a-left/qualified-read-exact",
+      "passed": true
+    },
+    {
+      "name": "a/coverage-scope-f802e49e2a-right/qualified-read-exact",
+      "passed": true
+    },
+    {
+      "name": "a/wrong-existing-team/read404",
+      "passed": true
+    },
+    {
+      "name": "a/wrong-existing-team/write404",
+      "passed": true
+    },
+    {
+      "name": "a/nonexistent-team/read404",
+      "passed": true
+    },
+    {
+      "name": "a/nonexistent-team/write404",
+      "passed": true
+    },
+    {
+      "name": "a/nonexistent-project/read404",
+      "passed": true
+    },
+    {
+      "name": "a/nonexistent-project/write404",
+      "passed": true
+    },
+    {
+      "name": "a/nonexistent-project-unqualified404",
+      "passed": true
+    },
+    {
+      "name": "a/unqualified-write-ambiguous",
+      "passed": true
+    },
+    {
+      "name": "b/unqualified-read-ambiguous",
+      "passed": true
+    },
+    {
+      "name": "b/coverage-scope-f802e49e2a-left/qualified-read-exact",
+      "passed": true
+    },
+    {
+      "name": "b/coverage-scope-f802e49e2a-right/qualified-read-exact",
+      "passed": true
+    },
+    {
+      "name": "b/wrong-existing-team/read404",
+      "passed": true
+    },
+    {
+      "name": "b/wrong-existing-team/write404",
+      "passed": true
+    },
+    {
+      "name": "b/nonexistent-team/read404",
+      "passed": true
+    },
+    {
+      "name": "b/nonexistent-team/write404",
+      "passed": true
+    },
+    {
+      "name": "b/nonexistent-project/read404",
+      "passed": true
+    },
+    {
+      "name": "b/nonexistent-project/write404",
+      "passed": true
+    },
+    {
+      "name": "b/nonexistent-project-unqualified404",
+      "passed": true
+    },
+    {
+      "name": "b/unqualified-write-ambiguous",
+      "passed": true
+    },
+    {
+      "name": "all-six-hashes-unchanged-after-reads-and-rejected-writes",
+      "passed": true
+    },
+    {
+      "name": "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a/pause/http200",
+      "passed": false
+    }
+  ],
+  "error": "a/coverage-scope-f802e49e2a-left/scope-project-f802e49e2a/pause/http200",
+  "no_fixture_runtime_container": true
+}

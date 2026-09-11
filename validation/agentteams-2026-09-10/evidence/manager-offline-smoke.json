@@ -1,0 +1,85 @@
+{
+  "at_utc": "2026-09-10T10:25:34.457518+00:00",
+  "container_name": "rv-c-manager-offline-8832ef5b",
+  "network": "none",
+  "auto_remove": true,
+  "persistent_mounts": false,
+  "manager_image": "repomesh-validation/manager-qwenpaw:517caff9",
+  "docker_exit_code": 0,
+  "result": {
+    "packages": {
+      "qwenpaw": "2.0.1",
+      "agentscope": "2.0.4.post1",
+      "mcp": "1.30.0",
+      "fastmcp": "3.4.7",
+      "copaw-worker": "1.0.3",
+      "loongsuite-site-bootstrap": "0.9.0",
+      "loongsuite-distro": "0.9.0",
+      "loongsuite-otel-util-genai": "0.9.0",
+      "loongsuite-instrumentation-qwenpaw": "0.9.0",
+      "loongsuite-instrumentation-agentscope": "0.9.0",
+      "opentelemetry-api": "1.44.0",
+      "opentelemetry-sdk": "1.44.0",
+      "opentelemetry-exporter-otlp": "1.44.0",
+      "pydantic": "2.13.5",
+      "httpx": "0.28.1"
+    },
+    "checks": [
+      {
+        "command": [
+          "/usr/local/bin/qwenpaw",
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout": "Usage: qwenpaw [OPTIONS] [COMMAND] [ARGS]...\n\n  QwenPaw CLI.\n\nOptions:\n  --version       Show the version and exit.\n  --host TEXT     API Host\n  --port INTEGER  API Port\n  -h, --help      Show this message and exit.\n\nCommands:\n  acp        Start QwenPaw as an ACP agent (stdio).\n  agent      Manage agents and inter-agent communication.\n  agents     Manage agents and inter-agent communication.\n  app        Run QwenPaw FastAPI app.\n  auth       Manage web authentication.\n  auto       Auto-generated commands from @api_action declarations.\n  channel    Manage channel configuration...\n  channels   Manage channel configuration...\n  chat       Manage chat sessions via the HTTP API (/chats).\n  chats      Manage chat sessions via the HTTP API (/chats).\n  clean      Clear QwenPaw WORKING_DIR (~/.qwenpaw by default).\n  cron       Manage scheduled cron jobs via the HTTP API (/cron).\n  daemon     Daemon commands: status, restart, reload-config, version, logs.\n  desktop    Run QwenPaw app on an auto-selected free port in a webview...\n  doctor     Local sanity checks.\n  env        Manage environment variables.\n  init       Create working dir with config.json and HEARTBEAT.md...\n  models     Manage LLM models and provider configuration.\n  plugin     Plugin management commands.\n  shutdown   Force stop the running QwenPaw app processes.\n  skills     Manage skills (list / configure).\n  task       Run a single task instruction headlessly (no web server).\n  tui        Open the QwenPaw terminal chat UI.\n  uninstall  Remove QwenPaw environment, CLI wrapper, and shell PATH...\n  update     Upgrade QwenPaw in the current Python environment.\n",
+        "stderr": "",
+        "seconds": 3.2513998780000293
+      },
+      {
+        "command": [
+          "/usr/local/bin/agt",
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout": "AgentTeams CLI — manages Workers, Teams, Humans, and Managers via the\nagentteams-controller REST API.\n\nEnvironment variables:\n  AGENTTEAMS_CONTROLLER_URL\n      Controller base URL (default: http://localhost:8090)\n  AGENTTEAMS_AUTH_TOKEN\n      Bearer token for authentication\n  AGENTTEAMS_AUTH_TOKEN_FILE\n      Path to a file containing the bearer token (K8s projected volume)\n\nUsage:\n  agt [command]\n\nAvailable Commands:\n  apply         Apply resource configuration (create or update)\n  completion    Generate the autocompletion script for the specified shell\n  create        Create a resource\n  delete        Delete a resource\n  get           Display resources\n  help          Help about any command\n  llm-preflight Validate LLM API key, base URL, and model before startup\n  project       Intervene in or manage a project (pause/resume/replan/create/cancel/complete)\n  rotate        Rotate credentials\n  status        Show cluster status\n  update        Update a resource\n  version       Show controller version\n  worker        Worker lifecycle operations\n\nFlags:\n  -h, --help   help for agt\n\nUse \"agt [command] --help\" for more information about a command.\n",
+        "stderr": "",
+        "seconds": 0.0027869150000014997
+      },
+      {
+        "command": [
+          "/opt/venv/qwenpaw/bin/python",
+          "-m",
+          "pip",
+          "check"
+        ],
+        "exit_code": 1,
+        "stdout": "copaw-worker 1.0.3 requires copaw, which is not installed.\n",
+        "stderr": "",
+        "seconds": 2.046822010000028
+      }
+    ],
+    "agt_sha256": "61caf405a7ff309b872eeff200ee78aae9c9eb0526f051cbc97c0a5592e151e7"
+  },
+  "controller_agt": {
+    "image": "repomesh-validation/controller:517caff9",
+    "exit_code": 0,
+    "stdout": "61caf405a7ff309b872eeff200ee78aae9c9eb0526f051cbc97c0a5592e151e7  /usr/local/bin/agt\n",
+    "stderr": ""
+  },
+  "agt_matches_controller": true,
+  "images": {
+    "repomesh-validation/manager-qwenpaw:517caff9": {
+      "id": "sha256:8cf1059295e6c172ba30d7e732cc382169678fcb44b2e7f56c159203b0c20b6a",
+      "created": "2026-09-10T10:24:08.287781767Z"
+    },
+    "repomesh-validation/controller:517caff9": {
+      "id": "sha256:a593143db4881af3e4f2118d30a63c801d8bef9812ffcc94ef8fadd452b3cd42",
+      "created": "2026-09-10T10:18:12.873071597Z"
+    },
+    "repomesh-validation/embedded:517caff9": {
+      "id": "sha256:6c5f7158d972810fc0e6676fa40d509f163a23f11bc73dfd881b0705deeeb42f",
+      "created": "2026-09-10T10:19:47.634996537Z"
+    }
+  },
+  "temporary_manager_container_removed": true
+}

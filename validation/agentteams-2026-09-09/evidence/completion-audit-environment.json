@@ -1,0 +1,28 @@
+{
+  "at_utc": "2026-09-09T17:06:34.273766+00:00",
+  "previous_goal_turn": "progress: actual model task cancellation, runtime recovery and evidence reports completed",
+  "implementation_scan": {
+    "command": "rg --files --hidden excluding .git, validation, node_modules; go.mod and *.go",
+    "exit_code": 1,
+    "files": []
+  },
+  "upstream_main": {
+    "committed": "2026-09-05T07:20:50Z",
+    "sha": "eeaab64391ccaec9118e84977f538aefd40720d6"
+  },
+  "checkout_head": "eeaab64391ccaec9118e84977f538aefd40720d6",
+  "checkout_matches_current_main": true,
+  "shared_old_volume_consumer": {
+    "name": "/goai-infra-repomesh-api-1",
+    "id": "dc5e0235fa51b5f7ad7bee5171cb35fff0f8c8fc7eee3b25eb97388551b475c9",
+    "running": true,
+    "health": "unhealthy",
+    "mounts": [
+      {
+        "name": "agentteams-data",
+        "destination": "/agentteams-data"
+      }
+    ]
+  },
+  "plan_sha256": "04cd4aba288d3c68b3aaf0daa2691ca7170d73e9d5a22420cef578d5614254bb"
+}

@@ -1,0 +1,149 @@
+[
+  {
+    "kind": "before",
+    "time": "2026-09-09T16:54:47.603057+00:00",
+    "container": {
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "running": true,
+      "status": "running",
+      "started_at": "2026-09-09T16:41:38.289948479Z",
+      "finished_at": "0001-01-01T00:00:00Z"
+    },
+    "token_source": "actual Worker projected SA token, retained in memory only"
+  },
+  {
+    "kind": "after_one_stop",
+    "time": "2026-09-09T16:54:50.800954+00:00",
+    "container": {
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "running": false,
+      "status": "exited",
+      "started_at": "2026-09-09T16:41:38.289948479Z",
+      "finished_at": "2026-09-09T16:54:49.747423342Z"
+    },
+    "valid_stopped_window": true
+  },
+  {
+    "kind": "old_token_http",
+    "time": "2026-09-09T16:54:51.036708+00:00",
+    "method": "GET",
+    "path": "/api/v1/workers/live-runtime-worker-a/status",
+    "status": 200,
+    "response": {
+      "name": "live-runtime-worker-a",
+      "phase": "Running",
+      "containerState": "stopped",
+      "message": "backend=docker status=stopped",
+      "state": "Running"
+    },
+    "container": {
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "running": false,
+      "status": "exited",
+      "started_at": "2026-09-09T16:41:38.289948479Z",
+      "finished_at": "2026-09-09T16:54:49.747423342Z"
+    }
+  },
+  {
+    "kind": "old_token_http",
+    "time": "2026-09-09T16:54:51.270835+00:00",
+    "method": "POST",
+    "path": "/api/v1/workers/live-runtime-worker-a/ready",
+    "status": 204,
+    "response": null,
+    "container": {
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "running": false,
+      "status": "exited",
+      "started_at": "2026-09-09T16:41:38.289948479Z",
+      "finished_at": "2026-09-09T16:54:49.747423342Z"
+    }
+  },
+  {
+    "kind": "old_token_http",
+    "time": "2026-09-09T16:54:51.502855+00:00",
+    "method": "GET",
+    "path": "/api/v1/workers/live-runtime-worker-a/status",
+    "status": 200,
+    "response": {
+      "name": "live-runtime-worker-a",
+      "phase": "Running",
+      "containerState": "stopped",
+      "message": "backend=docker status=stopped",
+      "state": "Running"
+    },
+    "container": {
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "running": false,
+      "status": "exited",
+      "started_at": "2026-09-09T16:41:38.289948479Z",
+      "finished_at": "2026-09-09T16:54:49.747423342Z"
+    }
+  },
+  {
+    "kind": "restored",
+    "time": "2026-09-09T16:54:52.433979+00:00",
+    "container": {
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "running": true,
+      "status": "running",
+      "started_at": "2026-09-09T16:54:51.893632131Z",
+      "finished_at": "2026-09-09T16:54:49.747423342Z"
+    },
+    "same_container_id": true,
+    "started_at_changed": true
+  },
+  {
+    "kind": "token_comparison",
+    "time": "2026-09-09T16:54:52.670769+00:00",
+    "same_projected_token": true
+  },
+  {
+    "kind": "old_token_http",
+    "time": "2026-09-09T16:54:52.884772+00:00",
+    "method": "POST",
+    "path": "/api/v1/workers/live-runtime-worker-a/ready",
+    "status": 204,
+    "response": null,
+    "container": {
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "running": true,
+      "status": "running",
+      "started_at": "2026-09-09T16:54:51.893632131Z",
+      "finished_at": "2026-09-09T16:54:49.747423342Z"
+    }
+  },
+  {
+    "kind": "old_token_http",
+    "time": "2026-09-09T16:54:53.134710+00:00",
+    "method": "GET",
+    "path": "/api/v1/workers/live-runtime-worker-a/status",
+    "status": 200,
+    "response": {
+      "name": "live-runtime-worker-a",
+      "phase": "Ready",
+      "containerState": "running",
+      "message": "backend=docker status=running",
+      "state": "Running"
+    },
+    "container": {
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "running": true,
+      "status": "running",
+      "started_at": "2026-09-09T16:54:51.893632131Z",
+      "finished_at": "2026-09-09T16:54:49.747423342Z"
+    }
+  },
+  {
+    "kind": "finished",
+    "time": "2026-09-09T16:54:53.359948+00:00",
+    "container": {
+      "id": "e51d7a087095fcedcade03df7b30b7759d8ed708881d1b8e644cfa38d75f3050",
+      "running": true,
+      "status": "running",
+      "started_at": "2026-09-09T16:54:51.893632131Z",
+      "finished_at": "2026-09-09T16:54:49.747423342Z"
+    },
+    "scope": "same container runtime restart only; no deletion/recreation, expired token, rotation or CR state changes"
+  }
+]

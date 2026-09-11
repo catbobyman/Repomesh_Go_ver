@@ -1,0 +1,18 @@
+{
+  "assigned_at": "2026-09-09T16:20:54Z",
+  "assigned_to": "@control-worker:validation.invalid",
+  "eventId": "$control-event-2",
+  "notification": {
+    "assignee": "@control-worker:validation.invalid",
+    "eventId": "$control-event-2",
+    "roomId": "!control-room:validation.invalid",
+    "sent": true
+  },
+  "project_id": "issue-a",
+  "room_id": "!control-room:validation.invalid",
+  "source_room_id": "!control-room:validation.invalid",
+  "spec_path": "shared/tasks/a-round1-attempt2/spec.md",
+  "status": "assigned",
+  "task_id": "a-round1-attempt2",
+  "task_title": "a-round1-attempt2"
+}

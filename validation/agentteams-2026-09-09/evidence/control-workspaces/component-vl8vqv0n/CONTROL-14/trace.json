@@ -1,0 +1,189 @@
+{
+  "id": "CONTROL-14",
+  "title": "Taskflow acknowledgement has no shared Worker busy reservation",
+  "at": [
+    "AT-02",
+    "AT-08"
+  ],
+  "expected_product_disposition": "GAP_REPRODUCED",
+  "source_lines": [
+    4339
+  ],
+  "fixture_directory": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14",
+  "observations": {
+    "same_runtime_worker": "@control-worker:validation.invalid",
+    "in_progress_task_ids": [
+      "A",
+      "B"
+    ],
+    "limitation": "Only acknowledgements; no two real Agent/model/command executions were started"
+  },
+  "expectation_check": "PASS",
+  "observed_product_disposition": "GAP_REPRODUCED",
+  "tool_calls": [
+    {
+      "tool": "taskflow",
+      "arguments": {
+        "action": "ack_task",
+        "workspaceDir": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace",
+        "storage": {
+          "sharedPrefix": "control-store/teams/control-team/shared"
+        },
+        "taskId": "A"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "ack_task",
+        "task": {
+          "assigned_at": "2026-09-09T16:20:55Z",
+          "assigned_to": "@control-worker:validation.invalid",
+          "project_id": "issue-a",
+          "room_id": "!control-room:validation.invalid",
+          "spec_path": "shared/tasks/A/spec.md",
+          "status": "in_progress",
+          "task_id": "A",
+          "task_title": "A",
+          "acknowledged_by_role": "worker"
+        },
+        "spec": "Control validation fixture only.\n",
+        "pulled": true,
+        "synced": true
+      }
+    },
+    {
+      "tool": "taskflow",
+      "arguments": {
+        "action": "ack_task",
+        "workspaceDir": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace",
+        "storage": {
+          "sharedPrefix": "control-store/teams/control-team/shared"
+        },
+        "taskId": "B"
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "ack_task",
+        "task": {
+          "assigned_at": "2026-09-09T16:20:55Z",
+          "assigned_to": "@control-worker:validation.invalid",
+          "project_id": "issue-a",
+          "room_id": "!control-room:validation.invalid",
+          "spec_path": "shared/tasks/B/spec.md",
+          "status": "in_progress",
+          "task_id": "B",
+          "task_title": "B",
+          "acknowledged_by_role": "worker"
+        },
+        "spec": "Control validation fixture only.\n",
+        "pulled": true,
+        "synced": true
+      }
+    }
+  ],
+  "transport_events": [
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "cp",
+        "control-store/teams/control-team/shared/projects/issue-a/meta.json",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace\\shared\\projects\\issue-a\\meta.json"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "mirror",
+        "control-store/teams/control-team/shared/tasks/A/",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace\\shared\\tasks\\A",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace\\shared\\projects\\issue-a/",
+        "control-store/teams/control-team/shared/projects/issue-a/",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace\\shared\\tasks\\A/",
+        "control-store/teams/control-team/shared/tasks/A/",
+        "--overwrite",
+        "--exclude",
+        "spec.md",
+        "--exclude",
+        "base/"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "cp",
+        "control-store/teams/control-team/shared/projects/issue-a/meta.json",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace\\shared\\projects\\issue-a\\meta.json"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "mirror",
+        "control-store/teams/control-team/shared/tasks/B/",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace\\shared\\tasks\\B",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace\\shared\\projects\\issue-a/",
+        "control-store/teams/control-team/shared/projects/issue-a/",
+        "--overwrite"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-vl8vqv0n\\CONTROL-14\\workspace\\shared\\tasks\\B/",
+        "control-store/teams/control-team/shared/tasks/B/",
+        "--overwrite",
+        "--exclude",
+        "spec.md",
+        "--exclude",
+        "base/"
+      ],
+      "completed": true
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "id": "CONTROL-13",
+  "title": "submit_task can report ok while remote task sync fails",
+  "at": [
+    "AT-04",
+    "AT-11"
+  ],
+  "expected_product_disposition": "SEMANTIC_BOUNDARY_CONFIRMED",
+  "source_lines": [
+    4363,
+    4403
+  ],
+  "fixture_directory": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-np1zvokv\\CONTROL-13",
+  "observations": {
+    "tool_ok": true,
+    "explicit_synced_field": false,
+    "local_status": "submitted",
+    "remote_status": "in_progress",
+    "correct_consumer_must_check_synced": true
+  },
+  "expectation_check": "PASS",
+  "observed_product_disposition": "SEMANTIC_BOUNDARY_CONFIRMED",
+  "tool_calls": [
+    {
+      "tool": "taskflow",
+      "arguments": {
+        "action": "submit_task",
+        "workspaceDir": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-np1zvokv\\CONTROL-13\\workspace",
+        "storage": {
+          "sharedPrefix": "control-store/teams/control-team/shared"
+        },
+        "taskId": "T1",
+        "status": "SUCCESS",
+        "summary": "fixture",
+        "deliverables": []
+      },
+      "response": {
+        "ok": true,
+        "tool": "taskflow",
+        "action": "submit_task",
+        "task": {
+          "project_id": "issue-a",
+          "task_id": "T1",
+          "status": "submitted",
+          "room_id": "!control-room:validation.invalid",
+          "assigned_to": "@control-worker:validation.invalid",
+          "spec_path": "shared/tasks/T1/spec.md",
+          "result_status": "SUCCESS",
+          "summary": "fixture",
+          "deliverables": [],
+          "submitted_by_role": "worker",
+          "task_title": "T1",
+          "assigned_at": "2026-09-09T16:21:32Z"
+        },
+        "publishedArtifacts": [],
+        "synced": false,
+        "notificationNeeded": {
+          "event": "submit_task",
+          "projectId": "issue-a",
+          "summary": "submit_task: T1 (SUCCESS)",
+          "targetRoom": "!control-room:validation.invalid"
+        }
+      }
+    }
+  ],
+  "transport_events": [
+    {
+      "kind": "fake-mc",
+      "direction": "pull",
+      "command": [
+        "mc",
+        "cp",
+        "control-store/teams/control-team/shared/projects/issue-a/meta.json",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-np1zvokv\\CONTROL-13\\workspace\\shared\\projects\\issue-a\\meta.json"
+      ],
+      "completed": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-np1zvokv\\CONTROL-13\\workspace\\shared\\projects\\issue-a/",
+        "control-store/teams/control-team/shared/projects/issue-a/",
+        "--overwrite"
+      ],
+      "injected_failure": true
+    },
+    {
+      "kind": "fake-mc",
+      "direction": "push",
+      "command": [
+        "mc",
+        "mirror",
+        "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\evidence\\control-workspaces\\component-np1zvokv\\CONTROL-13\\workspace\\shared\\tasks\\T1/",
+        "control-store/teams/control-team/shared/tasks/T1/",
+        "--overwrite",
+        "--exclude",
+        "spec.md",
+        "--exclude",
+        "base/"
+      ],
+      "injected_failure": true
+    }
+  ]
+}

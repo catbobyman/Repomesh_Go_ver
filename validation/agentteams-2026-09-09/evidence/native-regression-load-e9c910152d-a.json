@@ -1,0 +1,84 @@
+{
+  "instance": "a",
+  "at_utc": "2026-09-09T17:11:26.005780+00:00",
+  "base": "/tmp/native-regression-e9c910152d",
+  "command": [
+    "/opt/venv/qwenpaw/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--basetemp=/tmp/native-regression-e9c910152d/pytest-tmp",
+    "-o",
+    "cache_dir=/tmp/native-regression-e9c910152d/pytest-cache",
+    "--junitxml=/tmp/native-regression-e9c910152d/junit.xml",
+    "plugins/tests/teamharness/test_mcp_workspace.py",
+    "plugins/tests/teamharness/test_pull_project.py",
+    "plugins/tests/teamharness/test_trace.py",
+    "plugins/tests/teamharness/test_trace_integration.py",
+    "plugins/tests/teamharness/adapters/qwenpaw/test_adapter.py"
+  ],
+  "clean_environment_keys": [
+    "HOME",
+    "LANG",
+    "PATH",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD",
+    "PYTHONPATH",
+    "PYTHONPYCACHEPREFIX",
+    "TEAMHARNESS_SHARED_DIR",
+    "TMPDIR",
+    "XDG_CACHE_HOME"
+  ],
+  "test_started_epoch": 1788973885.4682477,
+  "test_finished_epoch": 1788973885.9836097,
+  "elapsed_seconds": 0.515362024307251,
+  "exit_code": 1,
+  "timed_out": false,
+  "pid": 4801,
+  "own_test_process_exited": true,
+  "child_user_cpu_seconds": 0.37474799999999997,
+  "child_system_cpu_seconds": 0.12820299999999998,
+  "child_max_rss_kib": 33236,
+  "before": {
+    "tree": {
+      "files": 547,
+      "apparent_bytes": 14886562,
+      "allocated_bytes": 16019456
+    },
+    "cgroup": {
+      "at_epoch": 1788973883.6719644
+    }
+  },
+  "after": {
+    "tree": {
+      "files": 681,
+      "apparent_bytes": 18034087,
+      "allocated_bytes": 19435520
+    },
+    "cgroup": {
+      "at_epoch": 1788973886.0055695
+    }
+  },
+  "samples": [
+    {
+      "at_epoch": 1788973885.467993
+    },
+    {
+      "at_epoch": 1788973885.5684257
+    },
+    {
+      "at_epoch": 1788973885.6687636
+    },
+    {
+      "at_epoch": 1788973885.7690449
+    },
+    {
+      "at_epoch": 1788973885.8692784
+    },
+    {
+      "at_epoch": 1788973885.9695568
+    }
+  ],
+  "junit": null,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 189, in _run_module_as_main\n  File \"<frozen runpy>\", line 148, in _get_module_details\n  File \"<frozen runpy>\", line 112, in _get_module_details\n  File \"/tmp/native-regression-e9c910152d/deps/pytest/__init__.py\", line 8, in <module>\n    from _pytest._code import ExceptionInfo\n  File \"/tmp/native-regression-e9c910152d/deps/_pytest/_code/__init__.py\", line 5, in <module>\n    from .code import Code\n  File \"/tmp/native-regression-e9c910152d/deps/_pytest/_code/code.py\", line 43, in <module>\n    from _pytest._io import TerminalWriter\n  File \"/tmp/native-regression-e9c910152d/deps/_pytest/_io/__init__.py\", line 3, in <module>\n    from .terminalwriter import get_terminal_width\n  File \"/tmp/native-regression-e9c910152d/deps/_pytest/_io/terminalwriter.py\", line 19, in <module>\n    from ..compat import assert_never\n  File \"/tmp/native-regression-e9c910152d/deps/_pytest/compat.py\", line 19, in <module>\n    import py\nModuleNotFoundError: No module named 'py'\n"
+}
