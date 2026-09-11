@@ -1,6 +1,0 @@
-upstream/
-runtime/
-private/
-.venv/
-__pycache__/
-*.log

@@ -1,5 +1,0 @@
-Run=e0c697152b
-Task=artifact-e0c697152b-attempt-1
-Revision=old-original
-Output=unique-artifact-e0c697152b-attempt-1-old-original
-输出字节必须一致。

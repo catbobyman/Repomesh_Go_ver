@@ -1,5 +1,0 @@
-upstream/
-runtime/
-.venv/
-private/
-*.log

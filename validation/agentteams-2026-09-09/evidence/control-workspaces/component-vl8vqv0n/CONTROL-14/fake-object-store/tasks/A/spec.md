@@ -1,1 +1,0 @@
-Control validation fixture only.

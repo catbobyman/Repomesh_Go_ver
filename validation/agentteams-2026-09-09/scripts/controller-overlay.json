@@ -1,6 +1,0 @@
-{
-  "Replace": {
-    "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\upstream\\agentteams-controller\\internal\\server\\validation_probe_test.go": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\scripts\\controller-server_test.go",
-    "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\upstream\\agentteams-controller\\internal\\backend\\validation_probe_test.go": "D:\\Project4work\\Repomesh_Go_ver\\validation\\agentteams-2026-09-09\\scripts\\controller-backend_test.go"
-  }
-}

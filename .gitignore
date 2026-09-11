@@ -38,3 +38,7 @@ coverage/
 # Local product requirements
 /docs/Cloud-Agent平台产品PRD.md
 /docs/archive/reference/Cloud-Agent平台产品PRD.md
+
+# Local validation records and historical archives
+/validation/
+/docs/archive/

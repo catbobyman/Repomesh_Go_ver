@@ -1,5 +1,0 @@
-Run=e0c697152b
-Task=artifact-e0c697152b-attempt-1
-Revision=old-late-resubmission
-Output=unique-artifact-e0c697152b-attempt-1-old-late-resubmission
-输出字节必须一致。

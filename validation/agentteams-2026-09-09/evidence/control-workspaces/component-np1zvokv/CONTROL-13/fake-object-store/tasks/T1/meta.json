@@ -1,8 +1,0 @@
-{
-  "project_id": "issue-a",
-  "task_id": "T1",
-  "status": "in_progress",
-  "room_id": "!control-room:validation.invalid",
-  "assigned_to": "@control-worker:validation.invalid",
-  "spec_path": "shared/tasks/T1/spec.md"
-}
