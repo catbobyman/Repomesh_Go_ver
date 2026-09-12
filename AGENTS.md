@@ -22,6 +22,7 @@ cmd/
 internal/
   web/                    当前 HTTP 服务实现与测试
   buildinfo/              三个入口共用的版本信息
+  database/               PostgreSQL 连接、迁移历史核查及事务迁移
 web/                      React／TypeScript／Vite 前端及 npm 锁文件
 configs/                  配置示例
 scripts/                  工程构建脚本
@@ -42,6 +43,7 @@ validation/               历史实验、脚本与证据
 | 任务 | 优先阅读 |
 | --- | --- |
 | 修改当前前端骨架 | [main.tsx](web/src/main.tsx)、[style.css](web/src/style.css)、[package.json](web/package.json) |
+| 修改数据库基础 | [数据库开发说明](docs/current/database-development.md)、[连接](internal/database/database.go)、[迁移](internal/database/migrations.go)、[批次验证](scripts/verify-batch.ps1) |
 | 修改 HTTP 行为 | [server.go](internal/web/server.go)、[server_test.go](internal/web/server_test.go) |
 | 修改 Web 启动与配置 | [Web 入口](cmd/repomesh-web/main.go)、[配置示例](configs/repomesh.env.example) |
 | 修改配套发布 | [build.ps1](scripts/build.ps1)、[版本信息](internal/buildinfo/version.go)、[开发说明](docs/current/development-scaffold.md) |
@@ -92,7 +94,7 @@ npm --prefix web run dev
 
 ## 完成度、协作与文档维护
 
-- 当前实现仍是工程骨架：`/healthz` 只表示 Web 存活，`/readyz` 返回 503；协调与主机执行入口默认报告未实现并退出，仅 `--version` 可正常返回。实现这些能力后同步更新本条、README 和相关交接，不保留过时的骨架描述。
+- 当前实现仍是工程骨架：`/healthz` 只表示 Web 存活，`/readyz` 返回 503；协调与主机执行入口默认报告未实现并退出，仅 `--version` 可正常返回。Web 二进制另提供显式 `db check` 和 `db migrate`，当前仅有迁移记录表，普通启动不依赖数据库。实现业务能力后同步更新本条、README 和相关交接。
 - 接口设计完成不等于接口实现；克隆 AgentTeams 不等于运行接入；根工程检查通过不等于上游构建、历史验证或业务集成验收通过。不能用模拟成功替代未实现能力。
 - 保留已有未提交修改，不覆盖不属于当前任务的工作。任务采用多 agent 协作时，先明确文件编辑归属；任务要求独立复核时，由非主要实现者承担。历史协作名单不用于自动召回成员。
 - `validation/` 保存历史证据，不随产品发布。普通开发检查不重跑旧实验、不启动真实外部服务、不清理共享容器或卷；这类操作须属于当前明确授权范围。新实验应记录自己的条件和结果，不改写旧记录为全部通过。

@@ -24,7 +24,7 @@ Go 的采用限定于 RepoMesh 自有后端，不要求改写 AgentTeams 或其�
 
 后续用户选择在 Issue 创建时调用 Python 仓库分析插件，已按 [ADR-0020](../adr/0020-python-repository-analysis-plugin.md)局部扩展 Go 技术范围：业务、权限、作业和记录仍由 Go 管理，解析与候选分析运行于受控 Python 包。首期规则／关键词路径不依赖向量数据库；历史决策分析和向量存储尚未纳入实施，详见[专题](issue-creation-repository-analysis.md)。
 
-以下保留选型之后的架构进展；具体模块拆分尚未形成新决定。下一阶段已转入页面与接口设计，按场景需要继续细化未决架构问题，见[接手 prompt](NEXT-SESSION-PROMPT.md)。
+以下保留选型之后的架构进展；具体模块拆分尚未形成新决定。下一阶段已转入页面与接口设计，按场景需要继续细化未决架构问题，见[接手 prompt](../archive/2026-09-12-development-preparation/docs/current/NEXT-SESSION-PROMPT.md)。
 
 后续已确认的架构方向分别见 [ADR-0011](../adr/0011-agentteams-controlled-integration.md) 的受控接入、[ADR-0012](../adr/0012-issue-scoped-upstream-projects.md) 的 Issue 上游映射，以及 [ADR-0013](../adr/0013-web-coordinator-host-executor-processes.md) 的 Web／后台协调／受限主机执行三类进程。同一 Go 工程、配套发布的安排已采用，领域模块和具体协议继续细化。
 

@@ -107,6 +107,8 @@ React Flow 展示 RepoMesh 汇总的业务节点、依赖、版本与阻塞原�
 
 ## 6. 换图、恢复和真实执行约束
 
+2026-09-12 审查明确：本节的写入责任和两种换图接法仍未选定，不能作为已经收口的执行接口直接实现。应先交付[执行接入门槛 G3—G5](execution-integration-gates.md)要求的写方／凭据清单、生命周期协议、submitted 收尾及逐目标恢复规则；下文的业务顺序继续有效，未因此采用某项上游补丁。
+
 业务要求仍是对完整受影响上游 Project 停新派工、等在途收尾、核对 submitted、应用并读回。当前基线 REST replan 只接受 active 的 DAG（或尚未设置 plan_type），且拒绝存在 in_progress／submitted 的情况；paused、completed 和原生 loop 不能直接套用该操作。不要在仍可能追加获准轮次时过早 complete 上游 Project；Project 跨轮复用与最终关闭时机须在映射协议中明确。
 
 建议落实的应用流程如下，具体状态字段和恢复算法尚未冻结：

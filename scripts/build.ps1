@@ -38,12 +38,18 @@ try {
     Copy-Item -LiteralPath 'web/package-lock.json' -Destination "$releasePath/web/package-lock.json"
     Copy-Item -LiteralPath 'README.md' -Destination "$releasePath/SOURCE-README.md"
     @"
-RepoMesh $Version ($targetOS/$targetArch) - scaffold only
+RepoMesh $Version ($targetOS/$targetArch) - scaffold with database tools
 
 Run from this bundle directory:
   ./bin/repomesh-web$suffix --assets ./web/dist
   ./bin/repomesh-coordinator$suffix --version
   ./bin/repomesh-host-executor$suffix --version
+
+Set REPOMESH_DATABASE_URL before explicit database operations:
+  ./bin/repomesh-web$suffix db check
+  ./bin/repomesh-web$suffix db migrate --timeout 30s
+Database commands do not require web assets or start HTTP.
+Ordinary Web startup does not connect to or migrate a database.
 
 Web: http://127.0.0.1:8080 ; /healthz = process only ; /readyz = 503.
 Coordinator and host executor default startup exits 1: not implemented.

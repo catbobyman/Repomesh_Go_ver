@@ -4,11 +4,11 @@
 
 ## 阅读与分工
 
-先读取五个规定入口并列出[阅读前文件清单](scaffold-source-inventory.md)。主 agent 负责产品代码、工程配置、根 README、开发说明及总交接；三位本轮 agent 分别承担 ADR/领域、AgentTeams 证据、页面/接口/后端接手文件。文件编辑归属在分派时明确，没有联系旧协作者或恢复旧任务。
+先读取五个规定入口并列出[阅读前文件清单](../archive/2026-09-12-development-preparation/docs/current/scaffold-source-inventory.md)。主 agent 负责产品代码、工程配置、根 README、开发说明及总交接；三位本轮 agent 分别承担 ADR/领域、AgentTeams 证据、页面/接口/后端接手文件。文件编辑归属在分派时明确，没有联系旧协作者或恢复旧任务。
 
-- [ADR 阅读与独立复核](scaffold-adr-review.md)：全部 20 份 ADR（0001—0020）、领域词表及架构/技术/执行/交付专题，逐文件记账。
+- [ADR 阅读与独立复核](../archive/2026-09-12-development-preparation/docs/current/scaffold-adr-review.md)：全部 20 份 ADR（0001—0020）、领域词表及架构/技术/执行/交付专题，逐文件记账。
 - [AgentTeams 证据追溯](scaffold-agentteams-evidence.md)：两份调研、当前验收清单、两轮 README 及全部 61 份报告（41＋20），重点未完成条件和恢复后受阻审计；关键结论追至原始 evidence 和 scripts，标明阅读粒度。
-- [页面/接口/后端审计](scaffold-page-backend-review.md)：页面、接口、后端、接手、消息、仓库分析、旧项目调查、文档评审与通信历史，共 24 份。两份原 41 项接手阅读清单保留。
+- [页面/接口/后端审计](../archive/2026-09-12-development-preparation/docs/current/scaffold-page-backend-review.md)：页面、接口、后端、接手、消息、仓库分析、旧项目调查、文档评审与通信历史，共 24 份。两份原 41 项接手阅读清单保留。
 
 材料中的设计采用、锁定提交、有限实测与未验证能力分别记录，没有据上游变化替换架构，也没有把历史缺口写成已解决。
 

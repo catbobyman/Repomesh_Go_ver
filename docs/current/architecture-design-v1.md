@@ -6,6 +6,8 @@ updated: 2026-09-09
 
 # RepoMesh 首期架构方案 v1（讨论稿）
 
+**2026-09-12 审查修订：** [Issue 配置绑定候选](issue-configuration-binding-design.md)补充首批持久关联；这不等于共享 Manager 已能按 Issue 消费模型配置。[执行接入门槛 G1—G5](execution-integration-gates.md)列明配置消费、可信消息／工具、状态写方、运行生命周期与换图协议的剩余交付要求。三进程、原生 DAG 复用和 Skill 暂缓等已采用方向保持；具体新协议不因本条成为已采用或已实现。完整修订见[修订入口](design-readiness-revisions.md)。
+
 **2026-09-10消息澄清设计补充：** [最小消息与澄清内部协议](backend-message-clarification-design.md)已按RM-UI-MESSAGE-TARGET r3语义收口，覆盖本地消息保存、唯一答复、root直接判断／有效答案判断双分支、可信控制动作及恢复，最终落盘已互核。目标判断不直接改变计划或派工；不新增服务，不启用未完成的B05/B06/B07副作用处理器，不扩展原创建／首批浏览器契约。仅文档。
 
 **2026-09-10首批设计细化：** 本轮仅文档。RM-B01-04 r2与RM-API-01 r3已对齐，身份／逐操作权限见[后端专项§7](draft-conversation-backend-design.md#7-首批身份权限与持久化细化2026-09-10)，关系、原子创建／更新、数据库内待办、租约恢复与事件顺序见[首批持久化](backend-first-batch-persistence.md)，浏览器字段见[首批契约](first-batch-browser-api-contract.md)。下文“具体队列／关系未细化”在该首批范围内以新文档为准；完整认证、MCP、运行与执行算法仍未闭合，不把本批存储方案扩为完整数据库或通用调度器。
@@ -426,6 +428,6 @@ Graph 插件在后台协调进程内运行、随后端发布的方案已采用�
 
 短事务统一登记 Attempt、Worker 与容量预留、环境准备后启动前再次核验的方向已采用，见 [ADR-0017](../adr/0017-atomic-attempt-resource-reservation.md)。具体锁、字段、容量口径和恢复算法仍待细化，不重问该方向。
 
-页面／接口与后端按各自职责接续，统一状态见 [HANDOFF](HANDOFF.md)，角色阅读要求见[页面 Prompt](NEXT-SESSION-PROMPT.md)和[后端 Prompt](NEXT-BACKEND-SESSION-PROMPT.md)。以具体场景对应查询、命令和状态反馈，继续细化尚未完成部分；不把架构 v1 整稿视为已冻结方案。
+页面／接口与后端按各自职责接续，统一状态见 [HANDOFF](HANDOFF.md)，角色阅读要求见[页面 Prompt](../archive/2026-09-12-development-preparation/docs/current/NEXT-SESSION-PROMPT.md)和[后端 Prompt](../archive/2026-09-12-development-preparation/docs/current/NEXT-BACKEND-SESSION-PROMPT.md)。以具体场景对应查询、命令和状态反馈，继续细化尚未完成部分；不把架构 v1 整稿视为已冻结方案。
 
 现行页面按 ADR-0019 分离会话与 Issue；首次会话消息或页面建项提交后自动准备的补充见 [ADR-0018](../adr/0018-provision-instance-after-first-draft.md)。双入口创建、默认新会话／可选已有、原子范围、输入快照、幂等结果及 Issue SSE 已采用。后续继续编制 Manager MCP 的可信上下文与完整 Schema、会话消息、仓库事项、其他列表和运行恢复；不把这些未完成协议重新表述为整条会话转正，也不将具体运行能力视为已验证。

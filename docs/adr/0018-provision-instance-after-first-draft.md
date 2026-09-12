@@ -10,7 +10,7 @@ updated: 2026-09-09
 
 现行规则：RepoMesh 先由用户明确选择仓库并建立长期多仓项目，项目创建只保存业务资料及必要核查工作；首次会话消息或页面 Issue 创建持久提交后，再异步准备或恢复项目实例及对应主房间。原 Draft Issue 启动方案保留在下一节，后续采用范围及依据见“持续设计授权补充”。
 
-本 ADR 原决定替代 [ADR-0001](0001-agentteams-issue-concurrency-and-isolation.md) D18 的“第一条正式 Issue 持久化后才准备实例”时序，随后按 ADR-0019 和本页补充采用新的触发对象。项目独立实例、长期 Manager／Team、Issue 工作归属隔离及 [ADR-0016](0016-transactional-background-work.md) 的业务与对应待办同事务原则继续有效。原决定依据为[项目入口](../current/project-first-entry-design.md)与[草稿入口](../current/draft-issue-and-room-entry-design.md)的用户明确修正。
+本 ADR 原决定替代 [ADR-0001](0001-agentteams-issue-concurrency-and-isolation.md) D18 的“第一条正式 Issue 持久化后才准备实例”时序，随后按 ADR-0019 和本页补充采用新的触发对象。项目独立实例、长期 Manager／Team、Issue 工作归属隔离及 [ADR-0016](0016-transactional-background-work.md) 的业务与对应待办同事务原则继续有效。原决定依据为[项目入口](../archive/2026-09-12-development-preparation/docs/current/project-first-entry-design.md)与[草稿入口](../archive/2026-09-12-development-preparation/docs/current/draft-issue-and-room-entry-design.md)的用户明确修正。
 
 ## 原已采用时序：Draft Issue 模型（历史，现行触发见补充）
 
@@ -87,4 +87,4 @@ updated: 2026-09-09
 
 在解释项目创建先保存资料、第一条草稿落库后准备实例，能够减少空项目资源占用但首次对话需要等待后，询问是否采用该时序，用户回复“采用”。此前页面侧的正面原型反馈不作为这项确认的替代依据。
 
-持续授权（2026-09-09）：后端已核对页面任务原始用户记录，2026-09-09T13:12:51.158Z 原话“之后的待决定都批准，按照建议来。”。据此采用页面与后端已支持的提交后接续方向及[采用清单](../current/design-delegation.md)中的 P2，替代此前“新模型触发待单独确认”的暂存状态，不倒填为原“采用”或 P1“确定”的批准范围。完整同步保存在[后端日志](../current/design-communication-backend-log.md)，DESIGN-004 仍 3／3，不新增讨论轮次或 ADR 编号。
+持续授权（2026-09-09）：后端已核对页面任务原始用户记录，2026-09-09T13:12:51.158Z 原话“之后的待决定都批准，按照建议来。”。据此采用页面与后端已支持的提交后接续方向及[采用清单](../current/design-delegation.md)中的 P2，替代此前“新模型触发待单独确认”的暂存状态，不倒填为原“采用”或 P1“确定”的批准范围。完整同步保存在[后端日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-backend-log.md)，DESIGN-004 仍 3／3，不新增讨论轮次或 ADR 编号。

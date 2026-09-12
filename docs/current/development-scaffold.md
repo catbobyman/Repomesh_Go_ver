@@ -1,17 +1,18 @@
 # RepoMesh 基础工程与开发说明
 
-阶段：基础目录及最小可编译骨架。用户本轮明确授权创建基础代码、工程配置和必要依赖，替代旧交接在此范围内“仅设计”的限制；既有产品决定、权限边界、暂缓模块和历史证据保持。历史协作指令不恢复旧任务或旧协作者。
+阶段：工程骨架与 PostgreSQL 运维基础。施工范围和验收见[分批 TODO plan](IMPLEMENTATION-PLAN.md)。业务接口尚未实现，既有权限边界、暂缓模块和历史证据保持。
 
 ## 实际目录与依赖方向
 
 ```text
 go.mod                           唯一产品 Go module
 cmd/
-  repomesh-web/main.go            Web 配置、信号、启动
+  repomesh-web/main.go            Web 配置、信号、启动及 db 子命令
   repomesh-coordinator/main.go    版本与未实现诊断
   repomesh-host-executor/main.go  版本与未实现诊断
 internal/
   buildinfo/version.go           三入口共用发布版本
+  database/                      PostgreSQL 连接、迁移及测试
   web/server.go                  HTTP 存活/就绪诊断及静态文件
   web/server_test.go             真实路由完成度边界检查
 web/
@@ -21,6 +22,7 @@ web/
   tsconfig.json/vite.config.ts   类型与构建配置
 configs/repomesh.env.example     已实现的 Web 参数示例
 scripts/build.ps1               配套发布构建，不执行部署
+scripts/verify-batch.ps1        各批工程及独立数据库验证
 docs/current/scaffold-*.md      本阶段阅读和复核记录
 validation/go.mod              历史实验的嵌套 module 隔离标记
 third_party/README.md           独立上游源码位置及重建方式
@@ -33,7 +35,7 @@ third_party/AgentTeams/         用户后续要求的新克隆，父仓库忽略
 
 后续源码整理授权：用户要求移除旧独立 AgentTeams 目录，重新从官方 main 克隆到 RepoMesh 中。实际位置为 `third_party/AgentTeams/`，来源与备份说明见[上游说明](../../third_party/README.md)。该操作不改变产品架构，不更新历史验证源码，也不表示已实现 AgentTeams Adapter、构建镜像或运行接入。
 
-当前依赖：`cmd/repomesh-web → internal/web → internal/buildinfo`；三个入口都依赖 `internal/buildinfo`，入口之间不互相导入。`web/src` 依赖 React，Vite 将静态资源输出到 `web/dist`，Go Web 在启动时从配置目录读取。前端不导入 Go 内部类型，也没有业务 API 调用。没有公共 `pkg`、空领域包、空 Adapter、数据库迁移或通用插件框架。
+当前依赖：Web 入口调用 `internal/web` 和 `internal/database`，后者使用 pgx；三个入口都依赖 `internal/buildinfo`，入口之间不互相导入。`web/src` 依赖 React，Vite 将静态资源输出到 `web/dist`，Go Web 在启动时从配置目录读取。前端不导入 Go 内部类型，也没有业务 API 调用。数据库迁移目前只建立版本记录表，没有公共 `pkg`、空领域包、空 Adapter 或通用插件框架。
 
 后续按照 ADR-0010／0013 在真实用例出现时增加领域模块：入口调用用例，领域规则不依赖 HTTP DTO 或上游 DTO；具体基础设施接入集中管理。跨模块原子事务按已采用创建契约和 ADR-0016 设计，不能因目录拆分变成多个提交。目录名称和示例不冻结未定表结构、MCP Schema、进程间消息或恢复算法。
 
@@ -41,7 +43,7 @@ third_party/AgentTeams/         用户后续要求的新克隆，父仓库忽略
 
 | 进程 | 已采用的最终职责 | 本轮实际行为 |
 | --- | --- | --- |
-| Web | 页面、访问核验、用户输入持久化、查询和 SSE。 | 仅静态资源及 HTTP 诊断；无认证、存储、业务 REST 或 SSE。 |
+| Web | 页面、访问核验、用户输入持久化、查询和 SSE。 | 普通启动提供静态资源及 HTTP 诊断，db 子命令负责迁移与核查；无认证、业务持久化、REST 或 SSE。 |
 | 后台协调 | 持久待办、计划/资源核验、采集、恢复；Graph 在此进程内。 | 默认打印未实现并以 1 退出；`--version` 以 0 退出。 |
 | 受限主机执行 | 已登记环境操作、容器/挂载/网络/限额/停止核查/回收。 | 默认打印未实现并以 1 退出；`--version` 以 0 退出；没有监听或命令执行能力。 |
 
@@ -53,7 +55,7 @@ third_party/AgentTeams/         用户后续要求的新克隆，父仓库忽略
 
 ## 本地启动与配置
 
-完整命令见[根 README](../../README.md)，均从仓库根目录执行。当前 Web 默认 `127.0.0.1:8080`、资源目录 `web/dist`；覆盖顺序是 `--addr/--assets`、`REPOMESH_WEB_ADDR/REPOMESH_WEB_ASSETS`、默认值。示例文件不自动加载；运行时不加载数据库、队列、GitHub、AgentTeams 或 Python 配置。
+完整命令见[根 README](../../README.md)，均从仓库根目录执行。当前 Web 默认 `127.0.0.1:8080`、资源目录 `web/dist`；覆盖顺序是 `--addr/--assets`、`REPOMESH_WEB_ADDR/REPOMESH_WEB_ASSETS`、默认值。示例文件不自动加载。数据库子命令读取 `REPOMESH_DATABASE_URL`，普通 Web 启动不读取它；队列、GitHub、AgentTeams 和 Python 配置尚未接入。数据库命令见[专项说明](database-development.md)。
 
 | 路径/场景 | 实际结果 | 限定含义 |
 | --- | --- | --- |
@@ -84,9 +86,9 @@ go vet ./...
 - Graph 按 ADR-0014／0015 是后台进程内模块，随后端发布；将来复用上游仓内有限 DAG，RepoMesh 管跨仓依赖、结果采纳和 Loop。本轮不建 Graph 包、网络服务或 Go DAG 引擎。
 - ADR-0020 允许额外的受控 Python 分析子进程。Go 管身份、权限、固定只读材料、持久作业、结果及可选建项来源；主机执行进程管理已登记分析作业的启动、限额、停止核查与回收。分析先于 Issue，也不触发 AgentTeams 准备；失败可手动选仓。版本化 JSON 是已采用方向，具体 Schema 未编制。本轮没有 Python 包、进程、安装依赖、接口、按钮或通用插件平台。
 - Skill 全部暂缓，不创建目录、接口、功能开关或占位页面。React Flow 为已选方向，但本轮没有图页面，不添加尚未使用的依赖。
-- PostgreSQL、持久队列、对象存储仍为已采用方向；本轮不引入数据库连接或框架，不运行迁移。具体表、队列领取、消息顺序、MCP 可信身份和恢复算法均保持未冻结状态。
+- PostgreSQL 连接、迁移记录表和事务迁移工具已实现。业务表随具体用例增加，持久队列和对象存储尚未实现；队列领取、消息顺序、MCP 可信身份和运行恢复按对应专题继续细化。
 - Issue、计划、调度、权限、GitHub 与 AgentTeams 无业务代码；未安装或启动上游真实服务，未重跑旧实验，未清理共享容器或卷。
 
 `validation/go.mod` 使 Go 根目录 `./...` 停在实验边界。它不是能独立编译实验的工程：里面的 Go 文件仍须按原脚本放入锁定上游上下文，当前不要对其运行 `go test` 或 `go mod tidy`。不改动原 README、报告、evidence 和 scripts；“没有产品源码”是旧审计当时事实，新增骨架不补齐第二轮 `remaining-preconditions.md` 或 `resumed-blocked-audit.md` 中的业务缺口。
 
-阅读覆盖见[文件清单](scaffold-source-inventory.md)、[ADR 审计](scaffold-adr-review.md)、[AgentTeams 证据追溯](scaffold-agentteams-evidence.md)、[页面/接口/后端审计](scaffold-page-backend-review.md)。检查和独立复核见[验收记录](scaffold-verification.md)。
+阅读覆盖见[文件清单](../archive/2026-09-12-development-preparation/docs/current/scaffold-source-inventory.md)、[ADR 审计](../archive/2026-09-12-development-preparation/docs/current/scaffold-adr-review.md)、[AgentTeams 证据追溯](scaffold-agentteams-evidence.md)、[页面/接口/后端审计](../archive/2026-09-12-development-preparation/docs/current/scaffold-page-backend-review.md)。检查和独立复核见[验收记录](scaffold-verification.md)。

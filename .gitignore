@@ -41,4 +41,6 @@ coverage/
 
 # Local validation records and historical archives
 /validation/
-/docs/archive/
+/docs/archive/*
+!/docs/archive/README.md
+!/docs/archive/2026-09-12-development-preparation/

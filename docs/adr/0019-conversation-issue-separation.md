@@ -61,4 +61,4 @@ DESIGN-002 第 2 轮用户更正为会话与事项分离，并于 2026-09-09T11:
 
 页面于 2026-09-09T11:21:46.051Z 解释对象职责与关联成本，询问同一会话能否先后创建、关联多个独立 Issue、各自保留独立计划、验收和 ChangeSet。用户于 2026-09-09T11:25:55.800Z 回复：“可以的，我同意。issue在页面上可以给一个专门页面，并且可以导航到对应会话房间（主房间，leader房间）”。
 
-后端已核对页面任务本地会话中的上述问题、选择和用户原话，与双方通信日志一致。第 3／3 轮只核对确认范围并落实文档，不扩成反向基数或启动适配的批准；达到上限后不进行第 4 轮。原文和检查点见[后端通信日志](../current/design-communication-backend-log.md)与[页面通信日志](../current/design-communication-page-log.md)。
+后端已核对页面任务本地会话中的上述问题、选择和用户原话，与双方通信日志一致。第 3／3 轮只核对确认范围并落实文档，不扩成反向基数或启动适配的批准；达到上限后不进行第 4 轮。原文和检查点见[后端通信日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-backend-log.md)与[页面通信日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-page-log.md)。

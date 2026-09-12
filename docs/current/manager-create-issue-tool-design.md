@@ -5,7 +5,7 @@ date: 2026-09-09
 
 # Issue 创建机制：Manager MCP 与 Issue 栏入口
 
-用户最新“之后的待决定都批准，按照建议来。”已授权按推荐推进。本稿采用双入口统一创建机制，依据[持续设计授权](design-delegation.md)与[创建接口契约 v1](issue-page-create-api-contract.md)。DESIGN-004 历史保持 3／3；各轮完整评价、用户原话及先前批准范围保存在[页面日志](design-communication-page-log.md)，不倒填历史。
+用户最新“之后的待决定都批准，按照建议来。”已授权按推荐推进。本稿采用双入口统一创建机制，依据[持续设计授权](design-delegation.md)与[创建接口契约 v1](issue-page-create-api-contract.md)。DESIGN-004 历史保持 3／3；各轮完整评价、用户原话及先前批准范围保存在[页面日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-page-log.md)，不倒填历史。
 
 ## 两个入口，同一个业务创建命令
 

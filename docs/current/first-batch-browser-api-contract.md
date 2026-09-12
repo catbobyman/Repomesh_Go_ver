@@ -3,6 +3,7 @@ status: accepted
 date: 2026-09-10
 design_revision: RM-API-01-r3
 implementation: not-started
+documentation_updated: 2026-09-12
 ---
 
 # 首批项目、配置引用与列表：浏览器接口契约 v1
@@ -10,6 +11,19 @@ implementation: not-started
 本稿为 RM-API-01 r3（第 3／3 轮双方具体方案已确认）的唯一浏览器字段来源，由页面维护。r3 在 r2 上只补项目动作403错误码、非法幂等头和项目操作浏览器恢复路由；对象关系采用 RM-B01-04 r2。内部存储／事务由后端在[首批持久化协议](backend-first-batch-persistence.md)维护，不能复制第二套 HTTP Schema。创建 Issue 的七个接口仍只以[创建契约 v1](issue-page-create-api-contract.md)为准。技术确认不代表用户已接受具体页面布局；页面须展示原型讨论。
 
 当前只完成本稿列明范围的设计。没有实际账号接入、数据库、业务路由或接口验证。登录跳转、完整仓库发现、全局模型 Key 管理、会话详情／消息／运行协议不因本稿存在而完成。原型与实现范围见[页面交接](HANDOFF-PAGE-API-DESIGN.md)。
+
+## 采用范围与后续候选
+
+2026-09-12 文档核对保留 RM-API-01 r3 的字段、路径和采用范围，澄清无实际变化的配置保存规则，并补齐后续设计入口。已采用的 F01—F04 具体 UI 范围以页面交接为准；新增候选不因本稿 accepted 而采用。本次发现与未补字段见[项目契约检查](../reviews/2026-09-12-project-contracts/README.md)。
+
+| 衔接范围 | 唯一来源与当前边界 |
+| --- | --- |
+| 登录、回调、重连、注销和仓库发现批次 | [认证候选](authentication-browser-api-draft.md)已定义新增端点、Destination、尝试回执及发现策略，仍待采用；本稿 session、仓库条目和 coverage 字段保持。 |
+| 模型保存、测试和仅换模型 | [模型浏览器候选](model-settings-browser-api-draft.md)维护新增协议；其专用应用精确保留 execution，不能用本稿完整 configuration PATCH 替代。 |
+| 秘密、默认配置、执行与预算来源 | [配置来源候选](backend-first-batch-sources-draft.md)维护内部及部署方案；不能把导入结构直接当作浏览器响应。项目预算与时限的只读摘要尚缺，见 §5。 |
+| 页面失败恢复与已有会话入口 | [恢复候选](first-batch-recovery-design.md)细化页面状态并提出只读会话页头；已有消息读取沿[消息契约](conversation-message-clarification-api-contract.md)，首批不因此开放发送。 |
+| Issue 固定配置 | [P9 配置绑定候选](issue-configuration-binding-design.md)补 Issue 到 ProjectConfigRevision 的持久引用；接收供以后执行的真实 Issue／待办前须确定并落实，不改变本稿项目 JSON。 |
+
 
 ## 1. 共用规则和接口目录
 
@@ -48,7 +62,7 @@ UTF-8 JSON 请求体最大 256 KiB。格式错误、重复 JSON 属性名、非�
 
 `user.id` 为稳定本地主体，displayName 仅展示。githubConnection.status 为 `connected / missing / unknown`，observedAt 为 UTC 时间或 null；connected 不保证任何仓库的当前资格或 App 能力。csrfToken 是当前会话的防伪值，不能持久化到 URL／操作恢复索引，也不替代身份 Cookie。
 
-没有有效登录返回 `401 AUTHENTICATION_REQUIRED`，页面清身份敏感缓存和订阅并进入登录流程。真实登录／回调／注销／账号重连端点及凭据交换另行收口，不能根据这个示例自行拼接 OAuth 地址或索要扩大授权。
+没有有效登录返回 `401 AUTHENTICATION_REQUIRED`，页面清身份敏感缓存和订阅并进入登录流程。真实登录／回调／注销／账号重连已有[认证字段候选](authentication-browser-api-draft.md)，仍待采用与实现，不能根据这个 session 示例自行拼接 OAuth 地址或索要扩大授权。
 
 ## 3. 仓库候选与保存范围
 
@@ -139,9 +153,11 @@ effective.configurationRevision 为不透明字符串，其余 effective 引用�
 
 `GET /api/configuration-profiles?kind=model&cursor=...&limit=50`，kind 必填为 `model / execution`，返回 `{"items":[{"id":"profile_1","name":"项目可用配置","availability":{"status":"allowed","reasonCodes":[],"observedAt":"2026-09-10T00:00:00Z"}}],"nextCursor":null,"defaultProfileId":"profile_1"}`。defaultProfileId 可以为 null；只返回当前用户可引用配置，某个已知配置当前不可用仍可作为待修复引用保存，不等于允许执行。
 
-有效 profile 与密钥版本由 configurationRevision 固定。后台发现撤销、禁用或固定版本不可用，只更新检查观察及相关创建上下文修订，不静默切换 profile／密钥版本。平台默认变化可提示有更新，只有显式 PATCH 提供 configuration（即使仍选同一个 inherit／reference）才重新解析并固定新版本，随后改变 projectRevision／creationContextRevision。只改名称、用途或加仓不顺带更新模型；原固定版本仍有效时可继续，失效则保持受限。
+有效 profile 与密钥版本由 configurationRevision 固定。后台发现撤销、禁用或固定版本不可用，只更新检查观察及相关创建上下文修订，不静默切换 profile／密钥版本。在本稿项目更新接口中，只有显式 PATCH 提供 configuration（即使仍选同一个 inherit／reference）才重新解析两项引用。配置选择、固定引用版本或有效值实际变化时，生成对应 configurationRevision 并更新 projectRevision／creationContextRevision；完全无变化时保留原修订，仍保存本次成功操作回执。只改名称、用途或加仓不顺带更新模型；平台默认变化只可提示更新，原固定版本仍有效时可继续，失效则保持受限。这与 §7 及[持久化 §2.4](backend-first-batch-persistence.md)的无变更保存规则一致。
 
-配置引用版本固定的收益是可追溯费用／权限依据；代价是默认变化需要显式保存配置才能采用。保存不是新的业务开工审批，也不触发实例重启。全局 Key 创建、轮换、删除和安全传输仍需独立设置契约，不在本稿虚构已可使用的保存按钮。
+配置引用版本固定的收益是可追溯费用／权限依据；代价是默认变化需要显式保存配置才能采用。保存不是新的业务开工审批，也不触发实例重启。Key 保存、替换与原操作安全终结见[模型浏览器候选](model-settings-browser-api-draft.md)，尚未采用或实现；删除等未覆盖操作不从该候选推导。
+
+本节响应尚不足以展示[项目配置 J1](project-configuration-design.md)要求的实际预算和时限。budgetPolicyId／timeLimitPolicyId 只标识策略，配置候选列表也未返回其数值、单位或固定版本内容。须补对应 configurationRevision 的只读摘要契约，并区分固定配置与当前额度／资格观察；内部来源清单和模型测试预览不能代替它。此项记为[检查 C05](../reviews/2026-09-12-project-contracts/README.md#c05-项目预算和时限缺少只读响应)，当前不新增已采用字段、不填入候选默认数值，也不要求先实现完整 F06 编辑页。
 
 ## 6. 保存项目与原操作恢复
 
@@ -288,6 +304,6 @@ configuration 提供时是完整两引用并显式重新解析固定版本；未
 
 上述项目403业务码不改变Issue原 `CREATE_NOT_ALLOWED`。不能通过错误或 fieldErrors 回显受限仓库名、秘密或请求正文。没有运行中／失败的公开项目操作状态，也不采用202冒充本地保存成功。
 
-实施后至少验证：项目同键并发与丢响应；更新旧修订与同键重放优先；正文清理后旧键不复活；受限原仓库不影响配置修复；明确添加失败整次回滚；默认配置变化不暗换版本；候选部分覆盖与空页游标；列表核权未知返回503；跨主体游标／过滤不能泄露；失权和晚到响应不能覆盖新页面。后端故障矩阵和页面 UI-01—12 分别见各自专题。
+实施后至少验证：无变更配置保存保留修订并保存原操作回执；项目同键并发与丢响应；更新旧修订与同键重放优先；正文清理后旧键不复活；受限原仓库不影响配置修复；明确添加失败整次回滚；默认配置变化不暗换版本；候选部分覆盖与空页游标；列表核权未知返回503；跨主体游标／过滤不能泄露；失权和晚到响应不能覆盖新页面。后端故障矩阵和页面 UI-01—12 分别见各自专题。
 
 本稿文档／JSON 检查不等于接口实测。首批项目／列表字段已收口；完整认证、可参与仓库覆盖、模型 Key 设置、会话详情／消息／房间与运行恢复仍是明确设计依赖，P01/B01、P05 和整个产品设计不能据本稿一并标为完成。

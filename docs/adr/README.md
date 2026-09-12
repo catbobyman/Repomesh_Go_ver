@@ -4,6 +4,8 @@
 
 ## 阅读状态
 
+2026-09-12 的[设计审查修订](../current/design-readiness-revisions.md)补充 Key 恢复、Issue 配置归属和页面契约，并澄清 Skill 证据适用范围。新协议和绑定时点仍为候选，没有替代本索引的已采用架构决定。真实运行的未决协议另见[接入门槛](../current/execution-integration-gates.md)，不能把架构方向已采用等同于运行接口已闭合。
+
 `accepted` 只确认 ADR 列明的范围。后继决定可以局部替代旧条款，旧 ADR 的其余部分仍然有效；不能因为编号较新就覆盖所有旧约束。原 `date` 是原决定日期，`updated` 是文档修订日期。Skill 工程的 `implementation: deferred` 与设计方向已同意并不冲突。
 
 ## 决策目录
@@ -45,4 +47,4 @@
 
 2026-09-09 的[持续设计授权及采用清单](../current/design-delegation.md)记录 P1—P4、双入口、会话关联和 REST 基线；[创建契约 v1](../current/issue-page-create-api-contract.md)给出已采用的具体路径、字段、错误和 Issue SSE。它们细化 ADR-0016／0018／0019 的相关范围，不把所有后端专项或其他接口一并冻结，也不改变 Skill 暂缓、当前 YOLO、人工 Git 合并和当前权限约束。
 
-完整 MCP Schema、可信来源操作协议、消息及运行恢复等缺口见 [HANDOFF](../current/HANDOFF.md)；本次修订证据与未决事项见[文档评审](../current/document-review-2026-09-09.md)。
+完整 MCP Schema、可信来源操作协议、消息及运行恢复等缺口见 [HANDOFF](../current/HANDOFF.md)；本次修订证据与未决事项见[文档评审](../archive/2026-09-12-development-preparation/docs/current/document-review-2026-09-09.md)。

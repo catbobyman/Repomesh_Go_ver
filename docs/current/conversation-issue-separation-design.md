@@ -14,7 +14,7 @@
 
 ## 历史会话右侧导航（RM-UI-ROOM-NAV r1，呈现已被r2替代）
 
-用户原话：“是的并且在会话房间也能也要有按钮索引到leader房间还有DAG。可以参照右侧边栏的设计如图”。“是的”确认上轮[只读DAG](../prototypes/repomesh-issue-dag-prototype.html)的布局与图下详情；本轮新[会话导航原型](../prototypes/repomesh-conversation-navigation-prototype.html)参照截图的简洁图标文字行。仅在会话页新增可收起右栏，不推导全站三栏布局。r1第1／3轮已获后端技术ACK，右栏的具体宽度和排布仍待用户评审。
+用户原话：“是的并且在会话房间也能也要有按钮索引到leader房间还有DAG。可以参照右侧边栏的设计如图”。“是的”确认上轮[只读DAG](../prototypes/repomesh-issue-dag-prototype.html)的布局与图下详情；本轮新[会话导航原型](../archive/2026-09-12-development-preparation/docs/prototypes/repomesh-conversation-navigation-prototype.html)参照截图的简洁图标文字行。仅在会话页新增可收起右栏，不推导全站三栏布局。r1第1／3轮已获后端技术ACK，右栏的具体宽度和排布仍待用户评审。
 
 右栏上方为项目和“查看关联 Issue”选择，下方依次为 Issue 详情、任务 DAG、按实际关联列出的 Leader 房间（只读）。保留原左栏、聊天和输入框；窄窗口通过“导航”按钮展开右栏。
 
@@ -27,9 +27,9 @@
 
 原型样例：Issue #1已有可读计划与两个实际Leader房间；同会话Issue #2暂无可读计划和可进入房间。planAvailable/navigationRooms仅局部mock变量，不是API字段。内嵌SVG沿RM-UI-PLAN r2，不替代React Flow工程。创建契约v1与浏览器补充RM-API-01 r3保持；此文档技术收口不等于图/会话/房间协议或业务实现、真实核权及恢复验证完成。
 
-**基础工程阶段补充（2026-09-10）：** 已进入用户授权的最小工程骨架阶段。新增 React／TypeScript／Vite 仅展示骨架状态，没有会话、Issue、房间或仓库分析交互；下方 HTML 内存原型保留为独立历史演示，没有转成真实产品。Web 探针不证明业务运行，业务接口仍未注册。工程职责、启动和检查见[基础工程开发说明](development-scaffold.md)，阅读与接手边界见[本轮接手核对](scaffold-page-backend-review.md)。本轮不修改下方已采用页面关系，不冻结尚未完成的页面协议，也不恢复旧协作任务。
+**基础工程阶段补充（2026-09-10）：** 已进入用户授权的最小工程骨架阶段。新增 React／TypeScript／Vite 仅展示骨架状态，没有会话、Issue、房间或仓库分析交互；下方 HTML 内存原型保留为独立历史演示，没有转成真实产品。Web 探针不证明业务运行，业务接口仍未注册。工程职责、启动和检查见[基础工程开发说明](development-scaffold.md)，阅读与接手边界见[本轮接手核对](../archive/2026-09-12-development-preparation/docs/current/scaffold-page-backend-review.md)。本轮不修改下方已采用页面关系，不冻结尚未完成的页面协议，也不恢复旧协作任务。
 
-更新：2026-09-09。DESIGN-002 第 3／3 轮已收口，用户确认范围见 [ADR-0019](../adr/0019-conversation-issue-separation.md)。DESIGN-003 自然语言明确目标／歧义澄清方向已采用；DESIGN-004 第 3／3 轮已收口，Issue 栏创建默认新业务会话已采用，见[创建机制稿](manager-create-issue-tool-design.md)。用户随后持续授权按建议推进，见[采用清单](design-delegation.md)；[创建 REST／SSE 契约](issue-page-create-api-contract.md)已采用，其他页面及消息协议继续细化。完整决定原话和最多三轮对齐记录见 [页面通信日志](design-communication-page-log.md)。
+更新：2026-09-09。DESIGN-002 第 3／3 轮已收口，用户确认范围见 [ADR-0019](../adr/0019-conversation-issue-separation.md)。DESIGN-003 自然语言明确目标／歧义澄清方向已采用；DESIGN-004 第 3／3 轮已收口，Issue 栏创建默认新业务会话已采用，见[创建机制稿](manager-create-issue-tool-design.md)。用户随后持续授权按建议推进，见[采用清单](design-delegation.md)；[创建 REST／SSE 契约](issue-page-create-api-contract.md)已采用，其他页面及消息协议继续细化。完整决定原话和最多三轮对齐记录见 [页面通信日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-page-log.md)。
 
 ## 已确认范围
 
@@ -78,7 +78,7 @@ Leader 房间入口放在对应仓库事项附近，并显示关联仓库与状�
 
 本节记录既有 HTML 演示及当时走查，不是新增 `web/` 工程的功能清单或本轮测试结果。骨架页与这份原型分别维护完成度。
 
-本节原型：[repomesh-conversations-issues.html](../prototypes/repomesh-conversations-issues.html)。原有 [repomesh-project-first.html](../prototypes/repomesh-project-first.html) 保留为拆分前版本。三个页面原型已原样复制到仓库，版本与原始位置见[页面原型目录](../prototypes/README.md)。
+本节原型：[repomesh-conversations-issues.html](../prototypes/repomesh-conversations-issues.html)。原有 [repomesh-project-first.html](../archive/2026-09-12-development-preparation/docs/prototypes/repomesh-project-first.html) 保留为拆分前版本。三个页面原型已原样复制到仓库，版本与原始位置见[页面原型目录](../prototypes/README.md)。
 
 原型仅内存模拟。会话内建立 Issue 的表单、示例仓库范围、来源提示和页面详情用于查看已确认分离方向，不能冻结正式创建契约。模型、权限、接口、真实仓库以及工作执行未接入。就绪与执行示例事件放在产品窗口外。新模型启动适配已采用，但原型尚未跟进页面建项后的自动准备；首次消息演示只说明页面状态，不证明真实 runtime 可用。
 

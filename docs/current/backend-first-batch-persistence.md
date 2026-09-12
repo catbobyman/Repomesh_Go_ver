@@ -5,7 +5,9 @@ date: 2026-09-10
 
 # 首批后端持久化与恢复协议
 
-本文由后端维护，细化 B02—B04；共享业务语义对应 RM-B01-04 r2，双方第2／3轮已ACK，原文见[本轮日志](design-communication-backend-2026-09-10.md)。accepted仅指本批内部设计采用，不表示B01—B04全部闭合或实现通过。浏览器字段与 HTTP 错误只以[创建契约](issue-page-create-api-contract.md)及页面负责的项目接口为准。本文字段是内部逻辑存储设计，不是迁移文件、Go 类型或另一套 REST Schema。仅覆盖项目保存、手动建项、列表与详情；当前没有数据库或运行实现，所有验收均待执行。
+本文由后端维护，细化 B02—B04；共享业务语义对应 RM-B01-04 r2，双方第2／3轮已ACK，原文见[本轮日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-backend-2026-09-10.md)。accepted仅指本批内部设计采用，不表示B01—B04全部闭合或实现通过。浏览器字段与 HTTP 错误只以[创建契约](issue-page-create-api-contract.md)及页面负责的项目接口为准。本文字段是内部逻辑存储设计，不是迁移文件、Go 类型或另一套 REST Schema。仅覆盖项目保存、手动建项、列表与详情；当前已实现[数据库连接和迁移基础](database-development.md)，尚无本文业务表或运行实现，本文业务验收均待执行。
+
+**2026-09-12 审查补充：** §2.5 是 R04 的推荐修订，状态为待采用；本文原 `accepted` 不包含该新增选择。其余原采用规则保持。真实 Issue 与持久待办首次落库前，需要先确定可追溯的配置绑定，不能等运行消费者接入后补猜历史版本。
 
 ## 1. 最小关系和保留约束
 
@@ -104,7 +106,7 @@ schemaVersion 与规范化算法版本持久保存。规则严格复用创建契
 
 更新先锁user访问版本和project，查同键操作。新操作再比较expectedProjectRevision，读取数据库原范围，只计算明确增量；不把客户端可见列表当全集。只改资料／配置，不要求恢复旧受限仓读权；新增集合任一核查失败整个更新回滚，原集合保持。更新与创建不触发运行准备、扩大在途Issue范围或给旧计划新授权。
 
-显式提交configuration时解析并固定profile版本、secretVersion和有效参数，分配configurationRevision；即使仍选择inherit或同一profile，也明确核查是否选定了新版本。只有真实有效值／引用版本变化时更新相应projectRevision与creationContextRevision；无实际变化仍保存该操作成功回执，不强制提升修订。只改名称／用途或加仓不得顺带重解析模型配置。
+显式提交configuration时重新解析profile版本、secretVersion和有效参数；即使仍选择inherit或同一profile，也明确核查是否选定了新版本。仅配置选择、固定引用版本或有效值实际变化时分配新的configurationRevision，并更新相应projectRevision与creationContextRevision；完全无变化时保留原修订，仍保存该操作成功回执。只改名称／用途或加仓不得顺带重解析模型配置。
 
 后台发现固定版本被停用／撤销，只更新检查观察、accessEpoch及相关creationContextRevision，不能切到另一profile、最新secretVersion或新默认。平台默认变化可提示可更新，但只有用户显式PATCH配置才重新绑定。有效旧版本仍可继续；无效版本保持受限。默认配置初始不存在时允许inherit的固定未解析状态，后来新增默认也须明确配置提交才能建立新的有效绑定。
 
@@ -113,6 +115,14 @@ schemaVersion 与规范化算法版本持久保存。规则严格复用创建契
 成功回执的projectRevision、configuration选择依据和时间均保持当次提交事实；后续改名后重放不能返回最新revision而假装它是原结果。当前状态用GET重新查询。项目更新查询404同样不证明原请求不会提交，正文清理后占位返回PROJECT_UPDATE_RESULT_REMOVED。浏览器原键/输入保留与未知核查沿用创建恢复保障，具体路由以页面契约为准。
 
 项目创建／更新若未来需要可靠权限核查待办，仍同事务保存有限核查责任；这些待办绝不等价实例准备。首批以显式查询及操作前核查满足管理面要求，不为保存项目生成runtime操作。
+
+### 2.5 Issue 固定配置引用（R04 推荐修订，待采用）
+
+现有 §1 保存了不可变 `ProjectConfigRevision`，但尚未规定 Issue 到该记录的固定引用。推荐为新 Issue 增加不可改写的内部 `initialConfigurationRevision`，以 `(projectId, initialConfigurationRevision)` 引用同项目 `ProjectConfigRevision`；创建操作内部成功结果保存一致版本，Issue 接续待办沿目标 Issue 解析。该字段不是客户端输入，不改变已采用的创建 HTTP 契约或规范化输入，也不补造尚未定稿的 MCP Schema。
+
+按 §2.2 步骤4—6，在同一项目锁内完成条件比较、固定当前配置记录，并与 Issue、操作结果及待办一起提交；先查成功重放，不能因项目后来换配置改写原版本。`creationContextRevision` 继续作为条件比较令牌，不能充当该外键。配置绑定保存的是版本依据，动作前仍核当前权限、固定版本资格及预算；“重核配置”不表示重选项目最新版本。
+
+该选择须在首次保存可供以后接续的真实 Issue／待办之前收口并落实约束。已定 CRUD 代码可准备；尚未设计完成的消费者保持 blocked，不能用覆盖共享 Manager 配置实现每 Issue 绑定。旧记录补绑、密钥失效、普通讨论的范围、并发与恢复验收统一见[Issue 配置绑定候选](issue-configuration-binding-design.md)。本节不将专用模型应用协议、旧 Issue 主动换配置或普通讨论处理协议标为已完成。
 
 ## 3. 同事务持久待办
 
@@ -130,7 +140,7 @@ state 为内部队列状态 pending、claimed、retry_wait、blocked、reconcili
 
 领取用有界批量、明确排序的 FOR UPDATE SKIP LOCKED，在短事务写 leaseOwner／claimGeneration／leaseUntil 后提交。建议租约60秒、每20秒续约，依数据库时钟判断；数值可调。结果回写与续租均须匹配 owner＋generation＋未失效租约，否则旧领取者不得覆盖正式状态。SKIP LOCKED 适用于队列竞争，不用于用户列表读取，依据见[PostgreSQL SELECT](https://www.postgresql.org/docs/current/sql-select.html)。
 
-每次处理先重核actor、本地权限、配置及目标有效性。未接入处理器时写 blocked/INTEGRATION_NOT_AVAILABLE，保持准备责任；不能因为已排队就生成 preparing／ready 观察。安装后通过受控扫描重新评估同一 workId，不制造新建项操作。
+每次处理先重核actor、本地权限、配置及目标有效性。Issue 固定配置的候选选择与该重核的关系见 §2.5；当前未定义的绑定不能通过读取项目最新值补齐。未接入处理器时写 blocked/INTEGRATION_NOT_AVAILABLE，保持准备责任；不能因为已排队就生成 preparing／ready 观察。安装后通过受控扫描重新评估同一 workId，不制造新建项操作。
 
 ### 3.1 外部未知与重启
 
@@ -215,4 +225,4 @@ Issue SSE 完全复用创建契约：失效通知＋REST补查、默认24小时�
 | DB16 | 配置默认／secret版本变化，同时更新名称和加仓 | 原固定版本不暗换；失效观察受限；仅显式配置提交重新绑定。 | PATCH改名可顺带切模型，或后台默认更新等于用户选择。 |
 | DB17 | 项目更新成功后再次修改，再重放旧updateId | 返回旧提交revision／时间；当前快照另GET；无实际变更的操作也有稳定结果。 | 用当前revision冒充旧回执。 |
 
-文档检查只验证引用、语义和表格一致性，不替代这些真实数据库、权限和并发实验。B03达到可编写首批事务实现的设计细度；完整系统就绪仍依赖B01认证接入、页面字段基线及B05—B08各自批次，不能从本文推导整个后端设计完成。
+文档检查只验证引用、语义和表格一致性，不替代这些真实数据库、权限和并发实验。B03已有首批事务实现的主体设计；真实 Issue／待办首次落库前还须收口 §2.5 的配置绑定选择，并执行其候选专题 CB01—CB05。完整系统就绪仍依赖B01认证接入、页面字段基线及B05—B08各自批次，不能从本文推导整个后端设计完成。

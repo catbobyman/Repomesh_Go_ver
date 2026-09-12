@@ -8,9 +8,9 @@ updated: 2026-09-10
 
 **B05最小目标判断与澄清链路补充（2026-09-10）：** [内部协议](backend-message-clarification-design.md)已按RM-UI-MESSAGE-TARGET r3语义采用，细化来源身份、直接root判断／有效答案判断双分支、单问题答复竞争、事务／幂等、受控Manager和恢复，最终落盘已互核。不替代完整消息／多源拆分／更正或真实运行协议；新控件呈现仍待用户评审，不能扩大为B05完成。
 
-**当前设计阶段（2026-09-10）：** 本轮仅文档。首批B01—B04细化见本文§7及[持久化协议](backend-first-batch-persistence.md)；§1—§6中的关系、存储和查询“继续设计”在该首批范围内以新章节为准，其他缺口保持。当前协作使用[新通信约定](design-communication.md)和[本轮日志](design-communication-backend-2026-09-10.md)，不恢复旧任务身份。
+**当前设计阶段（2026-09-10）：** 本轮仅文档。首批B01—B04细化见本文§7及[持久化协议](backend-first-batch-persistence.md)；§1—§6中的关系、存储和查询“继续设计”在该首批范围内以新章节为准，其他缺口保持。当前协作使用[新通信约定](../archive/2026-09-12-development-preparation/docs/current/design-communication.md)和[本轮日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-backend-2026-09-10.md)，不恢复旧任务身份。
 
-**基础工程阶段补充（2026-09-10）：** 用户新授权允许本轮基础代码、配置和依赖。现有工程仅为三个 Go 启动入口、静态 Web 与 React／TypeScript／Vite 骨架；下文会话、Issue、事务待办、消息、权限、MCP／REST／SSE 和恢复均未实现。后台协调／受限主机执行默认明确报未实现并非零退出，不启动任务或执行环境。Web `/healthz` 200 只证明进程可响应，`/readyz` 503，业务 `/api` 路径 404。具体目录、共用工程与配套发布见[基础工程开发说明](development-scaffold.md)，文档核对见[本轮接手核对](scaffold-page-backend-review.md)。Graph 仍保留后台进程内边界；Python 按 ADR-0020 作为后续受控扩展，本轮无插件实现；Skill 继续暂缓。旧“仅设计”限制在本轮基础工程范围内已被替代，旧协作及业务后续步骤不自动恢复。
+**基础工程阶段补充（2026-09-10）：** 用户新授权允许本轮基础代码、配置和依赖。现有工程仅为三个 Go 启动入口、静态 Web 与 React／TypeScript／Vite 骨架；下文会话、Issue、事务待办、消息、权限、MCP／REST／SSE 和恢复均未实现。后台协调／受限主机执行默认明确报未实现并非零退出，不启动任务或执行环境。Web `/healthz` 200 只证明进程可响应，`/readyz` 503，业务 `/api` 路径 404。具体目录、共用工程与配套发布见[基础工程开发说明](development-scaffold.md)，文档核对见[本轮接手核对](../archive/2026-09-12-development-preparation/docs/current/scaffold-page-backend-review.md)。Graph 仍保留后台进程内边界；Python 按 ADR-0020 作为后续受控扩展，本轮无插件实现；Skill 继续暂缓。旧“仅设计”限制在本轮基础工程范围内已被替代，旧协作及业务后续步骤不自动恢复。
 
 本稿保留原文件路径，已按 [ADR-0019](../adr/0019-conversation-issue-separation.md) 分离会话与 Issue。DESIGN-001 的保存与投递保障、DESIGN-003 的自然语言明确目标方向继续有效。用户于 2026-09-09T13:12:51.158Z 授权“之后的待决定都批准，按照建议来。”，当前创建、来源、幂等、启动与 Issue SSE 按[采用清单](design-delegation.md)及[创建接口契约](issue-page-create-api-contract.md)采用。整稿仍 proposed 表示部分设计尚未完成；已有选择不再等待逐项批准，未写出的协议继续设计，运行能力待验证，后端未实现。
 
@@ -91,7 +91,7 @@ App 或配置核查暂不可得时，项目能否保存可按已明确的待配�
 
 ### 2.1 DESIGN-001：准备期间保存补充、就绪后依序尝试投递（已确认保障）
 
-用户于 2026-09-09 明确采用准备期间向原草稿保存补充、就绪后依序尝试投递，原话与范围见[通信日志](design-communication-backend-log.md)的 DESIGN-001 记录。ADR-0019 改变会话与事项关联，不撤销以下保障；原确认以同一草稿为顺序范围，新模型的会话／事项消息目标及具体顺序范围仍需细化，不能据此假定多个 Issue 共用一条执行队列。
+用户于 2026-09-09 明确采用准备期间向原草稿保存补充、就绪后依序尝试投递，原话与范围见[通信日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-backend-log.md)的 DESIGN-001 记录。ADR-0019 改变会话与事项关联，不撤销以下保障；原确认以同一草稿为顺序范围，新模型的会话／事项消息目标及具体顺序范围仍需细化，不能据此假定多个 Issue 共用一条执行队列。
 
 - 消息与投递待办一起持久保存，成功后表达“已保存，待投递”；准备期间允许补充，复用原准备工作，不重复制造会话、实例或房间。
 - 首条与后续补充以服务端持久保存顺序依序尝试投递，就绪前后新消息不插队；前序结果未知先核查，后续等待并说明原因。不承诺模型处理／回复顺序或外部 exactly-once。
@@ -124,7 +124,7 @@ ADR-0012 的正式 Issue × 仓库委派范围继续作为上游工作隔离依�
 
 ### 3.2 DESIGN-003：自然语言明确目标，歧义先澄清（已确认方向）
 
-2026-09-09，页面在解释误判可能、后端校验边界及手选目标的备选后，询问是否采用本方向，用户回答“是的”，并提出另行评估 Manager 创建 Issue 的 MCP 工具。前半句确认 DESIGN-003，第 1／3 轮收口；后半句当时属于 DESIGN-004 新提议；后续持续授权才采用受控创建机制，不倒填为该句已批准全部方案。准确原话与时间见[后端通信日志](design-communication-backend-log.md)。
+2026-09-09，页面在解释误判可能、后端校验边界及手选目标的备选后，询问是否采用本方向，用户回答“是的”，并提出另行评估 Manager 创建 Issue 的 MCP 工具。前半句确认 DESIGN-003，第 1／3 轮收口；后半句当时属于 DESIGN-004 新提议；后续持续授权才采用受控创建机制，不倒填为该句已批准全部方案。准确原话与时间见[后端通信日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-backend-log.md)。
 
 用户继续用自然语言交流，无须在每条消息发送前手动选择 Issue。Manager 根据明确编号、名称或无歧义的对话内容识别目标和动作；普通询问／讨论可以不关联正式事项，提到某项不自动表示要求执行。
 
@@ -157,7 +157,7 @@ ADR-0012 的正式 Issue × 仓库委派范围继续作为上游工作隔离依�
 - 正式保存不要求 runtime Ready、已生效完整计划或 Worker 已启动。成功返回稳定 Issue、主 ChangeSet、来源业务会话身份；页面进入详情，再按真实状态提供主／Leader 房间入口。
 - 创建提交后的运行准备按 §2 自动接续；创建、接手、计划生效与派工分别取证，来源和当前页面选择不授权后续执行。
 
-原“默认新建会话”（2026-09-09T12:42:29.811Z）只确认默认值；P1“确定”（13:03:30.896Z）只扩展当时列明原子范围。可选已有会话、双入口及后续细节依据 13:12:51.158Z 的持续授权采用，完整原话见[后端日志](design-communication-backend-log.md)。
+原“默认新建会话”（2026-09-09T12:42:29.811Z）只确认默认值；P1“确定”（13:03:30.896Z）只扩展当时列明原子范围。可选已有会话、双入口及后续细节依据 13:12:51.158Z 的持续授权采用，完整原话见[后端日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-backend-log.md)。
 
 ### 4.2 本地事务、输入与幂等
 
@@ -223,7 +223,7 @@ COMM-001 第 1 轮、DESIGN-001 第 1／3 轮、DESIGN-002 第 3／3 轮、DESIG
 
 实施前需验证真实无 Issue 对话、准备复用、多事项上下文和工具目标、当前权限、事务／并发幂等、投递核查及事件恢复。当前不安装、编码、部署或执行验收；上一版原型尚未补入已有会话选择及页面自动准备，页面进度以其日志为准。
 
-接手使用 [NEXT-BACKEND-SESSION-PROMPT.md](NEXT-BACKEND-SESSION-PROMPT.md)；压缩恢复先完整读[通信约定](design-communication.md)与双方日志并补记检查点，历史轮次不重置。
+接手使用 [NEXT-BACKEND-SESSION-PROMPT.md](../archive/2026-09-12-development-preparation/docs/current/NEXT-BACKEND-SESSION-PROMPT.md)；压缩恢复先完整读[通信约定](../archive/2026-09-12-development-preparation/docs/current/design-communication.md)与双方日志并补记检查点，历史轮次不重置。
 
 ## 7. 首批身份、权限与持久化细化（2026-09-10）
 

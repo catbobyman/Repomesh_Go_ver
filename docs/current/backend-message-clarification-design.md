@@ -9,7 +9,7 @@ owner: backend
 
 本稿对应 RM-UI-MESSAGE-TARGET r3，第3／3轮，双方已确认r2方案及r3五项定点修订，技术语义收口且最终落盘已互核；accepted仅指该局部设计采用。用户要求“但是具体实现得和后端聊一下”；本稿只做文档，不实施消息接口、数据库或Manager工具，也不将这句话视为新控件采用。页面唯一字段源§1—6与本文一致，无遗漏实质分歧，不因此宣称实现或运行通过。
 
-后端独占本文，负责内部身份、状态事实、约束、事务、可信工具上下文和恢复。页面独占[消息目标专题](conversation-message-target-design.md)及[消息澄清浏览器契约](conversation-message-clarification-api-contract.md)；本文的逻辑字段不是第二套REST Schema。提案及修订原文见[当前通信日志](design-communication-backend-2026-09-10.md)，最终字段以页面r3为准。已有[创建契约v1](issue-page-create-api-contract.md)、[首批浏览器契约r3](first-batch-browser-api-contract.md)保持。
+后端独占本文，负责内部身份、状态事实、约束、事务、可信工具上下文和恢复。页面独占[消息目标专题](conversation-message-target-design.md)及[消息澄清浏览器契约](conversation-message-clarification-api-contract.md)；本文的逻辑字段不是第二套REST Schema。提案及修订原文见[当前通信日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-backend-2026-09-10.md)，最终字段以页面r3为准。已有[创建契约v1](issue-page-create-api-contract.md)、[首批浏览器契约r3](first-batch-browser-api-contract.md)保持。
 
 ## 1. 范围和实施门槛
 

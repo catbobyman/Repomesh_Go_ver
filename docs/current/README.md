@@ -1,106 +1,91 @@
 # RepoMesh 现行文档索引
 
-**当前继任工作（2026-09-11）：** [F02项目配置编辑讨论稿](../prototypes/repomesh-project-settings-prototype.html)已进入展示，尚未用户采用／继任后端核对。新页面ID、完整原文恢复和文件归属见[当前通信约定](design-communication.md)与[继任日志](design-communication-page-2026-09-11.md)。旧双方均已退出，不按下方历史身份继续投递。
+更新：2026-09-12。开发先读[开发前阅读与行动指南](DEVELOPMENT-START.md)，当前完成度见[HANDOFF](HANDOFF.md)。本页只导航，不累计历史进度。
 
-**页面设计换会话交接（2026-09-11）：** 请从[新版页面／接口交接](HANDOFF-PAGE-API-DESIGN.md)开始，含已采用原型、F01—F15未完成设计表单、接口缺口及继任者通信/文件归属；[旧版已归档](../archive/2026-09-11-page-api-handoff/HANDOFF-PAGE-API-DESIGN.md)。
+采用状态以具体章节和替代关系为准。未采用的关键方案与暂缓专题仍保留；旧协作、旧 Prompt、淘汰页面稿和阶段审查已移至[历史归档](../archive/2026-09-12-development-preparation/README.md)。
 
-**当前设置评审（RM-UI-MODEL-SETTINGS r3）：** [供应商与模型原型](../prototypes/repomesh-model-provider-prototype.html)按用户参考图改为左供应商、右配置和模型列表；填写项核对AgentTeams锁定源码517caff，r3技术已ACK。用户回复“ok可以的”，采用当前供应商分栏及模型参数填写方式；多供应商映射、密钥及专用应用协议未完成。来源及边界见[模型设置专题](model-connection-settings-design.md)。
+## 开始与当前基线
 
-**当前入口评审（RM-UI-PROJECT-ENTRY r1）：** [登录与项目入口原型](../prototypes/repomesh-project-entry-prototype.html)展示模拟登录、选仓、名称/用途、默认配置摘要及保存后继续配置；后端技术及落盘已核对；用户回复“正确”，采用已展示的“先选仓库、再填资料”两步流程及授权提示。模型设置另行展示讨论。规则见[项目配置专题](project-configuration-design.md)。只原型/文档，不接真实OAuth或密钥；完整认证/发现/Key接口仍需补齐。
-
-
-**当前实现设计（RM-UI-MESSAGE-TARGET r3）：** 用户要求与后端讨论具体实现，双方已确认[消息与澄清五端点契约](conversation-message-clarification-api-contract.md)及[后端实体/事务/受控动作](backend-message-clarification-design.md)。明确请求直接解释，歧义答复绑定原问题，单问题唯一答案，原键幂等恢复；第3／3轮技术无分歧。双方最终落盘已互核，无遗漏实质分歧；仅文档，真实实现/验证未开始，完整B05/多源/更正/适配与执行尚未完成。消息控件仍待用户评审，原型保持。
-
-
-**当前讨论（RM-UI-MESSAGE-TARGET r1）：** [消息目标与澄清原型](../prototypes/repomesh-message-target-prototype.html)在主会话内展示Manager的目标问题、候选填入可编辑答复、带引用发送及可见目标。技术r1已ACK，具体控件待用户评审；仅预置脚本，不是语义识别或执行验证。详细规则见[消息目标专题](conversation-message-target-design.md)。
-
-**已采用（RM-UI-ROOM-NAV r2）：** 按用户最新要求改为[常驻悬浮入口＋同页右栏](../prototypes/repomesh-conversation-dock-prototype.html)：点击条目展开DAG/Leader/Issue内容，保留主会话；随窗口宽度收成图标，窄窗自动收起内容栏并可重新展开。替代r1固定索引栏与快捷离页方式；技术r2及落盘已核对，用户回复“正确的，进行下一项”采用已展示交互。当前只原型/文档，真实API/核权/恢复未实现。详细边界见[页面专题](conversation-issue-separation-design.md)。
-
-**当前页面进展：** 用户“是的”采用[只读DAG](../prototypes/repomesh-issue-dag-prototype.html)布局及图下节点详情（RM-UI-PLAN r2）。依新要求展示[会话右栏导航](../prototypes/repomesh-conversation-navigation-prototype.html)：按关联Issue索引DAG与只读Leader房间，可收起；仅限会话页。RM-UI-ROOM-NAV r1技术已ACK，具体宽度和排布待用户评审。规则见[页面专题“当前会话右侧导航”](conversation-issue-separation-design.md)。完整图/关联查询/消息/房间协议、真实实现与验证仍未完成。
-
-**当前页面决定（RM-UI-01 r3）：** 用户指定创建 Issue 使用居中弹窗，保留原列表与侧栏。当前[弹窗讨论稿](../prototypes/repomesh-issue-modal-prototype.html)已展示，用户回复“正确”采用当前大小和字段排布；后续新增交互继续展示讨论，创建接口与原键恢复不变。详见[页面专题](conversation-issue-separation-design.md)。此条覆盖下文原创建表单独立页的呈现描述。
-
-**2026-09-10 新协作入口：** 当前为“页面接口设计师1”与“后端设计师1”，精确任务 ID、唯一文件负责人和压缩恢复步骤见[通信约定](design-communication.md)顶部；本轮原文分别保存在[页面日志](design-communication-page-2026-09-10.md)和[后端日志](design-communication-backend-2026-09-10.md)。旧角色 Prompt／日志仅作历史，不恢复旧任务。首批路由／创建恢复和关系补齐见[页面专题](conversation-issue-separation-design.md)、[项目配置](project-configuration-design.md)及[页面交接进展](HANDOFF-PAGE-API-DESIGN.md)。
-
-更新：2026-09-10，新增基础工程入口。先读 [HANDOFF](HANDOFF.md) 了解当前基线、未完成工作和证据边界，再按下表进入专题。本文负责导航，交接页负责当前状态，ADR 记录取舍，专题维护详细规则。完整角色接手按[页面 Prompt](NEXT-SESSION-PROMPT.md)或[后端 Prompt](NEXT-BACKEND-SESSION-PROMPT.md)的阅读清单核对；其中旧协作指令不恢复为本轮任务授权。
-
-## 如何判断哪条规则有效
-
-- 先核对用户明确要求及其适用范围，再读对应 ADR、[持续设计授权及采用清单](design-delegation.md)和专题。按明确的后续确认／替代关系判断，不能只比较文件日期或 ADR 编号。
-- `accepted` 表示列明的设计已采用；`proposed` 专项稿内可以包含已确认部分，须看分节说明；“暂缓”表示实施范围尚未启动。以上均不代表实现或验收完成。
-- 后续改变只替代指明的规则。原确认时间、用户原话及当时未决事项保留历史含义，不倒填为当时已批准；[ADR 索引](../adr/README.md)列出具体关系。
-- 日志、旧原型和归档用于溯源，其中的“最新”“待批准”或操作指令属于记录时的任务。评审文档不因此自动恢复旧协作或开发任务。
-
-## 入口、会话与创建契约
-
-| 文档 | 用途与适用范围 |
+| 文档 | 用途与范围 |
 | --- | --- |
-| [领域语言](../../CONTEXT.md) | Project、Conversation、Issue、仓库事项、角色与交付对象的定义。 |
-| [会话、独立 Issue 与房间导航](conversation-issue-separation-design.md) | 当前页面关系及原型入口；领域决定见 ADR-0019。 |
-| [页面设计原型目录](../prototypes/README.md) | 用户要求遵循既有设计；以“会话与独立 Issue”为当前视觉／导航基线，另两版保留演进关系；模拟行为以现行契约为准。 |
-| [多 Issue 会话中的消息目标](conversation-message-target-design.md) | 自然语言明确目标、歧义先澄清；算法与消息协议继续设计。 |
-| [Manager MCP 与 Issue 栏双入口](manager-create-issue-tool-design.md) | 统一创建、来源与恢复机制；完整 MCP Schema／可信来源操作协议待编制。 |
-| [创建接口契约 v1](issue-page-create-api-contract.md) | 已采用的创建条件、关联会话、REST、幂等、详情／房间与 Issue SSE；尚未实现。 |
-| [首批项目／列表浏览器契约 v1](first-batch-browser-api-contract.md) | RM-API-01 r3：12个项目、列表、配置引用端点，含项目创建／更新原键恢复；双方已互核，尚未实现。 |
-| [首批后端持久化协议](backend-first-batch-persistence.md) | RM-B01-04 r2及RM-API-01 r3：最小关系、三类幂等操作、固定配置、队列、事件与故障用例；数据库／运行未验证。 |
-| [建项前仓库分析与 Python 插件](issue-creation-repository-analysis.md) | 用户后续采用：仓库分析按钮、应用建议、独立作业与可选来源；历史分析／向量库后续考虑，尚未实现。 |
-| [会话与 Issue 后端专项](draft-conversation-backend-design.md) | 已采用关系和创建机制的后端衔接；其余协议及恢复仍在设计，保留原文件名。 |
-| [项目配置与授权变化](project-configuration-design.md) | J1—J3：配置、仓库范围和授权变化；项目先保存，运行触发见 ADR-0018 后续补充。 |
+| [分批施工 TODO plan](IMPLEMENTATION-PLAN.md) | 当前施工范围、依赖、各批状态和验收证据。 |
+| [数据库基础开发](database-development.md) | 显式迁移、核查、失败处理及独立数据库验证。 |
+| [开发前必读及行动顺序](DEVELOPMENT-START.md) | 按角色阅读、首批实现依赖与失败验收。 |
+| [当前交接](HANDOFF.md) | 当前完成度和分阶段边界。 |
+| [页面／接口交接](HANDOFF-PAGE-API-DESIGN.md) | F01—F15 的唯一专题和后续去向。 |
+| [后端交接](HANDOFF-BACKEND-DESIGN.md) | B01—B08 的协议、上游核对与开工条件。 |
+| [审查修订](design-readiness-revisions.md) | Key 终结、配置绑定及页面一致性修订的具体状态。 |
+| [项目契约检查](../reviews/2026-09-12-project-contracts/README.md) | 项目管理契约一致性、已修订条款及预算／时限摘要和模型预览的未补字段。 |
+| [首批完整候选包](first-batch-complete-review.md) | D/T/A/P/S/R 及 P9 的集中采用／调整范围，仍为候选。 |
+| [既有设计采用记录](design-delegation.md) | 保留 P1—P4 等原采用来源；旧持续授权流程已替代。 |
 
-## 团队、执行、验证与交付
+## 浏览器契约与页面
 
-| 文档 | 用途与适用范围 |
+| 文档 | 用途与范围 |
 | --- | --- |
-| [团队执行策略](team-execution-policy.md) | A1—A5：成员、并发、调度与故障。 |
-| [验证节点](verification-node-design.md) | 验收解释、检查结论、必检证据与独立验证。 |
-| [联调环境](integration-environment-design.md) | C1—C6：固定组合、独立环境、配置与数据。 |
-| [Draft PR 与人工审查](draft-pr-review-design.md) | E1—E5：draft 时机、检查、反馈及人工合并边界。 |
-| [ChangeSet 设计](changeset-design.md) | CS1—CS14：归属、交付、部分成功与恢复。 |
-| [ChangeSet 逻辑结构](changeset-structure.md) | 记录关系和字段示意；ChangeSet 的完整存储与查询 Schema 尚未冻结。 |
-| [ADR-0003：计划许可与生效](../adr/0003-plan-change-authorization-and-activation.md) | 许可、生效、重规划与后续审批规则；当前产品使用 YOLO。 |
-| [Graph／Loop：复用上游 DAG](graph-loop-design.md) | 现行专题：最新确定源码基线、上游仓内 DAG 与 RepoMesh 跨仓／Loop 分工、结果采纳、换图、恢复及验证。 |
-| [ADR-0007：Graph／Loop](../adr/0007-graph-loop-plugin.md) | 流程与循环规则；ADR-0014／0015 的 09-09 补充明确复用原生 DAG，不重写完整仓内引擎。 |
+| [首批浏览器契约](first-batch-browser-api-contract.md) | 已采用的项目、列表、配置引用及原操作恢复。 |
+| [Issue 创建契约](issue-page-create-api-contract.md) | 已采用创建、详情、rooms、SSE；新增绑定候选另列。 |
+| [认证与仓库发现候选](authentication-browser-api-draft.md) | 登录／重连、Destination 和查询恢复的唯一候选字段。 |
+| [模型浏览器候选](model-settings-browser-api-draft.md) | 保存／安全终结、单模型测试、专用应用的唯一候选字段。 |
+| [首批页面恢复](first-batch-recovery-design.md) | 错误、未知、权限、原操作与只读会话的候选安排。 |
+| [会话与独立 Issue](conversation-issue-separation-design.md) | 当前页面关系、采用视觉及创建入口。 |
+| [项目配置](project-configuration-design.md) | 接入、增仓、授权变化、F02 表单。 |
+| [模型连接与参数](model-connection-settings-design.md) | 已采用分栏与参数、项目应用边界。 |
+| [登录恢复页面](login-recovery-page-design.md) | 已采用 UI 与未采用认证细化分开。 |
+| [仓库选择](repository-picker-design.md) | 选择摘要、发现覆盖及授权观察。 |
+| [模型用于项目](model-project-apply-design.md) | 固定快照预览、测试观察与原应用恢复。 |
+| [Key 保存页面](model-key-save-design.md) | 显式草稿、保存未知与安全终结候选。 |
+| [最小 Issue 概览](issue-overview-minimal-design.md) | 首批详情 UI 候选，业务与运行观察分开。 |
+| [原型串联说明](prototype-walkthrough-design.md) | 源片段、生成、路由与历史原稿的边界。 |
 
-## 架构与实施边界
+## 持久化、身份与模型内部设计
 
-| 文档 | 用途与适用范围 |
+| 文档 | 用途与范围 |
 | --- | --- |
-| [技术选型](technology-selection.md) | ADR-0010 已确认的整组技术方案。 |
-| [基础工程开发说明](development-scaffold.md) · [工程验收记录](scaffold-verification.md) | 实际目录、三入口、配置与配套发布、检查及独立复核；骨架不代表业务完成。 |
-| [阅读前文件清单](scaffold-source-inventory.md) · [ADR 审计](scaffold-adr-review.md) · [验证证据追溯](scaffold-agentteams-evidence.md) · [页面/接口/后端审计](scaffold-page-backend-review.md) | 本轮团队逐文件覆盖、证据层次和工程影响。 |
-| [首期架构 v1](architecture-design-v1.md) | 各节区分已确认方向、建议和待验证能力，不将整稿视为已定稿。 |
-| [ADR 全集与决策演进](../adr/README.md) | ADR-0001—0020：组织、授权、计划、受控接入、进程、轮次、事务、资源、入口和 Python 分析插件。 |
-| [Skill 工程占位](skill-engineering-design.md) | H1—H15 方向已同意，但整个模块按 ADR-0009 暂缓开发。 |
+| [首批持久化](backend-first-batch-persistence.md) | 已采用关系、事务、持久待办；§2.5 配置绑定候选。 |
+| [Issue 配置绑定候选](issue-configuration-binding-design.md) | 创建事务固定引用，并发、重启、秘密失效与历史修复。 |
+| [会话／Issue 后端专项](draft-conversation-backend-design.md) | 现行身份、内容权限、创建及后端衔接，保留历史文件名。 |
+| [身份内部候选](backend-first-development-access-draft.md) | 仍包含内部会话／尝试记录和凭据刷新互斥，不被 HTTP 稿完全替代。 |
+| [配置来源候选](backend-first-batch-sources-draft.md) | 秘密存储、导入、有限预算、App 与出站。 |
+| [模型内部操作候选](backend-model-operations-draft.md) | 唯一槽位、保存终结、测试外发和精确应用事务。 |
 
-## 交接、评审与证据
+## 后续会话、执行与交付
 
-| 文档 | 用途 |
+| 文档 | 用途与范围 |
 | --- | --- |
-| [HANDOFF](HANDOFF.md) | 当前状态、约束、后续工作与证据限制的共同入口。 |
-| [页面／接口 handoff](HANDOFF-PAGE-API-DESIGN.md) · [后端 handoff](HANDOFF-BACKEND-DESIGN.md) | 正式开发前的缺口、优先级、分工、设计产物及开发就绪条件；当前接手入口。 |
-| [旧页面 Prompt](NEXT-SESSION-PROMPT.md) · [旧后端 Prompt](NEXT-BACKEND-SESSION-PROMPT.md) | 保留原完整阅读清单、原型和历史协作来源；旧执行顺序及通信身份不恢复为当前指令。 |
-| [持续设计授权](design-delegation.md) | 授权原话、P1—P4 及双入口／契约采用范围；不等于运行能力证明。 |
-| [通信约定](design-communication.md) | 原设计协作任务身份、主题轮次、原文保存与恢复要求。 |
-| [页面通信日志](design-communication-page-log.md) · [后端通信日志](design-communication-backend-log.md) | 原始通信与检查点，保留历史，不以摘要覆盖。 |
-| [本次文档评审](document-review-2026-09-09.md) | 时间冲突、维护措施、未决问题与验证结果；不是新增产品 ADR。 |
-| [旧项目分析插件调查](../research/legacy-analysis-plugin-feasibility-2026-09-10.md) | 多 Agent 静态源码调查；后续仅先采用仓库分析按钮与 Python 插件，历史分析仍待后续设计。 |
-| [AgentTeams 接入验证清单](agentteams-validation-plan.md) | 09-09 直接核查锁定源码：控制旁路、pause／replan、并发写、任务身份、会话、就绪及隔离；已开始实际验证，见[执行状态](../../validation/agentteams-2026-09-09/reports/validation-status.md)。 |
-| [AgentTeams 调研](../agentteams-survey-2026-09-07/agentteams-survey.md) · [API／CLI 调研](../agentteams-survey-2026-09-07/agentteams-api-cli-survey-2026-09-07.md) | 锁定提交的静态依据，不能当作 RepoMesh 运行验收。 |
-| Cursor Dashboard 历史报告（原引用文件当前缺失） | 原位置 `Cursor_Dashboard_Report_2026-09-07/report.md`；仅界面参考，非已采用的Manager布局。2026-09-10链接检查未找到原文件，不伪造替代来源。 |
+| [消息目标](conversation-message-target-design.md) | 自然语言目标、澄清及页面选择边界。 |
+| [消息／澄清浏览器契约](conversation-message-clarification-api-contract.md) | 已采用的已有会话五端点，首次会话与外部投递仍缺。 |
+| [消息／澄清内部设计](backend-message-clarification-design.md) | 本地控制、可信依据、租约和恢复。 |
+| [Manager 创建工具](manager-create-issue-tool-design.md) | 双入口、来源与恢复；完整 MCP 及可信运行上下文仍需闭合。 |
+| [真实执行接入门槛](execution-integration-gates.md) | G1—G5：配置消费、消息工具、写方、生命周期、换图。 |
+| [Graph／Loop](graph-loop-design.md) | 原生仓内 DAG 与 RepoMesh 跨仓协调及有界循环。 |
+| [团队执行策略](team-execution-policy.md) | 成员、并发、调度与故障。 |
+| [验证节点](verification-node-design.md) | 检查、证据、独立验证及 Skill 暂缓适用说明。 |
+| [联调环境](integration-environment-design.md) | 固定组合、隔离环境、配置和数据。 |
+| [Draft PR 与人工审查](draft-pr-review-design.md) | 交付检查与人工合并职责。 |
+| [ChangeSet 规则](changeset-design.md) | CS1—CS14 归属、交付与恢复。 |
+| [ChangeSet 逻辑结构](changeset-structure.md) | 记录关系及未冻结的存储／查询边界。 |
+| [建项前仓库分析](issue-creation-repository-analysis.md) | 可选按钮与受控 Python 方向，具体协议仍需细化。 |
 
-## 保留原路径的历史入口
+## 工程、架构与证据
 
-下列文件保留原型路径和确认过程；当前聊天关系及创建行为必须回到上面的现行专题。
-
-| 历史文档 | 当前解读 |
+| 文档 | 用途与范围 |
 | --- | --- |
-| [第一版页面原型](page-interface-prototype.md) | A／B／C 布局已被否定，仅供溯源。 |
-| [Draft Issue 与房间入口](draft-issue-and-room-entry-design.md) | 深色会话式视觉要求保留；聊天整体转正和旧事项绑定已替代。 |
-| [项目先创建入口](project-first-entry-design.md) | 项目先保存和 DESIGN-001 确认过程保留；旧 Draft Issue 原型不是当前生命周期。 |
-| [ChangeSet 旧讨论入口](changeset-design-discussion.md) | 兼容旧链接，转至已确认设计与结构说明。 |
+| [工程开发说明](development-scaffold.md) | 三进程组装、工具、配置与配套构建。 |
+| [WSL2 开发环境建议](wsl-development-recommendation.md) | 待确认的迁移建议、本机检查、脚本适配、切换验收与回退；尚未迁移。 |
+| [骨架验收记录](scaffold-verification.md) | 既有工程检查的条件与结果，非业务验收。 |
+| [AgentTeams 证据索引](scaffold-agentteams-evidence.md) | 确定源码与历史实测的范围及追溯入口。 |
+| [AgentTeams 验证清单](agentteams-validation-plan.md) | AT01—12 的具体用例；G1—G5 不替代该清单。 |
+| [架构方案](architecture-design-v1.md) | 各章节的已采用方向、候选及未验证能力。 |
+| [技术选型](technology-selection.md) | 已采用技术方向。 |
+| [暂缓的 Skill 工程](skill-engineering-design.md) | H1—H15 方向保留，按 ADR-0009 暂缓；不是本批前置。 |
 
-[总导航](../README.md) · [历史归档](../archive/README.md) · [本次整理前交接快照](../archive/2026-09-09-before-document-review/README.md)
+## 目录外入口
 
-## 后续维护方式
-
-修改一项决定时，同时检查其 ADR、直接关联专题、架构场景及验收描述，再更新 HANDOFF 的当前状态；导航只调整入口与适用范围。保留原 `date` 和确认来源，在变更文件中记录修订日期。已被替代的正文或图必须在所在章节标明历史，避免只有页首提醒而后文仍像现行规则。通信原文不重写，完整协议没有编制或运行尚未验证时须分别说明。
+| 入口 | 用途 |
+| --- | --- |
+| [领域语言](../../CONTEXT.md) · [ADR 索引](../adr/README.md) | 术语与全部架构决定；ADR 本次未归档。 |
+| [原型目录](../prototypes/README.md) | 当前 11 份原稿、串联源及 4 份历史归档。 |
+| [AgentTeams 调研](../agentteams-survey-2026-09-07/agentteams-survey.md) · [API／CLI 附录](../agentteams-survey-2026-09-07/agentteams-api-cli-survey-2026-09-07.md) | 后端需结合确定源码和后续实测核对，不能当作已集成。 |
+| [09-12 审查](../reviews/2026-09-12-design-readiness/README.md) · [修订检查](../reviews/2026-09-12-design-fixes/README.md) | 历史证据及限定检查，不代表真实业务通过。 |
+| [本次归档](../archive/2026-09-12-development-preparation/README.md) · [全部历史](../archive/README.md) | 旧采用原话、通信、交接、归档映射与原始字节。 |
