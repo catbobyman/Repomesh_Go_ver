@@ -13,6 +13,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/jackc/pgx/v5"
 	"repomesh.local/repomesh/internal/access"
 	"repomesh.local/repomesh/internal/github"
 	"repomesh.local/repomesh/internal/secrets"
@@ -413,4 +414,82 @@ func TestPostgresProjectTransactionsAndAuthorizationInterleaving(t *testing.T) {
 	provider.repositoryOverride = nil
 
 	service.hook = nil
+}
+
+func TestPostgresInheritFollowsPinnedOrCurrentVersion(t *testing.T) {
+	pool := testdb.Open(t)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	t.Cleanup(cancel)
+	const actor = "owner-1"
+	if _, err := pool.Exec(ctx, `INSERT INTO repomesh_access.accounts(id,github_id,display_name) VALUES ($1,9201,'Inherit owner')`, actor); err != nil {
+		t.Fatal(err)
+	}
+	writer := NewCatalogWriter()
+	inCatalog := func(label string, write func(tx pgx.Tx) error) {
+		t.Helper()
+		tx, err := pool.Begin(ctx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer rollback(tx)
+		if err := writer.LockExclusive(ctx, tx); err != nil {
+			t.Fatalf("%s: %v", label, err)
+		}
+		if err := write(tx); err != nil {
+			t.Fatalf("%s: %v", label, err)
+		}
+		if err := tx.Commit(ctx); err != nil {
+			t.Fatalf("%s: %v", label, err)
+		}
+	}
+	register := func(version string, concurrency int) {
+		t.Helper()
+		inCatalog("register "+version, func(tx pgx.Tx) error {
+			return writer.RegisterExecutionVersion(ctx, tx, ExecutionVersionRegistration{Owner: actor, ProfileID: "exec", Version: version, Name: "执行 " + version, WorkerConcurrency: concurrency})
+		})
+	}
+	resolve := func() (string, int, bool) {
+		t.Helper()
+		tx, err := pool.Begin(ctx)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer rollback(tx)
+		binding, version, err := resolveProfile(ctx, tx, actor, "execution", ProfileChoice{Mode: "inherit"})
+		if err != nil || binding == nil || version == nil || version.workerConcurrency == nil || binding.DefaultRevision == nil {
+			t.Fatalf("inherit resolution: binding=%+v version=%+v err=%v", binding, version, err)
+		}
+		return binding.Version, *version.workerConcurrency, version.parametersComplete
+	}
+	head := func() string {
+		t.Helper()
+		var version string
+		if err := pool.QueryRow(ctx, `SELECT current_version FROM repomesh_projects.profiles WHERE kind='execution' AND id='exec'`).Scan(&version); err != nil {
+			t.Fatal(err)
+		}
+		return version
+	}
+
+	register("v1", 2)
+	// A B03 default row predates pinned_version, so it carries NULL there.
+	if _, err := pool.Exec(ctx, `INSERT INTO repomesh_projects.defaults(actor,kind,profile_id,default_revision) VALUES ($1,'execution','exec',$2)`, actor, newID()); err != nil {
+		t.Fatal(err)
+	}
+	if version, concurrency, complete := resolve(); version != "v1" || concurrency != 2 || complete {
+		t.Fatalf("null pinned at v1 head: version=%s concurrency=%d complete=%t", version, concurrency, complete)
+	}
+	register("v2", 4)
+	if version, concurrency, _ := resolve(); version != "v2" || concurrency != 4 {
+		t.Fatalf("null pinned must follow the head: version=%s concurrency=%d", version, concurrency)
+	}
+	inCatalog("pin v1", func(tx pgx.Tx) error {
+		_, err := writer.BindExecutionDefault(ctx, tx, actor, "exec", "v1")
+		return err
+	})
+	if version, concurrency, complete := resolve(); version != "v1" || concurrency != 2 || complete {
+		t.Fatalf("pinned v1 under v2 head: version=%s concurrency=%d complete=%t", version, concurrency, complete)
+	}
+	if head() != "v2" {
+		t.Fatalf("pinning moved the head to %s", head())
+	}
 }

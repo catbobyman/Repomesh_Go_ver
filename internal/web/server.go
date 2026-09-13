@@ -25,10 +25,10 @@ func Run(ctx context.Context, addr, assets string) error {
 }
 
 func RunAuthenticated(ctx context.Context, addr, assets string, auth Auth, certFile, keyFile string) error {
-	return RunConfigured(ctx, addr, assets, auth, Projects{}, certFile, keyFile)
+	return RunConfigured(ctx, addr, assets, auth, Projects{}, Models{}, certFile, keyFile)
 }
 
-func RunConfigured(ctx context.Context, addr, assets string, auth Auth, projectAPI Projects, certFile, keyFile string) error {
+func RunConfigured(ctx context.Context, addr, assets string, auth Auth, projectAPI Projects, modelAPI Models, certFile, keyFile string) error {
 	root := os.DirFS(assets)
 	if info, err := fs.Stat(root, "index.html"); err != nil || info.IsDir() {
 		return fmt.Errorf("frontend index.html missing in %q; run npm --prefix web ci and npm --prefix web run build", assets)
@@ -49,7 +49,7 @@ func RunConfigured(ctx context.Context, addr, assets string, auth Auth, projectA
 		listener = tls.NewListener(listener, &tls.Config{MinVersion: tls.VersionTLS12, Certificates: []tls.Certificate{certificate}})
 	}
 	server := &http.Server{
-		Handler:           handlerConfigured(root, auth, projectAPI),
+		Handler:           handlerConfigured(root, auth, projectAPI, modelAPI),
 		ReadHeaderTimeout: 5 * time.Second,
 		IdleTimeout:       60 * time.Second,
 		WriteTimeout:      30 * time.Second,
@@ -88,13 +88,14 @@ func newHandler(assets fs.FS) http.Handler {
 }
 
 func handlerWithAuth(assets fs.FS, auth Auth) http.Handler {
-	return handlerConfigured(assets, auth, Projects{})
+	return handlerConfigured(assets, auth, Projects{}, Models{})
 }
 
-func handlerConfigured(assets fs.FS, auth Auth, projectAPI Projects) http.Handler {
+func handlerConfigured(assets fs.FS, auth Auth, projectAPI Projects, modelAPI Models) http.Handler {
 	mux := http.NewServeMux()
 	registerAuth(mux, auth)
 	registerProjects(mux, auth, projectAPI)
+	registerModels(mux, auth, modelAPI)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]any{
 			"process": "repomesh-web", "version": buildinfo.Version,
@@ -118,7 +119,7 @@ func handlerConfigured(assets fs.FS, auth Auth, projectAPI Projects) http.Handle
 			return
 		}
 		name := strings.TrimPrefix(path.Clean(r.URL.Path), "/")
-		if r.URL.Path == "/login" || strings.HasPrefix(r.URL.Path, "/auth/result/") && access.ValidID(strings.TrimPrefix(r.URL.Path, "/auth/result/")) || projectBrowserRoute(r.URL.Path) {
+		if r.URL.Path == "/login" || strings.HasPrefix(r.URL.Path, "/auth/result/") && access.ValidID(strings.TrimPrefix(r.URL.Path, "/auth/result/")) || projectBrowserRoute(r.URL.Path) || modelBrowserRoute(r.URL.Path) {
 			w.Header().Set("Cache-Control", "no-store")
 			w.Header().Set("Referrer-Policy", "no-referrer")
 			r = r.Clone(r.Context())

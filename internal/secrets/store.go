@@ -26,6 +26,8 @@ const (
 	GitHubRefreshToken    Purpose = "github-refresh-token"
 	GitHubAppClientSecret Purpose = "github-app-client-secret"
 	GitHubAppPrivateKey   Purpose = "github-app-private-key"
+	ModelProviderKey      Purpose = "model-provider-key"
+	OperationInput        Purpose = "operation-input"
 )
 
 var (
@@ -78,6 +80,10 @@ func validOwnerPurpose(owner Owner, purpose Purpose) bool {
 	switch purpose {
 	case AuthMaterial, AuthExchangeResult, GitHubUserToken, GitHubRefreshToken, GitHubAppClientSecret, GitHubAppPrivateKey:
 		return true
+	case ModelProviderKey:
+		return owner.Kind == "model-provider"
+	case OperationInput:
+		return owner.Kind == "provider-save-input"
 	default:
 		return false
 	}
@@ -125,38 +131,24 @@ func (s *Store) requireActive(ctx context.Context, tx pgx.Tx) error {
 }
 
 func (s *Store) Seal(ctx context.Context, owner Owner, purpose Purpose, plaintext []byte) (VersionID, error) {
-	if !validOwnerPurpose(owner, purpose) || len(plaintext) == 0 || len(plaintext) > 1024*1024 {
-		return "", ErrUnavailable
-	}
-	if err := s.reserveWrap(ctx); err != nil {
+	prepared, err := s.Prepare(ctx, owner, purpose, plaintext)
+	if err != nil {
 		return "", err
 	}
-	e := envelope{id: newVersionID(), owner: owner, purpose: purpose, format: formatVersion, rootID: s.activeRootID}
-	root := s.roots[s.activeRootID]
-	if err := e.seal(root[:], plaintext); err != nil {
-		return "", err
-	}
+	defer prepared.Discard()
 	tx, err := s.pool.Begin(ctx)
 	if err != nil {
 		return "", ErrUnavailable
 	}
 	defer rollback(tx)
-	if err := s.requireActive(ctx, tx); err != nil {
-		return "", err
-	}
-	_, err = tx.Exec(ctx, `INSERT INTO repomesh_secrets.versions
-		(version_id,owner_kind,owner_id,purpose,format_version,ciphertext,wrapped_dek,root_id)
-		VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`, string(e.id), owner.Kind, owner.ID, string(purpose), e.format, e.ciphertext, e.wrappedDEK, e.rootID)
+	id, err := s.InsertPrepared(ctx, tx, prepared)
 	if err != nil {
-		return "", ErrUnavailable
-	}
-	if _, err := tx.Exec(ctx, `INSERT INTO repomesh_secrets.availability(version_id) VALUES ($1)`, string(e.id)); err != nil {
-		return "", ErrUnavailable
+		return "", err
 	}
 	if err := tx.Commit(ctx); err != nil {
 		return "", ErrUnavailable
 	}
-	return e.id, nil
+	return id, nil
 }
 
 func scanEnvelope(row pgx.Row) (envelope, error) {

@@ -5,7 +5,8 @@ export type Destination =
   | { kind: "home" }
   | { kind: "project"; projectId: string }
   | { kind: "operation"; operationKind: "project_create"; operationId: string }
-  | { kind: "operation"; operationKind: "project_update"; projectId: string; operationId: string };
+  | { kind: "operation"; operationKind: "project_update"; projectId: string; operationId: string }
+  | { kind: "operation"; operationKind: "provider_save"; operationId: string };
 
 export type AppRoute =
   | { kind: "home" }
@@ -17,9 +18,11 @@ export type AppRoute =
   | { kind: "project-settings"; projectId: string }
   | { kind: "project-creation-result"; key: string }
   | { kind: "project-update-result"; projectId: string; key: string }
+  | { kind: "model-settings" }
+  | { kind: "model-save-result"; key: string }
   | { kind: "not-found" };
 
-export type BusinessNextPage = "/" | `/projects/${string}` | `/project-creations/${string}`;
+export type BusinessNextPage = "/" | `/projects/${string}` | `/project-creations/${string}` | `/settings/model-saves/${string}`;
 export type ProjectAwareAttempt = Omit<Attempt, "nextPage"> & { nextPage: BusinessNextPage | null };
 
 export type SavedAuthorization = {
@@ -41,12 +44,18 @@ export function parseRoute(path: string): AppRoute {
   if (path === "/login") return { kind: "login" };
   if (path === "/projects") return { kind: "projects" };
   if (path === "/projects/new") return { kind: "project-create" };
+  if (path === "/settings/models") return { kind: "model-settings" };
   const segments = exactSegments(path);
   if (segments === null) return { kind: "not-found" };
   if (segments.length === 3 && segments[0] === "auth" && segments[1] === "result" && isUuid(segments[2])) return { kind: "result", id: segments[2] };
   if (segments.length === 2 && segments[0] === "project-creations") {
     const key = normalizeProjectOperationKey(segments[1]);
     if (key !== null) return { kind: "project-creation-result", key };
+  }
+  if (segments.length === 2 && segments[0] === "settings" && segments[1] === "models") return { kind: "model-settings" };
+  if (segments.length === 3 && segments[0] === "settings" && segments[1] === "model-saves") {
+    const key = normalizeProjectOperationKey(segments[2]);
+    if (key !== null) return { kind: "model-save-result", key };
   }
   if (segments[0] !== "projects" || !isSafeSegment(segments[1] ?? "")) return { kind: "not-found" };
   const projectId = segments[1];
@@ -68,6 +77,7 @@ export function parseBusinessNextPage(value: unknown): BusinessNextPage | null {
     case "project": return `/projects/${route.projectId}`;
     case "project-creation-result": return `/project-creations/${route.key}`;
     case "project-update-result": return `/projects/${route.projectId}/updates/${route.key}`;
+    case "model-save-result": return `/settings/model-saves/${route.key}`;
     default:
       throw new Error("Invalid next page");
   }
@@ -79,6 +89,8 @@ export function destinationForRoute(route: AppRoute): Destination {
     case "project-settings": return { kind: "project", projectId: route.projectId };
     case "project-creation-result": return { kind: "operation", operationKind: "project_create", operationId: route.key };
     case "project-update-result": return { kind: "operation", operationKind: "project_update", projectId: route.projectId, operationId: route.key };
+    case "model-settings": return { kind: "home" };
+    case "model-save-result": return { kind: "operation", operationKind: "provider_save", operationId: route.key };
     default: return { kind: "home" };
   }
 }
@@ -96,6 +108,7 @@ export function parseDestination(value: unknown): Destination | null {
   const operationId = normalizeProjectOperationKey(data.operationId);
   if (operationId === null) return null;
   if (data.operationKind === "project_create" && Object.keys(data).length === 3) return { kind: "operation", operationKind: "project_create", operationId };
+  if (data.operationKind === "provider_save" && Object.keys(data).length === 3) return { kind: "operation", operationKind: "provider_save", operationId };
   if (data.operationKind === "project_update" && Object.keys(data).length === 4 && typeof data.projectId === "string" && isSafeSegment(data.projectId)) return { kind: "operation", operationKind: "project_update", projectId: data.projectId, operationId };
   return null;
 }

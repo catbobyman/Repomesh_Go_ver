@@ -4,7 +4,15 @@
 
 ## 当前完成度
 
-最新接续入口：[B04—B06 设计后交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)与[下一任务 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md)。本次用户另行授权同步全部项目改动，排除秘密及本机配置；[同步范围与检查](../development/2026-09-13-b04-b06-handoff-01/SYNC.md)单独记录，不改变待采用及各批验证状态。
+最新接续入口：[B04 采用记录](b04-model-sources-adoption.md)、[B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)与[B04—B06 设计后交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)。用户原话“推进B04”仅授权 D01—D04 与 U04.1—U04.4。B05／B06 仍待各自采用。
+
+### 2026-09-13 B04 收口
+
+B04 为 `DESIGN_ADOPTED`、`IMPLEMENTED`、`INTEGRATED_LOCAL_VERIFIED`。完整工程检查、S01—S12 真实 PostgreSQL、B03 原回归、U04.4 夹具浏览器、配套发布 r2 与[独立复核](../development/2026-09-13-b04-closeout-01/FINAL-INDEPENDENT-REVIEW.md)已完成。未采用 D05—D08。没有整批 `VERIFIED`。没有真实模型请求。`businessReady=false`。进入 B05 还要另作 D05／D06／C05／C06 采用。
+
+### 2026-09-13 B04 实施
+
+B04 曾为 `LOCAL_VERIFIED`（S01 到 S12 已有真实 PostgreSQL 证据）。该检查点已被上方收口替代，历史缺口记录不改写成当时已完整收口。
 
 ### 2026-09-13 B04—B06 设计交付
 

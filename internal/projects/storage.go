@@ -297,14 +297,18 @@ func resolveProfile(ctx context.Context, tx pgx.Tx, actor, kind string, choice P
 	var profile profileRecord
 	var defaultRevision *string
 	if choice.Mode == "inherit" {
-		err := tx.QueryRow(ctx, `SELECT p.kind,p.id,p.owner,p.name,p.enabled,p.current_version,d.default_revision
+		var pinned *string
+		err := tx.QueryRow(ctx, `SELECT p.kind,p.id,p.owner,p.name,p.enabled,p.current_version,d.default_revision,d.pinned_version
 			FROM repomesh_projects.defaults d JOIN repomesh_projects.profiles p ON p.kind=d.kind AND p.id=d.profile_id
-			WHERE d.actor=$1 AND d.kind=$2 AND p.owner=$1 FOR SHARE OF d,p`, actor, kind).Scan(&profile.kind, &profile.id, &profile.owner, &profile.name, &profile.enabled, &profile.currentVersion, &defaultRevision)
+			WHERE d.actor=$1 AND d.kind=$2 AND p.owner=$1 FOR SHARE OF d,p`, actor, kind).Scan(&profile.kind, &profile.id, &profile.owner, &profile.name, &profile.enabled, &profile.currentVersion, &defaultRevision, &pinned)
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil, nil
 		}
 		if err != nil {
 			return nil, nil, unavailable()
+		}
+		if pinned != nil && *pinned != "" {
+			profile.currentVersion = *pinned
 		}
 	} else {
 		err := tx.QueryRow(ctx, `SELECT kind,id,owner,name,enabled,current_version FROM repomesh_projects.profiles

@@ -3,6 +3,7 @@ import { endSession, readSession } from "./api";
 import type { ApiError, Result, Session } from "./api";
 import { forgetAttempt } from "./recovery";
 import { clearAllOperationInputs } from "./projectRecovery";
+import { clearModelRecovery } from "./modelRecovery";
 
 export type SessionState =
   | { kind: "checking" }
@@ -19,10 +20,16 @@ function reconcileStoredActor(actor: string | null): void {
       sessionStorage.removeItem(actorStorageKey);
       return;
     }
-    if (previous !== null && previous !== actor) clearAllOperationInputs();
+    if (previous !== null && previous !== actor) {
+      clearAllOperationInputs();
+      clearModelRecovery();
+    }
     sessionStorage.setItem(actorStorageKey, actor);
   } catch {
-    if (actor === null) clearAllOperationInputs();
+    if (actor === null) {
+      clearAllOperationInputs();
+      clearModelRecovery();
+    }
   }
 }
 
@@ -36,7 +43,10 @@ export function useSession() {
 
   const update = useCallback((next: SessionState, invalidate: boolean) => {
     const previous = latest.current;
-    if ((next.kind === "anonymous" && previous.kind === "authenticated") || (next.kind === "authenticated" && previous.kind === "authenticated" && next.session.user.id !== previous.session.user.id)) clearAllOperationInputs();
+    if ((next.kind === "anonymous" && previous.kind === "authenticated") || (next.kind === "authenticated" && previous.kind === "authenticated" && next.session.user.id !== previous.session.user.id)) {
+      clearAllOperationInputs();
+      clearModelRecovery();
+    }
     if (invalidate) {
       version.current += 1;
       setGeneration(version.current);
@@ -57,6 +67,7 @@ export function useSession() {
   const unauthorized = useCallback((expected: number) => {
     if (!isCurrent(expected)) return;
     clearAllOperationInputs();
+    clearModelRecovery();
     reconcileStoredActor(null);
     flight.current?.controller.abort();
     flight.current = null;
@@ -78,6 +89,7 @@ export function useSession() {
         update({ kind: "authenticated", session: result.value }, changed);
       } else if (result.status === 401) {
         clearAllOperationInputs();
+        clearModelRecovery();
         reconcileStoredActor(null);
         update({ kind: "anonymous" }, latest.current.kind !== "anonymous");
       } else {
@@ -99,6 +111,7 @@ export function useSession() {
     const csrfToken = before.session.csrfToken;
     forgetAttempt();
     clearAllOperationInputs();
+    clearModelRecovery();
     reconcileStoredActor(null);
     invalidate();
     announce();
@@ -123,6 +136,7 @@ export function useSession() {
     if (broadcast) broadcast.onmessage = (event: MessageEvent<unknown>) => {
       if (event.data === "session-changed") {
         clearAllOperationInputs();
+        clearModelRecovery();
         void refresh(true);
       }
     };

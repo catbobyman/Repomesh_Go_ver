@@ -20,9 +20,52 @@ type ProjectDestination struct {
 }
 
 type ProjectDestinationResolver func(context.Context, string, ProjectDestination) (*string, error)
+type ModelSaveDestinationResolver func(context.Context, string, string) (*string, error)
 
 func (s *Service) SetProjectDestinationResolver(resolver ProjectDestinationResolver) {
 	s.projectDestinationResolver = resolver
+}
+
+func (s *Service) SetModelSaveDestinationResolver(resolver ModelSaveDestinationResolver) {
+	s.modelSaveDestinationResolver = resolver
+}
+
+func (d Destination) ModelSaveDestination() (string, bool) {
+	if d.canonical == "" || d.home {
+		return "", false
+	}
+	var fields map[string]json.RawMessage
+	if json.Unmarshal([]byte(d.canonical), &fields) != nil {
+		return "", false
+	}
+	var kind, operationKind, operationID string
+	_ = json.Unmarshal(fields["kind"], &kind)
+	_ = json.Unmarshal(fields["operationKind"], &operationKind)
+	_ = json.Unmarshal(fields["operationId"], &operationID)
+	if kind != "operation" || operationKind != "provider_save" {
+		return "", false
+	}
+	id, err := normalizeProviderSaveID(operationID)
+	if err != nil {
+		return "", false
+	}
+	return id, true
+}
+
+func (s *Service) resolveModelSaveDestination(ctx context.Context, actor string, destination Destination) (*string, error) {
+	saveID, ok := destination.ModelSaveDestination()
+	if !ok || s.modelSaveDestinationResolver == nil {
+		return nil, nil
+	}
+	return s.modelSaveDestinationResolver(ctx, actor, saveID)
+}
+
+func normalizeProviderSaveID(raw string) (string, error) {
+	value := strings.ToLower(raw)
+	if !ValidID(value) {
+		return "", failure(422, "VALIDATION_FAILED")
+	}
+	return value, nil
 }
 
 func (d Destination) ProjectDestination() (ProjectDestination, bool) {

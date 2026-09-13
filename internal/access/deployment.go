@@ -36,7 +36,10 @@ type Runtime struct {
 	Service    *Service
 	Deployment Deployment
 	db         *database.DB
+	secrets    *secrets.Store
 }
+
+func (runtime *Runtime) SecretStore() *secrets.Store { return runtime.secrets }
 
 func (runtime *Runtime) Close() { runtime.db.Close() }
 
@@ -110,7 +113,7 @@ func OpenRuntime(ctx context.Context, configPath, databaseURL string) (*Runtime,
 	}
 	service.provider = provider
 	ok = true
-	return &Runtime{Service: service, Deployment: config, db: db}, nil
+	return &Runtime{Service: service, Deployment: config, db: db, secrets: store}, nil
 }
 
 func (s *Service) importAppCredential(ctx context.Context, config Deployment, purpose secrets.Purpose, path string) (secrets.VersionID, error) {

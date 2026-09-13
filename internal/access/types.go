@@ -26,10 +26,11 @@ type Provider interface {
 }
 
 type Service struct {
-	pool                       *pgxpool.Pool
-	secrets                    *secrets.Store
-	provider                   Provider
-	projectDestinationResolver ProjectDestinationResolver
+	pool                         *pgxpool.Pool
+	secrets                      *secrets.Store
+	provider                     Provider
+	projectDestinationResolver   ProjectDestinationResolver
+	modelSaveDestinationResolver ModelSaveDestinationResolver
 }
 
 func New(pool *pgxpool.Pool, store *secrets.Store, provider Provider) *Service {

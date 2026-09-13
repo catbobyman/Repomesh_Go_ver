@@ -14,6 +14,7 @@ import (
 	"repomesh.local/repomesh/internal/access"
 	"repomesh.local/repomesh/internal/buildinfo"
 	"repomesh.local/repomesh/internal/database"
+	"repomesh.local/repomesh/internal/models"
 	"repomesh.local/repomesh/internal/projects"
 	"repomesh.local/repomesh/internal/web"
 )
@@ -31,6 +32,9 @@ func mainExit() int {
 func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	if len(args) > 0 && args[0] == "db" {
 		return runDatabase(ctx, args[1:], stdout, stderr)
+	}
+	if len(args) > 0 && args[0] == "sources" {
+		return runSources(ctx, args[1:], stdout, stderr)
 	}
 	flags := flag.NewFlagSet("repomesh-web", flag.ContinueOnError)
 	flags.SetOutput(stderr)
@@ -54,6 +58,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	}
 	var auth web.Auth
 	var projectAPI web.Projects
+	var modelAPI web.Models
 	var certFile, keyFile string
 	if *authConfig != "" {
 		startup, cancel := context.WithTimeout(ctx, 30*time.Second)
@@ -68,9 +73,13 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		projectService := projects.New(runtime.Pool(), runtime.Service)
 		runtime.Service.SetProjectDestinationResolver(projectService.ResolveDestination)
 		projectAPI = web.Projects{Service: projectService}
+		catalog := projects.NewCatalogWriter()
+		modelService := models.New(runtime.Pool(), runtime.Service, runtime.SecretStore(), catalog)
+		runtime.Service.SetModelSaveDestinationResolver(modelService.ResolveDestination)
+		modelAPI = web.Models{Service: modelService}
 		certFile, keyFile = runtime.Deployment.TLSCertificateFile, runtime.Deployment.TLSKeyFile
 	}
-	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, certFile, keyFile); err != nil {
+	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, modelAPI, certFile, keyFile); err != nil {
 		fmt.Fprintln(stderr, "web stopped:", err)
 		return 1
 	}

@@ -1,8 +1,10 @@
 # 开发前阅读与行动指南
 
-2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。新推荐仍待采用，未开始产品实现或运行验收。B02外部暂停、B03 INTEGRATED_LOCAL_VERIFIED及B04 DESIGN_PREPARED_NOT_ADOPTED保持；B05/B06实施仍TODO。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
+当前批次状态以[施工计划](IMPLEMENTATION-PLAN.md)和[当前交接](HANDOFF.md)为准。B04 现为 `INTEGRATED_LOCAL_VERIFIED`，见[收口 01](../development/2026-09-13-b04-closeout-01/README.md)。B05／B06 仍 TODO。
 
-本页提供开发阅读清单与依赖顺序，不新增产品决定。实际批次状态见[施工计划](IMPLEMENTATION-PLAN.md)和[当前交接](HANDOFF.md)。用户已解除 B03 等待 B02 VERIFIED 的旧门槛，项目管理代码已合入主目录，当前为 `INTEGRATED_LOCAL_VERIFIED`，[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)无开放 P0/P1/P2；businessReady=false，不是外部、部署或整批业务 VERIFIED。B04 为 DESIGN_PREPARED_NOT_ADOPTED；B04—B06设计已形成顶部所链交付，采用后才交gpt-5.6-sol实施。旧[交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)和[Prompt](NEXT-TASK-B04-PROMPT.md)保留历史，不自动恢复实施授权。B02 外部验收按用户决定暂停，未来真实账号验证只使用主账号 A；历史跨账号失败和未完成恢复仍保留。B03 的具体实现与验证边界见[项目管理开发说明](project-development.md)。后续按明确采用的基线完成管理闭环，不要求先实现全部 F01—F15。
+2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。该段保留设计当时的「新推荐仍待采用」记录。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
+
+本页提供开发阅读清单与依赖顺序，不新增产品决定。用户已解除 B03 等待 B02 VERIFIED 的旧门槛，项目管理代码已合入主目录，B03 为 `INTEGRATED_LOCAL_VERIFIED`，[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)无开放 P0/P1/P2；businessReady=false，不是外部、部署或整批业务 VERIFIED。B04—B06 设计见顶部所链交付。旧[交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)和[Prompt](NEXT-TASK-B04-PROMPT.md)保留历史，不自动恢复未授权批次。B02 外部验收按用户决定暂停，未来真实账号验证只使用主账号 A；历史跨账号失败和未完成恢复仍保留。B03 的具体实现与验证边界见[项目管理开发说明](project-development.md)。后续按明确采用的基线完成管理闭环，不要求先实现全部 F01—F15。
 
 首次接手或需要重新了解全局，先按 [Agent 全局阅读指南](AGENT-READING-GUIDE.md) 建立产品、架构与实现的联系，再按本页选择实施材料和验证步骤。
 
