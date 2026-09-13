@@ -8,9 +8,9 @@
 
 1. 准备自己拥有的 PostgreSQL 开发数据库。迁移连接需要该库 public schema 的建表、CREATE SCHEMA 及迁移对象访问权限。
 2. 在当前进程设置 `REPOMESH_DATABASE_URL`。连接串由操作者提供，程序不自动读取 .env。
-3. 运行 `go run ./cmd/repomesh-web db check`。空库输出 `schema status=missing current=0 target=3 pending=3`，二进制退出 1。
-4. 运行 `go run ./cmd/repomesh-web db migrate --timeout 30s`。成功输出 `schema status=current current=3 target=3 pending=0`。
-5. 再次运行 `db check`。核查必须完全匹配才能退出 0。
+3. 运行 `go run ./cmd/repomesh-web db check`。以当前 6 条迁移为例，空库输出 `schema status=missing current=0 target=6 pending=6`，二进制退出 1。
+4. 运行 `go run ./cmd/repomesh-web db migrate --timeout 30s`。成功输出 `schema status=current current=6 target=6 pending=0`。
+5. 再次运行 `db check`。核查必须完全匹配才能退出 0。新增迁移后，以上数字以所用二进制报告的 `target` 为准。
 
 `db check --database-url <连接串>` 或 `db migrate --database-url <连接串>` 覆盖环境变量。优先使用环境变量，避免将凭据写入命令历史。显式空参数会覆盖环境变量并报配置错误。`db --help` 和各子命令 `--help` 不连接数据库，也不显示连接串。
 
@@ -31,7 +31,7 @@
 
 ## 增加所属业务批次的迁移
 
-在 `internal/database/migrations` 新增连续编号文件，例如下一批的 `0004_project.sql`。文件名由四位编号、下划线、小写名称及 .sql 组成。使用显式 schema 名称，事务外 DDL 不在当前工具范围内。先完成所属业务契约和对应的真实数据库约束测试。
+在 `internal/database/migrations` 新增连续编号文件，编号接续已有最大版本；当前已到 `0006_complete_save_vault.sql`，下一条从 `0007` 开始，名称按实际业务填写。文件名由四位编号、下划线、小写名称及 .sql 组成。使用显式 schema 名称，事务外 DDL 不在当前工具范围内。先完成所属业务契约和对应的真实数据库约束测试。
 
 已应用文件保持不变。SHA-256 按实际 SQL 文件字节计算，`.gitattributes` 固定这些文件使用 LF，保证 Windows 和 Linux 检出后的校验依据一致。迁移随二进制内嵌，不另发布一份可变 SQL 目录。本工具校验迁移历史，不把手工修改业务表后的数据库结构视为已自动审计。
 

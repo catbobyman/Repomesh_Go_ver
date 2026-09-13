@@ -1,6 +1,6 @@
 # 配置与验证 B02 认证
 
-B02 提供 GitHub App 登录、同账号重连、服务端会话、授权结果恢复和仓库发现。采用边界见[采用记录](b02-authentication-adoption.md)，本地验证及真实验收缺口见[本批结果](../development/2026-09-12-batch-02/README.md)。项目、模型、Issue 和执行消费者仍属后续批次；`/readyz` 保持 503。
+B02 提供 GitHub App 登录、同账号重连、服务端会话、授权结果恢复和仓库发现。采用边界见[采用记录](b02-authentication-adoption.md)，本地验证及真实验收缺口见[本批结果](../development/2026-09-12-batch-02/README.md)。项目管理和 B04 模型来源保存已接入，当前完成度见[交接](HANDOFF.md)；Issue 与运行接入仍未实现，`/readyz` 保持 503。
 
 逐项 App 设置、HTTPS 接线、配套包启动命令及自然到期刷新验收见[真实 GitHub 验收手册](b02-github-live-acceptance.md)。[非 UTC 环境时间输出](../development/2026-09-12-b026-utc-fix-01/README.md)和[同步 callback Cookie 竞争](../development/2026-09-12-b026-cookie-fix-01/README.md)已完成本地修复与独立源码复核。原 r1、r2 和本地证据保留。配置、修复和本地验证完成不代表完整真实验收通过。
 
@@ -71,4 +71,4 @@ pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B02 -PostgresBin /usr/lib/
 
 race 检查还要求启用 cgo 并有可用的 C 编译器，例如 GCC。脚本创建自己的 PostgreSQL，运行完整工程检查、真实数据库及 HTTP 用例、race 检查、二进制和迁移重启检查，再清理实例。通过仅输出 `LOCAL_VERIFIED`。没有 `REPOMESH_TEST_DATABASE_URL` 的普通 Go 测试会跳过数据库集成，不等价于本批验收。
 
-浏览器脚本及可复跑方式见[本批结果](../development/2026-09-12-batch-02/README.md)。其中 API 替身用于故障交互，不代表真实 GitHub 成功。用户当前已确认 App 尚未配置；须补齐真实 App、HTTPS 回调与服务端秘密后，完成授权／取消／同账号重连、自然到期令牌刷新、安装权限、私仓发现及真实浏览器往返，才能将 B02 整体标为 VERIFIED 并进入 B03。
+浏览器脚本及可复跑方式见[本批结果](../development/2026-09-12-batch-02/README.md)。其中 API 替身用于故障交互，不代表真实 GitHub 成功。真实 App、HTTPS 和秘密配置已有历史记录，但完整外部验收仍暂停，恢复条件见[当前交接](HANDOFF.md#b02-外部暂停与恢复责任)。用户已解除 B03 等待 B02 整批 VERIFIED 的旧顺序条件；跨账号用例按交接保留为暂缓，不据本页恢复旧实验。

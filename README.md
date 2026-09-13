@@ -1,28 +1,123 @@
 # RepoMesh
 
-多仓库协作产品，采用 React／TypeScript／Vite 与同一 Go 工程的三个入口。已实现 PostgreSQL 迁移、认证秘密基础、GitHub App 登录／重连、服务端会话、授权恢复页面与后台仓库发现。B03 项目管理代码已集成，提供待配置项目创建、列表、资料编辑、明确增仓、固定配置引用和原操作恢复；主目录已 INTEGRATED_LOCAL_VERIFIED。B04 已采用 D01—D04 并落地模型供应商保存、六个 HTTP 端点和 `repomesh-web sources` 导入；主目录已 INTEGRATED_LOCAL_VERIFIED，非整批 VERIFIED。`businessReady=false`。范围见[项目开发说明](docs/current/project-development.md)和[B04 采用记录](docs/current/b04-model-sources-adoption.md)。本地验证、真实 GitHub 验收与整批 VERIFIED 分别记录；Issue、运行和 AgentTeams 集成尚未实现。现行产品决定见 [文档导航](docs/README.md)，工程职责及扩展边界见 [开发说明](docs/current/development-scaffold.md)。
+多仓库协作产品，采用 React／TypeScript／Vite 前端和同一 Go module 中的三个进程。已实现 PostgreSQL 迁移、GitHub App 认证与仓库发现、项目管理，以及 B04 模型供应商保存和执行来源导入。B03、B04 当前为 `INTEGRATED_LOCAL_VERIFIED`，非整批业务 VERIFIED；Issue、运行和 AgentTeams 集成尚未实现。
 
-首次接手项目可按 [Agent 全局阅读指南](docs/current/AGENT-READING-GUIDE.md) 阅读产品、架构与实现材料；具体实施顺序见[计划导航](docs/plan/README.md)，目录职责及维护规则见[文档导航](docs/README.md)。
+当前完成度、真实 GitHub 验收的暂停状态及恢复条件见[当前交接](docs/current/HANDOFF.md)。首次接手可按[全局阅读指南](docs/current/AGENT-READING-GUIDE.md)查阅；实施顺序见[计划导航](docs/plan/README.md)，专题和历史证据见[文档导航](docs/README.md)。
 
-## Codex 项目插件
+## 开发环境
 
-本仓库通过项目级配置启用 pstack 0.9.28，包含 54 个开发辅助技能。在本项目的 Codex 任务中选择 `pstack:poteto-mode` 使用；安装范围、固定来源及 Windows 限制见[插件说明](.agents/plugins/README.md)。这是开发工具配置，不改变产品 Skill 模块暂缓的决定。
+当前主开发环境为 WSL2 Linux，主副本位于 `/home/xubohan/projects/Repomesh_Go_ver`。以下命令默认在 Linux／WSL 的 Bash 中、从仓库根目录执行；其他机器使用自己的克隆路径。Windows 上进行认证开发时进入 WSL，当前认证秘密文件读取仅支持 Linux。既有环境配置和 SSH 接入过程见[WSL 记录](docs/development/2026-09-12-wsl/README.md)和[SSH 接入记录](docs/development/2026-09-12-wsl-ssh/README.md)。
 
-## 开发与检查
+| 工具或条件 | 用途 |
+| --- | --- |
+| Go 1.26 或以上 | 构建、运行三个 Go 入口及测试。版本要求见 `go.mod`。 |
+| Node.js 22.12 或以上、npm | 安装前端依赖、开发、测试及构建。版本要求见 `web/package.json`。 |
+| PowerShell 7，命令为 `pwsh` | 配套打包和数据库批次验证；普通源码启动不需要。 |
+| PostgreSQL 17 | 当前数据库验证基线；启用认证及持久业务时需要可连接的开发数据库。只查看未配置页面不需要数据库。 |
+| GCC 等 C 编译器、启用 cgo | 运行 `go test -race` 及包含 race 的 B02／B03 批次验证。 |
+| 专用 GitHub App、HTTPS、秘密文件 | 登录和后续持久业务的前置配置，见下方认证启动步骤。 |
 
-当前主开发副本为 `/home/xubohan/projects/Repomesh_Go_ver`，D 盘原工程保留。本次接手已直接核实 WSL2 Linux、工具路径及桌面项目绑定的 SSH 主机 `repomesh-wsl`。其他 Windows 项目继续使用本地 Codex，无需全局切换 Agent／终端。此前登录故障已恢复，见 [SSH 接入记录](docs/development/2026-09-12-wsl-ssh/README.md)。用户已确认 B02 最小实施包，本地实施与独立验证已通过；真实 App 材料、HTTPS 和专用服务已配置，完整真实验收待补。采用范围见 [B02 采用记录](docs/current/b02-authentication-adoption.md)，原本地证据见 [B02 记录](docs/development/2026-09-12-batch-02/README.md)，当前外部进度见[真实验收 02](docs/development/2026-09-12-b026-live-02/README.md)。Windows／Linux B01 与浏览器结果见 [WSL 环境验收](docs/development/2026-09-12-wsl/README.md)。
-
-WSL 中执行完整数据库批次检查：
+检查当前终端使用的工具，WSL 中应使用 Linux 工具：
 
 ```bash
-pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B02 -PostgresBin /usr/lib/postgresql/17/bin
+command -v go node npm
+go version
+node --version
+npm --version
+# 使用打包或数据库验证脚本前再检查
+pwsh -NoProfile -Command '$PSVersionTable.PSVersion.ToString()'
+/usr/lib/postgresql/17/bin/postgres --version
+go env CGO_ENABLED
 ```
 
-正式业务开发前先读[开发前阅读与行动指南](docs/plan/DEVELOPMENT-START.md)，按[分批施工计划](docs/plan/IMPLEMENTATION-PLAN.md)查看范围、依赖和验证结果。旧交接、协作日志和被替代原型已移入[历史归档](docs/archive/2026-09-12-development-preparation/README.md)。
+PostgreSQL 工具路径按本机安装位置调整。前端按已提交的 `web/package-lock.json` 安装；Go 依赖和校验和保存在根 `go.mod`、`go.sum`。`validation/go.mod` 和 `third_party/go.mod` 隔离历史实验及独立上游，根目录 Go 检查不进入它们。当前页面和认证启动不需要 Docker、Python 或启动 AgentTeams。
 
-要求 Go 1.26 或以上、Node.js 22.12 或以上、npm；配套打包脚本使用 PowerShell 7（`pwsh`）。B02 数据库验收还要求启用 cgo 和可用的 C 编译器。当前工具版本与检查结果见 [B02 记录](docs/development/2026-09-12-batch-02/README.md)，旧骨架结果见 [工程验收记录](docs/current/scaffold-verification.md)。以下命令均从仓库根目录执行。
+## 首次启动：查看页面
 
-```powershell
+此方式启动未配置认证的 Web，用于查看页面和进程诊断。
+
+```bash
+npm --prefix web ci
+npm --prefix web run build
+go run ./cmd/repomesh-web --addr 127.0.0.1:8080 --assets ./web/dist --auth-config=
+```
+
+打开 [本地 Web](http://127.0.0.1:8080)。显式空的 `--auth-config=` 覆盖当前终端可能已有的认证配置；Web 不连接数据库，认证和项目 API 返回 503；模型 API 此时未注册，返回 404。页面不能完成登录或保存业务数据。Ctrl+C 停止 Web。
+
+另开终端可检查：
+
+```bash
+curl -i http://127.0.0.1:8080/healthz
+curl -i http://127.0.0.1:8080/readyz
+```
+
+`/healthz` 返回 200，只表示进程存活；`/readyz` 仍返回 503，`businessReady=false`。即使完成认证配置，当前完整业务就绪条件也尚未满足。
+
+## 启用认证与持久业务
+
+### 准备配置
+
+1. 准备自己拥有的 PostgreSQL 开发数据库及连接串。迁移账号需要在该库创建 schema、表并访问迁移对象的权限；程序不会创建数据库本身。
+2. 按[认证开发说明](docs/current/authentication-development.md)和[GitHub App 操作手册](docs/current/b02-github-live-acceptance.md)准备专用 App、App ID、Client ID、client secret 和 RSA 私钥。登录授权与 App 安装分别配置。
+3. 将 [auth.example.json](configs/auth.example.json)复制到仓库及发布目录之外的部署目录，填写真实值。`origin` 必须是固定 HTTPS origin，`callbackUrl` 必须严格等于 `<origin>/api/auth/github/callback`。
+4. client secret、App 私钥和包装根分别使用绝对路径的普通文件，由运行 Web 和 coordinator 的 Linux 用户拥有，权限严格为 `0600`，不得是符号链接。包装根是密码学随机的原始 32 字节。已有数据库使用原配套根文件，不能重新生成同名根替换。
+5. 配置 HTTPS。使用受控反向代理时，`tlsCertificateFile` 和 `tlsKeyFile` 留空，代理转发到 Web 的回环地址；直接由 Web 提供 TLS 时同时填写证书和私钥路径，并调整监听地址。浏览器必须通过配置的 HTTPS origin 访问。
+
+代理必须保留浏览器 Origin，并避免在访问日志中记录 callback 查询串。详细秘密要求、根备份及轮换步骤见[认证开发说明](docs/current/authentication-development.md)。配置示例中的占位值不能直接用于启动。
+
+### 首次迁移并启动 Web
+
+先把下列占位值替换为自己的连接串和配置文件路径，再执行。程序不会自动加载 `.env`；[环境变量示例](configs/repomesh.env.example)只是说明文件。
+
+```bash
+export REPOMESH_DATABASE_URL='<自己的 PostgreSQL 开发库连接串>'
+export REPOMESH_AUTH_CONFIG='/绝对路径/到/auth.json'
+
+go run ./cmd/repomesh-web db check
+go run ./cmd/repomesh-web db migrate --timeout 30s
+go run ./cmd/repomesh-web db check
+
+npm --prefix web ci
+npm --prefix web run build
+# 下例用于 HTTPS 反向代理转发到本机 8080
+go run ./cmd/repomesh-web --addr 127.0.0.1:8080 --assets ./web/dist
+```
+
+空库第一次 `db check` 报缺少迁移并退出 1 是预期结果；其他错误按[数据库开发说明](docs/current/database-development.md)处理。当前源码含 6 条迁移，迁移后应输出 `schema status=current current=6 target=6 pending=0`。以后新增迁移时，以所用源码或配套二进制的 `target` 为准。Web 和 coordinator 只核查迁移，不自动迁移；配置、秘密或迁移不匹配会使启动失败。
+
+数据库子命令不需要前端资源，也不启动 HTTP。迁移仅支持前进；待应用 SQL 与历史记录在同一事务提交。优先通过环境变量提供连接串，避免将凭据放进 `--database-url` 命令参数。
+
+### 启动 coordinator 并访问页面
+
+另开一个 Bash 终端，进入同一仓库根目录，设置与 Web 相同的数据库和认证配置。新终端不会继承上一个终端的 `export`。
+
+```bash
+export REPOMESH_DATABASE_URL='<与 Web 相同的 PostgreSQL 连接串>'
+export REPOMESH_AUTH_CONFIG='/与 Web 相同的绝对路径/auth.json'
+go run ./cmd/repomesh-coordinator
+```
+
+通过配置的 HTTPS origin 打开页面。coordinator 负责账号核实、令牌刷新、仓库发现续扫和秘密维护；未配置认证时退出 1。两个进程使用相同的部署配置与根清单。停止时分别在两个终端按 Ctrl+C。
+
+`repomesh-host-executor` 尚未实现，默认报告 `not implemented` 并退出 1，当前启动流程不运行它。真实 GitHub 验收仍处于暂停状态，已有环境记录不证明服务现在运行或整批验收完成；恢复入口见[当前交接](docs/current/HANDOFF.md#b02-外部暂停与恢复责任)。
+
+执行来源由部署身份通过 `repomesh-web sources import --file PATH` 导入，通过 `sources result --import-id UUID` 查询原结果，不走浏览器。采用范围见[B04 说明](docs/current/b04-model-sources-adoption.md)。
+
+## 日常开发与检查
+
+已有依赖和构建产物时，可直接用上述命令启动 Web 和 coordinator。前端源码变更后重新执行 `npm --prefix web run build`；锁文件变更后先执行 `npm --prefix web ci`。Go 源码变更后重启对应的 `go run` 进程。升级源码若包含新迁移，先核查并显式迁移，再启动配套进程。
+
+只开发前端页面时使用 Vite：
+
+```bash
+npm --prefix web run dev
+```
+
+打开 [Vite 开发页面](http://127.0.0.1:5173)。Vite 未配置 API 代理；认证集成使用 Go 同源服务提供的构建资源。
+
+按改动影响选择检查；完整工程检查为：
+
+```bash
 npm --prefix web ci
 npm --prefix web run typecheck
 npm --prefix web test
@@ -32,86 +127,67 @@ go test ./...
 go vet ./...
 ```
 
-Go 使用 pgx v5.11.0 连接 PostgreSQL，依赖版本及校验和保存在 `go.mod` 和 `go.sum`。前端使用已提交的 `web/package-lock.json` 安装；变更依赖时再更新锁文件。`validation/go.mod` 和 `third_party/go.mod` 分别隔离历史实验与独立上游源码，根目录 Go 命令不会编译或运行它们。
+普通 `go test ./...` 未设置 `REPOMESH_TEST_DATABASE_URL` 时会跳过 PostgreSQL 集成用例，不能据此认定数据库验收通过。需要独立数据库验证时，可按范围运行：
 
-AgentTeams 本体位于 `third_party/AgentTeams/`，保留独立 Git 仓库且被父仓库忽略；来源、确定提交及重建方式见[上游源码说明](third_party/README.md)。目前仅完成源码克隆，没有业务或运行集成。
-
-若本机报告 Git `dubious ownership` 或 Go `error obtaining VCS status`，先按[开发说明中的当前会话信任设置](docs/current/development-scaffold.md#本地启动与配置)处理，再运行上述命令；不需要改全局 Git 配置。
-
-启动 Web（先完成前端构建）：
-
-```powershell
-go run ./cmd/repomesh-web
+```bash
+pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B02 -PostgresBin /usr/lib/postgresql/17/bin
+pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B03 -PostgresBin /usr/lib/postgresql/17/bin
 ```
 
-打开 <http://127.0.0.1:8080>。`GET /healthz` 返回 200，只表示 Web 进程存活；`GET /readyz` 固定返回 503，完整业务就绪条件尚未满足。未知 `/api` 路径返回 404；未配置认证时项目 API 返回 503。缺少前端构建文件或端口被占用时启动失败并报告原因；Ctrl+C 停止 Web。
-
-前端独立开发（只启动本地 Vite）：
-
-```powershell
-npm --prefix web run dev
-```
-
-打开 <http://127.0.0.1:5173>。Vite 未配置 API 代理。认证集成使用 Go 同源服务的构建资源。
-
-检查三个入口的版本：
-
-```powershell
-go run ./cmd/repomesh-web --version
-go run ./cmd/repomesh-coordinator --version
-go run ./cmd/repomesh-host-executor --version
-```
-
-`coordinator` 配置认证后运行账号核实、令牌刷新、仓库发现续扫与秘密清理／重包；未配置时退出 1。`host-executor` 仍报告 `not implemented` 并退出 1，没有执行监听、Docker 或 Python 启动功能。
-
-## 数据库迁移与批次验证
-
-设置本机开发库连接串后，使用 Web 二进制的独立数据库子命令。连接串可来自环境变量或子命令的 `--database-url`，环境变量不会写入帮助或错误输出。未启用认证时 Web 不连接数据库；提供 `REPOMESH_AUTH_CONFIG` 或 `--auth-config` 后，Web 和 coordinator 会连接并核查迁移，不自动迁移。
-
-```powershell
-$env:REPOMESH_DATABASE_URL = '<本机开发库连接串>'
-go run ./cmd/repomesh-web db check
-go run ./cmd/repomesh-web db migrate --timeout 30s
-go run ./cmd/repomesh-web db check
-```
-
-直接运行二进制时，`check` 只有在迁移历史完全匹配时退出 0，缺少迁移或历史不匹配退出 1，参数错误退出 2。`go run` 还会报告子进程退出状态。当前第六条迁移收紧保存回执的 vault 完整性；第五条增加模型供应商、保存回执、执行来源和默认 `pinned_version`；第四条增加项目、完整仓库范围、配置固定版本、操作回执与游标；前三条建立版本记录、认证秘密和账号／会话／发现表。部署执行来源只走 `repomesh-web sources import --file PATH` 与 `sources result --import-id UUID`，使用数据库部署身份，不走浏览器。迁移只支持前进，SQL 与历史记录同事务提交。具体命令、超时、失败恢复及配置范围见[数据库开发说明](docs/current/database-development.md)。
-
-数据库批次验证需要 PowerShell 7 和 PostgreSQL 17，当前 B02 认证验证在 Linux 运行；Windows B01 历史证据对应当时的源码，不能替代当前认证平台验收。WSL 使用本页上方的 `/usr/lib/postgresql/17/bin`；下例为保留的 Windows 工具路径，本机下载目录位于被 Git 忽略的 `bin`。其他开发机可使用自己的安装目录。
-
-```powershell
-pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B00
-pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B01 -PostgresBin ./bin/dev-postgres17/pgsql/bin
-```
-
-B01／B02 脚本创建独立临时数据库实例、运行全部工程检查及数据库和二进制验收，再停止并清理该实例。它拒绝把缺少或跳过的 PostgreSQL 测试标为通过。普通 `go test ./...` 在没有 `REPOMESH_TEST_DATABASE_URL` 时会明确跳过这些集成测试；该结果不能替代 B01 验收。B02 增加认证 race 与前端 API 测试，通过仅标记 LOCAL_VERIFIED，真实 GitHub 验收另列。每次脚本生成新的证据目录并拒绝覆盖。已有结果见[B01 记录](docs/development/2026-09-12-batch-01/README.md)。
-
-## 认证配置
-
-按[认证开发说明](docs/current/authentication-development.md)准备专用 GitHub App、固定 HTTPS 回调、独立秘密文件和数据库，再使用 [auth.example.json](configs/auth.example.json) 启动 Web 与 coordinator。程序不自动生成生产根，不支持任意 returnUrl。没有认证配置时 API 返回 503，页面提示无法确认，`/readyz` 仍为 503。
-
-首次配置和真实验收按[GitHub App 操作手册](docs/current/b02-github-live-acceptance.md)执行，包含 App 设置、HTTPS 代理、配套包启动及自然到期刷新。真实验收发现的[UTC 时间输出](docs/development/2026-09-12-b026-utc-fix-01/README.md)及[同步回调 Cookie 竞争](docs/development/2026-09-12-b026-cookie-fix-01/README.md)均已完成本地修复和独立源码复核，完整 B02.6 验收仍待完成。
+这些脚本会创建临时 PostgreSQL 实例、执行检查并清理自己的实例，使用普通 Linux 用户运行。B02 包含认证 race 和前端 API 检查；B03 是后端批次检查，不安装或构建前端，应先准备 `web/dist`，前端完整测试及浏览器验收另行执行。脚本目前支持 B00、B01、B02、B03，没有 B04 模式。每次生成新的证据目录并拒绝覆盖；本地通过不等于真实 GitHub、模型请求或整批业务验收通过。
 
 ## 配置与配套构建
 
-B03 后端检查可运行 `pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B03 -PostgresBin /usr/lib/postgresql/17/bin`。它使用独立 SCRAM 实例，包含 Go、真实事务、HTTP、进程重启和 race。项目管理代码已合入主目录，当前为 `INTEGRATED_LOCAL_VERIFIED`；真实 PostgreSQL 73 通过、0 跳过，前端 28/28、浏览器 25+1、Go/race、HTTP、实际进程恢复和配套发布均通过，[最终独立复核](docs/development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)确认两项 P1、一项 P2 闭环，无开放 P0/P1/P2。新包为 `dist/repomesh-0.3.0-b03-integrated-20260912-r1/`，businessReady=false；不是外部 GitHub、部署或整批业务 VERIFIED。B04 后续已完成 D01—D04 的采用与本地集成验收，见[B04 验收报告](docs/development/2026-09-13-b04-acceptance-01/README.md)；旧准备交接和任务提示见[归档](docs/archive/2026-09-13-plan-organization/README.md)。历史 worktree 为 `LOCAL_VERIFIED`，证据位于 `/home/xubohan/projects/Repomesh_B03/docs/development/2026-09-12-b03-01/`，旧包位于 `/home/xubohan/projects/Repomesh_B03/dist/repomesh-0.3.0-b03-worktree-20260912-r1/`，均未复制到主目录。本轮集成记录见[集成证据](docs/development/2026-09-12-b03-integration-01/README.md)。下列 r3 保留为 B02 产物，不能验证新增项目功能；再次构建须使用不同版本标签。
+| 环境变量 | 命令行覆盖 | 默认值或用途 |
+| --- | --- | --- |
+| `REPOMESH_WEB_ADDR` | Web `--addr` | `127.0.0.1:8080`。 |
+| `REPOMESH_WEB_ASSETS` | Web `--assets` | `web/dist`，相对于启动工作目录。 |
+| `REPOMESH_AUTH_CONFIG` | Web／coordinator `--auth-config` | 默认不配置认证；值为部署 JSON 路径。 |
+| `REPOMESH_DATABASE_URL` | `db check`／`db migrate` 的 `--database-url` | 数据库子命令、配置认证后的进程及 `sources` 子命令使用的连接串。 |
 
-[配置示例](configs/repomesh.env.example)列出 Web 实际消费的环境变量。程序不会自动加载 `.env`。命令行参数优先于环境变量，环境变量优先于默认值；资源路径相对于启动工作目录。
+命令行参数优先于对应环境变量。PowerShell 中环境变量写法为 `$env:REPOMESH_DATABASE_URL = '<连接串>'`，Bash 中使用 `export`。两个 shell 都不会使程序自动读取 `.env`。
 
-```powershell
-go run ./cmd/repomesh-web --addr 127.0.0.1:8081 --assets web/dist
-pwsh -NoProfile -File scripts/build.ps1 -Version 0.2.0-b026-cookie-20260912-r3
+下面在 Bash 中生成带时间戳的新版本标签，构建成功后从该配套目录启动 Linux Web：
+
+```bash
+repomesh_version="local-$(date -u +%Y%m%dT%H%M%S)-$$"
+pwsh -NoProfile -File scripts/build.ps1 -Version "$repomesh_version" &&
+  (cd "dist/repomesh-$repomesh_version" && ./bin/repomesh-web --assets ./web/dist)
 ```
 
-构建脚本从锁文件安装前端、检查类型、构建静态资源并输出三个同版本 Go 二进制。本次修复的配套构建输出到 `dist/repomesh-0.2.0-b026-cookie-20260912-r3/`，含静态资源、配置示例、启动说明及带 SHA-256 的 `release.json`。脚本拒绝覆盖已有同名包，重复构建须使用新的版本标签。原 `dist/repomesh-0.2.0-b02-local-20260912-r1/` 、`dist/repomesh-0.2.0-b026-utc-20260912-r2/` 及旧本地验收保留。构建使用当前 GOOS／GOARCH，默认本机目标；脚本不部署也不启动任何服务。
+构建脚本按锁文件安装前端、检查类型、构建资源并输出三个同版本 Go 二进制。产物在 `dist/repomesh-<Version>/`，包含配置示例、启动说明和带 SHA-256 的 `release.json`。同名目录已存在时脚本拒绝覆盖，应使用新的标签；失败留下的目录不视为完整包。脚本使用当前 `GOOS`／`GOARCH`，不部署或启动服务，也不执行完整测试。
 
-在仓库根目录启动本次 Linux 配套产物：
+启用认证的配套启动需要在启动终端设置前述环境变量，并用该包的 `bin/repomesh-web db check`／`db migrate` 核对数据库。另开终端进入同一配套目录、设置相同环境变量后运行 `./bin/repomesh-coordinator`。真实配置和秘密保留在包外，使用绝对路径。Windows 构建的二进制带 `.exe`，认证仍须使用 Linux 构建运行。
 
-```powershell
-./dist/repomesh-0.2.0-b026-cookie-20260912-r3/bin/repomesh-web --assets ./dist/repomesh-0.2.0-b026-cookie-20260912-r3/web/dist
+从配套目录检查版本：
+
+```bash
+./bin/repomesh-web --version
+./bin/repomesh-coordinator --version
+./bin/repomesh-host-executor --version
 ```
 
-发布时保持整个目录一起交付，三个入口和前端共用同一版本清单。B02 包含本地验证的认证及其持久状态，真实 App 集成和完整业务／运维验收仍待完成。
+发布时交付完整目录，保持三个入口与前端资源同版本。旧 B02／B03 包及对应验收只代表当时的源码，当前实现与证据从[交接](docs/current/HANDOFF.md)追溯。
+
+## 常见启动问题
+
+| 现象 | 检查或处理 |
+| --- | --- |
+| 找不到前端 `index.html` | 从仓库根目录重新构建前端，核对 `--assets` 相对于工作目录的路径。 |
+| 8080 端口已占用 | 使用空闲端口，例如 `--addr 127.0.0.1:8081`；启用 HTTPS 代理时同步修改上游端口。 |
+| 页面能打开，但认证或业务 API 返回 503 | 检查启动终端是否设置 `REPOMESH_AUTH_CONFIG`。未配置时查看页面是预期行为。 |
+| 认证启动报告 schema pending | 使用相同源码或配套二进制显式迁移目标开发库，再核查。 |
+| 认证配置或秘密不可用 | 检查 Linux 平台、绝对路径、运行用户、`0600` 权限和原配套根文件，详见认证说明。 |
+| 登录后没有会话 | 通过配置的 HTTPS origin 访问；真实登录 Cookie 带 Secure，不能用 HTTP 地址替代。 |
+| 仓库发现或认证恢复停滞 | 检查 coordinator 是否运行，以及它是否使用与 Web 相同的配置和数据库。 |
+| `/readyz` 返回 503 | 当前实现的固定行为，不作为本地进程启动失败的判断。 |
+| Git `dubious ownership` 或 Go `error obtaining VCS status` | 按[开发说明](docs/current/development-scaffold.md#本地启动与配置)设置当前会话的仓库信任。 |
+
+AgentTeams 保留在被父仓库忽略的独立克隆中；源码位置、固定版本及重建方式见[上游说明](third_party/README.md)。
+
+## Codex 项目插件
+
+本仓库通过项目级配置启用 pstack 0.9.28，包含 54 个开发辅助技能。按任务需要选择相关技能；安装范围、固定来源及 Windows 限制见[插件说明](.agents/plugins/README.md)。这是开发工具配置，不改变产品 Skill 模块暂缓的决定。
 
 ## 实施边界
 
