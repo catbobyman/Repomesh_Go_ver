@@ -183,7 +183,7 @@ All helpers are in `.cursor/skills/verify-repomesh/helpers/`. Invoke them from t
 - `launch-unconfigured.sh` builds `web/dist` if `index.html` is missing, starts Web with `--auth-config=`, writes origin and pid.
 - `doctor.sh` is read-only and refuses a non-local origin.
 - `drive-unconfigured-login.sh` exercises `/login` on the unconfigured process and writes `proof.json`.
-- `drive-local-gates.sh` opens `/`, `/projects`, `/projects/new`, and `/settings/models` on that process and records signed-in features as `verified-unreachable` when session is `AUTH_NOT_CONFIGURED`.
+- `drive-local-gates.sh` opens `/`, `/projects`, `/projects/new`, and `/settings/models` on that process and records signed-in features as `verified-unreachable` when session is `AUTH_NOT_CONFIGURED`. Unconfigured `/api/model-providers` is 404 `not_implemented` because those routes are not registered without a model service.
 - `cleanup.sh` tears down PIDs from the state directory.
 
 ## Feature map

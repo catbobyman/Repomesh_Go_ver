@@ -41,7 +41,7 @@ for code in "$home_code" "$projects_code" "$new_project_code" "$models_code" "$l
     fail=1
   fi
 done
-for pair in "session:$session_code" "repositories-api:$repos_api" "projects-api:$projects_api" "models-api:$models_api"; do
+for pair in "session:$session_code" "repositories-api:$repos_api" "projects-api:$projects_api"; do
   name="${pair%%:*}"
   code="${pair#*:}"
   if [[ "$code" != 503 ]]; then
@@ -61,8 +61,12 @@ if ! grep -q 'AUTH_NOT_CONFIGURED' "$EVIDENCE/gates/projects-api.body"; then
   echo "projects API missing AUTH_NOT_CONFIGURED" >&2
   fail=1
 fi
-if ! grep -q 'AUTH_NOT_CONFIGURED' "$EVIDENCE/gates/models-api.body"; then
-  echo "model-providers API missing AUTH_NOT_CONFIGURED" >&2
+if [[ "$models_api" != 404 ]]; then
+  echo "model-providers API expected 404 not_implemented on unconfigured Web got $models_api" >&2
+  fail=1
+fi
+if ! grep -q 'not_implemented' "$EVIDENCE/gates/models-api.body"; then
+  echo "model-providers API missing not_implemented" >&2
   fail=1
 fi
 if [[ "$fail" -ne 0 ]]; then
@@ -87,6 +91,7 @@ cat >"$EVIDENCE/gates/proof.json" <<EOF
     "/api/model-providers": $models_api
   },
   "sessionCode": "AUTH_NOT_CONFIGURED",
+  "modelProvidersUnconfigured": "404 not_implemented because registerModels no-ops when Models.Service is nil",
   "signedInFeatures": "verified-unreachable",
   "prerequisite": "Authenticated session cookie. Product sets __Host-repomesh-session with Secure=true, so a local HTTP origin cannot accept a live GitHub session. account-a-live also needs auth.json HTTPS origin, PostgreSQL, wrap root, coordinator, and holder GitHub clicks."
 }
