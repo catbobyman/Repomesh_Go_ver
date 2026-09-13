@@ -3,17 +3,23 @@ package web
 import (
 	"context"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/cookiejar"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"strings"
 	"sync"
 	"testing"
+	"time"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	"repomesh.local/repomesh/internal/access"
 	"repomesh.local/repomesh/internal/models"
+	"repomesh.local/repomesh/internal/projects"
 )
 
 type modelErrorBody struct {
@@ -278,5 +284,212 @@ func TestPostgresModelHTTPContract(t *testing.T) {
 		if strings.Contains(response, "sk-test-key") || strings.Contains(response, "sk-other-key") {
 			t.Fatalf("business key echoed in a response: %s", response)
 		}
+	}
+}
+
+var errSaveResponseReachedClient = errors.New("model save HTTP response reached the client")
+
+func holdSaveInsert(t *testing.T, pool *pgxpool.Pool) func() {
+	t.Helper()
+	ctx := context.Background()
+	if _, err := pool.Exec(ctx, `CREATE OR REPLACE FUNCTION repomesh_models.hold_save_insert() RETURNS trigger
+		LANGUAGE plpgsql AS $$ BEGIN PERFORM pg_advisory_xact_lock(4770304); RETURN NEW; END $$;
+		DROP TRIGGER IF EXISTS hold_save_insert ON repomesh_models.save_operations;
+		CREATE TRIGGER hold_save_insert BEFORE INSERT ON repomesh_models.save_operations
+		FOR EACH ROW EXECUTE FUNCTION repomesh_models.hold_save_insert()`); err != nil {
+		t.Fatal(err)
+	}
+	connection, err := pool.Acquire(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := connection.Exec(ctx, `SELECT pg_advisory_lock(4770304)`); err != nil {
+		connection.Release()
+		t.Fatal(err)
+	}
+	var once sync.Once
+	release := func() {
+		once.Do(func() {
+			_, _ = connection.Exec(context.Background(), `SELECT pg_advisory_unlock(4770304)`)
+			connection.Release()
+		})
+	}
+	t.Cleanup(func() {
+		release()
+		_, _ = pool.Exec(context.Background(), `DROP TRIGGER IF EXISTS hold_save_insert ON repomesh_models.save_operations;
+			DROP FUNCTION IF EXISTS repomesh_models.hold_save_insert()`)
+	})
+	return release
+}
+
+func TestPostgresModelSaveLostResponseAndRestart(t *testing.T) {
+	assets := t.TempDir()
+	if err := os.WriteFile(filepath.Join(assets, "index.html"), []byte("<!doctype html><title>B04 S07</title>"), 0600); err != nil {
+		t.Fatal(err)
+	}
+	server := startProjectBrowserServer(t, assets)
+	jar, _ := cookiejar.New(nil)
+	client := server.server.Client()
+	client.Jar = jar
+	client.CheckRedirect = func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }
+	get := func(base *httptest.Server, using *http.Client, path string) (int, []byte) {
+		t.Helper()
+		req, err := http.NewRequest(http.MethodGet, base.URL+path, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		response, err := using.Do(req)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer response.Body.Close()
+		data, err := io.ReadAll(response.Body)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return response.StatusCode, data
+	}
+	status, _ := get(server.server, client, "/__test/login?actor=a")
+	if status != http.StatusSeeOther {
+		t.Fatalf("login status=%d", status)
+	}
+	status, data := get(server.server, client, "/api/session")
+	var session access.Session
+	if status != 200 || json.Unmarshal(data, &session) != nil {
+		t.Fatalf("session status=%d body=%s", status, data)
+	}
+	const key = "71000000-0000-4000-8000-000000000001"
+	const body = `{"providerId":null,"expectedRevision":null,"name":"开发网关","baseUrl":"https://gateway.example.invalid/v1","apiFormat":"openai_chat_completions","secret":{"mode":"replace","value":"sk-lost-key"},"models":[{"id":null,"modelId":"deepseek-chat","displayName":"对话","contextWindow":256000,"maxOutputTokens":128000,"reasoning":true,"vision":false}]}`
+	status, data = get(server.server, client, "/api/model-provider-saves/"+key)
+	if status != 404 || !strings.Contains(string(data), "MODEL_SAVE_NOT_FOUND") {
+		t.Fatalf("GET before save status=%d body=%s", status, data)
+	}
+	release := holdSaveInsert(t, server.pool)
+	server.mu.Lock()
+	server.dropMethod, server.dropPath = http.MethodPost, "/api/model-provider-saves"
+	server.mu.Unlock()
+	lost := make(chan error, 1)
+	go func() {
+		req, err := http.NewRequest(http.MethodPost, server.server.URL+"/api/model-provider-saves", strings.NewReader(body))
+		if err != nil {
+			lost <- err
+			return
+		}
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("Origin", server.server.URL)
+		req.Header.Set("X-CSRF-Token", session.CSRFToken)
+		req.Header.Set("Idempotency-Key", key)
+		dropClient := server.server.Client()
+		dropClient.Jar = jar
+		transport := dropClient.Transport.(*http.Transport).Clone()
+		transport.DisableKeepAlives = true
+		dropClient.Transport = transport
+		response, err := dropClient.Do(req)
+		if err == nil {
+			payload, _ := io.ReadAll(response.Body)
+			response.Body.Close()
+			lost <- fmt.Errorf("%w status=%d body=%s", errSaveResponseReachedClient, response.StatusCode, payload)
+			return
+		}
+		lost <- err
+	}()
+	var waiting bool
+	deadline := time.Now().Add(3 * time.Second)
+	for {
+		if err := server.pool.QueryRow(context.Background(), `SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND wait_event='advisory' AND query LIKE '%save_operations%')`).Scan(&waiting); err != nil {
+			t.Fatal(err)
+		}
+		if waiting || time.Now().After(deadline) {
+			break
+		}
+		time.Sleep(10 * time.Millisecond)
+	}
+	if !waiting {
+		t.Fatal("save insert did not wait on advisory lock 4770304")
+	}
+	var visible int
+	if err := server.pool.QueryRow(context.Background(), `SELECT count(*) FROM repomesh_models.save_operations WHERE save_id=$1`, key).Scan(&visible); err != nil || visible != 0 {
+		t.Fatalf("committed save visible before insert finished count=%d", visible)
+	}
+	release()
+	select {
+	case err := <-lost:
+		if err == nil || errors.Is(err, errSaveResponseReachedClient) {
+			t.Fatalf("dropped save response reached the client: %v", err)
+		}
+	case <-time.After(5 * time.Second):
+		t.Fatal("dropped save did not finish")
+	}
+	projectService := projects.New(server.pool, server.auth)
+	server.auth.SetProjectDestinationResolver(projectService.ResolveDestination)
+	modelService := models.New(server.pool, server.auth, server.store, projects.NewCatalogWriter())
+	server.auth.SetModelSaveDestinationResolver(modelService.ResolveDestination)
+	restarted := httptest.NewUnstartedServer(nil)
+	restartedOrigin := "https://" + restarted.Listener.Addr().String()
+	restarted.Config.Handler = server.wrapProduct(handlerConfigured(os.DirFS(assets), Auth{Service: server.auth, Origin: restartedOrigin}, Projects{Service: projectService}, Models{Service: modelService}))
+	restarted.StartTLS()
+	t.Cleanup(restarted.Close)
+	restartedJar, _ := cookiejar.New(nil)
+	restartedClient := restarted.Client()
+	restartedClient.Jar = restartedJar
+	restartedClient.CheckRedirect = func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }
+	status, _ = get(restarted, restartedClient, "/__test/login?actor=a")
+	if status != http.StatusSeeOther {
+		t.Fatalf("restart login status=%d", status)
+	}
+	status, data = get(restarted, restartedClient, "/api/session")
+	var restartedSession access.Session
+	if status != 200 || json.Unmarshal(data, &restartedSession) != nil {
+		t.Fatalf("restart session status=%d body=%s", status, data)
+	}
+	status, data = get(restarted, restartedClient, "/api/model-provider-saves/"+key)
+	var receipt models.CommittedSave
+	if status != 200 || json.Unmarshal(data, &receipt) != nil || receipt.SaveID != key || receipt.Outcome != "committed" || receipt.ProviderID == "" {
+		t.Fatalf("restart GET status=%d body=%s", status, data)
+	}
+	var providers, operations int
+	if err := server.pool.QueryRow(context.Background(), `SELECT count(*) FROM repomesh_models.providers`).Scan(&providers); err != nil || providers != 1 {
+		t.Fatalf("providers=%d", providers)
+	}
+	if err := server.pool.QueryRow(context.Background(), `SELECT count(*) FROM repomesh_models.save_operations WHERE actor=$1 AND save_id=$2`, server.fixtures.ActorA, key).Scan(&operations); err != nil || operations != 1 {
+		t.Fatalf("operations=%d", operations)
+	}
+	req, err := http.NewRequest(http.MethodPost, restarted.URL+"/api/model-provider-saves/"+key+"/close", strings.NewReader("{}"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Origin", restarted.URL)
+	req.Header.Set("X-CSRF-Token", restartedSession.CSRFToken)
+	req.Header.Set("Idempotency-Key", key)
+	response, err := restartedClient.Do(req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	closeBody, _ := io.ReadAll(response.Body)
+	response.Body.Close()
+	var closed models.CommittedSave
+	if response.StatusCode != 200 || json.Unmarshal(closeBody, &closed) != nil || closed.Outcome != "committed" || closed.ProviderRevision != receipt.ProviderRevision {
+		t.Fatalf("close after lost save status=%d body=%s", response.StatusCode, closeBody)
+	}
+	late, err := http.NewRequest(http.MethodPost, restarted.URL+"/api/model-provider-saves", strings.NewReader(strings.Replace(body, "sk-lost-key", "sk-other-key", 1)))
+	if err != nil {
+		t.Fatal(err)
+	}
+	late.Header.Set("Content-Type", "application/json")
+	late.Header.Set("Origin", restarted.URL)
+	late.Header.Set("X-CSRF-Token", restartedSession.CSRFToken)
+	late.Header.Set("Idempotency-Key", key)
+	lateResponse, err := restartedClient.Do(late)
+	if err != nil {
+		t.Fatal(err)
+	}
+	lateBody, _ := io.ReadAll(lateResponse.Body)
+	lateResponse.Body.Close()
+	if lateResponse.StatusCode != 409 || !strings.Contains(string(lateBody), "IDEMPOTENCY_CONFLICT") {
+		t.Fatalf("late save status=%d body=%s", lateResponse.StatusCode, lateBody)
+	}
+	if strings.Contains(string(data)+string(closeBody)+string(lateBody), "sk-lost-key") {
+		t.Fatal("lost-save key echoed after restart")
 	}
 }

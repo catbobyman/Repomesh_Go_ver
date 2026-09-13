@@ -18,6 +18,12 @@ import (
 
 func Open(t testing.TB) *pgxpool.Pool {
 	t.Helper()
+	pool, _ := OpenWithURL(t)
+	return pool
+}
+
+func OpenWithURL(t testing.TB) (*pgxpool.Pool, string) {
+	t.Helper()
 	databaseURL := os.Getenv("REPOMESH_TEST_DATABASE_URL")
 	if databaseURL == "" {
 		t.Skip("REPOMESH_TEST_DATABASE_URL is unset; real PostgreSQL integration test skipped")
@@ -73,5 +79,5 @@ func Open(t testing.TB) *pgxpool.Pool {
 	if _, err := db.Migrate(ctx); err != nil {
 		t.Fatal(err)
 	}
-	return db.Pool()
+	return db.Pool(), localURL
 }
