@@ -7,9 +7,9 @@ import (
 )
 
 type PreparedSecret struct {
-	value    envelope
-	store    *Store
-	inserted bool
+	value     envelope
+	store     *Store
+	inserted  bool
 	discarded bool
 }
 

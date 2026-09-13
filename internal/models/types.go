@@ -38,25 +38,25 @@ type SecretView struct {
 }
 
 type ModelView struct {
-	ID               string `json:"id"`
-	ModelProfileID   string `json:"modelProfileId"`
-	ModelID          string `json:"modelId"`
-	DisplayName      string `json:"displayName"`
-	ContextWindow    int64  `json:"contextWindow"`
-	MaxOutputTokens  int64  `json:"maxOutputTokens"`
-	Reasoning        bool   `json:"reasoning"`
-	Vision           bool   `json:"vision"`
+	ID              string `json:"id"`
+	ModelProfileID  string `json:"modelProfileId"`
+	ModelID         string `json:"modelId"`
+	DisplayName     string `json:"displayName"`
+	ContextWindow   int64  `json:"contextWindow"`
+	MaxOutputTokens int64  `json:"maxOutputTokens"`
+	Reasoning       bool   `json:"reasoning"`
+	Vision          bool   `json:"vision"`
 }
 
 type ProviderView struct {
-	ID        string     `json:"id"`
-	Name      string     `json:"name"`
-	Revision  string     `json:"revision"`
-	BaseURL   string     `json:"baseUrl"`
-	APIFormat string     `json:"apiFormat"`
-	Secret    SecretView `json:"secret"`
+	ID        string      `json:"id"`
+	Name      string      `json:"name"`
+	Revision  string      `json:"revision"`
+	BaseURL   string      `json:"baseUrl"`
+	APIFormat string      `json:"apiFormat"`
+	Secret    SecretView  `json:"secret"`
 	Models    []ModelView `json:"models"`
-	UpdatedAt time.Time  `json:"updatedAt"`
+	UpdatedAt time.Time   `json:"updatedAt"`
 }
 
 type ProviderSummary struct {
@@ -113,13 +113,13 @@ type OperationLinks struct {
 }
 
 type CommittedSave struct {
-	SaveID            string    `json:"saveId"`
-	Outcome           string    `json:"outcome"`
-	ProviderID        string    `json:"providerId"`
-	ProviderRevision  string    `json:"providerRevision"`
-	SecretVersionID   string    `json:"secretVersionId"`
-	CommittedAt       time.Time `json:"committedAt"`
-	Links             SaveLinks `json:"links"`
+	SaveID           string    `json:"saveId"`
+	Outcome          string    `json:"outcome"`
+	ProviderID       string    `json:"providerId"`
+	ProviderRevision string    `json:"providerRevision"`
+	SecretVersionID  string    `json:"secretVersionId"`
+	CommittedAt      time.Time `json:"committedAt"`
+	Links            SaveLinks `json:"links"`
 }
 
 type RejectedSave struct {
@@ -241,17 +241,17 @@ func (p *savePreparation) clear() {
 type transactionPhase string
 
 const (
-	principalLocked     transactionPhase = "principal_locked"
-	slotLocked          transactionPhase = "slot_locked"
-	secretPrepared      transactionPhase = "secret_prepared"
-	secretsInserted     transactionPhase = "secrets_inserted"
-	providerInserted    transactionPhase = "provider_inserted"
-	modelsInserted      transactionPhase = "models_inserted"
-	profilesInserted    transactionPhase = "profiles_inserted"
-	headUpdated         transactionPhase = "head_updated"
-	receiptInserted     transactionPhase = "receipt_inserted"
-	closedInserted      transactionPhase = "closed_inserted"
-	beforeCommit        transactionPhase = "before_commit"
+	principalLocked  transactionPhase = "principal_locked"
+	slotLocked       transactionPhase = "slot_locked"
+	secretPrepared   transactionPhase = "secret_prepared"
+	secretsInserted  transactionPhase = "secrets_inserted"
+	providerInserted transactionPhase = "provider_inserted"
+	modelsInserted   transactionPhase = "models_inserted"
+	profilesInserted transactionPhase = "profiles_inserted"
+	headUpdated      transactionPhase = "head_updated"
+	receiptInserted  transactionPhase = "receipt_inserted"
+	closedInserted   transactionPhase = "closed_inserted"
+	beforeCommit     transactionPhase = "before_commit"
 )
 
 type transactionHook func(context.Context, transactionPhase) error

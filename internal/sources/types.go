@@ -37,8 +37,8 @@ type DefaultBinding struct {
 }
 
 type Manifest struct {
-	SchemaVersion        int                  `json:"schemaVersion"`
-	ImportID             string               `json:"importId"`
+	SchemaVersion        int                   `json:"schemaVersion"`
+	ImportID             string                `json:"importId"`
 	EnvironmentTemplates []EnvironmentTemplate `json:"environmentTemplates"`
 	ExecutionProfiles    []ExecutionProfile    `json:"executionProfiles"`
 	DefaultBindings      []DefaultBinding      `json:"defaultBindings"`
@@ -97,13 +97,13 @@ func (e *Failure) Error() string { return e.Code }
 type importPhase string
 
 const (
-	ownersLocked                importPhase = "owners_locked"
-	importLocked                importPhase = "import_locked"
-	templatesInserted           importPhase = "templates_inserted"
-	executionProfilesInserted   importPhase = "execution_profiles_inserted"
-	defaultsBound               importPhase = "defaults_bound"
-	importReceiptInserted       importPhase = "import_receipt_inserted"
-	importBeforeCommit          importPhase = "import_before_commit"
+	ownersLocked              importPhase = "owners_locked"
+	importLocked              importPhase = "import_locked"
+	templatesInserted         importPhase = "templates_inserted"
+	executionProfilesInserted importPhase = "execution_profiles_inserted"
+	defaultsBound             importPhase = "defaults_bound"
+	importReceiptInserted     importPhase = "import_receipt_inserted"
+	importBeforeCommit        importPhase = "import_before_commit"
 )
 
 type importHook func(context.Context, importPhase) error
