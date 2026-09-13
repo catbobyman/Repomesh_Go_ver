@@ -2,7 +2,7 @@
 
 日期：2026-09-13。用户原话：“推进B04,并告诉我验收标准是什么才能进入B05”。本记录采用 D01—D04 及 B04 六个 HTTP／Key UI／schema 1 范围。不采用 D05—D08、S06、C05、C06、P9。
 
-状态：`DESIGN_ADOPTED`（B04 范围）。实现为 `IMPLEMENTED`。本地集成为 `INTEGRATED_LOCAL_VERIFIED`。S01 到 S12 已有真实 PostgreSQL 证据，并有夹具浏览器、B03 原回归、配套发布与独立复核。不能写成整批 `VERIFIED`。
+状态：`DESIGN_ADOPTED`（B04 范围）。实现为 `IMPLEMENTED`。本地集成为 `INTEGRATED_LOCAL_VERIFIED`。用户已确认该授权范围结束。S01 到 S12 已有真实 PostgreSQL 证据，并有夹具浏览器、B03 原回归、配套发布、收口后 P1／P2 修复。不能写成整批 `VERIFIED`。
 
 ## 采用
 
