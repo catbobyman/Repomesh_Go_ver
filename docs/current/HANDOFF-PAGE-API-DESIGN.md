@@ -1,5 +1,7 @@
 # 页面与接口开发交接
 
+2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。新推荐仍待采用，未开始产品实现或运行验收。B02外部暂停、B03 INTEGRATED_LOCAL_VERIFIED及B04 DESIGN_PREPARED_NOT_ADOPTED保持；B05/B06实施仍TODO。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
+
 更新：2026-09-12。先读[开发指南](DEVELOPMENT-START.md)、[当前交接](HANDOFF.md)和[原型导航](../prototypes/README.md)。累计讨论和旧协作安排见[整理前全文](../archive/2026-09-12-development-preparation/docs/current/HANDOFF-PAGE-API-DESIGN.md)，不要求开发者按历史顺序重读。
 
 ## 当前基线

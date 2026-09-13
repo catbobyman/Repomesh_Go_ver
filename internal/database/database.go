@@ -9,6 +9,7 @@ import (
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
+	"github.com/jackc/pgx/v5/pgtype"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -45,6 +46,14 @@ func Open(ctx context.Context, databaseURL string) (*DB, error) {
 		return nil, err
 	}
 	config.ConnConfig.RuntimeParams["search_path"] = "pg_catalog"
+	config.AfterConnect = func(_ context.Context, conn *pgx.Conn) error {
+		conn.TypeMap().RegisterType(&pgtype.Type{
+			Name:  "timestamptz",
+			OID:   pgtype.TimestamptzOID,
+			Codec: &pgtype.TimestamptzCodec{ScanLocation: time.UTC},
+		})
+		return nil
+	}
 	pool, err := pgxpool.NewWithConfig(ctx, config)
 	if err != nil {
 		return nil, safeError("open", err)
@@ -58,6 +67,10 @@ func Open(ctx context.Context, databaseURL string) (*DB, error) {
 
 func (db *DB) Close() {
 	db.pool.Close()
+}
+
+func (db *DB) Pool() *pgxpool.Pool {
+	return db.pool
 }
 
 func (db *DB) Check(ctx context.Context) (SchemaState, error) {

@@ -7,6 +7,8 @@ implementation: not-started
 
 # 首批真实配置与秘密来源 · 完整待审方案
 
+2026-09-12 B02 采用补充。用户已回复“确认，继续”，采用范围以 [B02 采用记录](b02-authentication-adoption.md)为准。本文对应认证及必要秘密子集的“待采用”描述保留原提案历史，已由该记录替代；模型、预算、运行和其他未列明部分仍待采用。实现与验收进度见 [B02 记录](../development/2026-09-12-batch-02/README.md)。
+
 用户要求“你直接给我这六项的全部”，本稿是六项完整评审包的后端来源部分，由后端设计师2独占。所有S编号均为具体推荐、待用户决定；既有约束注明出处，不以本稿改写现行浏览器字段。当前仅页面／API设计，未导入配置、生成密钥或调用外部服务。
 
 本稿细化[接入草案C](backend-first-development-access-draft.md)的未定来源；它与认证A／B不是一次整体采用。模型操作见[内部操作稿](backend-model-operations-draft.md)，HTTP字段由页面负责的唯一草案维护。以下记录名和导入格式是内部／部署候选，不是新增浏览器写入口。
@@ -116,6 +118,8 @@ S05不会把保存项目／配置也变成消费。缺少有限运行政策或�
 
 ## 5. S06：GitHub App逐动作规则
 
+2026-09-13定点说明：下述15秒写观察是旧接入候选。B06新建的观察覆盖和时限由[持久化§7.2](backend-first-batch-persistence.md#72-权限观察与统一锁序)提出明确替代（用户与App完整观察、提交前60秒），仍待采用；不扩张B02已采用范围，其余未来动作门槛未在本轮定稿。
+
 首批宿主固定github.com，不接任意Host。外部身份、安装仓库和permission来自GitHub当前查询，不来自浏览器回跳id、自报名称或部署期望。读取观察最多60秒、新写重新核实且距提交≤15秒仍为接入r1候选参数，采用状态与认证后续稿统一；本地accessEpoch改变立即使旧观察失效。
 
 | RepoMesh动作 | App最低候选能力 | 用户／本地限制与失败 |
@@ -154,3 +158,68 @@ GitHub文档分别要求创建ref的Contents write与创建PR的Pull requests wr
 6. 缺execution／预算／密钥来源时项目可受限保存，Issue按必要条件阻止；实际建项保存全部持久责任。
 
 已阅读现行项目／创建／持久化、模型设置、团队策略、ADR0013及架构受控操作边界。2026-09-11只核Go／GitHub／OWASP官方资料，没有生成真实密钥、导入清单、访问私仓或调用模型。正式采用需用户逐项确定S01—S08；实现仍另做。
+
+## 8. B04 来源收敛候选，2026-09-13
+
+状态 `B04-SOURCES-r2 / PROPOSED_NOT_ADOPTED`。本节是 B04 的精确推荐，替代 §3 中拟一次导入全部组和多 owner 的候选范围；B02 已采用的认证来源保持。比较依据见[本轮 D01—D04](../development/2026-09-13-b04-b06-design-01/DECISIONS.md)。本轮只设计，声明与迁移说明均在设计附件，不是可执行导入命令。
+
+### 8.1 归属、版本和完整性
+
+Provider 归一个稳定 actor；modelRow 归一个 Provider，并一一映射一个 modelProfile。每次保存生成完整不可变 ProviderRevision；所有模型行产生同 revision 的 profile version。映射键为 `(modelProfileId, version) -> (providerId, providerRevision, modelRowId)`，要求 version=providerRevision、三者 owner 一致。每条历史模型版本能定位 Base URL、协议、外部 modelId、显示名、contextWindow、maxOutputTokens、reasoning、vision 和确切 SecretVersion。reasoning 是能力布尔值，不能解释成推理强度。模型数据与秘密 tuple 的复合约束见[迁移设计](../development/2026-09-13-b04-b06-design-01/migration-design.md)。
+
+模型秘密 owner 为 `(model-provider, providerId)`，purpose=`model-provider-key`。操作 vault 为 `(provider-save-input, actorUUID + ':' + saveUUID)`，purpose=`operation-input`；二者权限目的隔离。秘密用途白名单精确增加这两种组合，不允许给任意 owner 开放新 purpose。调用模型只能取得业务秘密，不能通过 vault 或原回执绕过吊销。
+
+profile 目录及 ProjectConfigRevision 继续由 projects 持有。models 写业务快照后在同事务通过 projects 的目录写接口登记映射；sources 同样登记 execution 版本。项目固定配置保存现有 selection、model/execution binding、defaultRevision 和有效参数，历史 JSON 不改写。模型默认本批不提供设置入口，首个模型不自动默认。
+
+新增默认 `pinned_version` 及对应 profile version 复合外键。新来源导入 execution 默认必须带版本，inherit 按该版本解析；显式 reference 按当前 head 解析。旧 defaults.pinned_version=null 是 B03 历史语义，显式重解析时仍取其 head，不能迁移时猜写旧默认版本。已保存项目永远读自己的固定 binding。默认 revision 只在 `(profileId,pinnedVersion)` 实际变化时更新。
+
+材料完整性、版本启用、秘密可用性和运行集成分别记录。B04 v1 execution 不含预算/时限，`parameters_complete=false`；B04 不更改 B03 的 canCreateIssue=false。B05 增加完整的新 execution 版本后，管理条件才能由实际材料与观察决定；模板登记不证明环境存在或 Ready。
+
+### 8.2 B04 导入 schema 1
+
+仅部署管理用例读取本地非秘密 UTF-8 JSON，≤1 MiB，拒绝重复属性、未知字段、非法 Unicode、重复逻辑身份。顶层所有数组必填、可空；id/version 非空≤128字符，ownerId 是已有本地账户；所有整数有限，名字非空≤200。部署身份由受控本地入口提供，正文不能自报。建议未来在现有 Web 二进制提供 `sources import --file <path>` 和 `sources result --import-id <UUID>`，不是第四个服务，也不是当前可执行命令。
+
+| 顶层组 | 唯一导入字段 |
+| --- | --- |
+| schemaVersion / importId | 整数1 / UUID |
+| environmentTemplates | id、version、executorPoolId、approvedTemplateDigest、networkPolicyRef、resourceClassId、enabled；digest=`sha256:`加64位小写十六进制。后三种定位是不可变登记标签，不代表已有消费者或自由宿主路径。 |
+| executionProfiles | id、version、ownerId、name、templateId、templateVersion、workerConcurrency（1..16，显式值）、verificationGroupEnabled |
+| defaultBindings | kind 固定 execution、ownerId、profileId、profileVersion；同 owner/kind 至多一项。只改列出的默认，不隐式清空。 |
+
+无 Key、App 凭据、allowedOwnerIds、任意 env/header/command/mount 或网页导入。模板依赖可引用本清单或已登记确切版本；未知 pool/network/resource 标签只允许登记为未验证材料，不把它们提升为可执行。禁止借清单冒领其他 owner 或模型来源的 profile。
+
+相同 importId 的规范化输入相同只返回原回执，不再次推动 head；异内容冲突。新 importId 重列已有 id/version 同内容允许复用，但不因重列旧版本把 head 倒退；每个 profile 在一笔清单最多一版，新插入版才成为 head。不同内容拒绝整笔。显式 defaultBinding 可以选择已登记的旧版本，属于明确选择。schemaVersion 属于输入比较，旧比较器保留。
+
+### 8.3 导入事务与恢复
+
+Importer 持有短 READ COMMITTED 事务。先取预置 import 单例排他锁，查询 `(deploymentIdentity, importId)`；已提交先重放／冲突，之前不校验新 owner 是否仍启用。新输入才排序锁 owner account，核当前本地启用与归属，然后取 catalog 排他锁，按 profile ID 排序登记版本、head、默认、审计与稳定回执。所有版本依赖在最终事务内重核，任一失败全回滚。导入不获取 binding/session/project 锁；交互路径不获取 import 单例。
+
+回执只保存 importId、schemaVersion、实际登记/复用的版本、当次默认修订和 committedAt。没有可见 pending/rejected 导入记录。预查空不代表拿到槽位，依赖单例与最终唯一键；冲突回读必须用新语句。提交不确定先查原 importId，暂时不存在仍未知；复用原输入与键可重试，禁止自动换键。导入不触发配置应用、测试或 Issue。
+
+### 8.4 部署身份与冷启动边界
+
+部署导入 CLI 单独用 database.Open/Check 装配，只访问同一产品数据库及来源服务，不调用 access.OpenRuntime，不导入 App 凭据、不读取包装根。migration 登记一次不可复用 deployment UUID；经数据库认证的专用本地部署角色取得 opaque DeploymentPrincipal，包含该 UUID 和数据库 session_user 的审计定位。manifest 不能指定 principal；HTTP 服务不持有 Importer。导入操作作用域为该 deployment UUID/importId；同一数据库恢复仍保持原 UUID 和回执。改名本地管理员不改变操作作用域。实际角色/连接凭据由后续部署实施落实，本轮不读取或配置。
+
+模型 close 不解密 Key/vault，允许已启动且可认证的服务在业务秘密失效时终结空槽。现有 secrets.New/OpenRuntime 会在启动时检查根并导入认证材料；整套根缺失导致当前进程无法冷启动时，不能声称 close API 仍可用。恢复部署秘密可用性后用原键核查/关闭；本轮不新增无认证的灾难恢复端点，也不绕过 B02 启动保证。
+
+## 9. B05 必要政策来源候选
+
+状态 `B05-SOURCES-r1 / PROPOSED_NOT_ADOPTED`。采用 D05 的有限 request 预算后，schemaVersion=2 才接受本节扩展。其共同事务/操作规则沿 §8，不是修改 schema1 的含义；同 importId 跨 schema 视为异输入。
+
+schema2 顶层保留 schema1 五组，并必填以下数组，可空。executionProfiles 每项增加必填 budgetPolicyRef、timeLimitPolicyRef，引用严格为 `{id,version}`；每项在 v2 均须完整，不接受 null。模板、原两项参数与政策引用共同形成新不可变 execution 版本。相同 id/version 的 v1 记录不得补全；必须新 version。
+
+| 新组 | 精确字段与约束 |
+| --- | --- |
+| budgetPolicies | id、version、scopeKind=`actor_model_test`或`project_model_runtime`、unit=`request`、period=`utc_day`、limit（1..2147483647）、maxUnresolved（正整数，测试首批要求1）、enabled。旧 S05 示例20/1000为建议，不是省略默认。 |
+| timeLimitPolicies | id、version、modelRequestTimeoutSeconds（5..120）、workerAttemptLimitSeconds（60..86400）。无默认；测试固定输入限额按实际绑定此处期限，30秒是推荐值。 |
+| egressPolicies | id、version、approvedBaseUrls（非空、无重复 HTTPS 基础地址）、allowedPort=443、allowPrivateAddresses=false、followRedirects=false。地址标准沿 §6。政策登记不发 DNS/HTTP。 |
+| testBindings | ownerId、budgetPolicyRef、timeLimitPolicyRef、egressPolicyRef；每 owner 一项，预算 scope 必须 actor_model_test。只更新列出的绑定，生成稳定政策组合修订。 |
+
+项目 execution 预算 scope 必须 project_model_runtime。公共政策是无秘密的部署对象，只有被 owner 私有 execution 或 testBinding 引用才对其产生适用性。来源不共享 Provider，不让 actor 自报更宽策略。额度窗口唯一 `(scopeKind,scopeId,windowStartUTC)`，policyVersion 不参与唯一键；policy 变化不清零历史。预览和应用不消费额度。
+
+B05 只实现测试所需最小账本及项目的有限只读额度依据。项目首次显式绑定完整运行政策时，在该配置事务中创建或关联本项目当前 UTC 日窗口；同一天换配置复用窗口，登记上限只能降低，新上限从次日适用。此前运行消费者尚未启用，没有本地消费的事实可以令新窗口为0；无法证明历史占用时窗口状态 unknown，不能填0。跨日缺窗口可由配置/创建门槛用例依据前日持久记录在写事务中初始化，本地只读 GET 不写窗口，缺失时报告 unknown。它不估算供应商已有账单。
+
+Issue 创建只检查所绑定运行政策和当前窗口还有至少1单位，不预留或消费，不承诺多个排队 Issue 的未来额度。未实现运行消费者时仍可保存满足管理条件的 Issue，待办保持受阻。运行时原子预留的真实消费者与项目用量采集仍属后续批次，不在本轮设计实现。
+
+
+schema2 导入回执在 schema1 字段之外增加 budgetPolicies、timeLimitPolicies、egressPolicies（各为实际登记/复用的 `{id,version}` 数组）和 testBindings（`{ownerId,revision}` 数组），这些数组即使为空也返回；schema1 不新增这四字段。CLI 原样重放已存回执，不把旧回执升级。

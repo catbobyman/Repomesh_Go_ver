@@ -226,3 +226,64 @@ Issue SSE 完全复用创建契约：失效通知＋REST补查、默认24小时�
 | DB17 | 项目更新成功后再次修改，再重放旧updateId | 返回旧提交revision／时间；当前快照另GET；无实际变更的操作也有稳定结果。 | 用当前revision冒充旧回执。 |
 
 文档检查只验证引用、语义和表格一致性，不替代这些真实数据库、权限和并发实验。B03已有首批事务实现的主体设计；真实 Issue／待办首次落库前还须收口 §2.5 的配置绑定选择，并执行其候选专题 CB01—CB05。完整系统就绪仍依赖B01认证接入、页面字段基线及B05—B08各自批次，不能从本文推导整个后端设计完成。
+
+
+## 7. B06 创建事务收敛候选（2026-09-13）
+
+状态 `B06-PERSIST-r1 / PROPOSED_NOT_ADOPTED`。本节细化已采用 §1—4 的原子创建、重放和内容保护；P9 的新增外键、权限观察门槛和具体物理约束仍待采用。声明及约束设计见[本轮 B06](../development/2026-09-13-b04-b06-design-01/B06.md)，唯一 HTTP 字段仍在创建契约。本批没有 rejected 创建操作、独立受理占位、Manager 入口、运行消费者、详情或 SSE 实现。
+
+### 7.1 用例与数据所有权
+
+新增有限 `internal/issues` 包拥有页面创建、原操作查询、创建条件及已有会话候选；它调用 access 当前主体/仓库授权、projects 固定配置读口、modelbudget 门槛读写口，不反向让这些包依赖 issues。issues.Service 是一个创建事务的唯一持有者，handler 只解析边界和映射现行响应。`CreatePage` 与 `GetPageCreation` 共用原操作加载、完整内容核权和稳定回执投影。来源由该受信页面方法固定 `issue_page`，请求不能传 actor/entry；不为尚未确定的 MCP 预铺公共泛型 Source 或 Manager 方法。
+
+Issue 新建身份、项目内展示编号、主 ChangeSet 身份和主会话身份分别生成。编号由已锁项目计数行分配并以 `(projectId, number)` 唯一，允许间隙，不用 MAX+1。会话可关联多个 Issue；每 Issue 此时恰一个主会话和主 ChangeSet。页面创建来源记录和会话卡片关联真实 creation operation，不伪造 Message 或投递。工作仓库非空且全部引用同项目 ProjectRepository；Issue 内容保护集合包含工作仓库，会话保护集合追加原集合与该 Issue 内容集合的并集，不能缩小。每对象内容范围拥有修订；卡片、范围与修订同事务写入。未来新增消息/材料必须沿相同对象锁扩展范围，不能只改变卡片。
+
+本批创建一个 `issue_continue` DurableWork，唯一 `(causeOperationId, kind, targetId)`，状态为 `blocked/INTEGRATION_NOT_AVAILABLE`，重新评估条件为安装并采用相应消费者；externalOperationId、phase、leaseOwner 为空。它只引用 Issue 固定配置，不复制可变配置。创建一个 Issue `snapshot_invalidated` 事件，流序号1及计数行同事务。事件类型沿现行通知契约，保留期24小时；本批不发送、不实现心跳。RepositoryIssue 初始零条，不给未生效计划生成仓内任务。
+
+### 7.2 权限观察与统一锁序
+
+现有 B03 CheckProjectObservation 只验证用户参与观察和 connection 代次，使用 transaction_timestamp 与60秒窗口；这不足以证明 Issue App 能力和完整历史内容可读。本候选增加 Issue 专用 opaque 观察，仍由 access 产生：actor、credentialVersion/connectionRevision、accessEpoch、准确仓库集合、每仓用户观察时间、所选工作仓库的 App 安装身份/权限版本/观察时间。当前用户须可读提交范围及所关联会话完整内容范围；新创建的工作仓库须有已采用能力政策。推荐 S06 最低 Metadata read、Contents write、Pull requests write，作为待采用的新门槛；不从 B02 登录成功推导此能力。
+
+推荐新创建所有必要观察在最终提交前以数据库 clock_timestamp 检查不超过60秒、不得来自未来；这是延续 B03 数值、补齐覆盖和提交时钟的候选，不代表远端权限原子性。观察过期或本地代次变化，回滚后重新获取，不能持锁访问 GitHub。外部明确不足按当前契约隐藏404或可披露的409；未知503 AUTHORIZATION_UNCONFIRMED。原结果读取只要求当前内容读取权，不要求重新通过 App 写权限、预算和创建条件。
+
+各交互写路径共用偏序：binding → session → account → project → connection（需要观察时）→ creation operation → 同项目已有 conversation/issue（按对象类型及ID排序）→ catalog → profile/version → policy/额度窗口 → secret availability → 包装根。不存在的 operation 不靠 SELECT FOR UPDATE 得锁，由 account/project 序列化与最终唯一约束保障。创建不锁 Provider head，不重新解析默认。已有会话范围更新者必须先 project 再 conversation；清理亦遵此序，不反拿 account/project。目录作者仍先 owner account、再 catalog，禁止 catalog 持有者回拿 owner/project/Provider。
+
+本地秘密撤销以秘密可用性行串行；撤销先提交再异步传播项目观察，因此创建直接检查精确 secretVersion，不能等待 creationContextRevision 更新。模型/执行停用同理核确切版本状态。读取结果先拿最小身份和内容范围修订，不取敏感正文，在事务外核观察；短读事务锁主体/project/connection及目标范围，重比范围版本后投影。会话集合已扩大则重新观察全部集合，绝不凭旧小范围返回新正文。此处授权观察与快照复核也供候选会话查询使用。
+
+### 7.3 新创建与原结果的事务步骤
+
+1. 限制信封/JSON体并认证。主库按 `(projectId, actor, issue_page, creationId)` 预查。存在结果时先以存量 Issue及关联会话完整内容范围核当前读权；removed 有权410先于正文比较；完整结果用所存 schemaVersion 的比较器返回200或409。客户端新传的会话/仓库不得影响旧结果读权。语法上无法解析的请求仍400；不把新的业务有效性校验放在已提交重放之前。
+2. 无结果才严格规范化新的允许字段，读取范围/会话版本与确切当前固定配置，事务外取得全范围观察。预核失败仍用短事务再查原操作，让期间提交的赢家优先；无赢家才返回新操作错误，不保存拒绝记录。
+3. 开短 READ COMMITTED 事务，设置 lock_timeout=2s 与事务总预算5s（候选初值）。锁主体、项目和 observation 所需 connection，再查/锁原操作。赢家存在但范围与预核不同，释放事务后按赢家完整范围重核，不能用当前提交范围替代。
+4. 新操作比较 expectedCreationContextRevision，锁已有会话并比较可关联性与范围修订，锁目录和固定版本/政策。沿当前不可变 ProjectConfigRevision 检查完整参数、确切秘密版本可用性、运行预算政策及当前窗口；必要新窗口只在此写事务中有可核本地无消费历史证明时初始化。额度不足/未知不通过。创建本身不消费或预留额度，不要求 runtime Ready、已生效计划或模型测试成功。
+5. 同项目锁下选定唯一 initialConfigurationRevision；插入事务内 operation、必要会话、Issue、工作/内容范围、主 ChangeSet、页面来源和会话卡片、确切输入/回执、blocked 待办、事件，填齐所有关系。尾部再验证观察时限及主体本地时间资格。任何写入或延迟约束失败全回滚。
+6. COMMIT 获确认才201；已知同键赢家200。提交回执丢失为503 RESULT_UNCONFIRMED，由浏览器原键查询；查询一次404不能证明不会迟到提交。确认回滚可复用原键输入重试，提交未知先查主库。局部异常不能变成“可能成功”的空201。
+
+P9 的项目锁串行化见配置绑定专题。源版本变化不得改写旧修订；不可用时保存事实仍可读，新创建受限。B06 对操作只保存 committed 或 removed，两者和 B04/B05 的 durable rejected 是刻意不同的已采用入口语义。
+
+### 7.4 清理与恢复责任
+
+清理是 composition 才可获得的维护入口，本批无浏览器删除路由。先锁身份/项目/原操作/Issue/会话，再清除 Issue正文、确切输入、摘要、卡片/来源正文和相关派生副本；取消确定未外发的本批 blocked 待办，保留无正文目标、scope、配置引用与 removedAt。同事务转 tombstone，返回字段不留下可重建正文的副本。来源/关系的必要身份与只增内容权限集合仍保留，旧键永远不能新建。尚不设计物理项目删除或带未知外发动作的强制清理。
+
+跨重启只靠主库原操作、Issue pin 与 blocked 工作重建责任。本批交付保存/查询用例与数据库约束；任何消费者、真实投递及页面详情仍由后续批次另行采用并验证。
+
+
+### 7.5 复核后的观察来源与输出接口
+
+S06观察由现有固定GitHub适配器新增ObserveAppInstallation保留当前AppCapability已取得但丢弃的installation ID、App ID、suspended及完整permissions。permissionRevision是版本化长度编码的这些非秘密值（permissions按key排序）的SHA-256本地观察指纹，不是GitHub服务器提供的CAS或持续授权。当前AppCapability继续投影原Capability，不改变B02公开语义。access.Provider新增方法的真适配和替身均在U06.2实现，不能只在Issue类型写一个无法取得的字段。
+
+access.OpenRuntime将已导入且PrivateKey回调确切使用的privateRef记录为Issue观察App凭据版本；用户credentialVersion绑定实际access_ref，与connectionRevision/accessEpoch分开。最终事务先核固定模型秘密，再按版本ID顺序核该观察的用户/App秘密当前可用性及权威owner/purpose，最后做时限/主体到期核验。持认证秘密锁的其他路径不得反拿模型秘密锁。外部观察与本地提交之间仍有未观察远端变更的窗口，不能用该指纹声称消除了它。
+
+创建/查询共用issues.CreationReceipt和MarshalJSON；GetPageCreation直接返回同一种receipt，Web统一投影，首次确认提交201、重放/查询200。Location由receipt的固定Issue路径取得。内部pin及确切正文不被编码进创建回执。
+
+本批需主体/范围行锁的原操作读取采用短READ COMMITTED事务复核；只读是业务无写副作用，不将SELECT FOR UPDATE放进PostgreSQL READ ONLY事务。§4.1的通用详情READ ONLY REPEATABLE READ建议不直接套在此路径，B07详情策略仍另行设计。本批不引入原操作查询时的运行准备或新额度窗口。
+
+
+### 7.6 复核后的归属与派生正文约束
+
+同项目P9外键仍不足以证明配置引用属于该project owner。沿当前owner-only规则，新增延迟configuration_owner_and_binding_consistent检查：两项固定profile owner必须等于project.owner；fixed.secret四元组和物化值必须匹配所引用不可变版本。现有0004的两个immutable trigger保留。旧B03合法受限记录不重写；发现旧错属记录则迁移拒绝，另行明确修复，不能让新Issue通过同项目配置间接读取他人秘密。
+
+必要新会话保存created_by_operation_id，且其复制Issue标题时保存title_origin_operation_id；关联已有会话不改这两个来源。清理Issue派生正文只清仍带该title_origin的标题并置redacted标志，保留关联身份和内容scope。会话以后独立改名须清除标题派生标记，不能因为会话最初由本Issue创建就删除后来独立标题。候选投影使用固定无正文清理标签，既有会话原名不被清理。DB08分别覆盖new、existing和已独立改名的分支。
+
+
+B06清理的持久待办只允许 `blocked/INTEGRATION_NOT_AVAILABLE → cancelled/CONTENT_REMOVED`，同事务写cancelled_at，保留cause/Issue与其pin可追溯关系；不删除责任身份，不允许回到blocked。它只处理本批尚无外发记录的工作；发现external事实则拒绝本清理入口，留后续协议处理。

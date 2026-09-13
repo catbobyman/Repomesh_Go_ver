@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("B00", "B01")]
+    [ValidateSet("B00", "B01", "B02", "B03")]
     [string]$Batch = "B01",
     [string]$PostgresBin,
     [string]$EvidenceDirectory
@@ -7,9 +7,16 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
+$binarySuffix = if ($IsWindows) { ".exe" } else { "" }
+$pathComparison = if ($IsWindows) { [StringComparison]::OrdinalIgnoreCase } else { [StringComparison]::Ordinal }
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 if (-not $EvidenceDirectory) {
-    $EvidenceDirectory = Join-Path $repoRoot ("docs/development/verification-" + $Batch.ToLower() + "-" + [DateTime]::UtcNow.ToString("yyyyMMdd-HHmmss"))
+    if ($Batch -eq "B03") {
+        $EvidenceDirectory = Join-Path $repoRoot ("docs/development/2026-09-12-b03-01/backend/verification-" + [DateTime]::UtcNow.ToString("yyyyMMdd-HHmmss"))
+    }
+    else {
+        $EvidenceDirectory = Join-Path $repoRoot ("docs/development/verification-" + $Batch.ToLower() + "-" + [DateTime]::UtcNow.ToString("yyyyMMdd-HHmmss"))
+    }
 }
 $evidenceRoot = [System.IO.Path]::GetFullPath($EvidenceDirectory)
 if (Test-Path -LiteralPath $evidenceRoot) {
@@ -128,33 +135,44 @@ try {
     Set-BatchEnvironment ("GIT_CONFIG_KEY_" + $configCount) "safe.directory"
     Set-BatchEnvironment ("GIT_CONFIG_VALUE_" + $configCount) $repoRoot.Replace("\", "/")
     Set-BatchEnvironment "NO_COLOR" "1"
+    Set-BatchEnvironment "REPOMESH_AUTH_CONFIG" $null
+    Set-BatchEnvironment "GOCACHE" (Join-Path $runRoot "go-cache")
+    $migrationTarget = @(Get-ChildItem -LiteralPath (Join-Path $repoRoot "internal/database/migrations") -Filter "*.sql").Count
     $go = (Get-Command go -CommandType Application | Select-Object -First 1).Source
     $node = (Get-Command node -CommandType Application | Select-Object -First 1).Source
-    $npm = Join-Path (Split-Path $node) "node_modules/npm/bin/npm-cli.js"
-    if (-not (Test-Path -LiteralPath $npm)) { throw "Cannot find npm-cli.js beside node." }
+    if ($IsWindows) {
+        $npm = Join-Path (Split-Path $node) "node_modules/npm/bin/npm-cli.js"
+        if (-not (Test-Path -LiteralPath $npm)) { throw "Cannot find npm-cli.js beside node." }
+    }
+    else {
+        $npm = (Get-Command npm -CommandType Application | Select-Object -First 1).Source
+        $npmTarget = (Get-Item -LiteralPath $npm).ResolveLinkTarget($true)
+        if ($npmTarget) { $npm = $npmTarget.FullName }
+    }
     $null = Invoke-BatchCommand "go-version" $go @("version")
     $null = Invoke-BatchCommand "node-version" $node @("--version")
     $null = Invoke-BatchCommand "npm-version" $node @($npm, "--version")
 
-    if ($Batch -eq "B01") {
-        if (-not $PostgresBin) { throw "B01 requires -PostgresBin pointing to PostgreSQL binaries." }
+    if ($Batch -in @("B01", "B02", "B03")) {
+        if (-not $PostgresBin) { throw "$Batch requires -PostgresBin pointing to PostgreSQL binaries." }
         $PostgresBin = (Resolve-Path -LiteralPath $PostgresBin).Path
-        foreach ($name in @("initdb.exe", "pg_ctl.exe", "postgres.exe", "psql.exe")) {
+        foreach ($tool in @("initdb", "pg_ctl", "postgres", "psql")) {
+            $name = $tool + $binarySuffix
             if (-not (Test-Path -LiteralPath (Join-Path $PostgresBin $name))) { throw "Missing $name" }
         }
-        $null = Invoke-BatchCommand "postgres-version" (Join-Path $PostgresBin "postgres.exe") @("--version")
+        $null = Invoke-BatchCommand "postgres-version" (Join-Path $PostgresBin ("postgres" + $binarySuffix)) @("--version")
         $password = [Convert]::ToHexString([System.Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
         $secrets.Add($password)
         $passwordFile = Join-Path $runRoot "password.txt"
         [System.IO.File]::WriteAllText($passwordFile, $password, [System.Text.UTF8Encoding]::new($false))
         $data = Join-Path $runRoot "data"
         $dbPort = Get-BatchPort
-        $null = Invoke-BatchCommand "initdb" (Join-Path $PostgresBin "initdb.exe") @("-D", $data, "-U", "repomesh_test", "--pwfile=$passwordFile", "--auth-host=scram-sha-256", "--auth-local=scram-sha-256", "--encoding=UTF8", "--locale=C")
+        $null = Invoke-BatchCommand "initdb" (Join-Path $PostgresBin ("initdb" + $binarySuffix)) @("-D", $data, "-U", "repomesh_test", "--pwfile=$passwordFile", "--auth-host=scram-sha-256", "--auth-local=scram-sha-256", "--encoding=UTF8", "--locale=C")
         Remove-Item -LiteralPath $passwordFile
         Add-Content -LiteralPath (Join-Path $data "postgresql.conf") -Value "unix_socket_directories = ''"
         $pgOptions = "-h 127.0.0.1 -p $dbPort -c fsync=on"
         $dbStarted = $true
-        $null = Invoke-BatchCommand "postgres-start" (Join-Path $PostgresBin "pg_ctl.exe") @("-D", $data, "-l", (Join-Path $runRoot "postgres.log"), "-o", $pgOptions, "-w", "-t", "30", "start") -TimeoutSeconds 40 -NoCapture
+        $null = Invoke-BatchCommand "postgres-start" (Join-Path $PostgresBin ("pg_ctl" + $binarySuffix)) @("-D", $data, "-l", (Join-Path $runRoot "postgres.log"), "-o", $pgOptions, "-w", "-t", "30", "start") -TimeoutSeconds 40 -NoCapture
         $url = "postgres://repomesh_test:${password}@127.0.0.1:${dbPort}/postgres?sslmode=disable"
         $secrets.Insert(0, $url)
         Set-BatchEnvironment "REPOMESH_TEST_DATABASE_URL" $url
@@ -168,43 +186,56 @@ try {
 
     $null = Invoke-BatchCommand "go-build" $go @("build", "./...")
     $goTests = Invoke-BatchCommand "go-test" $go @("test", "-json", "-count=1", "./...")
-    if ($Batch -eq "B01") {
+    if ($Batch -in @("B01", "B02", "B03")) {
         $events = @($goTests.stdout -split "`n" | Where-Object { $_.Trim() } | ForEach-Object { $_ | ConvertFrom-Json })
         $postgresEvents = @($events | Where-Object { $_.PSObject.Properties.Name -contains "Test" -and $_.Test -like "TestPostgres*" })
         $postgresPasses = @($postgresEvents | Where-Object { $_.Action -eq "pass" })
         $postgresSkips = @($postgresEvents | Where-Object { $_.Action -eq "skip" })
         if ($postgresPasses.Count -eq 0 -or $postgresSkips.Count -ne 0) {
-            throw "B01 needs executed PostgreSQL tests. Missing or skipped tests are not a pass."
+            throw "$Batch needs executed PostgreSQL tests. Missing or skipped tests are not a pass."
         }
         $records.Add([ordered]@{name="postgres-test-gate"; passedTests=$postgresPasses.Count; skippedTests=$postgresSkips.Count})
     }
     $null = Invoke-BatchCommand "go-vet" $go @("vet", "./...")
-    $null = Invoke-BatchCommand "npm-ci" $node @($npm, "--prefix", "web", "ci")
-    $null = Invoke-BatchCommand "npm-typecheck" $node @($npm, "--prefix", "web", "run", "typecheck")
-    $null = Invoke-BatchCommand "npm-build" $node @($npm, "--prefix", "web", "run", "build")
-    $webExe = Join-Path $runRoot "repomesh-web.exe"
+    if ($Batch -ne "B03") {
+        $null = Invoke-BatchCommand "npm-ci" $node @($npm, "--prefix", "web", "ci")
+        $null = Invoke-BatchCommand "npm-typecheck" $node @($npm, "--prefix", "web", "run", "typecheck")
+        $null = Invoke-BatchCommand "npm-build" $node @($npm, "--prefix", "web", "run", "build")
+    }
+    if ($Batch -eq "B02") {
+        $null = Invoke-BatchCommand "browser-api-tests" $node @("--experimental-strip-types", "web/src/api.test.mjs")
+        $null = Invoke-BatchCommand "authentication-race" $go @("test", "-race", "-count=1", "./internal/access", "./internal/secrets", "./internal/web", "./internal/github")
+    }
+    if ($Batch -eq "B03") {
+        $null = Invoke-BatchCommand "project-race" $go @("test", "-race", "-count=1", "./internal/access", "./internal/secrets", "./internal/projects", "./internal/web", "./internal/github", "./internal/database") -TimeoutSeconds 600
+    }
+    $webExe = Join-Path $runRoot ("repomesh-web" + $binarySuffix)
     $null = Invoke-BatchCommand "web-binary" $go @("build", "-o", $webExe, "./cmd/repomesh-web")
     foreach ($entry in @("coordinator", "host-executor")) {
-        $binary = Join-Path $runRoot ("repomesh-" + $entry + ".exe")
+        $binary = Join-Path $runRoot ("repomesh-" + $entry + $binarySuffix)
         $null = Invoke-BatchCommand "$entry-binary" $go @("build", "-o", $binary, "./cmd/repomesh-$entry")
         $null = Invoke-BatchCommand "$entry-version" $binary @("--version")
         $expected = Invoke-BatchCommand "$entry-unimplemented" $binary @() -ExpectedExit 1
-        if (($expected.stdout + $expected.stderr) -notmatch "not implemented") { throw "$entry did not report its real implementation state." }
+        if (($expected.stdout + $expected.stderr) -notmatch "not implemented|authentication is not configured") { throw "$entry did not report its real implementation state." }
     }
     $null = Invoke-BatchCommand "web-version" $webExe @("--version")
 
-    if ($Batch -eq "B01") {
-        $null = Invoke-BatchCommand "db-check-empty" $webExe @("db", "check") -ExpectedExit 1 -ExpectedOutput "schema status=missing current=0 target=1 pending=1"
-        $null = Invoke-BatchCommand "db-migrate" $webExe @("db", "migrate") -ExpectedOutput "schema status=current current=1 target=1 pending=0"
-        $null = Invoke-BatchCommand "db-check" $webExe @("db", "check") -ExpectedOutput "schema status=current current=1 target=1 pending=0"
-        $null = Invoke-BatchCommand "db-migrate-repeat" $webExe @("db", "migrate") -ExpectedOutput "schema status=current current=1 target=1 pending=0"
-        $null = Invoke-BatchCommand "postgres-restart-stop" (Join-Path $PostgresBin "pg_ctl.exe") @("-D", $data, "-m", "fast", "-w", "-t", "30", "stop") -TimeoutSeconds 40
-        $null = Invoke-BatchCommand "postgres-restart-start" (Join-Path $PostgresBin "pg_ctl.exe") @("-D", $data, "-l", (Join-Path $runRoot "postgres.log"), "-o", $pgOptions, "-w", "-t", "30", "start") -TimeoutSeconds 40 -NoCapture
-        $null = Invoke-BatchCommand "db-check-after-server-restart" $webExe @("db", "check") -ExpectedOutput "schema status=current current=1 target=1 pending=0"
+    if ($Batch -in @("B01", "B02", "B03")) {
+        $null = Invoke-BatchCommand "db-check-empty" $webExe @("db", "check") -ExpectedExit 1 -ExpectedOutput "schema status=missing current=0 target=$migrationTarget pending=$migrationTarget"
+        $null = Invoke-BatchCommand "db-migrate" $webExe @("db", "migrate") -ExpectedOutput "schema status=current current=$migrationTarget target=$migrationTarget pending=0"
+        $null = Invoke-BatchCommand "db-check" $webExe @("db", "check") -ExpectedOutput "schema status=current current=$migrationTarget target=$migrationTarget pending=0"
+        $null = Invoke-BatchCommand "db-migrate-repeat" $webExe @("db", "migrate") -ExpectedOutput "schema status=current current=$migrationTarget target=$migrationTarget pending=0"
+        $null = Invoke-BatchCommand "postgres-restart-stop" (Join-Path $PostgresBin ("pg_ctl" + $binarySuffix)) @("-D", $data, "-m", "fast", "-w", "-t", "30", "stop") -TimeoutSeconds 40
+        $null = Invoke-BatchCommand "postgres-restart-start" (Join-Path $PostgresBin ("pg_ctl" + $binarySuffix)) @("-D", $data, "-l", (Join-Path $runRoot "postgres.log"), "-o", $pgOptions, "-w", "-t", "30", "start") -TimeoutSeconds 40 -NoCapture
+        $null = Invoke-BatchCommand "db-check-after-server-restart" $webExe @("db", "check") -ExpectedOutput "schema status=current current=$migrationTarget target=$migrationTarget pending=0"
         $psqlArgs = @("-h", "127.0.0.1", "-p", [string]$dbPort, "-U", "repomesh_test", "-d", "postgres", "-X", "-v", "ON_ERROR_STOP=1", "-At")
-        $ledger = Invoke-BatchCommand "db-ledger" (Join-Path $PostgresBin "psql.exe") ($psqlArgs + @("-c", "SELECT version, name, octet_length(checksum) FROM public.repomesh_schema_migrations ORDER BY version"))
-        if ($ledger.stdout.Trim() -notmatch "^1\|[^|]+\|32$") { throw "Unexpected first migration ledger." }
-        $null = Invoke-BatchCommand "db-tamper" (Join-Path $PostgresBin "psql.exe") ($psqlArgs + @("-c", "UPDATE public.repomesh_schema_migrations SET name = 'tampered' WHERE version = 1"))
+        $ledger = Invoke-BatchCommand "db-ledger" (Join-Path $PostgresBin ("psql" + $binarySuffix)) ($psqlArgs + @("-c", "SELECT version, name, octet_length(checksum) FROM public.repomesh_schema_migrations ORDER BY version"))
+        $ledgerRows = @($ledger.stdout.Trim() -split "`n")
+        if ($ledgerRows.Count -ne $migrationTarget) { throw "Unexpected migration ledger count." }
+        for ($index=0; $index -lt $ledgerRows.Count; $index++) {
+            if ($ledgerRows[$index].Trim() -notmatch ("^" + ($index+1) + "\|[^|]+\|32$")) { throw "Unexpected migration ledger row." }
+        }
+        $null = Invoke-BatchCommand "db-tamper" (Join-Path $PostgresBin ("psql" + $binarySuffix)) ($psqlArgs + @("-c", "UPDATE public.repomesh_schema_migrations SET name = 'tampered' WHERE version = 1"))
         $null = Invoke-BatchCommand "db-check-drift" $webExe @("db", "check") -ExpectedExit 1 -ExpectedOutput "migration history does not match this binary: name or checksum differs at version 1"
         $null = Invoke-BatchCommand "db-migrate-drift" $webExe @("db", "migrate") -ExpectedExit 1 -ExpectedOutput "migration history does not match this binary: name or checksum differs at version 1"
         $null = Invoke-BatchCommand "db-invalid-command" $webExe @("db", "reset") -ExpectedExit 2 -ExpectedOutput "expected db check or db migrate"
@@ -237,7 +268,7 @@ try {
         }
     }
     if (-not $listening) { throw "Web did not listen before deadline." }
-    foreach ($probe in @(@("/healthz", 200), @("/readyz", 503), @("/api/projects", 404), @("/", 200))) {
+    foreach ($probe in @(@("/healthz", 200), @("/readyz", 503), @("/api/projects", 503), @("/api/session", 503), @("/login", 200), @("/", 200))) {
         $response = $client.GetAsync("http://127.0.0.1:$webPort" + $probe[0]).GetAwaiter().GetResult()
         try {
             $status = [int]$response.StatusCode
@@ -271,9 +302,9 @@ finally {
     }
     if ($dbStarted) {
         try {
-            $status = Invoke-BatchCommand "postgres-status" (Join-Path $PostgresBin "pg_ctl.exe") @("-D", $data, "status") -ExpectedExit @(0, 3)
+            $status = Invoke-BatchCommand "postgres-status" (Join-Path $PostgresBin ("pg_ctl" + $binarySuffix)) @("-D", $data, "status") -ExpectedExit @(0, 3)
             if ($status.exitCode -eq 0) {
-                $null = Invoke-BatchCommand "postgres-stop" (Join-Path $PostgresBin "pg_ctl.exe") @("-D", $data, "-m", "fast", "-w", "-t", "30", "stop") -TimeoutSeconds 40
+                $null = Invoke-BatchCommand "postgres-stop" (Join-Path $PostgresBin ("pg_ctl" + $binarySuffix)) @("-D", $data, "-m", "fast", "-w", "-t", "30", "stop") -TimeoutSeconds 40
             }
             $databaseLog = Join-Path $runRoot "postgres.log"
             if (Test-Path -LiteralPath $databaseLog) {
@@ -286,7 +317,10 @@ finally {
     if ($cleanupPassed) {
         $resolvedRun = [System.IO.Path]::GetFullPath($runRoot)
         $expectedPrefix = [System.IO.Path]::Combine($tempRoot, "repomesh-verify-")
-        if (-not $resolvedRun.StartsWith($expectedPrefix, [StringComparison]::OrdinalIgnoreCase) -or (Split-Path $resolvedRun -Parent).TrimEnd("\") -ne $tempRoot.TrimEnd("\")) {
+        $pathSeparators = [char[]]@([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar)
+        $resolvedParent = (Split-Path $resolvedRun -Parent).TrimEnd($pathSeparators)
+        $expectedParent = $tempRoot.TrimEnd($pathSeparators)
+        if (-not $resolvedRun.StartsWith($expectedPrefix, $pathComparison) -or -not [string]::Equals($resolvedParent, $expectedParent, $pathComparison)) {
             $cleanupPassed = $false
             $failure = "Refusing cleanup outside the created temporary directory."
         }
@@ -297,7 +331,8 @@ finally {
     }
     $result = [ordered]@{
         batch = $Batch
-        result = $(if ($passed -and $cleanupPassed) {"VERIFIED"} else {"NOT_VERIFIED"})
+        result = $(if ($passed -and $cleanupPassed) { if ($Batch -eq "B02") {"LOCAL_VERIFIED"} elseif ($Batch -eq "B03") {"BACKEND_LOCAL_VERIFIED"} else {"VERIFIED"} } else {"NOT_VERIFIED"})
+        externalAcceptance = $(if ($Batch -eq "B02") {"NOT_RUN: real GitHub App and browser OAuth acceptance required"} elseif ($Batch -eq "B03") {"NOT_RUN: actual browser acceptance and release-wide verification are separate"} else {$null})
         recordedAt = [DateTime]::UtcNow.ToString("o")
         failure = $failure
         cleanupPassed = $cleanupPassed
@@ -306,4 +341,4 @@ finally {
     $result | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $evidenceRoot "checks.json") -Encoding utf8
 }
 if (-not $passed -or -not $cleanupPassed) { throw "Batch verification failed. See $evidenceRoot/checks.json" }
-Write-Host "VERIFIED $Batch. Evidence: $evidenceRoot/checks.json"
+Write-Host "Local checks passed for $Batch. Evidence: $evidenceRoot/checks.json"

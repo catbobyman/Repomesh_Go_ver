@@ -8,6 +8,8 @@ documentation_updated: 2026-09-12
 
 # 首批登录、仓库发现与真实配置来源 · 待审草案
 
+2026-09-12 B02 采用补充。用户已回复“确认，继续”，采用范围以 [B02 采用记录](b02-authentication-adoption.md)为准。本文对应认证及必要秘密子集的“待采用”描述保留原提案历史，已由该记录替代；模型、预算、运行和其他未列明部分仍待采用。实现与验收进度见 [B02 记录](../development/2026-09-12-batch-02/README.md)。
+
 **六项完整评审补充（CP16）：** 用户后续要求“你直接给我这六项的全部”，现在一次准备包含相互依赖假设的完整候选包，统一交审，不再仅停在三个方向提问。本稿A／B／C方向仍未采用；认证具体字段沿[认证当前候选 r3](authentication-browser-api-draft.md)，来源细化见[来源S01—S08](backend-first-batch-sources-draft.md)，模型内部责任见[模型M01—M08](backend-model-operations-draft.md)。它们是待审补充，下文“方向确认后准备字段”等顺序描述为此前阶段，不阻止此次完整候选编写，也不代表依赖已批准或可以实施。
 
 2026-09-12 项目契约核对按[认证候选 §4](authentication-browser-api-draft.md#4-回调与本地事务)同步本稿的注销代次、Cookie 和回调落点；这些是既有后续候选的替代规则，仍未采用。内部会话、尝试记录及凭据刷新互斥继续由本稿维护。检查记录见[项目契约检查](../reviews/2026-09-12-project-contracts/README.md)。

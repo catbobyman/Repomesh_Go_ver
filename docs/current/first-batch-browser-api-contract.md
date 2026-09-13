@@ -8,6 +8,8 @@ documentation_updated: 2026-09-12
 
 # 首批项目、配置引用与列表：浏览器接口契约 v1
 
+2026-09-12 B02 采用补充。用户已回复“确认，继续”，采用范围以 [B02 采用记录](b02-authentication-adoption.md)为准。本文对应认证及必要秘密子集的“待采用”描述保留原提案历史，已由该记录替代；模型、预算、运行和其他未列明部分仍待采用。实现与验收进度见 [B02 记录](../development/2026-09-12-batch-02/README.md)。
+
 本稿为 RM-API-01 r3（第 3／3 轮双方具体方案已确认）的唯一浏览器字段来源，由页面维护。r3 在 r2 上只补项目动作403错误码、非法幂等头和项目操作浏览器恢复路由；对象关系采用 RM-B01-04 r2。内部存储／事务由后端在[首批持久化协议](backend-first-batch-persistence.md)维护，不能复制第二套 HTTP Schema。创建 Issue 的七个接口仍只以[创建契约 v1](issue-page-create-api-contract.md)为准。技术确认不代表用户已接受具体页面布局；页面须展示原型讨论。
 
 当前只完成本稿列明范围的设计。没有实际账号接入、数据库、业务路由或接口验证。登录跳转、完整仓库发现、全局模型 Key 管理、会话详情／消息／运行协议不因本稿存在而完成。原型与实现范围见[页面交接](HANDOFF-PAGE-API-DESIGN.md)。
@@ -307,3 +309,30 @@ configuration 提供时是完整两引用并显式重新解析固定版本；未
 实施后至少验证：无变更配置保存保留修订并保存原操作回执；项目同键并发与丢响应；更新旧修订与同键重放优先；正文清理后旧键不复活；受限原仓库不影响配置修复；明确添加失败整次回滚；默认配置变化不暗换版本；候选部分覆盖与空页游标；列表核权未知返回503；跨主体游标／过滤不能泄露；失权和晚到响应不能覆盖新页面。后端故障矩阵和页面 UI-01—12 分别见各自专题。
 
 本稿文档／JSON 检查不等于接口实测。首批项目／列表字段已收口；完整认证、可参与仓库覆盖、模型 Key 设置、会话详情／消息／房间与运行恢复仍是明确设计依赖，P01/B01、P05 和整个产品设计不能据本稿一并标为完成。
+
+## 10. C05 固定预算时限摘要候选
+
+状态 `C05-r1 / PROPOSED_NOT_ADOPTED`，2026-09-13。本节补 §5 的字段缺口，原 RM-API-01 r3 已采用字段不变。本节按 S05 的有限 request 预算推荐设计；若选择金额方案，本节 budget 分支须重新设计，不把次数改名为金额。实现与验收均未开始。
+
+推荐在 `GET /api/projects/{projectId}` 的 configuration 内新增 `fixedSummary` 与 `quotaObservation`，不新增策略查询端点。二者与原 `effective.configurationRevision` 指向同一配置；固定摘要从不可变记录读取，额度独立核当前窗口。只读 GET 不创建窗口、消费额度或重解析默认。
+
+`fixedSummary` 必含 configurationRevision、executionVersionId（string或null）、budget、timeLimits。两个政策字段各自使用以下分支：
+
+| 字段／分支 | 完整形状 |
+| --- | --- |
+| budget，已完整固定 | `{status:"available",policyId:string,policyVersion:string,scope:"project_model_runtime",unit:"request",period:"utc_day",limit:integer,maxUnresolved:integer}` |
+| budget，未解析或缺历史材料 | `{status:"unresolved",reasonCodes:string[]}`，无策略 ID 或数值 |
+| timeLimits，已完整固定 | `{status:"available",policyId:string,policyVersion:string,modelRequestTimeoutSeconds:integer,workerAttemptLimitSeconds:integer}` |
+| timeLimits，未解析或缺历史材料 | `{status:"unresolved",reasonCodes:string[]}`，无数值 |
+
+available 表示原固定参数可读取，不表示当前已启用/额度充足/进程停止。政策已禁用但历史材料仍可读时仍展示原固定值，由 configuration.checks 表达当前限制。unresolved 不能填0、无限或推荐默认。原配置未解析 execution 时 executionVersionId=null；有可信版本但材料不完整时保留其确切版本和 unresolved 分支。
+
+`quotaObservation` 只针对上述固定运行政策，完整分支为：
+
+- `{status:"known",configurationRevision,policyId,policyVersion,unit:"request",windowStart,windowEnd,effectiveLimit,reserved,consumed,remaining,observedAt}`。UTC 时间；非负整数，remaining=max(0,effectiveLimit-reserved-consumed)。effectiveLimit 是原政策限额与该窗口保守下调限额的较小值，可能小于 fixedSummary.budget.limit。
+- `{status:"unknown",configurationRevision,reasonCodes,observedAt}`。observedAt 为本次核查 UTC 时间或null；没有可靠账本／读取失败不得伪造0。
+- `{status:"not_configured",configurationRevision,reasonCodes}`。原固定配置没有可解析运行预算；无额度数值。
+
+本地项目 owner 可读上述本项目摘要，不要求所有原仓恢复读权。策略来源身份不可披露时不返回相关政策名或数值；当前 owner 资格无法确认仍整次503 AUTHORIZATION_UNCONFIRMED。本批 owner 私有执行引用的政策没有额外共享 ACL；若以后增加策略 ACL，需要新增受限分支，不用 unresolved 隐藏已知无权。普通账本故障可返回 quotaObservation.unknown，但项目主体/配置快照无法可靠读取时仍返回503，不拼旧快照。
+
+响应中的固定摘要与 effective 必须来自同一配置版本；额度观察允许稍后变化，不承诺跨网络最新或已为 Issue 预留。默认改变后旧项目仍显示旧版本数值，模型专用应用保持原 execution 数值。契约设计覆盖[原检查 C05](../reviews/2026-09-12-project-contracts/README.md#c05-项目预算和时限缺少只读响应)，采用与真实验收尚待后续完成。

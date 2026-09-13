@@ -1,59 +1,62 @@
-import { StrictMode } from "react";
+import { StrictMode, useCallback, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { AuthEntry } from "./AuthEntry";
+import { AuthResult } from "./AuthResult";
+import { CreateProjectPage } from "./CreateProjectPage";
+import { ProjectOperationPage } from "./ProjectOperationPage";
+import { ProjectPage } from "./ProjectPage";
+import { ProjectsPage } from "./ProjectsPage";
+import { ProjectSettingsPage } from "./ProjectSettingsPage";
+import { RepositoryHome } from "./RepositoryHome";
+import { destinationForRoute, parseRoute, rememberLoginDestination } from "./routes";
+import type { AppRoute } from "./routes";
+import { AuthFrame } from "./shared";
+import { useSession } from "./session";
 import "./style.css";
 
 function App() {
-  return (
-    <main>
-      <header>
-        <span className="mark" aria-hidden="true">
-          R
-        </span>
-        <span>RepoMesh</span>
-        <span className="stage">工程骨架</span>
-      </header>
-      <section aria-labelledby="title">
-        <p className="eyebrow">多仓库协作 · 开发起点</p>
-        <h1 id="title">从这里建立协作。</h1>
-        <p className="intro">
-          React、TypeScript 与 Go
-          的基础工程已建立。当前页面仅说明实现范围，不展示实时运行状态。
-        </p>
-        <div className="processes">
-          <article>
-            <span className="number">01</span>
-            <h2>Web</h2>
-            <p>已提供静态页面与进程诊断入口。</p>
-            <span className="tag">基础入口</span>
-          </article>
-          <article>
-            <span className="number">02</span>
-            <h2>后台协调</h2>
-            <p>仅有可构建入口，任务处理尚未实现。</p>
-            <span className="tag muted">未实现</span>
-          </article>
-          <article>
-            <span className="number">03</span>
-            <h2>受限主机执行</h2>
-            <p>仅有可构建入口，主机操作尚未启用。</p>
-            <span className="tag muted">未实现</span>
-          </article>
-        </div>
-        <aside>
-          <h2>当前范围</h2>
-          <p>
-            Issue、计划、权限、调度、GitHub 与 AgentTeams
-            集成均未实现。仓库分析插件尚未实现，Skill 工程继续暂缓。
-          </p>
-        </aside>
-      </section>
-      <footer>骨架可构建不代表业务或 AgentTeams 集成验收完成。</footer>
-    </main>
-  );
+  const [currentRoute, setRoute] = useState<AppRoute>(() => parseRoute(window.location.pathname));
+  const auth = useSession();
+  useEffect(() => {
+    const onPopState = () => setRoute(parseRoute(window.location.pathname));
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+  const navigate = useCallback((path: string) => {
+    window.history.pushState(null, "", path);
+    setRoute(parseRoute(path));
+    window.scrollTo(0, 0);
+  }, []);
+  if (currentRoute.kind === "result") return <AuthResult key={`${currentRoute.id}:${auth.generation}`} id={currentRoute.id} auth={auth} navigate={navigate} />;
+  if (currentRoute.kind !== "login" && currentRoute.kind !== "not-found" && auth.state.kind !== "authenticated") {
+    rememberLoginDestination(destinationForRoute(currentRoute));
+    return <AuthEntry key={auth.generation} auth={auth} navigate={navigate} />;
+  }
+  if (auth.state.kind === "authenticated") {
+    const props = { session: auth.state.session, auth, navigate };
+    switch (currentRoute.kind) {
+      case "home": return <RepositoryHome key={auth.generation} {...props} />;
+      case "projects": return <ProjectsPage key={auth.generation} {...props} />;
+      case "project-create": return <CreateProjectPage key={auth.generation} {...props} />;
+      case "project": return <ProjectPage key={`${auth.generation}:${currentRoute.projectId}`} {...props} projectId={currentRoute.projectId} />;
+      case "project-settings": return <ProjectSettingsPage key={`${auth.generation}:${currentRoute.projectId}`} {...props} projectId={currentRoute.projectId} />;
+      case "project-creation-result": return <ProjectOperationPage key={`${auth.generation}:${currentRoute.key}`} {...props} operation={{ actor: auth.state.session.user.id, kind: "project_create", key: currentRoute.key }} />;
+      case "project-update-result": return <ProjectOperationPage key={`${auth.generation}:${currentRoute.projectId}:${currentRoute.key}`} {...props} operation={{ actor: auth.state.session.user.id, kind: "project_update", projectId: currentRoute.projectId, key: currentRoute.key }} />;
+      case "login": return <AuthEntry key={auth.generation} auth={auth} navigate={navigate} />;
+      case "not-found": return <AuthFrame title="页面不存在" description="这个地址没有对应的 RepoMesh 页面。"><button className="primary" onClick={() => navigate("/")}>返回工作区</button></AuthFrame>;
+      default: {
+        const exhaustive: never = currentRoute;
+        return exhaustive;
+      }
+    }
+  }
+  switch (currentRoute.kind) {
+    case "login": return <AuthEntry key={auth.generation} auth={auth} navigate={navigate} />;
+    case "not-found": return <AuthFrame title="页面不存在" description="这个地址没有对应的 RepoMesh 页面。"><button className="primary" onClick={() => navigate("/")}>返回工作区</button></AuthFrame>;
+    default: return <AuthEntry key={auth.generation} auth={auth} navigate={navigate} />;
+  }
 }
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+const root = document.getElementById("root");
+if (root === null) throw new Error("Missing application root");
+createRoot(root).render(<StrictMode><App /></StrictMode>);

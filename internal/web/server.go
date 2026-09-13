@@ -1,8 +1,9 @@
-// Package web serves the scaffold UI and process diagnostics only.
+// Package web serves the browser API, frontend and process diagnostics.
 package web
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -15,25 +16,45 @@ import (
 	"strings"
 	"time"
 
+	"repomesh.local/repomesh/internal/access"
 	"repomesh.local/repomesh/internal/buildinfo"
 )
 
 func Run(ctx context.Context, addr, assets string) error {
+	return RunAuthenticated(ctx, addr, assets, Auth{}, "", "")
+}
+
+func RunAuthenticated(ctx context.Context, addr, assets string, auth Auth, certFile, keyFile string) error {
+	return RunConfigured(ctx, addr, assets, auth, Projects{}, certFile, keyFile)
+}
+
+func RunConfigured(ctx context.Context, addr, assets string, auth Auth, projectAPI Projects, certFile, keyFile string) error {
 	root := os.DirFS(assets)
 	if info, err := fs.Stat(root, "index.html"); err != nil || info.IsDir() {
 		return fmt.Errorf("frontend index.html missing in %q; run npm --prefix web ci and npm --prefix web run build", assets)
+	}
+	var certificate tls.Certificate
+	var err error
+	if certFile != "" || keyFile != "" {
+		certificate, err = tls.LoadX509KeyPair(certFile, keyFile)
+		if err != nil {
+			return errors.New("cannot load HTTPS certificate and key")
+		}
 	}
 	listener, err := net.Listen("tcp", addr)
 	if err != nil {
 		return fmt.Errorf("listen: %w", err)
 	}
+	if certFile != "" {
+		listener = tls.NewListener(listener, &tls.Config{MinVersion: tls.VersionTLS12, Certificates: []tls.Certificate{certificate}})
+	}
 	server := &http.Server{
-		Handler:           newHandler(root),
+		Handler:           handlerConfigured(root, auth, projectAPI),
 		ReadHeaderTimeout: 5 * time.Second,
 		IdleTimeout:       60 * time.Second,
 		WriteTimeout:      30 * time.Second,
 	}
-	slog.Info("scaffold web listening", "address", listener.Addr().String(), "version", buildinfo.Version, "business_ready", false)
+	slog.Info("web listening", "address", listener.Addr().String(), "version", buildinfo.Version, "authentication_configured", auth.Service != nil, "business_ready", false)
 	return serve(ctx, server, listener)
 }
 
@@ -63,7 +84,17 @@ func serve(ctx context.Context, server *http.Server, listener net.Listener) erro
 }
 
 func newHandler(assets fs.FS) http.Handler {
+	return handlerWithAuth(assets, Auth{})
+}
+
+func handlerWithAuth(assets fs.FS, auth Auth) http.Handler {
+	return handlerConfigured(assets, auth, Projects{})
+}
+
+func handlerConfigured(assets fs.FS, auth Auth, projectAPI Projects) http.Handler {
 	mux := http.NewServeMux()
+	registerAuth(mux, auth)
+	registerProjects(mux, auth, projectAPI)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]any{
 			"process": "repomesh-web", "version": buildinfo.Version,
@@ -77,7 +108,6 @@ func newHandler(assets fs.FS) http.Handler {
 	})
 	fileServer := http.FileServerFS(assets)
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// No business API stubs and no SPA fallback for unknown routes.
 		if r.URL.Path == "/api" || strings.HasPrefix(r.URL.Path, "/api/") {
 			writeJSON(w, http.StatusNotFound, map[string]string{"error": "not_implemented"})
 			return
@@ -88,6 +118,13 @@ func newHandler(assets fs.FS) http.Handler {
 			return
 		}
 		name := strings.TrimPrefix(path.Clean(r.URL.Path), "/")
+		if r.URL.Path == "/login" || strings.HasPrefix(r.URL.Path, "/auth/result/") && access.ValidID(strings.TrimPrefix(r.URL.Path, "/auth/result/")) || projectBrowserRoute(r.URL.Path) {
+			w.Header().Set("Cache-Control", "no-store")
+			w.Header().Set("Referrer-Policy", "no-referrer")
+			r = r.Clone(r.Context())
+			r.URL.Path = "/"
+			name = "index.html"
+		}
 		if name == "" {
 			name = "index.html"
 		}

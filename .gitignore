@@ -44,3 +44,9 @@ coverage/
 /docs/archive/*
 !/docs/archive/README.md
 !/docs/archive/2026-09-12-development-preparation/
+
+# Machine-specific Codex configuration; use the tracked example as a template
+/.codex/config.toml
+
+# Historical machine-local runtime control marker
+/docs/development/2026-09-12-wsl/stop-runtime

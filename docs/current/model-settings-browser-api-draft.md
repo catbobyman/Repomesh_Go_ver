@@ -178,3 +178,36 @@ closed_without_save没有原输入或秘密比较材料，保留固定回执和�
 Key三项见[候选页面](model-key-save-design.md)；测试新原型在主预览model-test；应用沿[F04已采用三项](model-project-apply-design.md)。此次不请求共享／默认编辑／删除／禁用／完整费用平台。
 
 待验收：同键含Key不同正文冲突、密钥失败全回滚、预览过期重放优先、旧execution默认变但精确保留、测试登记后崩溃／外发后丢响应不重复收费、额度／处理器未知不可确认、次数预算不冒充金额上限、无权原结果不披露、原Key丢失仍可查询／终结、原回执与最新配置分开、模型快照切换不移植旧测试。R01还须覆盖请求未到服务器、持槽前503、关闭与迟到保存竞争、双close、关闭回执丢失、已提交后关闭、无权／错主体、关闭后清理及旧保存重放。只设计，不执行任何真实模型请求。
+
+## 8. B04/B05 本轮字段收敛候选
+
+状态 `RM-MODEL-API-r2-candidate / PROPOSED_NOT_ADOPTED`，2026-09-13。本节只替代明确列出的旧候选歧义；12端点目录和 B04/B05 划分保持，未新增产品实现或整体采用。
+
+B04 的 ModelView.displayName 始终输出字符串。输入 null/空字符串规范化为同一空显示名意图，展示时取 modelId；本轮仍要求输入模型对象带 displayName，省略不额外成为合法输入。所有 error.fieldErrors 必返数组，持久 rejected.error.requestId 固定为作出决定的原请求 ID，不能回读时重写。POST 的确定拒绝用对应标准错误 HTTP 响应，GET/close 返回200的 rejected 联合；客户端不能仅凭409认定终结，先查原回执。根/DB暂时故障不持久伪造 rejected。
+
+保存比较机制由[内部 §7](backend-model-operations-draft.md#7-b04-保存事务收敛候选2026-09-13)单 vault 推荐替代 §3 的具体 HMAC 指称；不改变 Key 禁裸哈希与精确比较目标。信封解析先于槽检查；合法 JSON 的业务字段验证不能覆盖有权 removed/closed 终态。新输入仍严格拒绝未知字段。
+
+### 8.1 C06 原模型的完整分支
+
+定点替代 §5 示例的 `before.model` 和原“尚未补齐 C06”描述。其余 before/candidate/提交字段保持。before.model 不再使用裸 null，而是以下精确联合：
+
+| 分支 | 完整字段 |
+| --- | --- |
+| 未配置 | `{status:"unconfigured"}`。没有绑定模型版本，不能用于表示失权。 |
+| 可读 | `{status:"readable",reference:ProfileChoice,modelProfileId:string,modelProfileVersion:string,providerId:string,providerRevision:string,modelRowId:string,links:{snapshot:string}}`。ProfileChoice 沿首批 §5；snapshot 是既有指定版本 GET 的 API 路径。modelProfileVersion 与 providerRevision 必须对应同一不可变映射。 |
+| 受限 | `{status:"restricted",reasonCodes:["ORIGINAL_MODEL_UNAVAILABLE"]}`。不返回 reference、profile/provider/row/secret ID、名称、地址或版本链接。 |
+
+权限未知仍整次503 AUTHORIZATION_UNCONFIRMED。可读旧快照缺失/材料已清理且不可再展示时用 restricted，不用最新模型替代，也不遍历供应商猜定位。模型已经禁用但历史仍可读时可给 readable，其当前秘密可用性在指定版本详情表示；不把历史可读解释为可调用。
+
+返回 readable 后，前端只 GET links.snapshot 对应固定 providerId/providerRevision，并选 modelRowId；核响应身份、版本和行归属。迟到旧请求不得覆盖当前预览。原模型受限不单独禁止有权配置修复；execution 的固定版本与当前应用比较仍完整保存于服务端 Preview，不因公开原模型裁剪而丢失。
+
+### 8.2 测试与恢复补充
+
+§4 示例 timeoutSeconds=30 为候选示例，实际 preview.requestLimit.timeoutSeconds 取固定 timeLimitPolicy 版本值；不得预览30秒、实际执行另一值。output 上限仍 min(16,已保存 maxOutputTokens)，无法正确映射时 LIMIT_UNSUPPORTED。TestResult 的 budget 是本地次数，charge.status 在可能发送且无金额依据时为 unknown，currency/amount始终null。收到明确成功或错误仍不能把 charge 改成免费或已结算。
+
+§5 的预览 POST 完整路径以 M02 为准，即 `/api/projects/{projectId}/model-application-previews`。testId 原接受回执的 acceptedAt 与固定模型身份不变，resultRevision 只作等值比较；操作状态可前进，但不把观察写回 ProviderRevision。B04/B05 的登录恢复 Destination 使用已有认证稿的 provider_save/model_test/model_apply 种类，服务端只允许固定同源恢复路径，先核当前主体与目标；首次查询404仍可返回原操作恢复页供核查，不触发提交或close。
+
+C05 在[首批契约 §10](first-batch-browser-api-contract.md#10-c05-固定预算时限摘要候选)维护。本节仅补 C06 和模型字段，不再复制项目预算摘要。C05/C06 均为设计已补、待采用、待实现、待真实验收。
+
+
+本候选 B04/B05 的 apiFormat 首批仅 `openai_chat_completions`，不从已有原型格式选项推导 Responses/其他协议已经可消费。保存与读取校验此明确枚举；扩展格式需要新的协议映射和本地验证。

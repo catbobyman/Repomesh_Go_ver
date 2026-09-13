@@ -11,8 +11,10 @@ import (
 	"syscall"
 	"time"
 
+	"repomesh.local/repomesh/internal/access"
 	"repomesh.local/repomesh/internal/buildinfo"
 	"repomesh.local/repomesh/internal/database"
+	"repomesh.local/repomesh/internal/projects"
 	"repomesh.local/repomesh/internal/web"
 )
 
@@ -35,6 +37,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	addr := flags.String("addr", envOr("REPOMESH_WEB_ADDR", "127.0.0.1:8080"), "HTTP listen address")
 	assets := flags.String("assets", envOr("REPOMESH_WEB_ASSETS", "web/dist"), "built frontend directory (relative to working directory)")
 	version := flags.Bool("version", false, "print release version and exit")
+	authConfig := flags.String("auth-config", os.Getenv("REPOMESH_AUTH_CONFIG"), "authentication deployment JSON file")
 	if err := flags.Parse(args); err != nil {
 		if errors.Is(err, flag.ErrHelp) {
 			return 0
@@ -49,7 +52,25 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		fmt.Fprintln(stderr, "unexpected positional arguments")
 		return 2
 	}
-	if err := web.Run(ctx, *addr, *assets); err != nil {
+	var auth web.Auth
+	var projectAPI web.Projects
+	var certFile, keyFile string
+	if *authConfig != "" {
+		startup, cancel := context.WithTimeout(ctx, 30*time.Second)
+		runtime, err := access.OpenRuntime(startup, *authConfig, os.Getenv("REPOMESH_DATABASE_URL"))
+		cancel()
+		if err != nil {
+			fmt.Fprintln(stderr, "authentication startup:", err)
+			return 1
+		}
+		defer runtime.Close()
+		auth = web.Auth{Service: runtime.Service, Origin: runtime.Deployment.Origin}
+		projectService := projects.New(runtime.Pool(), runtime.Service)
+		runtime.Service.SetProjectDestinationResolver(projectService.ResolveDestination)
+		projectAPI = web.Projects{Service: projectService}
+		certFile, keyFile = runtime.Deployment.TLSCertificateFile, runtime.Deployment.TLSKeyFile
+	}
+	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, certFile, keyFile); err != nil {
 		fmt.Fprintln(stderr, "web stopped:", err)
 		return 1
 	}

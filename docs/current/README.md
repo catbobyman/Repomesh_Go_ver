@@ -1,6 +1,8 @@
 # RepoMesh 现行文档索引
 
-更新：2026-09-12。开发先读[开发前阅读与行动指南](DEVELOPMENT-START.md)，当前完成度见[HANDOFF](HANDOFF.md)。本页只导航，不累计历史进度。
+2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。新推荐仍待采用，未开始产品实现或运行验收。B02外部暂停、B03 INTEGRATED_LOCAL_VERIFIED及B04 DESIGN_PREPARED_NOT_ADOPTED保持；B05/B06实施仍TODO。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
+
+更新：2026-09-13。开发先读[开发前阅读与行动指南](DEVELOPMENT-START.md)及[Astra 前置设计分工](ASTRA-DESIGN-PREPARATION.md)，当前完成度见[HANDOFF](HANDOFF.md)。本页只导航，不累计历史进度。
 
 采用状态以具体章节和替代关系为准。未采用的关键方案与暂缓专题仍保留；旧协作、旧 Prompt、淘汰页面稿和阶段审查已移至[历史归档](../archive/2026-09-12-development-preparation/README.md)。
 
@@ -8,8 +10,13 @@
 
 | 文档 | 用途与范围 |
 | --- | --- |
+| [B04—B06 最新交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[可复制 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md) | 设计已完成、推荐待采用；下一任务先收口 B04 采用，再按授权实施。 |
 | [分批施工 TODO plan](IMPLEMENTATION-PLAN.md) | 当前施工范围、依赖、各批状态和验收证据。 |
+| [Astra 前置设计分工（必读）](ASTRA-DESIGN-PREPARATION.md) | B04—B11 的提前设计、函数声明、逐项允许／排除范围、文件／操作边界和交付终点；不自动采用具体候选。 |
 | [数据库基础开发](database-development.md) | 显式迁移、核查、失败处理及独立数据库验证。 |
+| [项目管理开发](project-development.md) | B03 INTEGRATED_LOCAL_VERIFIED：项目事务、固定配置、恢复机制及最终主目录证据。 |
+| [B03 最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md) | 主目录 PG 73/0、前端 28/28、浏览器 25+1 和 r1 发布；无开放 P0/P1/P2，businessReady=false，非整批业务 VERIFIED。 |
+| [B04 下会话交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)、[可复制 Prompt](NEXT-TASK-B04-PROMPT.md) | 历史准备材料；现先读[B04—B06设计交付](../development/2026-09-13-b04-b06-design-01/README.md)，采用后才能实施。 |
 | [开发前必读及行动顺序](DEVELOPMENT-START.md) | 按角色阅读、首批实现依赖与失败验收。 |
 | [当前交接](HANDOFF.md) | 当前完成度和分阶段边界。 |
 | [页面／接口交接](HANDOFF-PAGE-API-DESIGN.md) | F01—F15 的唯一专题和后续去向。 |
@@ -25,12 +32,13 @@
 | --- | --- |
 | [首批浏览器契约](first-batch-browser-api-contract.md) | 已采用的项目、列表、配置引用及原操作恢复。 |
 | [Issue 创建契约](issue-page-create-api-contract.md) | 已采用创建、详情、rooms、SSE；新增绑定候选另列。 |
-| [认证与仓库发现候选](authentication-browser-api-draft.md) | 登录／重连、Destination 和查询恢复的唯一候选字段。 |
+| [认证与仓库发现候选](authentication-browser-api-draft.md) | 登录／重连、Destination 和查询恢复的唯一字段源，B02 子集已采用。 |
 | [模型浏览器候选](model-settings-browser-api-draft.md) | 保存／安全终结、单模型测试、专用应用的唯一候选字段。 |
 | [首批页面恢复](first-batch-recovery-design.md) | 错误、未知、权限、原操作与只读会话的候选安排。 |
 | [会话与独立 Issue](conversation-issue-separation-design.md) | 当前页面关系、采用视觉及创建入口。 |
 | [项目配置](project-configuration-design.md) | 接入、增仓、授权变化、F02 表单。 |
 | [模型连接与参数](model-connection-settings-design.md) | 已采用分栏与参数、项目应用边界。 |
+| [认证配置与验证](authentication-development.md) | B02 Linux App、HTTPS、秘密文件、后台维护及真实验收条件。 |
 | [登录恢复页面](login-recovery-page-design.md) | 已采用 UI 与未采用认证细化分开。 |
 | [仓库选择](repository-picker-design.md) | 选择摘要、发现覆盖及授权观察。 |
 | [模型用于项目](model-project-apply-design.md) | 固定快照预览、测试观察与原应用恢复。 |
@@ -72,7 +80,7 @@
 | 文档 | 用途与范围 |
 | --- | --- |
 | [工程开发说明](development-scaffold.md) | 三进程组装、工具、配置与配套构建。 |
-| [WSL2 开发环境建议](wsl-development-recommendation.md) | 待确认的迁移建议、本机检查、脚本适配、切换验收与回退；尚未迁移。 |
+| [WSL2 开发环境建议](wsl-development-recommendation.md) | 保留最初建议；WSL 副本、Linux 工具、专用 SSH 和桌面项目已验证，当前接手及 B02 前置见 HANDOFF。 |
 | [骨架验收记录](scaffold-verification.md) | 既有工程检查的条件与结果，非业务验收。 |
 | [AgentTeams 证据索引](scaffold-agentteams-evidence.md) | 确定源码与历史实测的范围及追溯入口。 |
 | [AgentTeams 验证清单](agentteams-validation-plan.md) | AT01—12 的具体用例；G1—G5 不替代该清单。 |

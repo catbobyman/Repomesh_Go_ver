@@ -1,8 +1,12 @@
 # RepoMesh 使用 WSL2 开发的建议
 
-日期：2026-09-12。状态：待确认的开发环境建议。
+日期：2026-09-12。状态：环境与专用 SSH 已验证，Codex 桌面接入已确认，远端独立登录及账户接口复验已通过。本次开发任务又直接核实 Linux 目录、工具路径和桌面项目绑定，用户已恢复开发，见 [B02 接手记录](../development/2026-09-12-b02-preflight/README.md)。
 
-本文记录迁移理由、本机检查结果和实施条件。本次只编写文档，没有迁移源码、安装依赖、调整 Docker 或改变产品的平台支持范围。
+本文保留建议提出时的快照。后续已完成源码复制、工具安装和 Windows／Linux 验收，实际结果见 [WSL 环境验收](../development/2026-09-12-wsl/README.md)。下文“未迁移”“待验证”等表述属于实施前记录；不覆盖上述最新验收。Docker 与产品的平台支持范围未因此改变。
+
+## 当前 Codex 接入方案
+
+用户已选择仅 RepoMesh 使用 WSL，其他项目继续使用 Windows。本机 Ubuntu 通过专用 SSH 主机 `repomesh-wsl` 接入 Codex，工程目录为 `/home/xubohan/projects/Repomesh_Go_ver`。无需将全局 Agent／终端改为 WSL。SSH 与远端 Codex 已通过验证；桌面项目已接入，登录刷新故障已通过独立设备登录恢复，见 [SSH 接入记录](../development/2026-09-12-wsl-ssh/README.md)。此决定替代此前会话中的全局切换建议，以下环境迁移建议保留为历史依据。
 
 ## 建议与适用条件
 
@@ -55,7 +59,7 @@ Docker 对 WSL2 的建议同样是将挂载进 Linux 容器的源码放在 Linux
 | [配套打包脚本](../../scripts/build.ps1) | 使用 `go env GOOS` 和 `go env GOARCH` 判断目标，按目标选择 `.exe` 后缀。 | 优先保留并在 Linux PowerShell 中验证，不必仅因迁移就重写一份 Bash 打包流程。 |
 | [批次验证脚本](../../scripts/verify-batch.ps1) | PostgreSQL 工具写死为 `initdb.exe`、`pg_ctl.exe`、`postgres.exe`、`psql.exe`。 | 适配 Linux 工具名和发现方式，保留同一套验收语义。 |
 | 同一批次验证脚本 | 假设 `npm-cli.js` 位于 Node 可执行文件旁的固定目录；临时目录检查包含 Windows 路径处理。 | 核对 Linux 安装布局和清理边界，验证正常结束及失败后的资源回收。安装 `pwsh` 本身不足以证明脚本可运行。 |
-| [项目插件配置](../../.codex/config.toml) | 本地 marketplace 指向 `D:/Project4work/Repomesh_Go_ver`。 | 在目标副本中更新为插件加载进程可访问的新绝对路径，并重新验证技能发现。规则见[插件说明](../../.agents/plugins/README.md)。 |
+| [项目插件配置模板](../../.codex/config.example.toml) | 原 Windows 本机 marketplace 指向 `D:/Project4work/Repomesh_Go_ver`；现仅跟踪占位模板。 | 复制模板为 Git 忽略的 `.codex/config.toml`，填写插件加载进程可访问的新绝对路径，并重新验证技能发现。规则见[插件说明](../../.agents/plugins/README.md)。 |
 | [AgentTeams 来源记录](../../third_party/agentteams-source.json) | 上游是独立 Git 仓库，被父仓库忽略；记录的版本为 `517caff9280242a00a4d4c06365352b9e41659c6`。 | 单独核对上游实际 HEAD 和本地修改；迁移保留原状态，重建时使用确定版本。只克隆父仓库不会带回上游。 |
 
 因此，建议的迁移范围包含开发工具、验证入口和项目路径配置。业务代码继续共用，只有真实存在的操作系统差异才集中适配。

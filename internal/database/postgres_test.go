@@ -54,6 +54,37 @@ func TestPostgresFreshCheckAndMigrationPersistence(t *testing.T) {
 	}
 }
 
+func TestPostgresProductMigrationUpgrade(t *testing.T) {
+	databaseURL := isolatedDatabase(t)
+	db := openTestDatabase(t, databaseURL)
+	if _, err := db.Migrate(testContext(t)); err != nil {
+		t.Fatal(err)
+	}
+	db.Close()
+	current, err := Open(testContext(t), databaseURL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer current.Close()
+	assertState(t, current, SchemaState{Current: 1, Target: 4, Pending: 3})
+	state, err := current.Migrate(testContext(t))
+	if err != nil || state != (SchemaState{Current: 4, Target: 4, Pending: 0}) {
+		t.Fatal(state, err)
+	}
+	var tables int
+	err = current.pool.QueryRow(testContext(t), `SELECT count(*) FROM information_schema.tables WHERE table_schema IN ('repomesh_access','repomesh_secrets')`).Scan(&tables)
+	if err != nil || tables != 13 {
+		t.Fatalf("product tables=%d error=%v", tables, err)
+	}
+	before := historySnapshot(t, current)
+	if _, err = current.Migrate(testContext(t)); err != nil {
+		t.Fatal(err)
+	}
+	if historySnapshot(t, current) != before {
+		t.Fatal("repeat product migration changed history")
+	}
+}
+
 func TestPostgresTwentyConcurrentMigrations(t *testing.T) {
 	db := openTestDatabase(t, isolatedDatabase(t))
 	start := make(chan struct{})
@@ -347,6 +378,7 @@ func openTestDatabase(t *testing.T, databaseURL string) *DB {
 	if err != nil {
 		t.Fatal(err)
 	}
+	db.migrations = db.migrations[:1]
 	t.Cleanup(db.Close)
 	return db
 }

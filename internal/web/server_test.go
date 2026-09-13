@@ -91,3 +91,32 @@ func TestShutdownWaitsForInflightRequest(t *testing.T) {
 		t.Fatalf("in-flight request failed: %v", err)
 	}
 }
+
+func TestProjectBrowserRoutesUseOpaqueProjectIDs(t *testing.T) {
+	for _, route := range []string{
+		"/projects",
+		"/projects/new",
+		"/projects/project-项目",
+		"/projects/project-项目/settings",
+		"/project-creations/10000000-0000-1000-0000-000000000001",
+		"/projects/project-项目/updates/ffffffff-ffff-ffff-ffff-ffffffffffff",
+	} {
+		if !projectBrowserRoute(route) {
+			t.Fatalf("valid browser route rejected: %s", route)
+		}
+	}
+	for _, route := range []string{
+		"/projects/",
+		"/projects/.",
+		"/projects/..",
+		"/projects/a%2Fb",
+		"/projects/a\\b",
+		"/projects/new/settings",
+		"/project-creations/not-a-uuid",
+		"/projects/project-项目/updates/not-a-uuid",
+	} {
+		if projectBrowserRoute(route) {
+			t.Fatalf("invalid browser route accepted: %s", route)
+		}
+	}
+}

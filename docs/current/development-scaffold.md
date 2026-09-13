@@ -1,6 +1,6 @@
 # RepoMesh 基础工程与开发说明
 
-阶段：工程骨架与 PostgreSQL 运维基础。施工范围和验收见[分批 TODO plan](IMPLEMENTATION-PLAN.md)。业务接口尚未实现，既有权限边界、暂缓模块和历史证据保持。
+阶段：工程基础与认证实现。施工范围和验收见[分批 TODO plan](IMPLEMENTATION-PLAN.md)。B02 配置与状态见[认证说明](authentication-development.md)，真实 GitHub 尚未验收；后续业务与上游集成仍未实现。
 
 ## 实际目录与依赖方向
 
@@ -8,15 +8,18 @@
 go.mod                           唯一产品 Go module
 cmd/
   repomesh-web/main.go            Web 配置、信号、启动及 db 子命令
-  repomesh-coordinator/main.go    版本与未实现诊断
+  repomesh-coordinator/main.go    认证后台工作循环与配置
   repomesh-host-executor/main.go  版本与未实现诊断
 internal/
   buildinfo/version.go           三入口共用发布版本
   database/                      PostgreSQL 连接、迁移及测试
-  web/server.go                  HTTP 存活/就绪诊断及静态文件
+  access/                        账号、会话、连接和持久发现
+  secrets/                       信封加密、根与可用性
+  github/                        固定 GitHub 协议适配
+  web/server.go                  HTTP 认证入口、诊断及静态文件
   web/server_test.go             真实路由完成度边界检查
 web/
-  src/main.tsx                   单页静态骨架说明
+  src/main.tsx                   登录、结果与仓库页面路由
   src/style.css                  页面样式
   package.json/package-lock.json 前端依赖和命令
   tsconfig.json/vite.config.ts   类型与构建配置
@@ -35,7 +38,7 @@ third_party/AgentTeams/         用户后续要求的新克隆，父仓库忽略
 
 后续源码整理授权：用户要求移除旧独立 AgentTeams 目录，重新从官方 main 克隆到 RepoMesh 中。实际位置为 `third_party/AgentTeams/`，来源与备份说明见[上游说明](../../third_party/README.md)。该操作不改变产品架构，不更新历史验证源码，也不表示已实现 AgentTeams Adapter、构建镜像或运行接入。
 
-当前依赖：Web 入口调用 `internal/web` 和 `internal/database`，后者使用 pgx；三个入口都依赖 `internal/buildinfo`，入口之间不互相导入。`web/src` 依赖 React，Vite 将静态资源输出到 `web/dist`，Go Web 在启动时从配置目录读取。前端不导入 Go 内部类型，也没有业务 API 调用。数据库迁移目前只建立版本记录表，没有公共 `pkg`、空领域包、空 Adapter 或通用插件框架。
+当前依赖：Web 入口调用 `internal/web` 和 `internal/database`，后者使用 pgx；三个入口都依赖 `internal/buildinfo`，入口之间不互相导入。`web/src` 依赖 React，Vite 将静态资源输出到 `web/dist`，Go Web 在启动时从配置目录读取。前端不导入 Go 内部类型，通过认证 API 核验会话、授权结果和仓库发现。迁移包含版本记录与 B02 认证领域表，没有公共 `pkg` 或通用插件框架。
 
 后续按照 ADR-0010／0013 在真实用例出现时增加领域模块：入口调用用例，领域规则不依赖 HTTP DTO 或上游 DTO；具体基础设施接入集中管理。跨模块原子事务按已采用创建契约和 ADR-0016 设计，不能因目录拆分变成多个提交。目录名称和示例不冻结未定表结构、MCP Schema、进程间消息或恢复算法。
 
@@ -43,8 +46,8 @@ third_party/AgentTeams/         用户后续要求的新克隆，父仓库忽略
 
 | 进程 | 已采用的最终职责 | 本轮实际行为 |
 | --- | --- | --- |
-| Web | 页面、访问核验、用户输入持久化、查询和 SSE。 | 普通启动提供静态资源及 HTTP 诊断，db 子命令负责迁移与核查；无认证、业务持久化、REST 或 SSE。 |
-| 后台协调 | 持久待办、计划/资源核验、采集、恢复；Graph 在此进程内。 | 默认打印未实现并以 1 退出；`--version` 以 0 退出。 |
+| Web | 页面、访问核验、用户输入持久化、查询和 SSE。 | 提供页面与诊断；配置认证后提供登录、会话和发现 API，db 子命令负责显式迁移。未实现其他业务与 SSE。 |
+| 后台协调 | 持久待办、计划/资源核验、采集、恢复；Graph 在此进程内。 | 配置认证后运行身份核实、刷新、发现续扫与秘密维护；无配置以 1 退出，`--version` 以 0 退出。 |
 | 受限主机执行 | 已登记环境操作、容器/挂载/网络/限额/停止核查/回收。 | 默认打印未实现并以 1 退出；`--version` 以 0 退出；没有监听或命令执行能力。 |
 
 未来三者可以在同一服务器分别启动，并从同一版本的软件包发布。Web 和 Agent 不持有 Docker socket；受限进程不提供任意宿主命令接口。进程拆分本身不证明权限隔离、可靠恢复或高可用，当前也未实现它们。
@@ -55,11 +58,12 @@ third_party/AgentTeams/         用户后续要求的新克隆，父仓库忽略
 
 ## 本地启动与配置
 
-完整命令见[根 README](../../README.md)，均从仓库根目录执行。当前 Web 默认 `127.0.0.1:8080`、资源目录 `web/dist`；覆盖顺序是 `--addr/--assets`、`REPOMESH_WEB_ADDR/REPOMESH_WEB_ASSETS`、默认值。示例文件不自动加载。数据库子命令读取 `REPOMESH_DATABASE_URL`，普通 Web 启动不读取它；队列、GitHub、AgentTeams 和 Python 配置尚未接入。数据库命令见[专项说明](database-development.md)。
+完整命令见[根 README](../../README.md)，均从仓库根目录执行。当前 Web 默认 `127.0.0.1:8080`、资源目录 `web/dist`；覆盖顺序是 `--addr/--assets`、`REPOMESH_WEB_ADDR/REPOMESH_WEB_ASSETS`、默认值。示例文件不自动加载。数据库子命令读取 `REPOMESH_DATABASE_URL`。设置 `REPOMESH_AUTH_CONFIG` 后 Web 和 coordinator 也依赖该数据库；认证配置见专项说明。AgentTeams 和 Python 配置尚未接入。数据库命令见[专项说明](database-development.md)。
 
 | 路径/场景 | 实际结果 | 限定含义 |
 | --- | --- | --- |
-| `GET /` | 200，React 静态骨架页 | 只说明本阶段实现范围。 |
+| `GET /`、`/login`、`/auth/result/{UUID}` | 200，React 页面 | 账号与结果通过 API 核验，不从静态页推断已登录。 |
+| 认证 API 未配置 | 503 | 无法完成登录核验。 |
 | `GET /healthz` | 200，版本、`status=scaffold`、`businessReady=false` | 仅 Web HTTP 存活。 |
 | `GET /readyz` | 503，`status=not_implemented` | 业务不可用，不能作为完整产品启动成功。 |
 | 未实现的 `/api` 路径 | 404，骨架 `not_implemented` 提示 | 不是业务错误契约实现，不制造 Issue 成功回执。 |
@@ -67,7 +71,7 @@ third_party/AgentTeams/         用户后续要求的新克隆，父仓库忽略
 | 缺少 `index.html` / 监听失败 | 启动错误、非零退出 | 错误消息指向前端构建或监听问题。 |
 | Ctrl+C / SIGTERM | Web 最多等待 5 秒关闭 | 只关闭本地 HTTP，未涉及任务恢复。 |
 
-开发模式 `npm --prefix web run dev` 仅运行 Vite 静态页面，不代理或模拟业务 API；Go 静态服务需先执行前端 build。
+开发模式 `npm --prefix web run dev` 仅运行 Vite 前端，不代理或模拟认证 API；Go 静态服务需先执行前端 build。
 
 本机 Git 可能因仓库所有者不同拒绝 Go 的 VCS 元数据查询。检查时可在**当前 PowerShell 进程**追加信任配置后运行原命令，不必改变全局 Git 设置：
 
@@ -86,8 +90,8 @@ go vet ./...
 - Graph 按 ADR-0014／0015 是后台进程内模块，随后端发布；将来复用上游仓内有限 DAG，RepoMesh 管跨仓依赖、结果采纳和 Loop。本轮不建 Graph 包、网络服务或 Go DAG 引擎。
 - ADR-0020 允许额外的受控 Python 分析子进程。Go 管身份、权限、固定只读材料、持久作业、结果及可选建项来源；主机执行进程管理已登记分析作业的启动、限额、停止核查与回收。分析先于 Issue，也不触发 AgentTeams 准备；失败可手动选仓。版本化 JSON 是已采用方向，具体 Schema 未编制。本轮没有 Python 包、进程、安装依赖、接口、按钮或通用插件平台。
 - Skill 全部暂缓，不创建目录、接口、功能开关或占位页面。React Flow 为已选方向，但本轮没有图页面，不添加尚未使用的依赖。
-- PostgreSQL 连接、迁移记录表和事务迁移工具已实现。业务表随具体用例增加，持久队列和对象存储尚未实现；队列领取、消息顺序、MCP 可信身份和运行恢复按对应专题继续细化。
-- Issue、计划、调度、权限、GitHub 与 AgentTeams 无业务代码；未安装或启动上游真实服务，未重跑旧实验，未清理共享容器或卷。
+- PostgreSQL 连接、迁移记录表和事务迁移工具已实现。B02 已增加认证和发现表，运行待办与对象存储尚未实现；队列领取、消息顺序、MCP 可信身份和运行恢复按对应专题继续细化。
+- Issue、计划、调度与 AgentTeams 尚无业务实现；GitHub 当前限于认证与发现适配；未安装或启动上游真实服务，未重跑旧实验，未清理共享容器或卷。
 
 `validation/go.mod` 使 Go 根目录 `./...` 停在实验边界。它不是能独立编译实验的工程：里面的 Go 文件仍须按原脚本放入锁定上游上下文，当前不要对其运行 `go test` 或 `go mod tidy`。不改动原 README、报告、evidence 和 scripts；“没有产品源码”是旧审计当时事实，新增骨架不补齐第二轮 `remaining-preconditions.md` 或 `resumed-blocked-audit.md` 中的业务缺口。
 

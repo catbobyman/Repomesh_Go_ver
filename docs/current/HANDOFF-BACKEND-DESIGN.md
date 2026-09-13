@@ -1,5 +1,7 @@
 # 后端开发交接
 
+2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。新推荐仍待采用，未开始产品实现或运行验收。B02外部暂停、B03 INTEGRATED_LOCAL_VERIFIED及B04 DESIGN_PREPARED_NOT_ADOPTED保持；B05/B06实施仍TODO。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
+
 更新：2026-09-12。先读[开发指南](DEVELOPMENT-START.md)、[当前交接](HANDOFF.md)，再按下表进入唯一设计。旧阶段、通信与完整历史表保留于[09-11 后端交接](../archive/2026-09-12-development-preparation/docs/current/HANDOFF-BACKEND-DESIGN-2026-09-11.md)，不恢复旧任务身份。
 
 ## B01—B08 的去向

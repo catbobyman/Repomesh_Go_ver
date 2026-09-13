@@ -1,8 +1,0 @@
-# Register and enable pstack only while working in this trusted repository.
-model_reasoning_summary = "detailed"
-[marketplaces.pstack-claude]
-source_type = "local"
-source = "D:/Project4work/Repomesh_Go_ver"
-
-[plugins."pstack@pstack-claude"]
-enabled = true

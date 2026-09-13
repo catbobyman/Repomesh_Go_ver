@@ -1,14 +1,18 @@
 # 开发前阅读与行动指南
 
-本页提供开发阅读清单与依赖顺序，不新增产品决定。当前已进入[分批施工](IMPLEMENTATION-PLAN.md)，首先交付 PostgreSQL 连接、迁移与核查。后续按明确采用的基线完成管理闭环，不要求先实现全部 F01—F15。
+2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。新推荐仍待采用，未开始产品实现或运行验收。B02外部暂停、B03 INTEGRATED_LOCAL_VERIFIED及B04 DESIGN_PREPARED_NOT_ADOPTED保持；B05/B06实施仍TODO。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
 
-## 所有人先读五个入口
+本页提供开发阅读清单与依赖顺序，不新增产品决定。实际批次状态见[施工计划](IMPLEMENTATION-PLAN.md)和[当前交接](HANDOFF.md)。用户已解除 B03 等待 B02 VERIFIED 的旧门槛，项目管理代码已合入主目录，当前为 `INTEGRATED_LOCAL_VERIFIED`，[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)无开放 P0/P1/P2；businessReady=false，不是外部、部署或整批业务 VERIFIED。B04 为 DESIGN_PREPARED_NOT_ADOPTED；B04—B06设计已形成顶部所链交付，采用后才交gpt-5.6-sol实施。旧[交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)和[Prompt](NEXT-TASK-B04-PROMPT.md)保留历史，不自动恢复实施授权。B02 外部验收按用户决定暂停，未来真实账号验证只使用主账号 A；历史跨账号失败和未完成恢复仍保留。B03 的具体实现与验证边界见[项目管理开发说明](project-development.md)。后续按明确采用的基线完成管理闭环，不要求先实现全部 F01—F15。
+
+## 所有人先读的入口
 
 1. [AGENTS.md](../../AGENTS.md)：工程目录、三进程权限边界、修改与验证要求。
 2. [根 README](../../README.md)：工具版本、构建／启动命令和当前骨架行为。
 3. [总交接 HANDOFF](HANDOFF.md)：当前完成度、未实现能力及下一阶段边界。
 4. [现行文档索引](README.md)：每个主题的唯一规则来源及采用／候选／历史区分。
 5. [CONTEXT.md](../../CONTEXT.md)：Project、Conversation、Issue、ChangeSet、实际 room 与运行 session 的区别。
+6. [Astra 前置设计分工](ASTRA-DESIGN-PREPARATION.md)：B04—B11 的设计责任、可提前程度、接口声明与实现交接要求；派工必须遵守其中的单项范围、排除项、文件／操作边界和交付终点。
+7. [施工计划](IMPLEMENTATION-PLAN.md)：区分前置设计待办、产品实施依赖及实际验收状态。
 
 `accepted` 只覆盖明确采用的章节，`proposed` 中引用的旧规则不因此失效；后续修订也不会自动继承整篇旧文档的采用状态。按具体替代说明判断，不按文件日期或原型能否点击判断。
 
@@ -18,9 +22,9 @@
 | --- | --- | --- |
 | 前端 | [页面／接口交接](HANDOFF-PAGE-API-DESIGN.md)、[原型导航](../prototypes/README.md)、[会话与独立 Issue](conversation-issue-separation-design.md) | 找到当前页面基线。会话／Issue 分离、创建弹窗／关联控件／提交反馈及列明的 F01—F04 UI 已采用；原型模拟不是接口或运行能力。 |
 | 前端 | [项目配置](project-configuration-design.md)、[模型设置](model-connection-settings-design.md)、[模型应用](model-project-apply-design.md) | 区分资料修复、明确增仓、完整配置 PATCH 和只换模型。已采用三段表单、显式配置开关、模型分栏及指定应用呈现；新增秘密／应用协议仍是候选。 |
-| 前端 | [最小详情](issue-overview-minimal-design.md)、[页面恢复](first-batch-recovery-design.md)、[登录恢复](login-recovery-page-design.md) | 实现加载、受限、未知和原操作返回。首批范围已收拢；详情新 UI、恢复矩阵和认证机器规则仍待采用，F01 仅列明三项 UI 已采用。 |
+| 前端 | [最小详情](issue-overview-minimal-design.md)、[页面恢复](first-batch-recovery-design.md)、[登录恢复](login-recovery-page-design.md) | 实现加载、受限、未知和原操作返回。首批范围已收拢；详情新 UI 和其余恢复矩阵保持原采用边界；B02 认证机器规则及页面已按[采用记录](b02-authentication-adoption.md)实施。 |
 | API | [首批浏览器契约](first-batch-browser-api-contract.md)、[Issue 创建契约](issue-page-create-api-contract.md) | 已采用的项目／列表、创建／更新原操作、详情／rooms／Issue SSE 字段；与页面、数据库共享同一语义，不从 HTML 样例另造字段。 |
-| API | [认证浏览器候选](authentication-browser-api-draft.md)、[模型浏览器候选](model-settings-browser-api-draft.md) | 待采用：登录／重连、固定 Destination、供应商保存／安全终结、单模型测试、专用应用。不得私自用任意 returnUrl 或现行完整 PATCH 替代新协议。 |
+| API | [认证浏览器候选](authentication-browser-api-draft.md)、[模型浏览器候选](model-settings-browser-api-draft.md) | B02 登录／重连及固定 Destination 已采用；供应商保存／安全终结、单模型测试和专用应用仍待相应批次采用。不得私自用任意 returnUrl 或现行完整 PATCH 替代新协议。 |
 | 后端 | [后端交接](HANDOFF-BACKEND-DESIGN.md)、[首批持久化](backend-first-batch-persistence.md) | 项目／Issue 关系、唯一约束、事务、幂等、持久待办和事件的已采用范围；新增 §2.5 Issue 配置绑定仍是候选，不是数据库已实现。 |
 | 后端 | [配置来源候选](backend-first-batch-sources-draft.md)、[模型内部操作候选](backend-model-operations-draft.md)、[Issue 配置绑定候选](issue-configuration-binding-design.md) | 明确 owner、不可变版本、秘密存储、有限测试次数、出站限制、保存与终结的互斥，以及 Issue 创建时绑定原配置。这些新增选择待采用。 |
 | 后端／运行适配 | [架构](architecture-design-v1.md)、[ADR 索引](../adr/README.md)、[Graph／Loop](graph-loop-design.md)、[执行接入门槛](execution-integration-gates.md) | 三进程和受控宿主边界、复用原生仓内 DAG 的方向已采用；G1—G5 的具体调用、写入、生命周期与换图协议未全部收口。 |
@@ -34,7 +38,9 @@
 
 ## 先完成的准备
 
-1. 对照[首批总包](first-batch-complete-review.md)和[审查修订](design-readiness-revisions.md)，统一确定本批 D/T/A/P/S/R 候选的采用或调整范围，包含 Key 安全终结、认证返回与配置来源。新增 **P9／审查 R04：Issue 配置绑定**也须明确；这里的审查 R04 不是恢复表中的 F02 冲突决定。新协议尚未自动采用，保留原有已采用部分。
+按 2026-09-13 记录的[Astra 分工](ASTRA-DESIGN-PREPARATION.md)，B04、B05、B06、B09—B11 的关键架构与必要函数声明先由 GPT-6 Astra 完成，B07 重点复核契约、B08 提前设计验收；gpt-5.6-sol 按收口结果实现，独立复核由非主要实现者承担。设计可以先于前置批次编码完成，但未定协议不提前冻结到产品代码；这份分工记录没有采用具体候选或改变批次完成度。
+
+1. 对照[首批总包](first-batch-complete-review.md)和[审查修订](design-readiness-revisions.md)，按[已采用 B02 子集](b02-authentication-adoption.md)核对其余 D/T/A/P/S/R 候选的采用或调整范围，包含 Key 安全终结、认证返回与配置来源。新增 **P9／审查 R04：Issue 配置绑定**也须明确；这里的审查 R04 不是恢复表中的 F02 冲突决定。新协议尚未自动采用，保留原有已采用部分。
 2. 立即可做：核对源码与工具版本、检查未提交修改、划分前端／API／后端文件归属、整理需求到契约及验收用例的对应表。给待定项注明影响的开发单元，已采用的独立单元无需等待全产品设计完成。
 3. 每批开始时在仓库根目录复现相关检查并保存结果；B00 已执行以下全部命令，证据见[施工记录](../development/2026-09-12-batch-01/README.md)：
 
@@ -47,7 +53,7 @@ go test ./...
 go vet ./...
 ```
 
-启动及 Git ownership 问题按[工程开发说明](development-scaffold.md)处理。当前预期是 `/healthz` 为 200、`/readyz` 为 503，coordinator／host-executor 默认报告未实现；不要为通过验收把未接入能力改成 Ready。根工程检查不覆盖上游或历史实验。
+启动及 Git ownership 问题按[工程开发说明](development-scaffold.md)处理。当前预期是 `/healthz` 为 200、`/readyz` 为 503，coordinator 未配置认证时退出 1，配置后执行认证维护；host-executor 默认报告未实现；不要为通过验收把未接入能力改成 Ready。根工程检查不覆盖上游或历史实验。
 
 ## 首批管理闭环按依赖实施
 

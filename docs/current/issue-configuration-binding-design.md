@@ -115,3 +115,16 @@ implementation: not_started
 | CB10 | 无 Issue 的讨论、重试、项目换配置、随后指定 Issue | 同一模型处理请求重试保持原版本；新独立请求的选择可追溯；目标 Issue 动作不继承任意会话配置。 |
 
 文档自查只能核对这些规则是否一致，不能替代数据库并发、秘密撤销、模型调用或 runtime 隔离验收。采用本候选也只关闭 R04 的创建绑定选择缺口，不等于 B05—B08 或完整后端已经可以无条件接入。
+
+
+## 8. B06 P9 约束细化候选（2026-09-13）
+
+`P9-r2 / PROPOSED_NOT_ADOPTED`：推荐继续采用 §1 的强引用方案。与按时间寻找/复制配置相比，同项目不可变外键可复用 B03 事实源，并能由数据库拒绝空引用、跨项目和操作不一致。新 Issue 必须有 NOT NULL `(project_id, initial_configuration_revision)` 外键，引用现有 project_config_revisions 主键；历史配置删除 RESTRICT。Issue 的项目、初始引用和首次创建身份更新被数据库拒绝，正文删除只设置墓碑。
+
+CreationOperation 保存同项目、同 Issue、同配置的内部结果，复合外键引用 Issue 的 `(project_id,id,initial_configuration_revision)` 唯一键；待办的 `(project_id,issue_id,cause_operation_id)` 引用这一操作结果。配置字段不加入 HTTP 输入或回执。主 ChangeSet、主会话、非空范围、操作完整性用[迁移设计](../development/2026-09-13-b04-b06-design-01/migration-design.md)的组合键及延迟约束实现；当前没有持久 Issue，实施不允许以 nullable 遗留例外先写新数据，也不在本轮设计历史修复工具。
+
+创建与应用共用 project 行锁。创建先持锁读C1并提交，应用随后可写C2，旧 Issue 永留C1；应用先写C2则旧创建条件冲突，刷新后用新输入/新操作才能创建于C2。应用 no-op 保留全部修订；相同模型但从 inherit 改为 reference 是选择依据变化，会形成新修订。创建提交未知时先查旧键，不能在新条件下自动重建；原成功重放不受C2影响。
+
+可解析闭包为 Issue → ProjectConfigRevision → 固定 ModelProfileVersion → ProviderRevision/ModelSnapshot/SecretVersion，以及固定 ExecutionProfileVersion → 模板/预算/时限政策。参数不是 latest 查找；任何闭包材料缺失/被限制时保持 blocked，禁止 fallback。秘密正文可销毁，但版本身份与当前不可用事实保留。被引用版本停用不应妨碍有权读取历史事实。
+
+本文旧 §6 将普通讨论消费者/真实模型证明写为 B05/B06 条件，属于先前批次映射，**不适用于本轮授权**。本轮只保留普通请求与正式 Issue 可以分别固定配置的空间；普通讨论的受理身份/消息协议、运行读取与实际消费在 B09 及相应消息批次另定。本轮 CB03 只验证重启后数据库引用可追溯及 blocked，不证明模型参数已实际消费。CB06—CB10 和完整 G1/G2 未完成。

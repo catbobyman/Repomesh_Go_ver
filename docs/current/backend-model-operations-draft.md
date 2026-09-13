@@ -201,3 +201,84 @@ queued候选最长等待10分钟；超时且证明未进入may_have_sent可以re
 | 原结果被清理 | 有权410、旧键不复用；404也不证明可重建。 |
 
 实施时需覆盖并发、进程崩溃、数据库提交响应丢失、DNS变更、日志脱敏、错根、scope与权限隔离测试。当前只完成候选设计，没有执行任何用例。完整运行消费者、Controller／Manager映射与HostExecutor安全调用不由本稿启用。
+
+## 7. B04 保存事务收敛候选，2026-09-13
+
+状态 `B04-OPERATIONS-r2 / PROPOSED_NOT_ADOPTED`。本节定点替代 §3.1 的 MAC/比较 Key 以及 §3.2 未明确的秘密独立事务问题；保存／关闭终态与原 HTTP 保持候选范围。完整声明见[b04.go.txt](../development/2026-09-13-b04-b06-design-01/b04.go.txt)。全批共同锁约束以本节为基础，B05 在 §8 扩展，B06 在持久化 §7 扩展。
+
+### 7.1 用例与秘密责任
+
+models.Service.Save 持有业务事务并核当前可信 ProjectPrincipal；该现有类型名字不代表必须已有 projectId。Web 只负责严格信封、Origin/CSRF、调用与白名单投影。projects 提供事务内目录登记，secrets 不判断模型 owner 业务资格。旧 Seal 自行提交，不能直接用于模型保存原子事务。
+
+Prepare 只在没有业务事务／行锁时运行：独立持久预扣包装次数，生成随机 DEK 和密文，返回不可序列化的 PreparedSecret。InsertPrepared 使用调用者 tx，只插入密文和 availability，核 store 身份、用途及该 prepared.rootID 仍允许包装，不 Begin/Commit、不再次预扣。不在持有根共享锁后独立 reserveWrap。多份准备统一在事务前完成；故障／close 赢／丢弃的预扣不退款。
+
+replace 保存的完整规范化输入放在一个 operation-input vault，包含非秘密字段与实际 Key 字节，按固定长度编码和 schemaVersion 编码；不另存 MAC 或 Key 哈希。成功另外写 model-provider-key 业务秘密，确定 rejected 只写 vault。keep 仅保存规范化非秘密输入，意图永远是 keep，重放不解析当前 Key。vault 解密只向原操作比较函数提供有限生命周期字节，精确等值比较秘密部分；不使用业务 SecretVersion 解密来判断旧请求相等。业务 Key 被禁用后原操作仍可凭独立 vault 比较，vault 自身不可用则503。GET/close 不解密任何比较材料。
+
+### 7.2 锁及提交步骤
+
+交互共同偏序为 binding→session→account→project（若有）→connection（若需外部观察）→操作槽→业务对象→catalog→profiles→政策/预算→secret availability→root。B04 的业务对象为 Provider；B05 会先锁原项目再候选 Provider。catalog 读取不反向读取 Provider 行锁；需要模型 head 的路径一律先 Provider 后 catalog。catalog 写方不在持锁后取得账户/项目/Provider 锁。多对象按稳定 ID 排序；根预扣只有 root，重包只 root→secret version，不取得 availability/account/project。
+
+同 actor 的空保存槽依靠现有 account 排他锁串行，最终 `(actor,saveId)` 唯一约束兜底。不存在行的 SELECT FOR UPDATE 不作为锁证明。save/close/rejected/清理都先取得相同 account 锁。清理无 session 时从 account 开始，之后不补取 binding/session。
+
+1. 严格 JSON/UUID/大小信封及当前身份；短事务核原槽、结果 owner。removed 先410，closed 的 save 先 MODEL_SAVE_CLOSED；原 committed/rejected 按旧 schema 比较。先处理重放，再判断新修订。
+2. 无槽释放全部事务；规范化、核目标 owner、准备候选 Provider ID 和必要密文。此时未建立持久保存责任，准备失败不能称已拒绝终结。
+3. 重新开始短事务、重锁 principal 与槽，处理期间出现的赢家。新操作锁 Provider，核 owner、expectedRevision 和完整旧行集合。先取得 catalog 写锁，再按 profile ID 核稳定映射。所有旧 secret availability 锁先于 prepared 根锁；新增不可见 availability 行不与外部竞争。
+4. 确定修订冲突且输入可比较时插入 vault/非秘密输入和 rejected；拒绝码、fieldErrors、原 requestId、decidedAt 固定。不可披露目标不写含目标拒绝回执。暂时 root/DB/权限未知不持久 rejected。
+5. 成功在同 tx 保存业务密文、vault、ProviderRevision、完整 rows/snapshots/profile versions、head、目录修订、回执与审计。deferred 约束阻止 incomplete 槽提交。任何持久阶段失败全回滚；没有测试/运行待办。
+6. 提交确认后新 Provider201、更新200；原保存重放200。COMMIT 失败无法证明回滚则503 RESULT_UNCONFIRMED，仍由原 saveId GET/close 恢复，禁止内部生成新键。
+
+close 持同一 principal/account/槽，当前有权后原 committed/rejected 原样返回，空槽写无输入 closed_without_save。关闭不核 Provider 新版本、不需要根或 Key。关闭回执丢失仍同 GET/close；closedAt 固定。合法迟到保存无论修改目标还是 Key 都不能写入。GET 本身不写槽。
+
+### 7.3 清理与秘密吊销
+
+models.Maintenance 只能由受控进程组装注入，不作为 HTTP 能力。按 account→operation→Provider 归属→vault availability 锁，把操作转 removed，清 canonical/vault引用/回执正文/拒绝文本及任何可重建输入的派生副本；同事务 DestroyInTx 销毁 vault 密文，保留版本身份。清理不依赖根解密。没有自动按短 TTL 删除比较材料的路径。
+
+业务 SecretVersion 不由操作清理销毁，历史配置仍引用它。专门的业务秘密停用/销毁更新 availability/accessEpoch，停止新调用但保留身份、配置和原操作；根重包不改变 SecretVersion。现有 access.cleanOrphans 只处理认证用途，不扩大成全用途扫描。后台不得先持 secret 锁再反向锁项目：先完成可用性变更事务，后续逐项目更新条件观察；B06 在最终事务直接核 availability，不能依赖这一步传播及时性。
+
+清理／停用不免除 B05 已可能发送操作的核查责任。未知不能按年龄变 rejected。账号最终清理需先封闭该稳定身份写入口，旧 actor ID 不复用；本轮不实现账号删除。
+
+## 8. B05 测试、应用及只读投影收敛候选
+
+状态 `B05-OPERATIONS-r2 / PROPOSED_NOT_ADOPTED`。沿 §4—5 的固定输入与专用应用目标；本节补外发提交未知、锁序、配置材料检查和声明责任。HTTP 仍只在[模型字段稿](model-settings-browser-api-draft.md)与[首批 C05](first-batch-browser-api-contract.md#10-c05-固定预算时限摘要候选)维护。相关候选数值、费用策略及受限投影均待采用。
+
+### 8.1 单次测试与一次发送许可
+
+models.TestService 持登记事务，coordinator 组装 models.TestRunner 独占发送职责，Web 不持出站调用对象。固定消息、单模型、无工具/流式及输出上限沿 §4.1；新测试要求当前保存 head、preview 固定 secret/policy 组合未变。参数适配能力必须明确支持输出限制；不支持返回 LIMIT_UNSUPPORTED，不能删除限制后发送。
+
+注册使用 account→operation→Provider→catalog/profile→Preview→testBinding/政策→BudgetWindow→actor未核计数→secret availability。Preview 同一事务绑定 consumedBy=testId，登记 queued、预算 reserved=1、唯一测试工作及接受事实；202不证明已发送。原键先于新 preview 期限/资格，异 preview 409。处于 queued/running/unknown-open 的同 actor 测试跨日阻止另一次测试。预算操作与状态变更由一个用例持事务。
+
+Runner 领取短事务不持任何业务锁跨网络。发送前重新以 account 起始顺序核 actor 启用、固定 secret 当前可用、出站政策资格、预算和旧 permit；Provider head 后来改变不改已登记测试的输入。新请求的预览要求 head，而已登记处理不重新绑定 head。
+
+每 testId 只能从未发阶段原子生成一次随机 sendPermit 与 externalOperationId，持久 may_have_sent，同时 reserved→consumed。只有本次事务得到明确 COMMIT 确认且匹配内存一次性 permit 的原执行者可进入 transport；许可事务 COMMIT 回执丢失时，即使 GET 后发现 permit 已存在，也进入 unknown，不重新取得或恢复发送能力。重启恢复只重新领取尚未有 permit 的 queued；存在 permit 的一律核查，不重发。服务内调用对象消耗 permit 一次，禁止网络库/SDK重试、重定向和重连后自动重放 POST。
+
+实际传输开始才有 running 观察，may_have_sent 不是 running 证据。发送前本地检查可发现撤销，但检查与网络不是跨系统原子；许可不得在旧执行者可能存活时被重新授予。进程租约到期不能证明旧执行者或远端停止。未知核查不调用模型测试端点，首批无可靠供应商查询时保持 unknown，继续保守消费。
+
+白名单 Observation 只含原 testId/externalOperationId、开始/完成时间、协议结果、latency、可核 usage及证据身份，不含原始响应正文/凭据。迟到者只能提交同一 externalOperation 的证据，不能更新新测试、退额度或写正式终态；当前核查者按版本 CAS 采纳。冲突证据保持 unknown并审计，不能最后写入者覆盖。原 actor 失权后仍可内部收证以收口责任，用户 GET 继续当前核权。
+
+明确收到错误/无效完整响应可 failed，可能收费；网络断点 unknown。rejected 只用于有证据未进入可能发送或证明未发且旧权能失效，才释放。长期未知的运维关闭沿 §4.3，必须有旧发送进程和凭据能力已撤销的证据；远端仍可能运行，不声称实际并发已降为零。未有该证据则不提供解除 outstanding 的快捷动作。
+
+### 8.2 专用应用与配置检查
+
+models.ApplicationService 持事务；projects 事务内 `ReplaceModel` 用原 FixedConfiguration 构造结果，内部完整复制 execution 的 selection、profile/version、defaultRevision、政策版本和有效参数。禁止调用双项 resolver。模型 choice 固定 reference，模型 version 取预览候选；原来是 inherit 即使有效模型相同也属于 choice 变化。完全相同才 no-op，保留配置/项目/创建修订，仍消费 preview 并存稳定 application 回执。
+
+锁序 account→project→operation→Provider→catalog/profile→Preview→secret availability。锁后先重放，再比较 project/configuration revision、候选 head、精确 execution 摘要和相关可用性代次。known unavailable 的旧 execution 或可引用候选允许受限应用；权限或完整原 execution 版本无法确认则不应用。原模型受限不阻止修复。Preview 保存内部完整对照，公开 C06 受限形状不削减内部比较依据。
+
+projects 增加材料完整性检查和管理条件视图：解析固定模型/执行及政策历史、检查 secret 元数据及当前资格；不测试模型、不要求 runtime Ready。B03 的 INTEGRATION_NOT_AVAILABLE 历史观察不能直接用作新管理条件；也不能把它删掉后无条件 allowed。B04 v1/旧固定 JSON 无完整政策来源则保持受限。只有 B05 完整版本经显式选择形成的新 ProjectConfigRevision 才提供 C05 的完整数值。
+
+### 8.3 查询、清理与恢复
+
+C05 同一次项目读取得固定摘要，当前额度是独立、带观察时间及窗口的结果。C06 返回原模型确切历史定位；读取历史版本的当前权限另核。GET 不生成新配置、预览或测试。原 receipt 固定，current GET 可更新。
+
+测试结果30天后可清展示正文并置 removed，但 testId、固定版本、permit、未核/预算责任保留；unknown不因清理消失，410也不能换键绕过未核计数。预览过期清理需保留 consumedBy 最小占位，不能复活同 preview。应用清理只清输入/回执正文，保留项目/actor/key 与 removed；原配置版本不销毁。清理与结果采纳共用 account→operation 顺序，旧 Observation 不重建已清理展示正文。
+
+
+### 8.4 复核后的组装与投影责任
+
+C05 的公开摘要/额度联合由 projects 拥有，保持现有 ProjectView/ConfigurationView 所有权。modelbudget 通过组装注入的 ObserveRequestQuota 返回 projects 投影，在 Service.Get 所持同一配置读取事务中运行；初始化与观察是两个不同接口，GET只调观察。可选额度SQL失败需在savepoint回滚后才能返回unknown，整连接/配置快照不可读则503，不能在PostgreSQL已abort的事务继续装配响应。无政策not_configured与有政策但无可信账本unknown分开。
+
+TestRunner每次发送持一个opaque AuthorizedDispatch，含本次固定policy、Provider/row、一次permit及短期Key。秘密在授权事务内OpenInTx，提交未知或失败清理内存；仅确认提交才把此对象交给transport。transport只持协议实现版本，不在启动时缓存一个所有用户共用的政策。实际发出前重核本地许可仍有效，不因此重授许可；请求完成/出错均清短期秘密。构造、核权、发送、证据和清理函数已在声明附件中分开，不让handler获得transport。
+
+Go内部receipt/preview不是未经处理的JSON：TestResult/应用结果用明确MarshalJSON投影唯一HTTP字段，ApplicationPreview必须先生成当前核权后的OriginalModel才序列化；不得把内部完整Before直接暴露。B06的创建回执由issues自身MarshalJSON给出同一HTTP形状，Web只选择201/200及Location。
+
+
+测试处理器资格由有限test_handler_leases记录观察：coordinator实例启动登记随机不可复用instanceId和确切protocolVersion，候选租约60秒/20秒续期。Web预览/新提交只读取未过期且支持本目标输出限制的登记，无记录为TEST_HANDLER_UNAVAILABLE、读取未知保留未知；不把编译了transport等同可运行。登记/续期独立短事务不持actor锁，领取/发送不携该锁进入业务事务。dispatch保存确切sender instance用于后续核查。租约只是处理器近期存在观察，不证明外发能力被撤销；过期不能自动关闭unknown或再授permit。
