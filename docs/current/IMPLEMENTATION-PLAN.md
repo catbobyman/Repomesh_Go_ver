@@ -57,7 +57,7 @@ C05项目预算/时限摘要和C06原模型受限/历史定位已在本轮候选
 
 ## 当前吞吐与文件归属
 
-2026-09-13 补充：前置设计按上节新增待办与[Astra 分工指南](ASTRA-DESIGN-PREPARATION.md)安排；下列“本轮不继续 B04”等文字记录 B03 集成轮次的工作范围。本轮已执行B04—B06设计，独立复核已通过；未执行实现，不改变上方实施批次状态。
+2026-09-13 补充：前置设计按上节新增待办与[Astra 分工指南](ASTRA-DESIGN-PREPARATION.md)安排。下列“本轮不继续 B04”等文字记录 B03 集成轮次，不是当前状态。B04 D01—D04 已采用并实现，状态以上方批次表为准。
 
 - Blocking first steps. B00、B01 已有证据；B03 已 INTEGRATED_LOCAL_VERIFIED。B02 外部账号验收暂停，本轮不继续 B04；下一会话先收口并集中采用 B04 设计，再实施。真实 GitHub 外部操作不在当前开发步骤中。
 - Independent workstreams. 主代理维护交接及本轮证据；只读代理独立核对源码、采用范围和跨批依赖；另一模型复核实际文档及证据。
@@ -66,7 +66,7 @@ C05项目预算/时限摘要和C06原模型受限/历史定位已在本轮候选
 
 ## B02 开工核对
 
-B02.6 接续准备见[计划与吞吐检查点](../development/2026-09-12-b02-external-preparation/PLAN.md)，外部历史进度见[真实验收 03](../development/2026-09-12-b026-live-03/README.md)、[自然刷新观察](../development/2026-09-12-b026-refresh-02/README.md)和[第二账号验收 02 暂停交接](../development/2026-09-12-b026-second-account-02/PAUSE.md)。B02 整体仍 IN_PROGRESS，外部账号验收为 PAUSED_BY_USER。历史 FAIL、NOT_RUN 与 RESTORE_IN_PROGRESS 不改写；未来跨账号项 DEFERRED_BY_USER，真实账号验证只使用 A。B03 主目录集成与最终独立复核已完成，为 INTEGRATED_LOCAL_VERIFIED；B04 留到下一会话集中采用后实施。
+B02.6 接续准备见[计划与吞吐检查点](../development/2026-09-12-b02-external-preparation/PLAN.md)，外部历史进度见[真实验收 03](../development/2026-09-12-b026-live-03/README.md)、[自然刷新观察](../development/2026-09-12-b026-refresh-02/README.md)和[第二账号验收 02 暂停交接](../development/2026-09-12-b026-second-account-02/PAUSE.md)。B02 整体仍 IN_PROGRESS，外部账号验收为 PAUSED_BY_USER。历史 FAIL、NOT_RUN 与 RESTORE_IN_PROGRESS 不改写；未来跨账号项 DEFERRED_BY_USER，真实账号验证只使用 A。B03 主目录集成与最终独立复核已完成，为 INTEGRATED_LOCAL_VERIFIED。B04 已采用 D01—D04 并实现，本地验证有缺口。
 
 本次接手已核实 Linux 和桌面 SSH 项目。用户随后确认 [B02 最小实施包](b02-authentication-adoption.md)，采用门槛已解除，当前按 [B02 计划](../development/2026-09-12-batch-02/PLAN.md)实施。GitHub App 未配置只影响真实集成验收。原前置记录保留历史判断，不再作为待采用阻塞。
 
