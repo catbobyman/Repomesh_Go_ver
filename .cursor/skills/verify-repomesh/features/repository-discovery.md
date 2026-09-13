@@ -20,8 +20,10 @@ Repository discovery is the signed-in home page. The user sees the current accou
 Preconditions:
 
 - Live session cookie is present. `/api/session` is 200.
-- Doctor is live mode.
+- Doctor is live mode on the process you started.
+- On the default local HTTP origin this feature is `verified-unreachable`. Prerequisite: HTTPS origin in `auth.json` plus a browser that accepted `__Host-repomesh-session`. Source: `web/src/RepositoryHome.tsx`, `internal/web/auth.go`.
 
+- **Unconfigured gate.** `helpers/drive-local-gates.sh` opens `/` on `http://127.0.0.1:<port>`. Page is the SPA shell. `GET /api/repositories` is 503 `AUTH_NOT_CONFIGURED`. That is the local reachable proof. It is not a signed-in list.
 - **Open home.** Heading `仓库与账号连接`. Pill `已登录` is visible.
 - **List.** `GET /api/repositories` returns items and `coverage`. End page is `partial` unless the product later changes that rule.
 - **Search.** Fill `#repository-search` and submit `搜索`. Names in the list match the query or the empty copy appears.
@@ -29,7 +31,7 @@ Preconditions:
 
 ## Gotchas
 
-- Unconfigured Web never reaches this page.
+- Unconfigured Web never reaches this page. `main.tsx` keeps `AuthEntry` until `authenticated`.
 - Names appear only after user-read verification. Unconfirmed selections hide names.
 - A 60 second user-read cache is real. Immediate recheck after a GitHub permission change is not a new observation.
 - Do not record repository names of private fixtures in shared evidence. Stable IDs are enough.

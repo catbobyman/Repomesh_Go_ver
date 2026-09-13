@@ -21,8 +21,10 @@ Preconditions:
 - Authenticated session and migrated database.
 - No operator model API key is required. A fixture value is enough for save-shape proof.
 - Do not send a real provider request.
+- On the default local HTTP origin the signed-in recipes are `verified-unreachable`. Prerequisite: HTTPS origin in `auth.json` plus `__Host-` session cookie. Source: `web/src/ModelSettingsPage.tsx`, `internal/web/models.go`.
 
-- **Open.** Heading or muted label `模型设置`. Button `保存供应商` is visible.
+- **Unconfigured gate.** `helpers/drive-local-gates.sh` opens `/settings/models` on `http://127.0.0.1:<port>`. The page is the auth shell. `GET /api/model-providers` is 503 `AUTH_NOT_CONFIGURED`.
+- **Open.** Muted header `模型设置`. Heading `模型连接`. Button `保存供应商` is visible.
 - **Invalid save.** Enter `http://` as a key. Stay on `/settings/models`. Alert mentions the save was not accepted. Name and model remain. API key is empty.
 - **Valid save.** `POST /api/model-provider-saves` then `GET` the same `saveId`. Close with `POST /api/model-provider-saves/{saveId}/close` when testing the empty-slot race.
 

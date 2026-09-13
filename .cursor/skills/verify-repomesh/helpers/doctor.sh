@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+HELPERS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -z "${REPOMESH_VERIFY_ORIGIN:-}" ]]; then
+  eval "$(python3 "$HELPERS/load-config.py" --export)"
+fi
+
 STATE="${REPOMESH_VERIFY_STATE:-}"
 if [[ -n "${REPOMESH_VERIFY_ORIGIN:-}" ]]; then
   ORIGIN="$REPOMESH_VERIFY_ORIGIN"
@@ -10,6 +15,15 @@ else
   echo "set REPOMESH_VERIFY_ORIGIN or REPOMESH_VERIFY_STATE/origin" >&2
   exit 1
 fi
+
+case "$ORIGIN" in
+  http://127.0.0.1:*|http://localhost:*|http://[::1]:*)
+    ;;
+  *)
+    echo "doctor refuses non-local origin $ORIGIN; skill drive origin must be loopback HTTP" >&2
+    exit 1
+    ;;
+esac
 
 MODE="${REPOMESH_VERIFY_MODE:-}"
 if [[ -z "$MODE" && -n "$STATE" && -f "$STATE/mode" ]]; then
@@ -21,6 +35,14 @@ if [[ -n "$STATE" && -f "$STATE/web.pid" ]]; then
   PID="$(cat "$STATE/web.pid")"
   if ! kill -0 "$PID" 2>/dev/null; then
     echo "web pid $PID is not running" >&2
+    exit 1
+  fi
+fi
+
+if [[ "$MODE" == live && -n "$STATE" && -f "$STATE/coordinator.pid" ]]; then
+  CPID="$(cat "$STATE/coordinator.pid")"
+  if ! kill -0 "$CPID" 2>/dev/null; then
+    echo "coordinator pid $CPID is not running" >&2
     exit 1
   fi
 fi
@@ -67,6 +89,7 @@ elif [[ "$MODE" == live ]]; then
     echo "live session missing AUTHENTICATION_REQUIRED" >&2
     exit 1
   fi
+  echo "doctor note: local HTTP 401 does not prove __Host- cookie acceptance" >&2
 else
   echo "unknown mode $MODE" >&2
   exit 1

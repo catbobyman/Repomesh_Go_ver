@@ -16,9 +16,12 @@ Live GitHub auth lets account A start login from RepoMesh, finish or cancel on g
 
 `live-05` and `live-08-user-read` stay `DEFERRED_BY_USER`. Do not start a second GitHub account.
 
+On a local HTTP origin these cookie and callback items are `verified-unreachable`. Prerequisite: `auth.json` `origin` is exact HTTPS, `callbackUrl` matches, the holder opens that HTTPS origin, and `__Host-repomesh-session` is accepted with Secure. `internal/access/deployment.go` rejects a non-HTTPS origin. `internal/web/auth.go` always sets Secure on `__Host-` cookies.
+
 ## How to get to it (user POV)
 
-- Open `<origin>/login` on the configured HTTPS origin.
+- Fill `config.yaml` with `run_scope: account-a-live` and the live fields. Helpers still listen on `http://127.0.0.1:<port>`.
+- Open `/login` on the HTTPS origin written in `auth.json`, not on the local HTTP listen address, when proving cookie acceptance.
 - Choose `使用 GitHub 登录`.
 - On github.com, Cancel or Authorize. The account holder does this.
 - Land on `/auth/result/{attemptId}`. Choose `查询本次授权结果` or `确认当前账号，继续`.
@@ -29,13 +32,15 @@ Live GitHub auth lets account A start login from RepoMesh, finish or cancel on g
 
 Preconditions:
 
-- Operator packet in the skill is in place. Secrets are files, not chat text.
-- Web and coordinator share `REPOMESH_DATABASE_URL` and `REPOMESH_AUTH_CONFIG`.
-- Doctor on the HTTPS origin reports live mode. `/api/session` is 401 `AUTHENTICATION_REQUIRED`.
+- Operator yaml and host packet are in place. Secrets are files, not chat text.
+- Web and coordinator share the database URL from yaml and `REPOMESH_AUTH_CONFIG`.
+- `helpers/launch.sh` and `helpers/doctor.sh` use the local listen origin. Doctor live mode is `/api/session` 401 `AUTHENTICATION_REQUIRED` on that local HTTP process.
+- Browser proof uses the HTTPS origin from `auth.json`. If that origin is missing, stop and record `verified-unreachable`.
 - New evidence directory under `docs/development/`. Old LIVE folders stay untouched.
 - Account A only.
 
-- **Entry.** Open `/login`. Heading `开始使用 RepoMesh`. Click `使用 GitHub 登录`. Browser leaves for `https://github.com/login/oauth/authorize`.
+- **Local probes only.** `GET http://127.0.0.1:<port>/api/session` may be 401 after a configured launch. That is not login proof.
+- **Entry.** Open `/login` on the HTTPS origin. Heading `开始使用 RepoMesh`. Click `使用 GitHub 登录`. Browser leaves for `https://github.com/login/oauth/authorize`.
 - **Cancel.** Holder clicks Cancel. Callback 303 to `/auth/result/{id}` with no query. Attempt `cancelled/USER_CANCELLED`. `/api/session` still 401.
 - **Authorize.** New login. Callback 303, attempt `confirmed`, `/api/session` 200 for account A. URL has no `code` or `state`.
 - **Reconnect.** Click `重新连接同一账号`. Same `user.id`. Connection revision and `access_epoch` advance. Old generation revoked.
@@ -46,10 +51,11 @@ Record each LIVE id in the new template. Independent review is still required be
 
 ## Gotchas
 
-- Vite and `http://127.0.0.1:8080` cannot prove `__Host-` cookies.
+- Vite and `http://127.0.0.1:<port>` cannot prove `__Host-` cookies. Do not claim live login from the skill's default local origin.
+- Product `auth.json` origin must be `https`. HTTP there fails open in `OpenRuntime`.
 - Installation-complete on GitHub is not a RepoMesh login. Start from the product button.
 - GitHub auto-consent can skip the Cancel page. Then `live-02` stays uncovered.
 - First discovery 503 is `RESULT_UNCONFIRMED`. Re-read the same query. Do not swap in a fixture.
 - `coverage=partial` is expected. An out-of-install private repo missing from the list is not a `denied` sample.
 - Retained PASS for LIVE-01 through 04, 06, 07, 09, 10 does not reopen those items unless the operator asks.
-- Restore leftovers from `second-account-02` need a separate authorized restore task.
+- Restore leftovers from `second-account-02` need `run_scope: restore-leftovers` and the leftover confirmation flags.

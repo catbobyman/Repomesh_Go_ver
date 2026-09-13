@@ -4,8 +4,9 @@ This directory is the maintained source for verifying user-facing RepoMesh behav
 
 ## Baseline preconditions
 
-- Unconfigured UI proofs use an isolated Web on `127.0.0.1:18080` started by `helpers/launch-unconfigured.sh`.
-- Live GitHub proofs use the operator packet in the skill, a configured HTTPS origin, and a coordinator you started.
+- Skill launch, doctor, and drive use a local origin from operator yaml, default `http://127.0.0.1:18080`. Copy `config.example.yaml` to `config.yaml` before filling live fields.
+- Unconfigured UI proofs use that isolated Web started by `helpers/launch.sh` with `run_scope: unconfigured-only`.
+- Live GitHub proofs need `run_scope: account-a-live` (or `restore-leftovers`), `auth.json` with a product HTTPS origin, and a coordinator you started. Local HTTP is still the helper listen address. It does not prove `__Host-` cookies.
 - Run `helpers/doctor.sh` first. Refuse a process you did not start.
 - Never drive Vite `http://127.0.0.1:5173` for API or auth claims.
 - Never paste secrets into evidence.
@@ -37,7 +38,7 @@ Each feature file starts with an H1 and one paragraph. It then uses exactly thes
 ## Features
 
 - [Unconfigured login](./unconfigured-login.md) is the isolated no-App UI. This is the default skill proof.
-- [Live GitHub auth](./live-github-auth.md) is B02.6 on a real App and HTTPS origin.
+- [Live GitHub auth](./live-github-auth.md) is B02.6. Launch is local; cookie acceptance is HTTPS-only.
 - [Repository discovery](./repository-discovery.md) is the signed-in workspace list.
-- [Projects](./projects.md) is create, list, and original-operation recovery.
+- [Projects](./projects.md) is create, list, settings, and original-operation recovery.
 - [Model providers](./model-providers.md) is save and close of a provider. No real model HTTP.

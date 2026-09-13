@@ -10,15 +10,15 @@ Unconfigured login shows that Web can serve the login shell when no GitHub App f
 
 ## How to get to it (user POV)
 
-- Open `http://127.0.0.1:18080/login` after `helpers/launch-unconfigured.sh`.
+- Open `http://127.0.0.1:18080/login` after `helpers/launch.sh` with `run_scope: unconfigured-only`. Use the yaml port if it is not 18080.
 - Open `/` or `/projects` on that origin. Unauthenticated routes render the same auth shell.
 
 ## Driving it with Playwright and curl
 
 Preconditions:
 
-- `helpers/doctor.sh` reports `mode=unconfigured`.
-- Origin is the value in `$REPOMESH_VERIFY_STATE/origin`.
+- `helpers/doctor.sh` reports `mode=unconfigured` on the local origin from yaml.
+- Origin is the value in `$REPOMESH_VERIFY_STATE/origin`, a loopback HTTP URL.
 - No `REPOMESH_AUTH_CONFIG` is set for this process.
 
 - **Open login.** Go to `/login`. Heading `暂时无法确认登录状态` is visible. Button `使用 GitHub 登录` count is 0. Button `检查当前登录状态` is visible.
@@ -32,3 +32,4 @@ Preconditions:
 - A configured process on `:8080` is a different instance. Do not doctor that port for this feature.
 - `/api/session` 401 means auth is configured. Stop. This feature is unconfigured only.
 - Fixture `browser-check.mjs` later stubs `/api/**`. That stub is not this recipe.
+- Do not open `https://repomesh.example.com` for this proof. The skill origin is local HTTP.

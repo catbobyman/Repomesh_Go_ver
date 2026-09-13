@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+HELPERS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -z "${REPOMESH_VERIFY_ORIGIN:-}" || -z "${REPOMESH_VERIFY_STATE:-}" ]]; then
+  eval "$(python3 "$HELPERS/load-config.py" --export)"
+fi
+
 STATE="${REPOMESH_VERIFY_STATE:?set REPOMESH_VERIFY_STATE}"
 EVIDENCE="${REPOMESH_VERIFY_EVIDENCE:?set REPOMESH_VERIFY_EVIDENCE}"
-ORIGIN="$(cat "$STATE/origin")"
+if [[ -f "$STATE/origin" ]]; then
+  ORIGIN="$(cat "$STATE/origin")"
+else
+  ORIGIN="${REPOMESH_VERIFY_ORIGIN:?set REPOMESH_VERIFY_ORIGIN}"
+fi
 mkdir -p "$EVIDENCE"
 
 html="$EVIDENCE/login.html"

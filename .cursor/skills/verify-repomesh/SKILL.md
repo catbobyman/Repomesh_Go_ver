@@ -9,34 +9,52 @@ Primary surface is the Go-served React UI. Users open pages in a browser. The sa
 
 This skill is for the next agent. Read the feature map before driving. Drive every listed entry point for the feature you claim, or report the unmet precondition.
 
+The default drive origin is local HTTP, for example `http://127.0.0.1:18080`. Do not treat `https://repomesh.example.com` or any public hostname as the skill default. Product live GitHub auth still sets `__Host-` cookies with `Secure`. Local HTTP never proves those cookies were accepted. Mark that path `verified-unreachable` until the operator supplies a matching HTTPS origin in `auth.json`.
+
+## Operator config
+
+Copy the example, then edit the operator file. Helpers read it. Do not commit `config.yaml`.
+
+```bash
+cp .cursor/skills/verify-repomesh/config.example.yaml .cursor/skills/verify-repomesh/config.yaml
+```
+
+```bash
+python3 .cursor/skills/verify-repomesh/helpers/load-config.py --check
+```
+
+The yaml holds only what the operator must supply. Secret bodies stay in files on the host. Fields:
+
+- `listen.host` / `listen.port` and optional `origin` — local loopback HTTP only
+- `run_scope` — `unconfigured-only`, `account-a-live`, or `restore-leftovers`
+- `auth_config_path` — absolute path to `auth.json`; optional for `unconfigured-only`
+- `reuse_existing_postgres_and_wrap_root`
+- `github_account_a_login`
+- `installed_private_repo_id` and optional `out_of_install_repo_id`
+- `confirmations.holder_will_click_github_ui` and the restore leftover flags
+- `database.url_env_var` or `database.connection_url_file` — not the password
+
+`unconfigured-only` can use the committed example. Live scopes fail until `config.yaml` has those fields. The loader rejects a public hostname as the skill origin.
+
+Override the file with `REPOMESH_VERIFY_CONFIG` if needed.
+
 ## Operator packet for B02 live
 
 B02 live is GitHub App login, reconnect, discovery, and natural refresh. It is not a model-provider test. Do not ask for a model API key.
 
-The operator must place secrets on the Linux host that runs Web and coordinator. The operator must not paste secret bodies into chat, evidence JSON, or this repo.
+Fill `config.yaml` first. The operator must place secrets on the Linux host that runs Web and coordinator. The operator must not paste secret bodies into chat, evidence JSON, or this repo.
 
-**Tell the agent these non-secret facts.**
-
-- Fixed HTTPS origin, including port if not 443. Example shape `https://repomesh.example.com`.
-- Absolute path to `auth.json` on the server. Path only.
-- Whether the existing wrap root and existing PostgreSQL must be reused. Reuse if that database already has auth rows.
-- GitHub login of account A. Current handover says future live work uses only A.
-- Whether this run is A-only re-proof of retained LIVE items, restore of the paused second-account leftovers, or both.
-- Confirmation that the account holder will click GitHub Authorize, Cancel, App permission, and install UI. Agents must not complete those GitHub pages for the holder.
-- Dedicated acceptance PostgreSQL connection available as `REPOMESH_DATABASE_URL` in the process environment, not typed into a command line if avoidable.
-- One installed private repository the A account can read, plus one A-readable repository left outside the App install if LIVE-08 pagination or out-of-install absence is in scope. Give stable numeric IDs if needed. Do not put private repo names in evidence.
-
-**Place on the Linux host. Never paste the bodies.**
+Live scope still needs these host files. Paths go in `auth.json` or `config.yaml`. Bodies do not.
 
 | File | Role | Constraints |
 | --- | --- | --- |
-| `auth.json` | Non-secret App IDs, origin, callback, secret paths | Copy from `configs/auth.example.json`. Unknown fields rejected. |
+| `auth.json` | Non-secret App IDs, HTTPS origin, callback, secret paths | Copy from `configs/auth.example.json`. Unknown fields rejected. Product rejects a non-HTTPS `origin`. |
 | client secret file | GitHub App OAuth client secret | Regular file, `0600`, not a symlink, ≤64 KiB. |
 | App RSA PEM | GitHub App private key | Same file rules. PKCS#1 or PKCS#8, ≥2048 bits. |
 | wrap root | Envelope-encryption root | Raw 32 random bytes, not hex text. Do not regenerate a same-id root over an existing database. |
 | TLS cert and key, or a reverse proxy | Browser-trusted HTTPS | `__Host-` cookies require Secure. HTTP origins cannot prove live login. |
 
-`callbackUrl` must equal `<origin>/api/auth/github/callback` character for character.
+`callbackUrl` in `auth.json` must equal `<https-origin>/api/auth/github/callback` character for character. That HTTPS origin is a product requirement, not the skill's default drive URL. Launch still listens on the local `listen.host:listen.port` from yaml.
 
 **Do not provide.**
 
@@ -45,7 +63,7 @@ The operator must place secrets on the Linux host that runs Web and coordinator.
 - Docker socket, AgentTeams credentials, or host-executor setup.
 - Cookie values, OAuth `code`/`state`, PEM text, wrap-root bytes, database passwords, or raw HAR.
 
-**Optional restore packet.** Only if the operator authorizes cleanup of `docs/development/2026-09-12-b026-second-account-02/`. Confirm in GitHub UI, then tell the agent only booleans and IDs.
+**Optional restore packet.** Only if `run_scope` is `restore-leftovers`. Confirm in GitHub UI, then set the restore booleans in `config.yaml`.
 
 - App visibility is private again.
 - Installation `161284386` is gone.
@@ -54,46 +72,32 @@ The operator must place secrets on the Linux host that runs Web and coordinator.
 - A installation `161172403` still selects only repository `1367444901` with Metadata read, Contents write, Pull requests write.
 - Account A cannot see repository `1368000734`.
 
-Historical origin `https://repomesh.bohanxu.me:8443` and old PIDs are record-time facts. Do not reuse them without a fresh doctor.
+Historical origin `https://repomesh.bohanxu.me:8443` and old PIDs are record-time facts. Do not reuse them. Do not put that hostname in `config.yaml` `origin`.
 
 ## Launch
 
 Work from the repository root on Linux. Auth secret files are Linux-only.
 
-Unconfigured UI, isolated from the default `:8080` session:
-
 ```bash
+cp .cursor/skills/verify-repomesh/config.example.yaml .cursor/skills/verify-repomesh/config.yaml
+# edit run_scope and live fields only when the operator asked for them
 RUN_ID="$(date -u +%Y%m%dT%H%M%S)-$$"
 export REPOMESH_VERIFY_RUN="$RUN_ID"
 export REPOMESH_VERIFY_STATE="/tmp/repomesh-verify-$RUN_ID"
 export REPOMESH_VERIFY_EVIDENCE="$PWD/.cursor/skills/verify-repomesh/evidence/$RUN_ID"
-export REPOMESH_VERIFY_ADDR="127.0.0.1:18080"
-bash .cursor/skills/verify-repomesh/helpers/launch-unconfigured.sh
+python3 .cursor/skills/verify-repomesh/helpers/load-config.py --check
+bash .cursor/skills/verify-repomesh/helpers/launch.sh
 ```
 
-Ready when the helper prints `ready origin=http://127.0.0.1:18080` and `GET /healthz` is 200. Log line on stderr is `web listening` with `address=127.0.0.1:18080` and `authentication_configured=false`.
+Ready when the helper prints `ready origin=http://127.0.0.1:18080` (or the yaml port) and `GET /healthz` is 200. Unconfigured stderr has `web listening` with `authentication_configured=false`.
 
-Live GitHub is a different launch. The operator must already have placed the packet above.
+`run_scope: unconfigured-only` starts Web with `--auth-config=`. That is the default local proof.
 
-```bash
-export REPOMESH_DATABASE_URL="$(cat "${REPOMESH_DEV_PG_ROOT:-$HOME/repomesh-pg}/connection-url.txt")"
-export REPOMESH_AUTH_CONFIG="/absolute/path/to/auth.json"
-go run ./cmd/repomesh-web db check
-go run ./cmd/repomesh-web db migrate --timeout 30s
-npm --prefix web ci
-npm --prefix web run build
-go run ./cmd/repomesh-web --addr 127.0.0.1:8080 --assets ./web/dist
-```
+`account-a-live` and `restore-leftovers` start Web and coordinator on the same local listen address, using `auth_config_path` and the database URL from yaml. Doctor can then see `/api/session` 401 `AUTHENTICATION_REQUIRED`. Browser login remains `verified-unreachable` until the holder opens the HTTPS origin from `auth.json`. Local HTTP is still the launch/doctor address the skill uses.
 
-Second terminal, same two environment variables:
+Refuse to drive a shared instance you did not start. Default environment Web on `:8080` may already exist. This skill uses `:18080` unless yaml names another free loopback port.
 
-```bash
-go run ./cmd/repomesh-coordinator
-```
-
-Open `/login` on the configured HTTPS origin, not `http://127.0.0.1:8080`. Ready when `/healthz` is 200, `/readyz` is 503, `/api/session` is 401 with `AUTHENTICATION_REQUIRED`, and coordinator stays up. `/api/session` 503 with `AUTH_NOT_CONFIGURED` means this process has no App config. Stop. That is not a live run.
-
-Teardown uses the cleanup helper for unconfigured runs. For live `go run` processes, send SIGTERM to the PIDs you started. Do not `pkill` by name.
+Teardown uses the cleanup helper. It kills only the PIDs in the state directory. Do not `pkill` by name.
 
 ## Doctor
 
@@ -101,12 +105,10 @@ Teardown uses the cleanup helper for unconfigured runs. For live `go run` proces
 bash .cursor/skills/verify-repomesh/helpers/doctor.sh
 ```
 
-Uses `REPOMESH_VERIFY_ORIGIN` or the origin recorded in `REPOMESH_VERIFY_STATE/origin`. Pass when the process is listening, `/healthz` is 200 with `businessReady=false`, `/readyz` is 503, and session matches the expected mode.
+Loads yaml when `REPOMESH_VERIFY_ORIGIN` is unset, otherwise uses that origin or `$REPOMESH_VERIFY_STATE/origin`. The origin must be loopback HTTP. Pass when the process is listening, `/healthz` is 200 with `businessReady=false`, `/readyz` is 503, and session matches the expected mode.
 
 - Unconfigured. `/api/session` is 503 `AUTH_NOT_CONFIGURED`. State file `mode=unconfigured`.
-- Live. `/api/session` is 401 `AUTHENTICATION_REQUIRED`. Coordinator must still be running if you started it.
-
-Refuse to drive a shared instance you did not start. Default environment Web on `:8080` may already exist. Unconfigured verification uses `:18080` unless the operator names another free port.
+- Live. `/api/session` is 401 `AUTHENTICATION_REQUIRED`. Coordinator must still be running if you started it. That 401 on HTTP is not cookie proof.
 
 ## Drive
 
@@ -123,13 +125,19 @@ Prefer Playwright role clicks, matching `docs/development/2026-09-12-batch-02/br
 | Sign out | button `退出登录` or `退出当前账号` |
 | Projects | button `项目` and heading `项目` |
 | New project | button `新建项目` |
-| Model settings | button `模型设置` |
+| Model settings | muted header `模型设置`; page heading `模型连接` |
 | Save provider | button `保存供应商` |
 
 Unconfigured recipe lives in `features/unconfigured-login.md`. Helper:
 
 ```bash
 bash .cursor/skills/verify-repomesh/helpers/drive-unconfigured-login.sh
+```
+
+Signed-in routes on the same local unconfigured process stay on the auth shell. Record that with:
+
+```bash
+bash .cursor/skills/verify-repomesh/helpers/drive-local-gates.sh
 ```
 
 Live GitHub recipe lives in `features/live-github-auth.md`. Copy `docs/development/2026-09-12-b02-external-preparation/live-acceptance-template.md` into a new `docs/development/<date>-b026-<topic>/` directory. Do not overwrite old LIVE evidence.
@@ -163,16 +171,20 @@ Forbidden in evidence: Cookie values, `authorizationUrl`, OAuth `code`/`state`, 
 bash .cursor/skills/verify-repomesh/helpers/cleanup.sh
 ```
 
-Kills only the PID in `$REPOMESH_VERIFY_STATE/web.pid`. Removes the state directory. Leaves `$REPOMESH_VERIFY_EVIDENCE` in place.
+Kills only the PIDs in `$REPOMESH_VERIFY_STATE/web.pid` and `coordinator.pid`. Removes the state directory. Leaves `$REPOMESH_VERIFY_EVIDENCE` in place.
 
 ## Helpers
 
-All helpers are `bash` scripts in `.cursor/skills/verify-repomesh/helpers/`. Invoke them from the repository root with the environment variables in Launch.
+All helpers are in `.cursor/skills/verify-repomesh/helpers/`. Invoke them from the repository root after the Launch environment variables are set. They load `config.yaml` (or the example) through `load-config.py`.
 
+- `load-config.py` / `load-config.sh` parse yaml, reject public drive origins, and fail if required fields for `run_scope` are missing. `--check`, `--export`, `--json`.
+- `test-load-config.py` checks the loader against the example and missing live fields.
+- `launch.sh` dispatches on `run_scope`.
 - `launch-unconfigured.sh` builds `web/dist` if `index.html` is missing, starts Web with `--auth-config=`, writes origin and pid.
-- `doctor.sh` is read-only.
-- `drive-unconfigured-login.sh` exercises `/login` on the unconfigured process and writes `proof.json` plus response bodies.
-- `cleanup.sh` tears down that process.
+- `doctor.sh` is read-only and refuses a non-local origin.
+- `drive-unconfigured-login.sh` exercises `/login` on the unconfigured process and writes `proof.json`.
+- `drive-local-gates.sh` opens `/`, `/projects`, `/projects/new`, and `/settings/models` on that process and records signed-in features as `verified-unreachable` when session is `AUTH_NOT_CONFIGURED`.
+- `cleanup.sh` tears down PIDs from the state directory.
 
 ## Feature map
 
