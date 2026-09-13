@@ -271,10 +271,13 @@ try {
   });
 
   currentStep = "U04.4 empty slot close blocks a later save";
+  const emptyGetPromise = page.waitForResponse((response) => response.request().method() === "GET" && new URL(response.url()).pathname === `/api/model-provider-saves/${emptyCloseId}`);
   await page.goto(`${manifest.origin}/settings/model-saves/${emptyCloseId}`);
+  const emptyGetResponse = await emptyGetPromise;
+  assert.equal(emptyGetResponse.status(), 404);
+  const emptyGetBody = await emptyGetResponse.json();
+  assert.equal(emptyGetBody.error?.code, "MODEL_SAVE_NOT_FOUND");
   await page.getByRole("button", { name: "终结原保存" }).waitFor();
-  const emptyGet = network.filter((item) => item.method === "GET" && item.path === `/api/model-provider-saves/${emptyCloseId}` && item.status === 404 && item.code === "MODEL_SAVE_NOT_FOUND");
-  assert.equal(emptyGet.length >= 1, true);
   await page.getByRole("button", { name: "终结原保存" }).click();
   await page.getByText("原操作已终结，未保存。", { exact: true }).waitFor();
   const sessionResponse = await desktop.request.get(`${manifest.origin}/api/session`);
@@ -307,11 +310,14 @@ try {
 
   currentStep = "U04.4 other actor cannot read the original receipt";
   await login(page, "b");
+  const foreignGetPromise = page.waitForResponse((response) => response.request().method() === "GET" && new URL(response.url()).pathname === `/api/model-provider-saves/${saveId}`);
   await page.goto(`${manifest.origin}/settings/model-saves/${saveId}`);
+  const foreignGet = await foreignGetPromise;
+  assert.equal(foreignGet.status(), 404);
+  assert.equal((await foreignGet.json()).error?.code, "MODEL_SAVE_NOT_FOUND");
   await page.getByRole("button", { name: "终结原保存" }).waitFor();
   assert.equal(await page.getByText(providerName, { exact: true }).count(), 0);
   assert.equal(await page.locator("main").innerText().then((text) => text.includes("已保存供应商")), false);
-  assert.equal(network.some((item) => item.method === "GET" && item.path === `/api/model-provider-saves/${saveId}` && item.status === 404 && item.code === "MODEL_SAVE_NOT_FOUND"), true);
   record("U04.4", "another actor sees MODEL_SAVE_NOT_FOUND and no provider identity", {
     crossActorHidden: true,
   });
