@@ -11,7 +11,7 @@
 | B00／B01 | VERIFIED | 保留既有结论 |
 | B02 | IN_PROGRESS，外部 PAUSED_BY_USER | 不恢复外部账号实验；历史 FAIL、NOT_RUN、RESTORE_IN_PROGRESS 保留，未来跨账号项 DEFERRED_BY_USER |
 | B03 | INTEGRATED_LOCAL_VERIFIED | 主目录已有实现与最终独立复核；不是整批业务或真实 GitHub VERIFIED |
-| B04 | DESIGN_ADOPTED；IMPLEMENTED；LOCAL_VERIFIED 有缺口 | 补 S07／S10／S11 或明确豁免后再谈 B05 采用 |
+| B04 | DESIGN_ADOPTED；IMPLEMENTED；LOCAL_VERIFIED。S01—S12 已有真实 PG 证据，非整批 VERIFIED | 进入 B05 前另作 D05／D06／C05／C06 采用 |
 | B05／B06 | 设计完成、实施 TODO | 分别依赖 D05／D06，以及 P9／S06 与完整配置来源；不因 B04 开工而自动开工 |
 | B09 | 必要数据兼容问题的部分静态审查 | 完整 G1／G2 未完成，实验 E01—E05 均 NOT_RUN |
 

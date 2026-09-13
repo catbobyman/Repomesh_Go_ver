@@ -2,7 +2,7 @@
 
 日期：2026-09-13。用户原话：“推进B04,并告诉我验收标准是什么才能进入B05”。本记录采用 D01—D04 及 B04 六个 HTTP／Key UI／schema 1 范围。不采用 D05—D08、S06、C05、C06、P9。
 
-状态：`DESIGN_ADOPTED`（B04 范围）。实现为 `IMPLEMENTED`。本地检查为 `LOCAL_VERIFIED`，缺口如下，不能写成整批 `VERIFIED`。
+状态：`DESIGN_ADOPTED`（B04 范围）。实现为 `IMPLEMENTED`。本地检查为 `LOCAL_VERIFIED`。S01 到 S12 已有真实 PostgreSQL 证据。不能写成整批 `VERIFIED`。
 
 ## 采用
 
@@ -23,4 +23,4 @@ D05 次数预算与外发、D06 专用应用、C05／C06、D07／P9、D08 Issue 
 
 ## 实现与本地验证
 
-U04.1 到 U04.4 已落地。迁移 `0005_models.sql`。六个模型 HTTP 端点。`repomesh-web sources import|result`。Key 页面发出即清。父代理 2026-09-13 复测：`go test ./...` 254 通过、0 失败、2 跳过（`TestRootFileOwner`、`TestProjectBrowserServer`，均非缺库）；前端 31 通过。`ACCEPTANCE.md` B04 中 S01 到 S06、S08、S09、S12 有真实 PostgreSQL 证据。S07 缺模型保存丢响应后的进程重启路径。S10 缺多 owner 导入与 Provider 保存并发。S11 缺部署角色与独立 CLI 身份装配。外部模型与发布 `NOT_RUN`。`businessReady=false`。
+U04.1 到 U04.4 已落地。迁移 `0005_models.sql`。六个模型 HTTP 端点。`repomesh-web sources import|result`。Key 页面发出即清。2026-09-13 补齐 S07、S10、S11 后，`go test ./...` 为 259 通过、0 失败、2 跳过（`TestRootFileOwner`、`TestProjectBrowserServer`，均非缺库）。`TestPostgresModelSaveLostResponseAndRestart` 在 COMMIT 后丢掉 HTTP 响应，重启后 GET 原 receipt，close 仍返回 `committed`，迟到异输入 409 `IDEMPOTENCY_CONFLICT`。`TestPostgresConcurrentImportAndProviderSave` 与 `TestPostgresImportHoldsOwnersWhileOtherOwnerSaves` 证明两 owner 导入与 Provider 保存并发完成，默认与 provider owner 不串写。`TestParseImportSchema1`、`TestPostgresDeploymentRoleRejected`、`TestSourcesCLIImportWithoutAuthRuntime` 拒绝自报 actor 与非 importer 角色，并在只设 `REPOMESH_DATABASE_URL`、故意指向缺失 auth 配置时完成 CLI 导入。外部模型与发布仍 `NOT_RUN`。`businessReady=false`。

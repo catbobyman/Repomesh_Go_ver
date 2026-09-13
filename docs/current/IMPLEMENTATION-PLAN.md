@@ -3,7 +3,7 @@
 环境进度：本次接手已直接核实 WSL2 Linux、`/home/xubohan/projects/Repomesh_Go_ver`、Linux 工具路径及桌面项目绑定的 `repomesh-wsl` 主机。此前 SSH、登录恢复和 Windows／Linux 验收保留，见 [SSH 接入记录](../development/2026-09-12-wsl-ssh/README.md)及 [WSL 环境验收](../development/2026-09-12-wsl/README.md)。本次证据见 [B02 接手记录](../development/2026-09-12-b02-preflight/README.md)。
 更新于 2026-09-13。用户已确认 B02 最小实施包，范围见 [B02 采用记录](b02-authentication-adoption.md)。B00、B01 保持 VERIFIED；B02 保持 IN_PROGRESS，本地单元为 LOCAL_VERIFIED，外部账号验收为 PAUSED_BY_USER。LIVE-09、LIVE-10 的既有 PASS 不重跑；second-account-02 的 LIVE-05 历史 FAIL、LIVE-08 NOT_RUN 与 RESTORE_IN_PROGRESS 保留。未来跨账号 LIVE-05 和 LIVE-08-USER-READ 为 DEFERRED_BY_USER，不计为 PASS；今后真实账号验证只使用主账号 A。状态为 TODO、IN_PROGRESS、INTEGRATED_LOCAL_VERIFIED、DESIGN_PREPARED_NOT_ADOPTED、LOCAL_VERIFIED、VERIFIED、PAUSED_BY_USER、DEFERRED_BY_USER 或 BLOCKED。只有相应验收证据齐全的组可以标为 VERIFIED。
 
-B03 已按用户授权完成主目录集成，状态为 `INTEGRATED_LOCAL_VERIFIED`。[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)确认两项 P1、一项 P2 闭环，无开放 P0/P1/P2；真实 PostgreSQL 73/0、前端 28/28、普通/空目录浏览器 25+1、Go/race、HTTP、实际进程恢复与发布通过。新包为 `dist/repomesh-0.3.0-b03-integrated-20260912-r1/`，businessReady=false；不代表外部 GitHub、部署或整批业务 VERIFIED。历史证据与包保留，新证据见[主目录集成 01](../development/2026-09-12-b03-integration-01/README.md)。B04 已采用 D01—D04 并实现 U04.1—U04.4，本地验证有缺口，见[采用记录](b04-model-sources-adoption.md)。B05／B06 设计已复核，实施仍 TODO，不因 B04 开工而自动采用 D05—D08。旧交接/Prompt保留历史，不能自动恢复未授权批次。
+B03 已按用户授权完成主目录集成，状态为 `INTEGRATED_LOCAL_VERIFIED`。[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)确认两项 P1、一项 P2 闭环，无开放 P0/P1/P2；真实 PostgreSQL 73/0、前端 28/28、普通/空目录浏览器 25+1、Go/race、HTTP、实际进程恢复与发布通过。新包为 `dist/repomesh-0.3.0-b03-integrated-20260912-r1/`，businessReady=false；不代表外部 GitHub、部署或整批业务 VERIFIED。历史证据与包保留，新证据见[主目录集成 01](../development/2026-09-12-b03-integration-01/README.md)。B04 已采用 D01—D04 并实现 U04.1—U04.4，本地验证见[采用记录](b04-model-sources-adoption.md)。S01 到 S12 已有真实 PostgreSQL 证据，仍非整批 VERIFIED。B05／B06 设计已复核，实施仍 TODO，不因 B04 开工而自动采用 D05—D08。旧交接/Prompt保留历史，不能自动恢复未授权批次。
 
 ## 执行步骤
 
@@ -24,7 +24,7 @@ B03 已按用户授权完成主目录集成，状态为 `INTEGRATED_LOCAL_VERIFI
 | B01 | VERIFIED | PostgreSQL 连接、显式迁移与版本核查、独立临时数据库验证 | B00；完成实现方案比较 | 真实数据库连接；重复和并发迁移；故障回滚；迁移历史不匹配拒绝；超时；二进制启动与退出；readyz 仍为 503 |
 | B02 | IN_PROGRESS；外部账号验收 PAUSED_BY_USER，本地验收见[B02 结果](../development/2026-09-12-batch-02/README.md) | GitHub 登录、会话、固定返回目的地、Origin 与 CSRF、仓库发现；含认证秘密基础及 coordinator 持久发现续扫 | B01 已通过；A1 至 A7 及认证所需 S01、S02、S06 子集已明确采用。App 材料、固定 HTTPS 和服务已配置 | 既有 LIVE-09/10 PASS 保留；second-account-02 的 FAIL/NOT_RUN 与恢复中状态保留；未来真实验证只用 A，跨账号项 DEFERRED_BY_USER |
 | B03 | INTEGRATED_LOCAL_VERIFIED；整批业务未 VERIFIED | 待配置项目创建、读取与列表、资料编辑、明确增仓、固定配置引用与原操作恢复，已实现 | 已授权并完成主目录集成；Astra 规划与接口、Sol 实现 | PG 73/0、前端 28/28、浏览器 25+1、Go/race、HTTP、实际进程恢复和 r1 配套发布通过；最终独立复核无开放 P0/P1/P2，businessReady=false |
-| B04 | DESIGN_ADOPTED；IMPLEMENTED；LOCAL_VERIFIED 有缺口，非整批 VERIFIED | 模型供应商保存／close、不可变版本、部署 schema 1 导入、六个 HTTP 端点与 Key 恢复。不发送模型请求 | 用户授权推进 B04；采用记录见 [b04-model-sources-adoption.md](b04-model-sources-adoption.md) | 父代理复测 go test 254/0/2、前端 31/0。S01–S06／S08／S09／S12 有真实 PG 证据。S07 重启、S10 并发、S11 部署角色仍缺 |
+| B04 | DESIGN_ADOPTED；IMPLEMENTED；LOCAL_VERIFIED，非整批 VERIFIED | 模型供应商保存／close、不可变版本、部署 schema 1 导入、六个 HTTP 端点与 Key 恢复。不发送模型请求 | 用户授权推进 B04；采用记录见 [b04-model-sources-adoption.md](b04-model-sources-adoption.md) | S01—S12 有真实 PG 证据，含 S07 丢响应重启、S10 导入与保存并发、S11 部署角色与独立 CLI。外部模型与发布 NOT_RUN |
 | B05 | TODO | 模型单次测试、专用应用、预算与时限只读摘要 | B04；C05/C06设计已补，待采用和实施 | 测试未知不重发；快照隔离；只换模型保留 execution；无变化保存不造修订；受限原模型预览不泄露 |
 | B06 | TODO | 手动 Issue 原子创建、必要会话、主 ChangeSet、来源、范围与持久待办 | B05；采用并落实 P9 固定配置绑定 | DB01 至 DB08 和 CB01 至 CB05；任一写入失败全回滚；创建与换配置并发绑定完整版本；不伪造运行接入 |
 | B07 | TODO | Issue 列表、最小详情、已有会话只读、rooms 分读、SSE 与恢复页面 | B06；收口详情和恢复候选 | 当前完整内容范围核权；分页隔离；401 和失权清缓存；旧响应隔离；SSE 失效通知与快照重读 |
@@ -66,7 +66,7 @@ C05项目预算/时限摘要和C06原模型受限/历史定位已在本轮候选
 
 ## B02 开工核对
 
-B02.6 接续准备见[计划与吞吐检查点](../development/2026-09-12-b02-external-preparation/PLAN.md)，外部历史进度见[真实验收 03](../development/2026-09-12-b026-live-03/README.md)、[自然刷新观察](../development/2026-09-12-b026-refresh-02/README.md)和[第二账号验收 02 暂停交接](../development/2026-09-12-b026-second-account-02/PAUSE.md)。B02 整体仍 IN_PROGRESS，外部账号验收为 PAUSED_BY_USER。历史 FAIL、NOT_RUN 与 RESTORE_IN_PROGRESS 不改写；未来跨账号项 DEFERRED_BY_USER，真实账号验证只使用 A。B03 主目录集成与最终独立复核已完成，为 INTEGRATED_LOCAL_VERIFIED。B04 已采用 D01—D04 并实现，本地验证有缺口。
+B02.6 接续准备见[计划与吞吐检查点](../development/2026-09-12-b02-external-preparation/PLAN.md)，外部历史进度见[真实验收 03](../development/2026-09-12-b026-live-03/README.md)、[自然刷新观察](../development/2026-09-12-b026-refresh-02/README.md)和[第二账号验收 02 暂停交接](../development/2026-09-12-b026-second-account-02/PAUSE.md)。B02 整体仍 IN_PROGRESS，外部账号验收为 PAUSED_BY_USER。历史 FAIL、NOT_RUN 与 RESTORE_IN_PROGRESS 不改写；未来跨账号项 DEFERRED_BY_USER，真实账号验证只使用 A。B03 主目录集成与最终独立复核已完成，为 INTEGRATED_LOCAL_VERIFIED。B04 已采用 D01—D04 并实现，S01 到 S12 已有真实 PostgreSQL 证据，仍非整批 VERIFIED。
 
 本次接手已核实 Linux 和桌面 SSH 项目。用户随后确认 [B02 最小实施包](b02-authentication-adoption.md)，采用门槛已解除，当前按 [B02 计划](../development/2026-09-12-batch-02/PLAN.md)实施。GitHub App 未配置只影响真实集成验收。原前置记录保留历史判断，不再作为待采用阻塞。
 

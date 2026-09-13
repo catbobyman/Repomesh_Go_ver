@@ -8,7 +8,7 @@
 
 ### 2026-09-13 B04 实施
 
-B04 为 `DESIGN_ADOPTED`、`IMPLEMENTED`、带缺口的 `LOCAL_VERIFIED`。未采用 D05—D08。没有整批 `VERIFIED`。没有真实模型请求。`businessReady=false`。S07 重启恢复、S10 导入与保存并发、S11 部署角色仍缺独立证据。进入 B05 还要另作 D05／D06／C05／C06 采用，并把上述缺口补齐或明确豁免。
+B04 为 `DESIGN_ADOPTED`、`IMPLEMENTED`、`LOCAL_VERIFIED`。S01 到 S12 已有真实 PostgreSQL 证据。未采用 D05—D08。没有整批 `VERIFIED`。没有真实模型请求。`businessReady=false`。进入 B05 还要另作 D05／D06／C05／C06 采用。
 
 ### 2026-09-13 B04—B06 设计交付
 
