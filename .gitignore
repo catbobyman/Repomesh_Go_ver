@@ -46,6 +46,10 @@ coverage/
 !/docs/archive/2026-09-12-development-preparation/
 !/docs/archive/2026-09-13-plan-organization/
 
+# Verification-skill proof artifacts. Helpers write here and cleanup must keep them.
+/.cursor/skills/verify-repomesh/evidence/*
+!/.cursor/skills/verify-repomesh/evidence/.gitignore
+
 # Machine-specific Codex configuration; use the tracked example as a template
 /.codex/config.toml
 
