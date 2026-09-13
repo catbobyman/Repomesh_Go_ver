@@ -198,6 +198,32 @@ try {
     emptyObserved: true,
   });
 
+  currentStep = "U04.2 invalid URL stays on the form";
+  await page.getByLabel("名称").fill(providerName);
+  await page.getByLabel("Base URL").fill("http://gateway.example.invalid/v1");
+  await page.getByLabel("API Key").fill(secret);
+  await page.getByLabel("modelId").fill("fixture-chat");
+  await page.getByLabel("显示名").fill("夹具对话");
+  const invalidSave = page.waitForResponse((response) => response.request().method() === "POST" && new URL(response.url()).pathname === "/api/model-provider-saves");
+  await page.getByRole("button", { name: "保存供应商" }).click();
+  const invalidResponse = await invalidSave;
+  assert.equal(invalidResponse.status(), 422);
+  assert.equal((await invalidResponse.json()).error?.code, "VALIDATION_FAILED");
+  assert.equal(new URL(page.url()).pathname, "/settings/models");
+  await page.getByRole("alert").waitFor();
+  assert.match(await page.getByRole("alert").innerText(), /这次保存没有受理/);
+  assert.equal(await page.getByLabel("名称").inputValue(), providerName);
+  assert.equal(await page.getByLabel("modelId").inputValue(), "fixture-chat");
+  assert.equal(await page.getByLabel("API Key").inputValue(), "");
+  assert.equal(await page.getByRole("heading", { name: "查询这次模型保存" }).count(), 0);
+  await assertSecretAbsent(page);
+  await shot(page, "b04_validation_stay");
+  record("U04.2", "validation failure stays on the form, keeps typed fields, and clears the key", {
+    stayedOnForm: true,
+    alertShown: true,
+    secretCleared: true,
+  });
+
   currentStep = "U04.4 dropped save response recovers the original key";
   await fillProviderForm(page);
   await shot(page, "b04_closeout_settings_filled");
@@ -328,7 +354,7 @@ try {
   const shutdownContext = await contextFor({ width: 800, height: 600 });
   await control(shutdownContext, { action: "shutdown" });
   await shutdownContext.close();
-  assert.deepEqual(events.filter((event) => event.id.startsWith("U")).map((event) => event.id), ["U04.4", "U04.4", "U04.4", "U04.4", "U04.4"]);
+  assert.deepEqual(events.filter((event) => event.id.startsWith("U")).map((event) => event.id), ["U04.4", "U04.2", "U04.4", "U04.4", "U04.4", "U04.4"]);
   console.log(JSON.stringify({
     suite: "B04 fixture browser Key and save recovery",
     passed: true,

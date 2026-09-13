@@ -113,3 +113,10 @@ export function clearModelRecovery(): void {
 export function recoveryPath(id: string): string {
   return `/settings/model-saves/${id.toLowerCase()}`;
 }
+
+export function shouldOpenSaveRecovery(response: { kind: "ok" } | { kind: "error"; status: number; code: string }): boolean {
+  if (response.kind === "ok") return true;
+  if (response.status === 401 || response.status === 403) return false;
+  if (response.status === 404 || response.status === 503 || response.code === "ABORTED" || response.code === "NETWORK_ERROR") return true;
+  return response.code === "IDEMPOTENCY_CONFLICT" || response.code === "MODEL_SAVE_CLOSED" || response.code === "MODEL_SAVE_RESULT_REMOVED" || response.code === "PROVIDER_REVISION_CONFLICT";
+}

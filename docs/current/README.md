@@ -1,6 +1,6 @@
 # RepoMesh 现行文档索引
 
-当前：B04 为 `INTEGRATED_LOCAL_VERIFIED`，证据见[收口 01](../development/2026-09-13-b04-closeout-01/README.md)。B05／B06 实施仍 TODO。B02 外部暂停。非整批 VERIFIED。`businessReady=false`。
+当前：B04 授权范围（D01—D04、U04.1—U04.4）已结束，状态为 `INTEGRATED_LOCAL_VERIFIED`。证据见[收口 01](../development/2026-09-13-b04-closeout-01/README.md)与[收口后修复 01](../development/2026-09-13-b04-validation-stay-01/README.md)。B05／B06 实施仍 TODO，不自动开工。B02 外部暂停。非整批 VERIFIED。`businessReady=false`。
 
 2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。该段保留设计当时的「新推荐仍待采用」记录，不改写成当时已实施。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
 

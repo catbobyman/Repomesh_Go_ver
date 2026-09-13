@@ -75,7 +75,7 @@ go run ./cmd/repomesh-web db migrate --timeout 30s
 go run ./cmd/repomesh-web db check
 ```
 
-直接运行二进制时，`check` 只有在迁移历史完全匹配时退出 0，缺少迁移或历史不匹配退出 1，参数错误退出 2。`go run` 还会报告子进程退出状态。当前第五条迁移增加模型供应商、保存回执、执行来源和默认 `pinned_version`；第四条增加项目、完整仓库范围、配置固定版本、操作回执与游标；前三条建立版本记录、认证秘密和账号／会话／发现表。部署执行来源只走 `repomesh-web sources import --file PATH` 与 `sources result --import-id UUID`，使用数据库部署身份，不走浏览器。迁移只支持前进，SQL 与历史记录同事务提交。具体命令、超时、失败恢复及配置范围见[数据库开发说明](docs/current/database-development.md)。
+直接运行二进制时，`check` 只有在迁移历史完全匹配时退出 0，缺少迁移或历史不匹配退出 1，参数错误退出 2。`go run` 还会报告子进程退出状态。当前第六条迁移收紧保存回执的 vault 完整性；第五条增加模型供应商、保存回执、执行来源和默认 `pinned_version`；第四条增加项目、完整仓库范围、配置固定版本、操作回执与游标；前三条建立版本记录、认证秘密和账号／会话／发现表。部署执行来源只走 `repomesh-web sources import --file PATH` 与 `sources result --import-id UUID`，使用数据库部署身份，不走浏览器。迁移只支持前进，SQL 与历史记录同事务提交。具体命令、超时、失败恢复及配置范围见[数据库开发说明](docs/current/database-development.md)。
 
 数据库批次验证需要 PowerShell 7 和 PostgreSQL 17，当前 B02 认证验证在 Linux 运行；Windows B01 历史证据对应当时的源码，不能替代当前认证平台验收。WSL 使用本页上方的 `/usr/lib/postgresql/17/bin`；下例为保留的 Windows 工具路径，本机下载目录位于被 Git 忽略的 `bin`。其他开发机可使用自己的安装目录。
 

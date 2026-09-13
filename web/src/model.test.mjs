@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { parseProvider, parseSaveResult } from "./modelApi.ts";
-import { acceptsRead, beginRead, persistRecoveryIndex, persistSessionRecovery, readRecoveryIndex, readSessionRecovery, reduceSave } from "./modelRecovery.ts";
+import { acceptsRead, beginRead, persistRecoveryIndex, persistSessionRecovery, readRecoveryIndex, readSessionRecovery, reduceSave, shouldOpenSaveRecovery } from "./modelRecovery.ts";
 import { parseBusinessNextPage, parseDestination, parseRoute } from "./routes.ts";
 
 const saveId = "a2394178-23a4-43ba-a886-2755c1f9ad16";
@@ -53,6 +53,22 @@ test("save recovery stores only secret-free snapshots and ignores late generatio
   const current = { state: "checking", locator, generation: 2 };
   const late = reduceSave(current, beginRead(locator, 1), { kind: "ok", value: { saveId, outcome: "committed", providerId: "p", providerRevision: "r", secretVersionId: "s", committedAt: observedAt, links: { provider: "/api/model-providers/p", operation: `/api/model-provider-saves/${saveId}` } } });
   assert.equal(late.state, "checking");
+});
+
+test("validation failures stay on the form and unknown or slotted results open recovery", () => {
+  assert.equal(shouldOpenSaveRecovery({ kind: "ok", value: { saveId, outcome: "committed" } }), true);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 404, code: "MODEL_SAVE_NOT_FOUND" }), true);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 503, code: "RESULT_UNCONFIRMED" }), true);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 0, code: "NETWORK_ERROR" }), true);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 0, code: "ABORTED" }), true);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 409, code: "IDEMPOTENCY_CONFLICT" }), true);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 409, code: "MODEL_SAVE_CLOSED" }), true);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 410, code: "MODEL_SAVE_RESULT_REMOVED" }), true);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 409, code: "PROVIDER_REVISION_CONFLICT" }), true);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 422, code: "VALIDATION_FAILED" }), false);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 400, code: "INVALID_JSON" }), false);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 401, code: "AUTHENTICATION_REQUIRED" }), false);
+  assert.equal(shouldOpenSaveRecovery({ kind: "error", status: 403, code: "ORIGIN_REJECTED" }), false);
 });
 
 test("save parsers accept committed rejected and closed receipts", () => {

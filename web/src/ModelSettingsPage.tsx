@@ -4,7 +4,7 @@ import type { ApiError, Session } from "./api";
 import { errorMessage } from "./api";
 import { listProviders, saveProvider } from "./modelApi";
 import type { ModelInput, ProviderPage, SaveBody } from "./modelApi";
-import { persistRecoveryIndex, persistSessionRecovery, recoveryPath } from "./modelRecovery";
+import { persistRecoveryIndex, persistSessionRecovery, recoveryPath, shouldOpenSaveRecovery } from "./modelRecovery";
 import type { SessionController } from "./session";
 import { ErrorNotice, Mark } from "./shared";
 
@@ -30,6 +30,7 @@ export function ModelSettingsPage({ session, auth, navigate }: { session: Sessio
   const [secret, setSecret] = useState("");
   const [models, setModels] = useState<ModelInput[]>([emptyModel()]);
   const [sending, setSending] = useState(false);
+  const [saveError, setSaveError] = useState<ApiError | null>(null);
   const { currentGeneration, isCurrent, unauthorized } = auth;
 
   useEffect(() => {
@@ -59,13 +60,23 @@ export function ModelSettingsPage({ session, auth, navigate }: { session: Sessio
       snapshot: { providerId: null, expectedRevision: null, name, baseUrl, apiFormat: "openai_chat_completions", models, secretMode: "replace" },
     });
     setSecret("");
+    setSaveError(null);
     setSending(true);
     const expected = currentGeneration();
     const response = await saveProvider({ actor: session.user.id, csrfToken: session.csrfToken }, saveId, body, new AbortController().signal);
     body.secret = { mode: "replace", value: "" };
     if (!isCurrent(expected)) return;
-    if (response.kind === "error" && response.status === 401) unauthorized(expected);
-    navigate(recoveryPath(saveId));
+    if (response.kind === "error" && response.status === 401) {
+      unauthorized(expected);
+      setSending(false);
+      return;
+    }
+    if (shouldOpenSaveRecovery(response)) {
+      navigate(recoveryPath(saveId));
+      return;
+    }
+    if (response.kind === "error") setSaveError(response);
+    setSending(false);
   }
 
   return <div className="workspace">
@@ -86,7 +97,8 @@ export function ModelSettingsPage({ session, auth, navigate }: { session: Sessio
           <label>显示名<input value={model.displayName ?? ""} onChange={(event) => setModels((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, displayName: event.target.value || null } : item))} /></label>
         </fieldset>)}
         <button type="button" className="outlined" onClick={() => setModels((current) => current.length >= 50 ? current : [...current, emptyModel()])}>增加模型</button>
-        <p className="small muted">保存后会打开原操作页。即使存储被禁用，也请复制该链接。</p>
+        {saveError && <p className="notice" role="alert">{modelErrorMessage(saveError)}</p>}
+        <p className="small muted">保存后会打开原操作页。即使存储被禁用，也请复制该链接。校验未通过时留在本页，密钥需要重新输入。</p>
         <button className="primary" type="submit" disabled={sending}>保存供应商</button>
       </form>
     </main>
@@ -99,6 +111,7 @@ export function modelErrorMessage(error: ApiError): string {
     case "MODEL_SAVE_CLOSED": return "原保存已终结，未写入新配置。请用新的保存操作继续。";
     case "MODEL_SAVE_RESULT_REMOVED": return "这次保存结果已清理，不能复用原操作。";
     case "IDEMPOTENCY_CONFLICT": return "原保存与这次输入不一致，已保留原结果。";
+    case "VALIDATION_FAILED": return "这次保存没有受理。请检查名称、地址和模型后重试。密钥需要重新输入。";
     default: return errorMessage(error);
   }
 }

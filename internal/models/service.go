@@ -209,6 +209,8 @@ func (s *Service) commitSave(ctx context.Context, principal access.ProjectPrinci
 	if s.catalog == nil {
 		return SaveResult{}, unavailable()
 	}
+	// Adopted lock order is slot → catalog → Provider. Import already locks
+	// owners then catalog; reversing catalog and Provider here would deadlock.
 	if err = s.catalog.LockExclusive(ctx, tx); err != nil {
 		return SaveResult{}, err
 	}
@@ -573,7 +575,7 @@ func (m *Maintenance) RemoveSaveResult(ctx context.Context, actor, saveID string
 	if operation.removedAt != nil {
 		return tx.Commit(ctx)
 	}
-	if operation.target == nil {
+	if operation.kind != "save_input" {
 		return unavailable()
 	}
 	if operation.inputVersion != nil {

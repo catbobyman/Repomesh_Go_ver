@@ -9,6 +9,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"os"
 	"path/filepath"
@@ -32,6 +33,37 @@ func bodyWithSecret(value string) string {
 
 func bodyWithName(name string) string {
 	return strings.Replace(saveJSON, `"name":"开发网关"`, `"name":"`+name+`"`, 1)
+}
+
+func followOnBody(t *testing.T, view ProviderView, revision, secretJSON string) string {
+	t.Helper()
+	type model struct {
+		ID              string  `json:"id"`
+		ModelID         string  `json:"modelId"`
+		DisplayName     *string `json:"displayName"`
+		ContextWindow   int64   `json:"contextWindow"`
+		MaxOutputTokens int64   `json:"maxOutputTokens"`
+		Reasoning       bool    `json:"reasoning"`
+		Vision          bool    `json:"vision"`
+	}
+	models := make([]model, len(view.Models))
+	for index, item := range view.Models {
+		name := item.DisplayName
+		models[index] = model{
+			ID: item.ID, ModelID: item.ModelID, DisplayName: &name,
+			ContextWindow: item.ContextWindow, MaxOutputTokens: item.MaxOutputTokens,
+			Reasoning: item.Reasoning, Vision: item.Vision,
+		}
+	}
+	body, err := json.Marshal(map[string]any{
+		"providerId": view.ID, "expectedRevision": revision, "name": view.Name,
+		"baseUrl": view.BaseURL, "apiFormat": view.APIFormat,
+		"secret": json.RawMessage(secretJSON), "models": models,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	return string(body)
 }
 
 var saveArtifactTables = []string{
@@ -538,5 +570,70 @@ func TestPostgresRemoveSaveResultKeepsBusinessSecret(t *testing.T) {
 	view, err := f.service.Get(f.ctx, f.principal, providerID)
 	if err != nil || view.Secret.Availability != "available" || view.Secret.VersionID == nil || *view.Secret.VersionID != business {
 		t.Fatalf("provider after removal: %+v %v", view, err)
+	}
+}
+
+func TestPostgresRemoveRejectedSaveResultDestroysVault(t *testing.T) {
+	f := newFixture(t)
+	created, err := f.save(t, f.principal, "12121212-1212-4212-8212-121212121212", saveJSON)
+	committedRevision(t, created, err, 201)
+	business := created.Receipt.committed.SecretVersionID
+	providerID := created.Receipt.committed.ProviderID
+	view, err := f.service.Get(f.ctx, f.principal, providerID)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	keepKey := "23232323-2323-4232-8232-232323232323"
+	kept, err := f.save(t, f.principal, keepKey, followOnBody(t, view, view.Revision, `{"mode":"keep"}`))
+	committedRevision(t, kept, err, 200)
+	var keepVault *string
+	if err := f.pool.QueryRow(f.ctx, `SELECT input_vault_version FROM repomesh_models.save_operations WHERE actor=$1 AND save_id=$2`, f.principal.ActorID(), keepKey).Scan(&keepVault); err != nil || keepVault != nil {
+		t.Fatalf("keep vault=%v err=%v; want null", keepVault, err)
+	}
+
+	rejectedKey := "34343434-3434-4434-8434-343434343434"
+	rejected, err := f.save(t, f.principal, rejectedKey, followOnBody(t, view, "99999999-9999-4999-8999-999999999999", `{"mode":"replace","value":"sk-rejected-key"}`))
+	if err != nil || rejected.HTTPStatus != 409 || rejected.Receipt.rejected == nil || rejected.Receipt.rejected.Error.Code != "PROVIDER_REVISION_CONFLICT" {
+		t.Fatalf("rejected save: %+v %v", rejected, err)
+	}
+	var rejectedVault string
+	var rejectedTarget *string
+	if err := f.pool.QueryRow(f.ctx, `SELECT input_vault_version,target FROM repomesh_models.save_operations WHERE actor=$1 AND save_id=$2`, f.principal.ActorID(), rejectedKey).Scan(&rejectedVault, &rejectedTarget); err != nil || rejectedVault == "" || rejectedTarget != nil {
+		t.Fatalf("rejected slot vault=%q target=%v err=%v", rejectedVault, rejectedTarget, err)
+	}
+
+	maintenance := NewMaintenance(f.service)
+	if err := maintenance.RemoveSaveResult(f.ctx, f.principal.ActorID(), rejectedKey); err != nil {
+		t.Fatal(err)
+	}
+	_, err = f.service.GetSave(f.ctx, f.principal, rejectedKey)
+	wantFailure(t, err, 410, "MODEL_SAVE_RESULT_REMOVED")
+	_, err = f.save(t, f.principal, rejectedKey, followOnBody(t, view, "99999999-9999-4999-8999-999999999999", `{"mode":"replace","value":"sk-rejected-key"}`))
+	wantFailure(t, err, 410, "MODEL_SAVE_RESULT_REMOVED")
+
+	var receiptPresent, vaultPresent bool
+	var removedAt *time.Time
+	if err := f.pool.QueryRow(f.ctx, `SELECT receipt IS NOT NULL,input_vault_version IS NOT NULL,removed_at FROM repomesh_models.save_operations WHERE actor=$1 AND save_id=$2`, f.principal.ActorID(), rejectedKey).Scan(&receiptPresent, &vaultPresent, &removedAt); err != nil {
+		t.Fatal(err)
+	}
+	if receiptPresent || vaultPresent || removedAt == nil {
+		t.Fatalf("removed rejected slot: receipt=%t vault=%t removed=%v", receiptPresent, vaultPresent, removedAt)
+	}
+	secretState := func(id string) (destroyed, enabled bool) {
+		if err := f.pool.QueryRow(f.ctx, `SELECT v.destroyed_at IS NOT NULL OR v.ciphertext IS NULL,a.enabled FROM repomesh_secrets.versions v JOIN repomesh_secrets.availability a USING(version_id) WHERE v.version_id=$1`, id).Scan(&destroyed, &enabled); err != nil {
+			t.Fatal(err)
+		}
+		return destroyed, enabled
+	}
+	if destroyed, enabled := secretState(rejectedVault); !destroyed || enabled {
+		t.Fatalf("rejected vault after removal: destroyed=%t enabled=%t", destroyed, enabled)
+	}
+	if destroyed, enabled := secretState(business); destroyed || !enabled {
+		t.Fatalf("business key after rejected cleanup: destroyed=%t enabled=%t", destroyed, enabled)
+	}
+	current, err := f.service.Get(f.ctx, f.principal, providerID)
+	if err != nil || current.Secret.Availability != "available" || current.Secret.VersionID == nil || *current.Secret.VersionID != business {
+		t.Fatalf("provider after rejected cleanup: %+v %v", current, err)
 	}
 }
