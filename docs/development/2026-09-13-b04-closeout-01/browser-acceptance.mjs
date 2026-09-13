@@ -188,11 +188,11 @@ try {
   await page.getByRole("button", { name: "模型设置" }).click();
   await page.getByText("正在读取供应商…").waitFor();
   await waitStatus(desktop, "responseHeld", true);
-  await shot(page, "b04_model_settings_loading");
+  await shot(page, "b04_closeout_settings_loading");
   await control(desktop, { action: "release_response" });
   await page.getByText("还没有已保存的供应商。", { exact: true }).waitFor();
   await page.getByRole("heading", { name: "模型连接" }).waitFor();
-  await shot(page, "b04_model_settings_empty");
+  await shot(page, "b04_closeout_settings_empty");
   record("U04.4", "fixture login opens model settings with a held then empty provider list", {
     loadingObserved: true,
     emptyObserved: true,
@@ -200,7 +200,7 @@ try {
 
   currentStep = "U04.4 dropped save response recovers the original key";
   await fillProviderForm(page);
-  await shot(page, "b04_model_settings_filled");
+  await shot(page, "b04_closeout_settings_filled");
   let saveWrites = 0;
   let saveId = "";
   const countSave = (request) => {
@@ -216,7 +216,7 @@ try {
   const dropped = await page.evaluate(() => window.__repomeshTrackedFetch?.["b04-save-drop"]);
   assert.equal(dropped.started, true);
   assert.equal(dropped.finished, true);
-  assert.ok(dropped.status === null || dropped.status === 201);
+  assert.ok(dropped.status === null || dropped.status === 200 || dropped.status === 201);
   assert.equal(typeof saveId, "string");
   assert.match(saveId, /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/u);
   assert.equal(new URL(page.url()).pathname, `/settings/model-saves/${saveId}`);
@@ -234,7 +234,7 @@ try {
   assert.equal("value" in snapshot.snapshot, false);
   assert.equal(saveWrites, 1);
   desktop.off("request", countSave);
-  await shot(page, "b04_model_save_recovered");
+  await shot(page, "b04_closeout_save_recovered");
   record("U04.4", "a dropped 2xx save still recovers the original saveId without storing the key", {
     saveWrites,
     saveId,
@@ -264,7 +264,7 @@ try {
   await page.getByText(providerName, { exact: true }).waitFor();
   await page.getByText("1 个模型", { exact: true }).waitFor();
   await assertSecretAbsent(page);
-  await shot(page, "b04_model_settings_after_save");
+  await shot(page, "b04_closeout_settings_after_save");
   record("U04.4", "close after a committed save returns the original receipt and the list shows the provider", {
     closeKeptCommitted: true,
     providerListed: true,
