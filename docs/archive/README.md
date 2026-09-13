@@ -2,13 +2,17 @@
 
 当前设计请从 [HANDOFF](../current/HANDOFF.md)与[现行文档索引](../current/README.md)进入。本目录仅供溯源，历史文件中的 accepted、旧问题、旧 prompt 和“当前”表述均属于当时语境，不作为现行决定或操作指令。
 
+## 2026-09-13：计划目录与管理文档整理
+
+[迁移映射、旧任务提示与原始内容](2026-09-13-plan-organization/README.md)记录 `docs/plan/` 的建立、四份计划迁移、B03 与 B04 旧提示归档，以及交接和施工计划的精简。当前计划从[计划导航](../plan/README.md)进入；业务状态以[当前交接](../current/HANDOFF.md)为准。
+
 ## 2026-09-12：开发阅读与活跃目录整理
 
-[本次归档清单、原始字节与校验](2026-09-12-development-preparation/README.md)保存 19 份历史文档、4 份被替代原型，以及 6 份入口整理前快照。当前交接与索引已精简，开发从[阅读与行动指南](../current/DEVELOPMENT-START.md)开始。全部 ADR、唯一契约、关键候选与必要证据入口保留；归档不是撤销原采用决定。
+[本次归档清单、原始字节与校验](2026-09-12-development-preparation/README.md)保存 19 份历史文档、4 份被替代原型，以及 6 份入口整理前快照。当前交接与索引已精简，开发从[阅读与行动指南](../plan/DEVELOPMENT-START.md)开始。全部 ADR、唯一契约、关键候选与必要证据入口保留；归档不是撤销原采用决定。
 
 ## 2026-09-11：后端设计换会话交接
 
-以下为历史整理记录；当前开发交接统一从[开发指南](../current/DEVELOPMENT-START.md)进入。
+以下为历史整理记录；当前开发交接统一从[开发指南](../plan/DEVELOPMENT-START.md)进入。
 
 [旧后端交接全文与校验记录](2026-09-11-backend-design-handoff/README.md)保留模型设置r3采用后的累积交接；正文仅增加历史提示并重定位相对链接。现行入口为[新后端交接](2026-09-12-development-preparation/docs/current/HANDOFF-BACKEND-DESIGN-2026-09-11.md)，原固定路径保留导航。专题、原型与双方通信日志不随本次归档搬走。
 

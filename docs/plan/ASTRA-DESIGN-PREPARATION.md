@@ -1,29 +1,29 @@
 # Astra 前置设计分工与交付要求
 
-2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。新推荐仍待采用，未开始产品实现或运行验收。B02外部暂停、B03 INTEGRATED_LOCAL_VERIFIED及B04 DESIGN_PREPARED_NOT_ADOPTED保持；B05/B06实施仍TODO。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
+B04—B06 的[前置设计](../development/2026-09-13-b04-b06-design-01/README.md)已通过[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)。B04 的 D01—D04 随后已采用并实现，状态为 INTEGRATED_LOCAL_VERIFIED，见[采用记录](../current/b04-model-sources-adoption.md)和[验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。B05、B06 实施仍 TODO；B09 四项数据兼容问题仅有静态部分覆盖，完整 G1、G2 未完成。
 
 记录日期：2026-09-13。用户要求将本次讨论的提前设计安排“记录下来，列入必读和计划”，并明确补充“需要限制工作范围”。本文是后续批次规划、架构、接口声明和实现交接的必读指南；批次编号沿[施工计划](IMPLEMENTATION-PLAN.md)，不使用旧后端交接中同名的 B01—B08 编号。
 
 GPT-6 Astra 负责 B04、B05、B06、B09、B10、B11 的关键前置设计，B07 的契约复核和 B08 的验收设计。gpt-5.6-sol 按已收口设计承担实现，独立复核由非主要实现者承担。这是按本项目任务复杂度确定的分工，不是模型性能评测结论。
 
-最初记录只完成分工；当前B04—B06已交设计附件，复核状态见顶部。仍未采用B04、P9或执行协议中的新候选。B04 仍为 DESIGN_PREPARED_NOT_ADOPTED，其他批次状态沿施工表。提前设计可以先于前置批次编码完成；实现、运行验证和外部验收仍遵守各自依赖与授权范围。
+本指南维护设计范围与交付要求，实际批次状态沿施工表。B04 已采用范围之外的 D05—D08、P9 和执行协议候选仍待明确采用。提前设计可以先于前置批次编码完成；实现、运行验证和外部验收仍遵守各自依赖与授权范围。
 
 ## 各批提前设计范围
 
 | 批次 | Astra 应交付的前置设计 | 提前程度与定稿依赖 | 唯一专题入口 |
 | --- | --- | --- | --- |
-| B04 配置来源与秘密保存 | 综合既有候选，确定配置／秘密归属、不可变版本、保存与安全终结互斥、事务锁序，以及必要 Go／TS 类型和函数声明。 | 当前优先收口；核对 B03 实际源码和中断候选，明确采用后交实现。文件名 final 不代表已采用。 | [B04 交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)、[配置来源](backend-first-batch-sources-draft.md)、[模型内部操作](backend-model-operations-draft.md)、[模型浏览器契约](model-settings-browser-api-draft.md) |
-| B05 模型测试与应用 | 单次测试外发及未知结果处理、固定快照、只换模型保留 execution，补齐 C05 预算／时限摘要和 C06 原模型受限预览与历史定位。 | 可先整理场景与字段缺口；B04 类型和版本规则确定后定稿接口，无需等其全部实现。 | [模型内部操作](backend-model-operations-draft.md)、[模型浏览器契约](model-settings-browser-api-draft.md)、[项目契约检查](../reviews/2026-09-12-project-contracts/README.md) |
-| B06 Issue 原子创建 | P9 固定配置绑定；Issue、必要会话、主 ChangeSet、来源、范围、操作与待办的关系约束；事务、锁序、幂等、恢复和共享创建用例声明。 | 可提前设计，结合 B04／B05 配置协议定稿；与 B05 共同推演配置应用和建项并发。接收真实 Issue／待办前落实绑定约束。 | [首批持久化](backend-first-batch-persistence.md)、[Issue 配置绑定](issue-configuration-binding-design.md)、[创建契约](issue-page-create-api-contract.md) |
-| B07 查询与恢复 | 复核完整内容范围核权、分页、详情与 rooms 分读、SSE 补查和前端旧响应隔离，收口查询／订阅接口及详情／恢复候选。 | 已有契约较多，重点补缺口、消除矛盾；最终数据类型依赖 B06。 | [首批浏览器契约](first-batch-browser-api-contract.md)、[创建契约](issue-page-create-api-contract.md)、[最小详情](issue-overview-minimal-design.md)、[页面恢复](first-batch-recovery-design.md) |
+| B04 配置来源与秘密保存 | 综合既有候选，确定配置／秘密归属、不可变版本、保存与安全终结互斥、事务锁序，以及必要 Go／TS 类型和函数声明。 | 设计已交付，D01—D04 已采用并实现；后续修改以采用记录和实际源码为基线，不重新启用旧 final 候选。 | [B04 交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)、[配置来源](../current/backend-first-batch-sources-draft.md)、[模型内部操作](../current/backend-model-operations-draft.md)、[模型浏览器契约](../current/model-settings-browser-api-draft.md) |
+| B05 模型测试与应用 | 单次测试外发及未知结果处理、固定快照、只换模型保留 execution，补齐 C05 预算／时限摘要和 C06 原模型受限预览与历史定位。 | 可先整理场景与字段缺口；B04 类型和版本规则确定后定稿接口，无需等其全部实现。 | [模型内部操作](../current/backend-model-operations-draft.md)、[模型浏览器契约](../current/model-settings-browser-api-draft.md)、[项目契约检查](../reviews/2026-09-12-project-contracts/README.md) |
+| B06 Issue 原子创建 | P9 固定配置绑定；Issue、必要会话、主 ChangeSet、来源、范围、操作与待办的关系约束；事务、锁序、幂等、恢复和共享创建用例声明。 | 可提前设计，结合 B04／B05 配置协议定稿；与 B05 共同推演配置应用和建项并发。接收真实 Issue／待办前落实绑定约束。 | [首批持久化](../current/backend-first-batch-persistence.md)、[Issue 配置绑定](../current/issue-configuration-binding-design.md)、[创建契约](../current/issue-page-create-api-contract.md) |
+| B07 查询与恢复 | 复核完整内容范围核权、分页、详情与 rooms 分读、SSE 补查和前端旧响应隔离，收口查询／订阅接口及详情／恢复候选。 | 已有契约较多，重点补缺口、消除矛盾；最终数据类型依赖 B06。 | [首批浏览器契约](../current/first-batch-browser-api-contract.md)、[创建契约](../current/issue-page-create-api-contract.md)、[最小详情](../current/issue-overview-minimal-design.md)、[页面恢复](../current/first-batch-recovery-design.md) |
 | B08 管理闭环验收 | 跨批验收矩阵、故障注入点、证据标准和发布条件，明确哪些结果属于本地、真实外部或完整业务验收。 | 可提前设计验收方案；实际整体验收依赖 B02—B07，不能提前标记通过。 | [开发指南](DEVELOPMENT-START.md)、[施工计划](IMPLEMENTATION-PLAN.md) |
-| B09 Manager 会话，G1／G2 | Issue 固定配置进入实际模型调用的路径；普通讨论配置；首条消息、可靠投递、可信工具身份、完整 MCP Schema、回复归属与重启恢复。 | 可提前研究并形成协议草案。G1 应在 B04—B06 定稿时检查其可消费性；完整接口还依赖业务身份和选定上游适配，实际往返验收仍在 B09。 | [执行门槛](execution-integration-gates.md)、[Issue 配置绑定](issue-configuration-binding-design.md)、[消息内部设计](backend-message-clarification-design.md)、[Manager 工具](manager-create-issue-tool-design.md) |
-| B10 受限执行，G3／G4 | 正式状态的全部写入路径及权限约束；上游 Adapter；host-executor 有限动作；资源生命周期归属；Attempt／Worker／容量预留；停止、撤销写能力与回收协议。 | 可独立提前核对锁定源码、整理资源归属表和比较方案；执行路径选定并与 B09 可信上下文对齐后定稿函数声明。实际单仓执行依赖 B09。 | [执行门槛](execution-integration-gates.md)、[架构](architecture-design-v1.md)、[团队执行](team-execution-policy.md)、[ADR-0013](../adr/0013-web-coordinator-host-executor-processes.md)、[ADR-0017](../adr/0017-atomic-attempt-resource-reservation.md) |
-| B11 两轮与跨仓恢复，G5 | 合法换图方案、submitted 收尾、多仓部分应用、计划生效判定、迟到结果、恢复状态机和 Graph 模块接口。 | 可先比较方案和推演失败；最终接口依赖 B10 的正式写入责任和生命周期协议，运行验收依赖 B10。 | [执行门槛](execution-integration-gates.md)、[Graph／Loop](graph-loop-design.md)、[ADR-0015](../adr/0015-round-scoped-upstream-dags.md) |
+| B09 Manager 会话，G1／G2 | Issue 固定配置进入实际模型调用的路径；普通讨论配置；首条消息、可靠投递、可信工具身份、完整 MCP Schema、回复归属与重启恢复。 | 可提前研究并形成协议草案。G1 应在 B04—B06 定稿时检查其可消费性；完整接口还依赖业务身份和选定上游适配，实际往返验收仍在 B09。 | [执行门槛](../current/execution-integration-gates.md)、[Issue 配置绑定](../current/issue-configuration-binding-design.md)、[消息内部设计](../current/backend-message-clarification-design.md)、[Manager 工具](../current/manager-create-issue-tool-design.md) |
+| B10 受限执行，G3／G4 | 正式状态的全部写入路径及权限约束；上游 Adapter；host-executor 有限动作；资源生命周期归属；Attempt／Worker／容量预留；停止、撤销写能力与回收协议。 | 可独立提前核对锁定源码、整理资源归属表和比较方案；执行路径选定并与 B09 可信上下文对齐后定稿函数声明。实际单仓执行依赖 B09。 | [执行门槛](../current/execution-integration-gates.md)、[架构](../current/architecture-design-v1.md)、[团队执行](../current/team-execution-policy.md)、[ADR-0013](../adr/0013-web-coordinator-host-executor-processes.md)、[ADR-0017](../adr/0017-atomic-attempt-resource-reservation.md) |
+| B11 两轮与跨仓恢复，G5 | 合法换图方案、submitted 收尾、多仓部分应用、计划生效判定、迟到结果、恢复状态机和 Graph 模块接口。 | 可先比较方案和推演失败；最终接口依赖 B10 的正式写入责任和生命周期协议，运行验收依赖 B10。 | [执行门槛](../current/execution-integration-gates.md)、[Graph／Loop](../current/graph-loop-design.md)、[ADR-0015](../adr/0015-round-scoped-upstream-dags.md) |
 
 ## 安排顺序与投入重点
 
-1. 近期设计按 B04、B05／B06、B07 推进，让 Sol 按已收口的批次实施。B05 与 B06 可共同检查配置应用和建项的并发契约；这不改变施工表中的实现依赖。
+1. B04 的已授权实现已结束；后续按明确授权推进 B05、B06 采用与 B07 设计，再交实现。B05 与 B06 可共同检查配置应用和建项的并发契约；这不改变施工表中的实现依赖。
 2. 提前研究 B09 的 G1／G2 与 B10 的 G3／G4。G1 对 B04—B06 做定向兼容审查，避免配置持久化后无法按 Issue 消费；不要求先完成全部 B09 才交付管理功能。B10 的源码与资源归属研究可先行，接口定稿时与 B09 对齐。
 3. B11 先做方案和故障推演，等 B10 明确谁能写正式状态、怎样确认停止及撤销写能力，再定稿换图与恢复接口。B08 的验收方案随管理批次设计同步补齐。
 

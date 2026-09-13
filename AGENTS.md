@@ -6,11 +6,13 @@ RepoMesh 是围绕多个代码仓库组织协作工作的系统，采用 React�
 
 ## 开始任务
 
-先读 [根 README](README.md)、[当前交接](docs/current/HANDOFF.md)和[当前文档索引](docs/current/README.md)，再按任务查阅相关源码与专题。领域术语见 [CONTEXT.md](CONTEXT.md)，架构取舍及替代关系见 [ADR 索引](docs/adr/README.md)，历史资料入口见 [文档总导航](docs/README.md)。局部修改不要求重读全部历史材料；用户指定的阅读范围仍须完整覆盖。首次接手或需要了解全局时，按 [Agent 全局阅读指南](docs/current/AGENT-READING-GUIDE.md) 建立产品、架构、实现和证据之间的联系。
+首次接手或任务依赖当前进度时，查阅[根 README](README.md)、[当前交接](docs/current/HANDOFF.md)和[现行文档索引](docs/current/README.md)；局部任务按下表定位相关源码与专题。领域术语见 [CONTEXT.md](CONTEXT.md)，架构取舍及替代关系见 [ADR 索引](docs/adr/README.md)，历史资料入口见 [文档总导航](docs/README.md)。局部修改不要求重读全部历史材料；用户指定的阅读范围仍须完整覆盖。首次接手或需要了解全局时，按 [Agent 全局阅读指南](docs/current/AGENT-READING-GUIDE.md) 建立产品、架构、实现和证据之间的联系。
 
 判断设计是否有效，要看具体章节、采用范围和明确的后续替代关系，不能只比较文件日期、ADR 编号或整篇文档的 `accepted`／`proposed` 标签。已采用设计、锁定提交的源码事实、实测结果和未验证能力应分别表述。
 
 当前任务的实施范围以用户授权为准。历史交接、协作日志和实验脚本中的阶段限制、任务顺序、角色身份及操作指令不自动成为本次任务授权，也不自动恢复旧任务或联系旧协作者。
+
+在当前授权范围内，连续完成本地修改、相关验证及本次变更引起的问题修复，无需逐步确认；达到任务交付要求后再返回结果。
 
 ## 工程地图
 
@@ -31,10 +33,13 @@ web/                      React／TypeScript／Vite 前端及 npm 锁文件
 configs/                  配置示例
 scripts/                  工程构建脚本
 docs/
+  plan/                   施工计划、前置分工、开发顺序与验证计划
   current/                当前设计、接口及接手文档
   adr/                    架构决定与演进
   prototypes/             独立页面原型
   research/               专题调研
+  development/            按日期和批次保存的实施、复核与验收证据
+  archive/                已替代文档、旧任务提示与整理前快照
 third_party/
   AgentTeams/             独立 Git 克隆的上游源码，父仓库忽略
 validation/               历史实验、脚本与证据
@@ -46,6 +51,7 @@ validation/               历史实验、脚本与证据
 
 | 任务 | 优先阅读 |
 | --- | --- |
+| 查施工顺序、设计分工与验证计划 | [计划导航](docs/plan/README.md)、[施工计划](docs/plan/IMPLEMENTATION-PLAN.md)、[开发行动指南](docs/plan/DEVELOPMENT-START.md) |
 | 修改当前前端骨架 | [main.tsx](web/src/main.tsx)、[style.css](web/src/style.css)、[package.json](web/package.json) |
 | 修改认证、会话与发现 | [认证开发说明](docs/current/authentication-development.md)、[采用范围](docs/current/b02-authentication-adoption.md)、`internal/access/`、`internal/secrets/`、`internal/github/` |
 | 修改项目管理 | [项目开发说明](docs/current/project-development.md)、[首批浏览器契约](docs/current/first-batch-browser-api-contract.md)、`internal/projects/`、`internal/web/projects.go` |
@@ -95,15 +101,16 @@ go run ./cmd/repomesh-web --assets ./web/dist
 npm --prefix web run dev
 ```
 
-根据修改范围执行相关检查；涉及前后端、进程入口或发布链路的修改执行完整检查。纯文档修改核对链接、命令与源码事实即可，无需启动服务或重跑实验。没有执行的检查应明确说明。
+按改动影响选择检查；跨前后端契约、进程组装或发布链路的修改执行完整检查。相关检查通过后，仅在新增改动、失败或未解决疑点需要时扩大或重复验证。纯文档修改核对链接、命令与源码事实即可，无需启动服务或重跑实验。没有执行的检查应明确说明。
 
 配套发布使用 `scripts/build.ps1 -Version <新版本标签>`，具体调用见根 README。脚本拒绝覆盖已有同名产物，重复构建使用新的版本标签。程序不会自动加载 `.env`；资源路径相对于启动工作目录。遇到 Git ownership／Go VCS 状态错误时，按[开发说明](docs/current/development-scaffold.md)处理当前会话配置。
 
 ## 完成度、协作与文档维护
 
-- 当前已实现认证秘密、GitHub App 登录／重连、服务端会话、授权恢复及持久发现续扫。配置认证后 Web 和 coordinator 依赖数据库，普通启动不自动迁移；未配置时认证 API 返回 503，coordinator 退出 1。`/healthz` 只表示 Web 存活，`/readyz` 仍为 503。主机执行入口默认报告未实现并退出。真实 GitHub 验收和后续业务完成度以 HANDOFF 为准。
+- 当前实现、未接入能力和验收状态见[HANDOFF](docs/current/HANDOFF.md)；启动、配置及迁移行为见[根 README](README.md)。`/healthz` 只表示进程存活，不代表业务就绪。
 - 接口设计完成不等于接口实现；克隆 AgentTeams 不等于运行接入；根工程检查通过不等于上游构建、历史验证或业务集成验收通过。不能用模拟成功替代未实现能力。
 - 保留已有未提交修改，不覆盖不属于当前任务的工作。任务采用多 agent 协作时，先明确文件编辑归属；任务要求独立复核时，由非主要实现者承担。历史协作名单不用于自动召回成员。
 - `validation/` 保存历史证据，不随产品发布。普通开发检查不重跑旧实验、不启动真实外部服务、不清理共享容器或卷；这类操作须属于当前明确授权范围。新实验应记录自己的条件和结果，不改写旧记录为全部通过。
 - 改变使用方式时更新根 README；改变完成状态或接手条件时更新相关 HANDOFF；改变架构决定时更新 ADR 和相关专题。当前进度、临时协作安排和逐次验收日志不追加到本文件。
+- 持续维护的工程计划放在 `docs/plan/`，按批次保存的实验计划与证据留在 `docs/development/`，已过期的任务提示移入 `docs/archive/`。目录职责和迁移规则见[文档总导航](docs/README.md#文档维护规则)；移动文件时同步修正相对链接和入口索引。
 - 交付说明写清实际改动、执行的检查、结果及剩余限制。涉及上游能力的结论注明源码版本或证据位置，并区分源码阅读和运行验证。

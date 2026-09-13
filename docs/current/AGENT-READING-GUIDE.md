@@ -8,7 +8,7 @@
 
 RepoMesh 的目标是围绕长期多仓库项目组织 Agent 协作。用户通过会话交流，通过独立 Issue 确定正式工作；Manager 负责项目与事项协调，仓库团队负责仓内工作，RepoMesh 保存正式状态、落实权限与执行约束，并组织跨仓验证和交付。
 
-这段描述是产品目标。当前实现集中在认证、仓库发现和项目管理；模型管理、Issue 与真实执行尚未形成产品闭环。读取设计时始终区分以下对象：
+这段描述是产品目标。当前已实现认证、仓库发现、项目管理和 B04 模型来源与秘密保存；模型测试、专用应用、Issue 与真实执行尚未实现。读取设计时始终区分以下对象：
 
 | 对象或环节 | 需要理解的关系 |
 | --- | --- |
@@ -26,7 +26,7 @@ RepoMesh 的目标是围绕长期多仓库项目组织 Agent 协作。用户通�
 | 顺序 | 阅读材料 | 阅读范围与读后应知道的事 |
 | --- | --- | --- |
 | 1 | [AGENTS.md](../../AGENTS.md)、[根 README](../../README.md) | 全文。了解目录、工具、启动入口、修改与验证规则；本机路径和旧包版本是环境记录，不是新任务要照抄执行的命令参数。 |
-| 2 | [当前交接](HANDOFF.md)、[施工计划](IMPLEMENTATION-PLAN.md) | 交接顶部最新检查点、计划批次表及其依赖必须读；历史检查点用于追溯，不重复当作当前指令。确认已实现、待采用、未运行、暂停及恢复责任。 |
+| 2 | [当前交接](HANDOFF.md)、[施工计划](../plan/IMPLEMENTATION-PLAN.md) | 交接顶部最新检查点、计划批次表及其依赖必须读；历史检查点用于追溯，不重复当作当前指令。确认已实现、待采用、未运行、暂停及恢复责任。 |
 | 3 | [现行文档索引](README.md)、[文档总导航](../README.md) | 阅读导航与采用状态说明，知道每个主题从哪里进入。无需逐一展开全部历史链接。 |
 | 4 | [领域语言](../../CONTEXT.md)、[ADR 索引](../adr/README.md) | 全文。先理解对象和主要演进链，再读具体架构，避免把不同系统中的同名对象混用。 |
 
@@ -61,17 +61,18 @@ RepoMesh 的目标是围绕长期多仓库项目组织 Agent 协作。用户通�
 
 ## 第四步：核对当前实现与下一阶段设计
 
-下面是 2026-09-13 编制时的快照。后续接手以 [HANDOFF](HANDOFF.md) 和 [施工计划](IMPLEMENTATION-PLAN.md) 的实际最新状态更新判断，本表不另行维护验收日志。
+下面按 2026-09-13 已合入的 B04 采用与验收记录更新阅读入口。后续接手以 [HANDOFF](HANDOFF.md) 和 [施工计划](../plan/IMPLEMENTATION-PLAN.md) 的实际最新状态更新判断，本表不另行维护验收日志。
 
-| 范围 | 编制时状态 | 应核对的材料 |
+| 范围 | 阅读时应核对的状态 | 应核对的材料 |
 | --- | --- | --- |
 | B00／B01 | VERIFIED | [数据库开发说明](database-development.md)及交接引用的对应证据。 |
 | B02 | 本地已实现；整批 IN_PROGRESS，外部 PAUSED_BY_USER | [B02 本地记录](../development/2026-09-12-batch-02/README.md)及当前交接。历史 FAIL／NOT_RUN／RESTORE_IN_PROGRESS 保留；未来跨账号项 DEFERRED_BY_USER。 |
 | B03 | INTEGRATED_LOCAL_VERIFIED | [主目录集成记录](../development/2026-09-12-b03-integration-01/README.md)、[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)。不要把另一 worktree 的结论当成当前主目录的新验收。 |
-| B04 至 B06 | 前置设计完成并通过独立复核；新推荐待采用，产品未实现 | [设计后交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[设计入口](../development/2026-09-13-b04-b06-design-01/README.md)、[决定表](../development/2026-09-13-b04-b06-design-01/DECISIONS.md)、[兼容审查](../development/2026-09-13-b04-b06-design-01/COMPATIBILITY.md)、[复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)。 |
-| B07 至 B11 | 后续实施 TODO | [开发前行动指南](DEVELOPMENT-START.md)、[Astra 前置设计分工](ASTRA-DESIGN-PREPARATION.md)、施工计划的设计与实施两组待办。设计提前完成不解除实施依赖。 |
+| B04 | D01—D04、U04.1—U04.4 已采用并实现，INTEGRATED_LOCAL_VERIFIED | [采用记录](b04-model-sources-adoption.md)、[验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。非整批 VERIFIED，未发送真实模型请求。 |
+| B05、B06 | 前置设计已复核，后续范围待采用，实施 TODO | [设计后交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[设计入口](../development/2026-09-13-b04-b06-design-01/README.md)、[决定表](../development/2026-09-13-b04-b06-design-01/DECISIONS.md)、[兼容审查](../development/2026-09-13-b04-b06-design-01/COMPATIBILITY.md)、[复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)。 |
+| B07 至 B11 | 后续实施 TODO | [开发前行动指南](../plan/DEVELOPMENT-START.md)、[Astra 前置设计分工](../plan/ASTRA-DESIGN-PREPARATION.md)、施工计划的设计与实施两组待办。设计提前完成不解除实施依赖。 |
 
-B04 至 B06 的全局阅读先读表中五份材料，理解 D01 至 D08、S06、C05／C06 与 P9 的依赖和待采用状态。承担这些批次的具体任务时，继续完整阅读对应 B04.md／B05.md／B06.md、Go／TS 声明、migration-design.md、ACCEPTANCE.md、SOURCE-AUDIT.md，以及其指向的唯一契约。不要跳回 09-12 的 A／B／final 草稿重新当作现行入口。
+B04 至 B06 的全局阅读先读 B04 采用记录和验收报告，再读后续设计材料，区分 D01—D04 已采用范围与 D05—D08、C05、C06、P9 的待采用状态。承担这些批次的具体任务时，继续完整阅读对应 B04.md／B05.md／B06.md、Go／TS 声明、migration-design.md、ACCEPTANCE.md、SOURCE-AUDIT.md，以及其指向的唯一契约。不要跳回 09-12 的 A／B／final 草稿重新当作现行入口。
 
 再用源码核对文档。全局接手先看各入口的组装、注册和调用关系，改动所涉行为时继续追到实现与测试。
 
@@ -80,6 +81,7 @@ B04 至 B06 的全局阅读先读表中五份材料，理解 D01 至 D08、S06�
 | [三个 Go 入口](../../cmd/)、[HTTP 服务](../../internal/web/server.go) | 实际注册的能力、未配置行为、存活与业务就绪的区别。 |
 | [认证](../../internal/access/)、[秘密](../../internal/secrets/)、[GitHub 适配](../../internal/github/) | 当前已实现的身份、秘密和出站协议边界。 |
 | [项目用例](../../internal/projects/)、[项目 HTTP](../../internal/web/projects.go)、[数据库迁移](../../internal/database/migrations/) | 固定配置、项目原回执和现有表约束；设计附件尚未生成哪些产品代码。 |
+| [模型保存](../../internal/models/)、[执行来源导入](../../internal/sources/)、[模型 HTTP](../../internal/web/models.go)、[导入命令](../../cmd/repomesh-web/sources.go) | B04 保存、终结、原操作恢复及部署导入的真实实现，与后续测试和应用区分。 |
 | [前端入口](../../web/src/main.tsx)、[路由](../../web/src/routes.ts)、[项目 API](../../web/src/projectApi.ts)、[原操作恢复](../../web/src/projectRecovery.ts) | 当前能访问的页面、真实请求和恢复状态，不把独立原型算作已上线页面。 |
 
 当前 `businessReady=false`，`/readyz` 为 503，host-executor 尚未实现。普通 Go 检查可能跳过数据库用例；编译、声明解析、模拟浏览器、真实数据库、真实外部调用和配套发布各证明不同事实，汇报时注明实际范围。
@@ -94,11 +96,11 @@ B04 至 B06 的全局阅读先读表中五份材料，理解 D01 至 D08、S06�
 
 ## 第六步：按具体任务深入
 
-完成全局阅读后，使用 [现行索引](README.md) 与 [开发前行动指南](DEVELOPMENT-START.md) 选择专题。下面列出全局路线没有展开的主要分支。
+完成全局阅读后，使用 [现行索引](README.md) 与 [开发前行动指南](../plan/DEVELOPMENT-START.md) 选择专题。下面列出全局路线没有展开的主要分支。
 
 | 本次任务 | 追加阅读 |
 | --- | --- |
-| 模型保存、测试、专用应用、配置导入 | [来源候选](backend-first-batch-sources-draft.md)、[模型内部操作](backend-model-operations-draft.md)、[模型浏览器契约](model-settings-browser-api-draft.md)、[模型应用](model-project-apply-design.md)，以及当前设计交付的对应声明和验收映射。 |
+| 模型保存、测试、专用应用、配置导入 | [B04 采用记录](b04-model-sources-adoption.md)、[来源候选](backend-first-batch-sources-draft.md)、[模型内部操作](backend-model-operations-draft.md)、[模型浏览器契约](model-settings-browser-api-draft.md)、[模型应用](model-project-apply-design.md)，以及当前设计交付的对应声明和验收映射。 |
 | 会话发送、澄清或 Manager 建项 | [消息目标](conversation-message-target-design.md)、[消息浏览器契约](conversation-message-clarification-api-contract.md)、[消息内部设计](backend-message-clarification-design.md)、[Manager 创建工具](manager-create-issue-tool-design.md)、[会话后端专项](draft-conversation-backend-design.md)。 |
 | Worker 执行、验证或跨仓交付 | [团队执行策略](team-execution-policy.md)、[验证节点](verification-node-design.md)、[联调环境](integration-environment-design.md)、[ChangeSet 结构](changeset-structure.md)，以及 G1 至 G5 中本阶段的前置协议与证据。 |
 | 建项前仓库分析 | [仓库分析专题](issue-creation-repository-analysis.md)、ADR 0020；先确定只读材料、作业及来源边界，不因按钮存在而接入未采用的协议。 |

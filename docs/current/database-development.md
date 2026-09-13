@@ -1,6 +1,6 @@
 # 使用与验证数据库基础
 
-本页说明 PostgreSQL 连接和迁移工具。B01 建立迁移记录表，B02 新增秘密、认证和发现表；其他业务表在所属批次增加。实现选择见[方案记录](../development/2026-09-12-batch-01/design.md)，进度见[施工表](IMPLEMENTATION-PLAN.md)。
+本页说明 PostgreSQL 连接和迁移工具。B01 建立迁移记录表，B02 新增秘密、认证和发现表；其他业务表在所属批次增加。实现选择见[方案记录](../development/2026-09-12-batch-01/design.md)，进度见[施工表](../plan/IMPLEMENTATION-PLAN.md)。
 
 ## 核查和迁移开发数据库
 

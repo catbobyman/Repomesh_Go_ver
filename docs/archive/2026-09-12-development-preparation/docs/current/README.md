@@ -94,7 +94,7 @@
 | [页面通信日志](design-communication-page-log.md) · [后端通信日志](design-communication-backend-log.md) | 原始通信与检查点，保留历史，不以摘要覆盖。 |
 | [本次文档评审](document-review-2026-09-09.md) | 时间冲突、维护措施、未决问题与验证结果；不是新增产品 ADR。 |
 | [旧项目分析插件调查](../../../../research/legacy-analysis-plugin-feasibility-2026-09-10.md) | 多 Agent 静态源码调查；后续仅先采用仓库分析按钮与 Python 插件，历史分析仍待后续设计。 |
-| [AgentTeams 接入验证清单](../../../../current/agentteams-validation-plan.md) | 09-09 直接核查锁定源码：控制旁路、pause／replan、并发写、任务身份、会话、就绪及隔离；已开始实际验证，见[执行状态](../../../../../validation/agentteams-2026-09-09/reports/validation-status.md)。 |
+| [AgentTeams 接入验证清单](../../../../plan/agentteams-validation-plan.md) | 09-09 直接核查锁定源码：控制旁路、pause／replan、并发写、任务身份、会话、就绪及隔离；已开始实际验证，见[执行状态](../../../../../validation/agentteams-2026-09-09/reports/validation-status.md)。 |
 | [AgentTeams 调研](../../../../agentteams-survey-2026-09-07/agentteams-survey.md) · [API／CLI 调研](../../../../agentteams-survey-2026-09-07/agentteams-api-cli-survey-2026-09-07.md) | 锁定提交的静态依据，不能当作 RepoMesh 运行验收。 |
 | Cursor Dashboard 历史报告（原引用文件当前缺失） | 原位置 `Cursor_Dashboard_Report_2026-09-07/report.md`；仅界面参考，非已采用的Manager布局。2026-09-10链接检查未找到原文件，不伪造替代来源。 |
 

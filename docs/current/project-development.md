@@ -1,6 +1,6 @@
 # B03 项目管理开发说明
 
-2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。新推荐仍待采用，未开始产品实现或运行验收。B02外部暂停、B03 INTEGRATED_LOCAL_VERIFIED及B04 DESIGN_PREPARED_NOT_ADOPTED保持；B05/B06实施仍TODO。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
+当前采用与实现状态见[当前交接](HANDOFF.md)和[施工计划](../plan/IMPLEMENTATION-PLAN.md)。B04 的 D01—D04 已采用并完成本地集成验收，见[B04 采用记录](b04-model-sources-adoption.md)；B05、B06 的后续范围仍待采用。原[B04—B06 设计交付](../development/2026-09-13-b04-b06-design-01/README.md)保留设计时的候选及复核范围。
 
 用户已解除 B03 等待 B02 VERIFIED 的旧门槛，项目管理代码已合入主目录，当前为 `INTEGRATED_LOCAL_VERIFIED`，整批未 `VERIFIED`。历史 worktree `/home/xubohan/projects/Repomesh_B03` 为 `LOCAL_VERIFIED`；其证据保留在 `/home/xubohan/projects/Repomesh_B03/docs/development/2026-09-12-b03-01/`。B02 外部验收已按用户决定暂停，未来真实账号验证只使用主账号 A。本文描述已实现机制，当前状态见[交接](HANDOFF.md)，本轮文件集成见[集成证据](../development/2026-09-12-b03-integration-01/README.md)。
 
@@ -8,7 +8,7 @@
 
 认证后从首页进入“项目”。创建页先明确选择可读仓库，再填写名称、用途和配置引用；缺少模型或环境配置仍可保存。项目详情提供设置入口，资料、已有范围及配置按采用的页面顺序展示。增加仓库是明确增量，受限已有仓库只显示数量，不能用当前可见列表替换完整范围。
 
-配置只有显式勾选本次更新时才重新绑定。省略配置保留原固定版本；默认或 secret 版本随后变化不会暗换已保存项目。生产新库没有 profile/default，本批只实现内部固定版本消费与候选读取，没有配置管理或模型 Key 录入入口。测试 fixture 不能称为已实现配置来源、模型调用或运行准备。项目的 `canCreateIssue` 保持 false。
+配置只有显式勾选本次更新时才重新绑定。省略配置保留原固定版本；默认或 secret 版本随后变化不会暗换已保存项目。B03 批次只实现内部固定版本消费与候选读取。后续 B04 已提供模型供应商保存和部署来源导入，采用范围见本文顶部链接；新库不会自动生成 profile/default。测试 fixture 不能替代真实模型调用或运行准备验收。项目的 `canCreateIssue` 保持 false。
 
 创建和更新的未知结果保留原操作键与原输入，沿创建恢复页或更新恢复页查询。404 只表示当前无可见提交；成功回执的 revision 与时间固定，当前项目另读。输入丢失只允许查询；存储不可用时发送前展示可复制的浏览器恢复链接。注销、401、身份变化及失权清理敏感输入，晚到响应不能写回旧页面或存储。
 
@@ -52,4 +52,4 @@ pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B03 -PostgresBin /usr/lib/
 
 规划、架构与接口由 GPT-6 Astra 完成，实现由 gpt-5.6-sol 执行，未主要实现的模型复核。证据中的两轮私有 helper 事后声明偏差保留，不声称全程满足前置声明流程。B02.6 外部验收与 B03 主目录验证按各自真实结果判定。
 
-B04 为 `DESIGN_PREPARED_NOT_ADOPTED`，09-12轮次只准备[交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)和[下一会话 Prompt](NEXT-TASK-B04-PROMPT.md)。下会话先由 Astra 完成集中采用及函数接口，再由 Sol 实现；本轮不自动采用 B04 候选。
+09-12 历史检查点：当时 B04 为 `DESIGN_PREPARED_NOT_ADOPTED`，只准备[交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)和[下一会话 Prompt](../archive/2026-09-13-plan-organization/NEXT-TASK-B04-PROMPT.md)。该准备阶段已由 B04 采用与验收替代，当前以本文顶部链接为准。

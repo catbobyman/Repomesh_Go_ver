@@ -2,7 +2,7 @@
 
 调查日期：2026-09-09。本文回答当前 RepoMesh 设计依赖 AgentTeams 的哪些能力、哪些已有静态依据、哪些必须通过实验确认。本文保留编制时的调查与实验设计，**不是验收通过记录，也不新增产品决定**。后续已执行组件实验与最新源码部署；初轮过程保留在[09-09记录](../../validation/agentteams-2026-09-09/reports/validation-status.md)，当前新版进度和边界以[09-10验证状态](../../validation/agentteams-2026-09-10/reports/validation-status.md)为准。
 
-后续更新（同日）：用户已采用按最新版本复用原生仓内 DAG，RepoMesh 保留跨仓／业务放行及有界 Loop；决定见 ADR-0014／0015 补充，当前分工、版本与证据见 [Graph／Loop 专题](graph-loop-design.md)。重新查询官方最新 main 仍是下述锁定提交，最新 release 为 v1.2.3。后续[真实 HTTP／MinIO 原始记录](../../validation/agentteams-2026-09-09/evidence/controller-live-results.json)的 LIVE-C03／04 已覆盖 paused replan 和显式管理员陈旧写，部分状态摘要尚未同步；不将下文“编制时未运行”当成当前全部证据，也不扩大为部署 Worker 或 RepoMesh 验收。
+后续更新（同日）：用户已采用按最新版本复用原生仓内 DAG，RepoMesh 保留跨仓／业务放行及有界 Loop；决定见 ADR-0014／0015 补充，当前分工、版本与证据见 [Graph／Loop 专题](../current/graph-loop-design.md)。重新查询官方最新 main 仍是下述锁定提交，最新 release 为 v1.2.3。后续[真实 HTTP／MinIO 原始记录](../../validation/agentteams-2026-09-09/evidence/controller-live-results.json)的 LIVE-C03／04 已覆盖 paused replan 和显式管理员陈旧写，部分状态摘要尚未同步；不将下文“编制时未运行”当成当前全部证据，也不扩大为部署 Worker 或 RepoMesh 验收。
 
 ### 09-10 新版增量记录（不覆盖原清单）
 
@@ -24,7 +24,7 @@
 
 首要问题是：RepoMesh 能否在复用 AgentTeams 团队、通信与运行生命周期的同时，实际控制工作目标、计划生效、派工、权限和故障恢复。仅启动几个 Agent、完成一次聊天或看到任务状态成功，不能证明这些设计成立。
 
-现行要求来自 [ADR-0001](../adr/0001-agentteams-issue-concurrency-and-isolation.md) §8—§9、[受控接入 ADR-0011](../adr/0011-agentteams-controlled-integration.md)、ADR-0012—0019、[架构 v1](architecture-design-v1.md) §12、[会话后端专项](draft-conversation-backend-design.md)及[创建契约](issue-page-create-api-contract.md)。本次由主 Agent 与独立研究 Agent 分工核对这些要求，并读取上游原始代码交叉验证。
+现行要求来自 [ADR-0001](../adr/0001-agentteams-issue-concurrency-and-isolation.md) §8—§9、[受控接入 ADR-0011](../adr/0011-agentteams-controlled-integration.md)、ADR-0012—0019、[架构 v1](../current/architecture-design-v1.md) §12、[会话后端专项](../current/draft-conversation-backend-design.md)及[创建契约](../current/issue-page-create-api-contract.md)。本次由主 Agent 与独立研究 Agent 分工核对这些要求，并读取上游原始代码交叉验证。
 
 上游范围固定为 `agentscope-ai/AgentTeams` 提交 `eeaab64391ccaec9118e84977f538aefd40720d6`。本机保留了该提交的 Git 对象库，位置为 `C:/Users/18092/AppData/Local/Temp/agentteams-api-survey-full-eeaab`；本次使用 `git show <commit>:<path>` 读取原始 blob，没有检出、修改或运行上游代码。现存 `D:/Project4work/AgentTeams` 的 HEAD 为另一提交，未混入结论。本次没有调查最新 main，也没有启动 Controller、Matrix、模型或 Docker 实验。
 

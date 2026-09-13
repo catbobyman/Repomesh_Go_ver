@@ -2,7 +2,7 @@
 
 状态：`DESIGN_PREPARED_NOT_ADOPTED`。本次仅新增交接和 Prompt；没有实施 B04、修改产品、运行测试或采用候选。准备角色为 GPT-6 Astra。
 
-下一会话使用 [完整 Prompt](NEXT-SESSION-PROMPT.md)，当前入口另见 [NEXT-TASK-B04-PROMPT](../../current/NEXT-TASK-B04-PROMPT.md)。两份 Prompt 本次以同一正文生成；后续如改动须同时核对。
+下一会话使用 [完整 Prompt](NEXT-SESSION-PROMPT.md)，当前入口另见 [NEXT-TASK-B04-PROMPT](../../archive/2026-09-13-plan-organization/NEXT-TASK-B04-PROMPT.md)。两份 Prompt 本次以同一正文生成；后续如改动须同时核对。
 
 ## 当前证据与状态
 

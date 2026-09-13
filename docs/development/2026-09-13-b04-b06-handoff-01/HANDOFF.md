@@ -19,7 +19,7 @@
 
 ## 先读哪些材料
 
-先读根 AGENTS.md、README.md、[当前索引](../../current/README.md)、[当前交接](../../current/HANDOFF.md)、[施工计划](../../current/IMPLEMENTATION-PLAN.md)。然后完整阅读本轮 [设计入口](../2026-09-13-b04-b06-design-01/README.md)、[决定表](../2026-09-13-b04-b06-design-01/DECISIONS.md)、B04／B05／B06、Go／TS 声明、迁移设计、验收映射、兼容审查、源码核对与独立复核。对应唯一专题与章节见设计入口，不另造一套 HTTP Schema。
+先读根 AGENTS.md、README.md、[当前索引](../../current/README.md)、[当前交接](../../current/HANDOFF.md)、[施工计划](../../plan/IMPLEMENTATION-PLAN.md)。然后完整阅读本轮 [设计入口](../2026-09-13-b04-b06-design-01/README.md)、[决定表](../2026-09-13-b04-b06-design-01/DECISIONS.md)、B04／B05／B06、Go／TS 声明、迁移设计、验收映射、兼容审查、源码核对与独立复核。对应唯一专题与章节见设计入口，不另造一套 HTTP Schema。
 
 B03 以 [主目录集成记录](../2026-09-12-b03-integration-01/README.md)及其 [最终独立复核](../2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)为准。09-12 的 B04 Prompt 和另一 worktree 的 A／B／final 候选仅为历史来源；09-13 设计已经完成比较和综合，不必重做同一轮选型，也不能把文件名 final 当作采用证据。
 

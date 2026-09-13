@@ -27,7 +27,7 @@
 | [docs/adr/0019-conversation-issue-separation.md](../../adr/0019-conversation-issue-separation.md) | 64 | 系统架构专项审读 |
 | [docs/adr/0020-python-repository-analysis-plugin.md](../../adr/0020-python-repository-analysis-plugin.md) | 14 | 系统架构专项审读 |
 | [docs/adr/README.md](../../adr/README.md) | 48 | 系统架构专项审读 |
-| [docs/current/agentteams-validation-plan.md](../../current/agentteams-validation-plan.md) | 151 | 系统架构专项审读 |
+| [docs/current/agentteams-validation-plan.md](../../plan/agentteams-validation-plan.md) | 151 | 系统架构专项审读 |
 | [docs/current/architecture-design-v1.md](../../current/architecture-design-v1.md) | 431 | 系统架构专项审读 |
 | [docs/current/authentication-browser-api-draft.md](../../current/authentication-browser-api-draft.md) | 108 | API/后端专项审读 |
 | [docs/current/backend-first-batch-persistence.md](../../current/backend-first-batch-persistence.md) | 218 | API/后端专项审读 |

@@ -1,8 +1,10 @@
 # RepoMesh 下一任务：审查 B04 精确采用包，再实施配置与模型秘密管理
 
-接续入口已更新：请复制 [2026-09-13 新 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md)，并先读[最新交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)。以下正文保留为历史，不再作为默认下一任务指令。
+> 历史接手提示。B03、B04 的已授权实现均已完成本地集成验收；本文保留编制时的指令，不作为新的任务授权。当前入口见[计划导航](../../plan/README.md)和[当前交接](../../current/HANDOFF.md)。原始字节见[归档说明](README.md)。
 
-历史 Prompt 说明（2026-09-13）：本文件保留09-12的实施建议，不构成本轮或后续新任务的自动授权。B04—B06已形成[新的设计交付](../development/2026-09-13-b04-b06-design-01/README.md)；应先读其推荐、采用状态和[复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)，不重复按旧final附件定稿。本轮仅设计，未启动本Prompt中的实现、迁移、浏览器、打包或外部步骤。
+接续入口已更新：请复制 [2026-09-13 新 Prompt](../../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md)，并先读[最新交接](../../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)。以下正文保留为历史，不再作为默认下一任务指令。
+
+历史 Prompt 说明（2026-09-13）：本文件保留09-12的实施建议，不构成本轮或后续新任务的自动授权。B04—B06已形成[新的设计交付](../../development/2026-09-13-b04-b06-design-01/README.md)；应先读其推荐、采用状态和[复核](../../development/2026-09-13-b04-b06-design-01/REVIEW.md)，不重复按旧final附件定稿。本轮仅设计，未启动本Prompt中的实现、迁移、浏览器、打包或外部步骤。
 
 准备状态：`DESIGN_PREPARED_NOT_ADOPTED`。这份 Prompt 授权下一会话先审查并收口 B04 的精确范围与接口，再按采用结果实现；它不把现有候选整体自动采用。
 

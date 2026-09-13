@@ -207,4 +207,4 @@ COMMIT;
 
 只有真实验收表必需项全部有实际证据、失败已处理并独立复核后，才把 B02.6 和 B02 整体标为 VERIFIED。若因配置、GitHub 操作或自然刷新等待而未完成，继续保留 B02 IN_PROGRESS 与 B03 TODO。
 
-B03 开工时重新对照[施工表](IMPLEMENTATION-PLAN.md)的项目创建、列表、资料编辑、明确增仓与原操作恢复范围，读取[首批浏览器契约](first-batch-browser-api-contract.md)、[首批持久化](backend-first-batch-persistence.md)及[项目配置专题](project-configuration-design.md)的已采用章节。先落实待配置项目，验收同键 20 并发、异输入冲突、丢回执和重启恢复、增仓全回滚及受限仓库下资料修复。C05/C06 留 B05，模型候选、预算和 P9 不随 B02 自动采用。
+B03 开工时重新对照[施工表](../plan/IMPLEMENTATION-PLAN.md)的项目创建、列表、资料编辑、明确增仓与原操作恢复范围，读取[首批浏览器契约](first-batch-browser-api-contract.md)、[首批持久化](backend-first-batch-persistence.md)及[项目配置专题](project-configuration-design.md)的已采用章节。先落实待配置项目，验收同键 20 并发、异输入冲突、丢回执和重启恢复、增仓全回滚及受限仓库下资料修复。C05/C06 留 B05，模型候选、预算和 P9 不随 B02 自动采用。

@@ -123,7 +123,7 @@ ADR-0013：同一 Go 工程配套发布，分别运行 Web、后台协调、受�
 ADR-0014（含 2026-09-09 补充）：Graph 模块在后台进程内负责跨仓协调、业务结果适用性及循环策略，随后端发布；仓内 DAG 建图、依赖校验和候选就绪计算复用上游，不另写完整 Go DAG 引擎。后台经执行 Adapter 提供上游观察并核验实际派工，计划、轮次和累计消耗持久化；具体 Interface／机制继续细化。
 ADR-0015（含 2026-09-09 补充）：当前获准轮次复用上游有限 DAG，RepoMesh 控制后续轮次；范围和上限内推进不产生新业务 Plan Version。不使用原生 Loop 自主推进整个业务循环。换图按完整受影响 Project 停派工、收尾、核对 submitted、应用及读回；不能直接 pause→replan。
 
-Graph／Loop 必须补读 [现行专题](graph-loop-design.md)：最新源码与 release 区别、能力分工、assigned 重复就绪、结果采纳、跨仓前驱、唯一任务身份、多目标应用及恢复均在该处维护。此次复用方向已采用，具体桥接和补丁仍需设计验证；不要按旧摘要启动通用 DAG 引擎重写。
+Graph／Loop 必须补读 [现行专题](../../../../current/graph-loop-design.md)：最新源码与 release 区别、能力分工、assigned 重复就绪、结果采纳、跨仓前驱、唯一任务身份、多目标应用及恢复均在该处维护。此次复用方向已采用，具体桥接和补丁仍需设计验证；不要按旧摘要启动通用 DAG 引擎重写。
 ADR-0016：业务与待办同事务，外部请求在提交后，未知查原操作。P1 原确认及持续授权补充保留：双入口创建的 Issue、主 CS、必要新会话、来源／真实记录、允许字段的确切输入快照与规范化摘要／版本、幂等结果、持久待办及相应事件同短事务保存。已有会话只增关联与记录；操作身份项目保留期不复用，删正文保留最小无正文占位，已物理删除项目旧身份不可复活。具体数据库实现继续设计，不是外部 exactly-once。
 ADR-0017：短事务统一登记 Attempt、Worker 占用及容量预留；环境在事务外准备，启动前再核验。竞争同一资源不能重复分配，等待说明原因；准备失败核查实际状态再释放，超时不证明资源释放。具体锁、代次、容量口径和恢复算法未冻结。
 ADR-0018：保留原 Draft Issue 时序历史，持续授权补充已采用首次会话及首条消息提交后、或 Issue 栏建项提交后自动异步准备／恢复项目实例和对应主房间；复用已有资源，实际 Manager／房间就绪后投递或接手。项目创建、空会话及只读访问本身不启动；权限、配置、预算、容量及准备失败保留事实等保障保持，实际运行适配待验证。
@@ -235,12 +235,12 @@ C:/Users/18092/.codex/visualizations/2026/09/09/01a08562-2a37-7371-8a6e-050e4701
 
 【上游证据与结果边界】
 
-2026-09-09 重新核对 AgentTeams 最新 main 为 eeaab64391ccaec9118e84977f538aefd40720d6（09-05 提交），最新 release 为 v1.2.3；本次 Graph／Loop 基线用确定 main 提交，不使用浮动 latest 部署。除静态调研外已有四镜像构建、双实例实际运行、模型往返与 Worker 自有权限证据，尚无 RepoMesh 全链路验收；接手先读[验证执行记录](../../validation/agentteams-2026-09-09/reports/validation-status.md)及[现行专题](graph-loop-design.md)，特别核对实际通道、资源限额、shared 写路径与产物语义。Controller REST 提供资源生命周期及部分工作流能力；taskflow 委派／提交等主要是本地 stdio MCP，不能虚构 REST 任务启动端点。
+2026-09-09 重新核对 AgentTeams 最新 main 为 eeaab64391ccaec9118e84977f538aefd40720d6（09-05 提交），最新 release 为 v1.2.3；本次 Graph／Loop 基线用确定 main 提交，不使用浮动 latest 部署。除静态调研外已有四镜像构建、双实例实际运行、模型往返与 Worker 自有权限证据，尚无 RepoMesh 全链路验收；接手先读[验证执行记录](../../../../../validation/agentteams-2026-09-09/reports/validation-status.md)及[现行专题](../../../../current/graph-loop-design.md)，特别核对实际通道、资源限额、shared 写路径与产物语义。Controller REST 提供资源生命周期及部分工作流能力；taskflow 委派／提交等主要是本地 stdio MCP，不能虚构 REST 任务启动端点。
 上游 Project 身份涉及实例、team、project_id，task_id 还需避免跨 Issue／轮次／Attempt 碰撞。replan 遇到 in-progress／submitted 拒绝，paused 直接 replan 的 409 已经真实服务验证；pause 不停止在途。受控 resume 后 replan 或 paused replan 补丁尚未选定，completed Project 不能假定可直接重开。原生 DAG／Loop 与 Dashboard HITL 不证明 RepoMesh 全部编排和审批已实现。
 
-原要求子项与新增原生证据集中于[完成度审计](../../validation/agentteams-2026-09-09/reports/completion-audit.md)：合法DAG候选推进与实际执行去重分开；不同通知故障窗口的恢复结果分开；删除同名重建后旧SA在缓存窗口仍被接受，之后401，旧Matrix身份与存储身份另行核验；当前checkpoint代理200正文为HTML。双Worker各76项官方回归有资源测量，但没有业务调度／配额验收。本轮只新增验证与交接事实，没有新增或实现业务REST／SSE接口。
+原要求子项与新增原生证据集中于[完成度审计](../../../../../validation/agentteams-2026-09-09/reports/completion-audit.md)：合法DAG候选推进与实际执行去重分开；不同通知故障窗口的恢复结果分开；删除同名重建后旧SA在缓存窗口仍被接受，之后401，旧Matrix身份与存储身份另行核验；当前checkpoint代理200正文为HTML。双Worker各76项官方回归有资源测量，但没有业务调度／配额验收。本轮只新增验证与交接事实，没有新增或实现业务REST／SSE接口。
 
-最新[普通回复／thread实测](../../validation/agentteams-2026-09-09/reports/runtime-reply-thread-live.md)已到已部署handler和真实模型层：入站关系保存，出站只编辑自身新建的主时间线占位，不保留原父消息／thread；session仍按房间。需在消息目标／结果回传适配中处理，不能拿Matrix持久性测试替代。跨Team同名Project和原生查询耗时已补测，见完成度审计；其正向结果仍不证明业务身份映射或采集到页面的完整链路。
+最新[普通回复／thread实测](../../../../../validation/agentteams-2026-09-09/reports/runtime-reply-thread-live.md)已到已部署handler和真实模型层：入站关系保存，出站只编辑自身新建的主时间线占位，不保留原父消息／thread；session仍按房间。需在消息目标／结果回传适配中处理，不能拿Matrix持久性测试替代。跨Team同名Project和原生查询耗时已补测，见完成度审计；其正向结果仍不证明业务身份映射或采集到页面的完整链路。
 同一个 QwenPaw runtime 的 Matrix 房间影响 session_id；不同 Agent 不共享全局隐藏上下文。房间缓冲有内存与长度限制，不能作可靠历史；保留 room 有利于上下文连续是静态设计推断，不能承诺完整恢复。读取 history 不证明有实时订阅；创建受理和 Ready 不同，Controller 内存 ready 观察重启可能丢失。不能依赖未接通的 remoteSkills 创建／更新字段。
 
 已有成果：架构 v1、会话／独立 Issue 后端专项稿、ADR-0010—0019。ADR-0019 替代旧会话绑定，ADR-0016／0018 新补充承接持续授权的创建事务和启动时序；专项稿 §2／§4／§5／§6 已同步创建采用清单。后端整体设计仍有未完成部分，标继续设计／待验证，不再以逐项批准阻塞；当前不新占 ADR 编号。

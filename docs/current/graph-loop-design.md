@@ -130,7 +130,7 @@ React Flow 展示 RepoMesh 汇总的业务节点、依赖、版本与阻塞原�
 3. 扩展双仓并行／依赖／汇合、固定组合与独立验证，证明仓内 ready 不绕过跨仓与业务前置条件。
 4. 完成有界 Loop、整 Project 收敛、多目标应用与下一轮恢复，再接 React Flow 的业务状态展示。
 
-验证沿用 [AT-01—12](agentteams-validation-plan.md)，补充聚焦：
+验证沿用 [AT-01—12](../plan/agentteams-validation-plan.md)，补充聚焦：
 
 | 场景 | 必须观察到的结果 |
 | --- | --- |

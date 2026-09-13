@@ -1,12 +1,8 @@
-# RepoMesh 现行文档索引
+# RepoMesh 现行专题索引
 
-当前：B04 授权范围（D01—D04、U04.1—U04.4）已结束，状态为 `INTEGRATED_LOCAL_VERIFIED`。验收见[B04 验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。B05／B06 实施仍 TODO，不自动开工。B02 外部暂停。非整批 VERIFIED。`businessReady=false`。
+本页索引业务设计、接口、开发说明与采用记录。当前完成度见[交接](HANDOFF.md)，施工顺序、前置设计分工和验证清单见[计划导航](../plan/README.md)。首次接手按[全局阅读指南](AGENT-READING-GUIDE.md)建立上下文。
 
-2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。该段保留设计当时的「新推荐仍待采用」记录，不改写成当时已实施。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
-
-更新：2026-09-13。开发先读[开发前阅读与行动指南](DEVELOPMENT-START.md)及[Astra 前置设计分工](ASTRA-DESIGN-PREPARATION.md)，当前完成度见[HANDOFF](HANDOFF.md)。本页只导航，不累计历史进度。
-
-采用状态以具体章节和替代关系为准。未采用的关键方案与暂缓专题仍保留；旧协作、旧 Prompt、淘汰页面稿和阶段审查已移至[历史归档](../archive/2026-09-12-development-preparation/README.md)。
+采用状态以具体章节和替代关系为准。旧协作与已替代稿从[历史归档](../archive/README.md)追溯，不作为当前任务指令。
 
 ## 开始与当前基线
 
@@ -16,14 +12,13 @@
 | [B04 验收报告](../development/2026-09-13-b04-acceptance-01/README.md) | 已合入 `main` 的 D01—D04／U04.1—U04.4 验收；`INTEGRATED_LOCAL_VERIFIED`，非整批 VERIFIED。 |
 | [B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)、[独立复核](../development/2026-09-13-b04-closeout-01/FINAL-INDEPENDENT-REVIEW.md) | B04 INTEGRATED_LOCAL_VERIFIED：夹具浏览器、B03 回归、r2 包；非整批 VERIFIED。 |
 | [B04 采用记录](b04-model-sources-adoption.md) | 已采用 D01—D04 与 U04.1—U04.4。不采用 D05—D08。 |
-| [B04—B06 最新交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[可复制 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md) | 设计交接仍有效；B04 收口后 B05／B06 仍待各自采用。 |
-| [分批施工 TODO plan](IMPLEMENTATION-PLAN.md) | 当前施工范围、依赖、各批状态和验收证据。 |
-| [Astra 前置设计分工（必读）](ASTRA-DESIGN-PREPARATION.md) | B04—B11 的提前设计、函数声明、逐项允许／排除范围、文件／操作边界和交付终点；不自动采用具体候选。 |
+| [B04—B06 设计交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[设计阶段历史 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md) | 设计交接仍有效；B04 收口后 B05／B06 仍待各自采用。 |
+| [分批施工计划](../plan/IMPLEMENTATION-PLAN.md) | 当前施工范围、依赖、各批状态和验收证据。 |
+| [Astra 前置设计分工（必读）](../plan/ASTRA-DESIGN-PREPARATION.md) | B04—B11 的提前设计、函数声明、逐项允许／排除范围、文件／操作边界和交付终点；不自动采用具体候选。 |
 | [数据库基础开发](database-development.md) | 显式迁移、核查、失败处理及独立数据库验证。 |
 | [项目管理开发](project-development.md) | B03 INTEGRATED_LOCAL_VERIFIED：项目事务、固定配置、恢复机制及最终主目录证据。 |
 | [B03 最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md) | 主目录 PG 73/0、前端 28/28、浏览器 25+1 和 r1 发布；无开放 P0/P1/P2，businessReady=false，非整批业务 VERIFIED。 |
-| [B04 下会话交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)、[可复制 Prompt](NEXT-TASK-B04-PROMPT.md) | 历史准备材料；现先读[B04—B06设计交付](../development/2026-09-13-b04-b06-design-01/README.md)，采用后才能实施。 |
-| [开发前必读及行动顺序](DEVELOPMENT-START.md) | 按角色阅读、首批实现依赖与失败验收。 |
+| [开发前必读及行动顺序](../plan/DEVELOPMENT-START.md) | 按角色阅读、首批实现依赖与失败验收。 |
 | [当前交接](HANDOFF.md) | 当前完成度和分阶段边界。 |
 | [页面／接口交接](HANDOFF-PAGE-API-DESIGN.md) | F01—F15 的唯一专题和后续去向。 |
 | [后端交接](HANDOFF-BACKEND-DESIGN.md) | B01—B08 的协议、上游核对与开工条件。 |
@@ -89,7 +84,7 @@
 | [WSL2 开发环境建议](wsl-development-recommendation.md) | 保留最初建议；WSL 副本、Linux 工具、专用 SSH 和桌面项目已验证，当前接手及 B02 前置见 HANDOFF。 |
 | [骨架验收记录](scaffold-verification.md) | 既有工程检查的条件与结果，非业务验收。 |
 | [AgentTeams 证据索引](scaffold-agentteams-evidence.md) | 确定源码与历史实测的范围及追溯入口。 |
-| [AgentTeams 验证清单](agentteams-validation-plan.md) | AT01—12 的具体用例；G1—G5 不替代该清单。 |
+| [AgentTeams 验证清单](../plan/agentteams-validation-plan.md) | AT01—12 的具体用例；G1—G5 不替代该清单。 |
 | [架构方案](architecture-design-v1.md) | 各章节的已采用方向、候选及未验证能力。 |
 | [技术选型](technology-selection.md) | 已采用技术方向。 |
 | [暂缓的 Skill 工程](skill-engineering-design.md) | H1—H15 方向保留，按 ADR-0009 暂缓；不是本批前置。 |
@@ -102,4 +97,4 @@
 | [原型目录](../prototypes/README.md) | 当前 11 份原稿、串联源及 4 份历史归档。 |
 | [AgentTeams 调研](../agentteams-survey-2026-09-07/agentteams-survey.md) · [API／CLI 附录](../agentteams-survey-2026-09-07/agentteams-api-cli-survey-2026-09-07.md) | 后端需结合确定源码和后续实测核对，不能当作已集成。 |
 | [09-12 审查](../reviews/2026-09-12-design-readiness/README.md) · [修订检查](../reviews/2026-09-12-design-fixes/README.md) | 历史证据及限定检查，不代表真实业务通过。 |
-| [本次归档](../archive/2026-09-12-development-preparation/README.md) · [全部历史](../archive/README.md) | 旧采用原话、通信、交接、归档映射与原始字节。 |
+| [计划目录整理与旧任务提示](../archive/2026-09-13-plan-organization/README.md) · [全部历史](../archive/README.md) | 已过期 B03、B04 提示，整理前交接、计划、迁移映射与原始字节；更早归档从历史总导航进入。 |

@@ -1,12 +1,12 @@
 # 页面与接口开发交接
 
-2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。新推荐仍待采用，未开始产品实现或运行验收。B02外部暂停、B03 INTEGRATED_LOCAL_VERIFIED及B04 DESIGN_PREPARED_NOT_ADOPTED保持；B05/B06实施仍TODO。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
+当前采用与实现状态见[当前交接](HANDOFF.md)和[施工计划](../plan/IMPLEMENTATION-PLAN.md)。B04 的 D01—D04 已采用并完成本地集成验收，见[B04 采用记录](b04-model-sources-adoption.md)；B05、B06 的后续范围仍待采用。原[B04—B06 设计交付](../development/2026-09-13-b04-b06-design-01/README.md)保留设计时的候选及复核范围。
 
-更新：2026-09-12。先读[开发指南](DEVELOPMENT-START.md)、[当前交接](HANDOFF.md)和[原型导航](../prototypes/README.md)。累计讨论和旧协作安排见[整理前全文](../archive/2026-09-12-development-preparation/docs/current/HANDOFF-PAGE-API-DESIGN.md)，不要求开发者按历史顺序重读。
+更新：2026-09-13。先读[开发指南](../plan/DEVELOPMENT-START.md)、[当前交接](HANDOFF.md)和[原型导航](../prototypes/README.md)。累计讨论和旧协作安排见[整理前全文](../archive/2026-09-12-development-preparation/docs/current/HANDOFF-PAGE-API-DESIGN.md)，不要求开发者按历史顺序重读。
 
 ## 当前基线
 
-主视觉沿会话与独立 Issue；创建使用已采用弹窗、关联控件及提交反馈。F01 登录恢复、F02 项目表单、F03 仓库选择、F04 模型应用中列明的 UI 已采用；新增认证与模型协议、详情及恢复细化仍按[首批候选包](first-batch-complete-review.md)判断。[09-12 修订](design-readiness-revisions.md)未把新协议变成已采用；内存原型与业务 API 分开。
+主视觉沿会话与独立 Issue；创建使用已采用弹窗、关联控件及提交反馈。F01 登录恢复、F02 项目表单、F03 仓库选择、F04 模型应用中列明的 UI 已采用；认证和模型保存分别按[B02](b02-authentication-adoption.md)、[B04](b04-model-sources-adoption.md)的采用范围已实现；模型测试、应用、详情及其余恢复细化仍按对应候选判断。[09-12 修订](design-readiness-revisions.md)未把新协议变成已采用；内存原型与业务 API 分开。
 
 浏览器字段唯一来源为[首批契约](first-batch-browser-api-contract.md)、[Issue 创建契约](issue-page-create-api-contract.md)及相应认证／模型候选。完整 configuration PATCH 与仅换模型的专用应用分别实现；原型样例不能增加另一套字段或枚举。
 
@@ -14,7 +14,7 @@
 
 | 范围 | 当前阅读与实施边界 |
 | --- | --- |
-| F01 登录／恢复 | [登录页面](login-recovery-page-design.md)、[认证候选](authentication-browser-api-draft.md)。先明确认证方案，保持当前账号、回调结果与原业务结果分离。 |
+| F01 登录／恢复 | [登录页面](login-recovery-page-design.md)、[认证候选](authentication-browser-api-draft.md)。认证已按 B02 采用范围实现；保持当前账号、回调结果与原业务结果分离。 |
 | F02—F03 项目表单／选仓 | [项目配置](project-configuration-design.md)、[仓库选择](repository-picker-design.md)。保留已有范围，明确增仓；实现并发修订、权限未知和原更新恢复。 |
 | F04—F05 模型应用／Key | [应用](model-project-apply-design.md)、[Key](model-key-save-design.md)、[模型字段候选](model-settings-browser-api-draft.md)。固定快照、独立测试观察、原操作终结及精确保留 execution。 |
 | F06 执行配置 | [配置来源候选](backend-first-batch-sources-draft.md)。首批只覆盖必要来源与有效值摘要，完整数值管理页后置。 |

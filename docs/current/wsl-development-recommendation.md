@@ -50,7 +50,7 @@ Docker 对 WSL2 的建议同样是将挂载进 Linux 容器的源码放在 Linux
 
 本次读取时，父仓库 HEAD 为 `4516805a276d65eb79490a12783654f3d7b1c677`，工作区有大量已修改、未跟踪和删除的文件。以下结论包括未提交工作，不能仅检出该提交就复现全部状态。
 
-旧骨架说明与进行中的开发存在时间差。本次已看到 `internal/database/`、`go.sum`、`pgx` 依赖和 Web 的 `db check` / `db migrate` 入口；[施工计划](IMPLEMENTATION-PLAN.md)读取时将数据库基础批次 B01 标为 `IN_PROGRESS`。这是本建议最初读取时的快照。随后 B00 和 B01 已完成验证并暂停，最新结果见[批次验收](../development/2026-09-12-batch-01/README.md)。迁移实施时重新读取计划和实际源码，不能继续按“只有标准库、没有数据库代码”准备环境。
+旧骨架说明与进行中的开发存在时间差。本次已看到 `internal/database/`、`go.sum`、`pgx` 依赖和 Web 的 `db check` / `db migrate` 入口；[施工计划](../plan/IMPLEMENTATION-PLAN.md)读取时将数据库基础批次 B01 标为 `IN_PROGRESS`。这是本建议最初读取时的快照。随后 B00 和 B01 已完成验证并暂停，最新结果见[批次验收](../development/2026-09-12-batch-01/README.md)。迁移实施时重新读取计划和实际源码，不能继续按“只有标准库、没有数据库代码”准备环境。
 
 已确认需要处理的迁移事项如下。
 

@@ -1,6 +1,6 @@
 # RepoMesh 基础工程与开发说明
 
-阶段：工程基础与认证实现。施工范围和验收见[分批 TODO plan](IMPLEMENTATION-PLAN.md)。B02 配置与状态见[认证说明](authentication-development.md)，真实 GitHub 尚未验收；后续业务与上游集成仍未实现。
+阶段：工程基础与认证实现。施工范围和验收见[分批 TODO plan](../plan/IMPLEMENTATION-PLAN.md)。B02 配置与状态见[认证说明](authentication-development.md)，真实 GitHub 尚未验收；后续业务与上游集成仍未实现。
 
 ## 实际目录与依赖方向
 

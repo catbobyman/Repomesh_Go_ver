@@ -2,7 +2,7 @@
 
 多仓库协作产品，采用 React／TypeScript／Vite 与同一 Go 工程的三个入口。已实现 PostgreSQL 迁移、认证秘密基础、GitHub App 登录／重连、服务端会话、授权恢复页面与后台仓库发现。B03 项目管理代码已集成，提供待配置项目创建、列表、资料编辑、明确增仓、固定配置引用和原操作恢复；主目录已 INTEGRATED_LOCAL_VERIFIED。B04 已采用 D01—D04 并落地模型供应商保存、六个 HTTP 端点和 `repomesh-web sources` 导入；主目录已 INTEGRATED_LOCAL_VERIFIED，非整批 VERIFIED。`businessReady=false`。范围见[项目开发说明](docs/current/project-development.md)和[B04 采用记录](docs/current/b04-model-sources-adoption.md)。本地验证、真实 GitHub 验收与整批 VERIFIED 分别记录；Issue、运行和 AgentTeams 集成尚未实现。现行产品决定见 [文档导航](docs/README.md)，工程职责及扩展边界见 [开发说明](docs/current/development-scaffold.md)。
 
-首次接手项目可按 [Agent 全局阅读指南](docs/current/AGENT-READING-GUIDE.md) 阅读产品、架构与实现材料；具体实施顺序见开发前行动指南。
+首次接手项目可按 [Agent 全局阅读指南](docs/current/AGENT-READING-GUIDE.md) 阅读产品、架构与实现材料；具体实施顺序见[计划导航](docs/plan/README.md)，目录职责及维护规则见[文档导航](docs/README.md)。
 
 ## Codex 项目插件
 
@@ -18,7 +18,7 @@ WSL 中执行完整数据库批次检查：
 pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B02 -PostgresBin /usr/lib/postgresql/17/bin
 ```
 
-正式业务开发前先读[开发前阅读与行动指南](docs/current/DEVELOPMENT-START.md)，按[分批施工 TODO plan](docs/current/IMPLEMENTATION-PLAN.md)查看范围、依赖和验证结果。旧交接、协作日志和被替代原型已移入[历史归档](docs/archive/2026-09-12-development-preparation/README.md)。
+正式业务开发前先读[开发前阅读与行动指南](docs/plan/DEVELOPMENT-START.md)，按[分批施工计划](docs/plan/IMPLEMENTATION-PLAN.md)查看范围、依赖和验证结果。旧交接、协作日志和被替代原型已移入[历史归档](docs/archive/2026-09-12-development-preparation/README.md)。
 
 要求 Go 1.26 或以上、Node.js 22.12 或以上、npm；配套打包脚本使用 PowerShell 7（`pwsh`）。B02 数据库验收还要求启用 cgo 和可用的 C 编译器。当前工具版本与检查结果见 [B02 记录](docs/development/2026-09-12-batch-02/README.md)，旧骨架结果见 [工程验收记录](docs/current/scaffold-verification.md)。以下命令均从仓库根目录执行。
 
@@ -94,7 +94,7 @@ B01／B02 脚本创建独立临时数据库实例、运行全部工程检查及�
 
 ## 配置与配套构建
 
-B03 后端检查可运行 `pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B03 -PostgresBin /usr/lib/postgresql/17/bin`。它使用独立 SCRAM 实例，包含 Go、真实事务、HTTP、进程重启和 race。项目管理代码已合入主目录，当前为 `INTEGRATED_LOCAL_VERIFIED`；真实 PostgreSQL 73 通过、0 跳过，前端 28/28、浏览器 25+1、Go/race、HTTP、实际进程恢复和配套发布均通过，[最终独立复核](docs/development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)确认两项 P1、一项 P2 闭环，无开放 P0/P1/P2。新包为 `dist/repomesh-0.3.0-b03-integrated-20260912-r1/`，businessReady=false；不是外部 GitHub、部署或整批业务 VERIFIED。B04 为 DESIGN_PREPARED_NOT_ADOPTED，本轮止于[交接](docs/development/2026-09-12-b04-handoff-01/HANDOFF.md)和[下会话 Prompt](docs/current/NEXT-TASK-B04-PROMPT.md)。历史 worktree 为 `LOCAL_VERIFIED`，证据位于 `/home/xubohan/projects/Repomesh_B03/docs/development/2026-09-12-b03-01/`，旧包位于 `/home/xubohan/projects/Repomesh_B03/dist/repomesh-0.3.0-b03-worktree-20260912-r1/`，均未复制到主目录。本轮集成记录见[集成证据](docs/development/2026-09-12-b03-integration-01/README.md)。下列 r3 保留为 B02 产物，不能验证新增项目功能；再次构建须使用不同版本标签。
+B03 后端检查可运行 `pwsh -NoProfile -File scripts/verify-batch.ps1 -Batch B03 -PostgresBin /usr/lib/postgresql/17/bin`。它使用独立 SCRAM 实例，包含 Go、真实事务、HTTP、进程重启和 race。项目管理代码已合入主目录，当前为 `INTEGRATED_LOCAL_VERIFIED`；真实 PostgreSQL 73 通过、0 跳过，前端 28/28、浏览器 25+1、Go/race、HTTP、实际进程恢复和配套发布均通过，[最终独立复核](docs/development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)确认两项 P1、一项 P2 闭环，无开放 P0/P1/P2。新包为 `dist/repomesh-0.3.0-b03-integrated-20260912-r1/`，businessReady=false；不是外部 GitHub、部署或整批业务 VERIFIED。B04 后续已完成 D01—D04 的采用与本地集成验收，见[B04 验收报告](docs/development/2026-09-13-b04-acceptance-01/README.md)；旧准备交接和任务提示见[归档](docs/archive/2026-09-13-plan-organization/README.md)。历史 worktree 为 `LOCAL_VERIFIED`，证据位于 `/home/xubohan/projects/Repomesh_B03/docs/development/2026-09-12-b03-01/`，旧包位于 `/home/xubohan/projects/Repomesh_B03/dist/repomesh-0.3.0-b03-worktree-20260912-r1/`，均未复制到主目录。本轮集成记录见[集成证据](docs/development/2026-09-12-b03-integration-01/README.md)。下列 r3 保留为 B02 产物，不能验证新增项目功能；再次构建须使用不同版本标签。
 
 [配置示例](configs/repomesh.env.example)列出 Web 实际消费的环境变量。程序不会自动加载 `.env`。命令行参数优先于环境变量，环境变量优先于默认值；资源路径相对于启动工作目录。
 
@@ -115,6 +115,6 @@ pwsh -NoProfile -File scripts/build.ps1 -Version 0.2.0-b026-cookie-20260912-r3
 
 ## 实施边界
 
-PostgreSQL、认证、受限 GitHub 发现适配及项目管理已实现。项目可保存为待配置状态，默认配置为空时不伪造有效值；模型 Key 管理、配置来源管理、预算编辑、Issue、计划、调度、AgentTeams、运行待办和对象存储仍未接入。Graph 后续仍是后台进程内模块；ADR-0020 的 Python 仓库分析仅记录受控扩展边界；Skill 工程继续暂缓。后续业务目录、接口、数据库表及恢复算法按各批采用契约增加。
+PostgreSQL、认证、受限 GitHub 发现适配、项目管理及 B04 模型来源与秘密保存已实现。项目可保存为待配置状态，默认配置为空时不伪造有效值。模型测试、专用应用、预算编辑、Issue、业务计划、调度、AgentTeams、运行待办和对象存储仍未接入。Graph 后续仍是后台进程内模块；ADR-0020 的 Python 仓库分析仅记录受控扩展边界；Skill 工程继续暂缓。后续业务目录、接口、数据库表及恢复算法按各批采用契约增加。
 
 `validation/` 保存独立的历史实验和证据，不是产品代码，也不随产品发布。骨架构建通过不代表旧验证全部通过，更不等于业务或 AgentTeams 集成验收完成。

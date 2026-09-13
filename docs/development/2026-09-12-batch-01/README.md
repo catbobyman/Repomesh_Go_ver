@@ -1,6 +1,6 @@
 # B00 与 B01 施工验收
 
-更新于 2026-09-12。用户要求建立分批 TODO plan 并开始开发，每组验证。本轮完成 B00 工程基线与 B01 PostgreSQL 基础。业务功能仍按[施工表](../../current/IMPLEMENTATION-PLAN.md)接续。
+更新于 2026-09-12。用户要求建立分批 TODO plan 并开始开发，每组验证。本轮完成 B00 工程基线与 B01 PostgreSQL 基础。业务功能仍按[施工表](../../plan/IMPLEMENTATION-PLAN.md)接续。
 
 ## 本轮交付
 

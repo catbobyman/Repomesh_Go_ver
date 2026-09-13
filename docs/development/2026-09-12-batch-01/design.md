@@ -6,7 +6,7 @@
 
 main 解析 addr、assets、version，建立信号 context 后调用 internal/web.Run。Run 先验证 index.html，再监听并提供两个探针及静态资源。数据库命令由同一入口分派，数据库包集中负责连接、历史和迁移事务，不修改 HTTP 行为。
 
-[开发指南](../../current/DEVELOPMENT-START.md)把数据库连接、迁移和可重复验证列为第 0 步。[持久化设计](../../current/backend-first-batch-persistence.md)采用 PostgreSQL 短事务和 READ COMMITTED，但逻辑记录不是已冻结 DDL。本批据此选择具体工程实现。
+[开发指南](../../plan/DEVELOPMENT-START.md)把数据库连接、迁移和可重复验证列为第 0 步。[持久化设计](../../current/backend-first-batch-persistence.md)采用 PostgreSQL 短事务和 READ COMMITTED，但逻辑记录不是已冻结 DDL。本批据此选择具体工程实现。
 
 ## 方案比较与选择
 

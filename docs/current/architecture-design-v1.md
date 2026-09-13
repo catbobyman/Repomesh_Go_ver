@@ -393,7 +393,7 @@ SSE 标准提供重连时的 Last-Event-ID，服务端的持久记录、重放�
 
 ## 12. 实施前应验证什么
 
-具体源码限制、实验和通过条件见 [AgentTeams 接入验证清单](agentteams-validation-plan.md)。其中原生 pause 将 Project 设为 paused，而 REST replan 只接受 active；上文停派工／应用流程需补齐受控衔接协议，不能直接照抄为两次原生调用。MCP 和存储写入旁路也必须一并验证；清单未选择最终适配或补丁方案；已开始组件实验与最新源码部署，见[执行状态](../../validation/agentteams-2026-09-09/reports/validation-status.md)。
+具体源码限制、实验和通过条件见 [AgentTeams 接入验证清单](../plan/agentteams-validation-plan.md)。其中原生 pause 将 Project 设为 paused，而 REST replan 只接受 active；上文停派工／应用流程需补齐受控衔接协议，不能直接照抄为两次原生调用。MCP 和存储写入旁路也必须一并验证；清单未选择最终适配或补丁方案；已开始组件实验与最新源码部署，见[执行状态](../../validation/agentteams-2026-09-09/reports/validation-status.md)。
 
 本节是未来验证顺序，不授权本轮安装、编码、部署或远端操作。
 

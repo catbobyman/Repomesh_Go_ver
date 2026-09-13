@@ -12,7 +12,7 @@
 - `docs/agentteams-survey-2026-09-07/agentteams-api-cli-survey-2026-09-07.md`：全文已读。
 - `docs/agentteams-survey-2026-09-07/agentteams-survey.html`：完整提取并阅读文本（去掉 style 和标签、解码 HTML 实体；文件无 script 块），覆盖全部 15 节及阅读说明、接口表、流程与来源入口。它是同日调研的可读展示，未发现相对两份 Markdown 改变工程取舍的额外结论；未声称逐字等价，也没有重新渲染或访问其中的上游链接。
 
-先行材料 `docs/README.md`、`docs/current/HANDOFF.md`、`docs/current/README.md`、`docs/adr/README.md`、`CONTEXT.md` 均已读；另全文阅读 [当前 AgentTeams 验收清单](agentteams-validation-plan.md)。全部 ADR、其他 current 文档、旧分析插件可行性报告由本轮其他成员负责，本文不冒领其覆盖。
+先行材料 `docs/README.md`、`docs/current/HANDOFF.md`、`docs/current/README.md`、`docs/adr/README.md`、`CONTEXT.md` 均已读；另全文阅读 [当前 AgentTeams 验收清单](../plan/agentteams-validation-plan.md)。全部 ADR、其他 current 文档、旧分析插件可行性报告由本轮其他成员负责，本文不冒领其覆盖。
 
 报告与 README 的“全文已读”和原始证据、脚本的“定点读取”分别标注。JSON 的定点读取检查了相关对象、状态、断言和执行边界；未逐条阅读无关事件、SVG 或每次 HTTP 响应。下文未列为已读的关联 evidence、scripts、源码和运行件均仅作索引或未读。本轮没有查询最新上游，因此不声称材料反映当前上游 HEAD。
 

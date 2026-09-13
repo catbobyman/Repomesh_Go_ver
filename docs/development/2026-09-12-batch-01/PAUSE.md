@@ -12,7 +12,7 @@
 
 临时实现工作区保留在 C:/Users/18092/AppData/Local/Temp/repomesh-b01-postgres-20260912，分支 codex/b01-postgres-foundation，实现代理已停止写入。数据库验证实例已全部停止并清理；首个失败启动遗留的目录也经 pg_ctl 确认未运行后清理。bin/dev-postgres17 保留已下载的本地测试二进制，不随产品发布。
 
-恢复时先查看 [IMPLEMENTATION-PLAN.md](../../current/IMPLEMENTATION-PLAN.md)。若采用 WSL，先按 [WSL 建议](../../current/wsl-development-recommendation.md)保存未提交和忽略文件清单、处理外部 worktree 元数据及独立 AgentTeams 状态，然后复制到 Linux 文件系统并重新验收。当前 scripts/verify-batch.ps1 仍面向 Windows 原生 PostgreSQL，尚未适配 Linux。
+恢复时先查看 [IMPLEMENTATION-PLAN.md](../../plan/IMPLEMENTATION-PLAN.md)。若采用 WSL，先按 [WSL 建议](../../current/wsl-development-recommendation.md)保存未提交和忽略文件清单、处理外部 worktree 元数据及独立 AgentTeams 状态，然后复制到 Linux 文件系统并重新验收。当前 scripts/verify-batch.ps1 仍面向 Windows 原生 PostgreSQL，尚未适配 Linux。
 
 本次暂停不创建 wip 提交，因为工作区包含用户之前的大量未提交资料，而本次指令要求记录进度；磁盘文件、摘要及决策轨迹已经持久保存。决策日志见 [decisions.tsv](decisions.tsv)，验收总览见 [README.md](README.md)。
 
