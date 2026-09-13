@@ -2,6 +2,8 @@
 
 日期：2026-09-13。本文件交接已经完成的设计及下一任务入口；配套 [Prompt](NEXT-TASK-PROMPT.md) 可以直接复制。当前新推荐为 `RECOMMENDATIONS_NOT_ADOPTED`，产品实现为 `IMPLEMENTATION_NOT_STARTED`。用户随后授权整理交接并同步当前工作区全部项目改动，排除秘密及本机配置；这项 Git 授权不等于采用设计或授权实施。
 
+2026-09-13 稍后用户授权“推进B04”。D01—D04 已写入 [采用记录](../../current/b04-model-sources-adoption.md)。B04 实现已开始；B05／B06 与 D05—D08 仍未采用，不自动开工。
+
 ## 接手状态
 
 | 范围 | 实际状态 | 下一步边界 |
@@ -9,7 +11,7 @@
 | B00／B01 | VERIFIED | 保留既有结论 |
 | B02 | IN_PROGRESS，外部 PAUSED_BY_USER | 不恢复外部账号实验；历史 FAIL、NOT_RUN、RESTORE_IN_PROGRESS 保留，未来跨账号项 DEFERRED_BY_USER |
 | B03 | INTEGRATED_LOCAL_VERIFIED | 主目录已有实现与最终独立复核；不是整批业务或真实 GitHub VERIFIED |
-| B04 | DESIGN_PREPARED_NOT_ADOPTED | 先明确采用 D01—D04 及精确 HTTP／Key UI 范围，再按单元实施 |
+| B04 | DESIGN_ADOPTED；IMPLEMENTED；LOCAL_VERIFIED 有缺口 | 补 S07／S10／S11 或明确豁免后再谈 B05 采用 |
 | B05／B06 | 设计完成、实施 TODO | 分别依赖 D05／D06，以及 P9／S06 与完整配置来源；不因 B04 开工而自动开工 |
 | B09 | 必要数据兼容问题的部分静态审查 | 完整 G1／G2 未完成，实验 E01—E05 均 NOT_RUN |
 

@@ -1,6 +1,6 @@
 # RepoMesh
 
-多仓库协作产品，采用 React／TypeScript／Vite 与同一 Go 工程的三个入口。已实现 PostgreSQL 迁移、认证秘密基础、GitHub App 登录／重连、服务端会话、授权恢复页面与后台仓库发现。B03 项目管理代码已集成，提供待配置项目创建、列表、资料编辑、明确增仓、固定配置引用和原操作恢复；主目录已 INTEGRATED_LOCAL_VERIFIED，最终独立复核无开放 P0/P1/P2；businessReady=false，范围见[项目开发说明](docs/current/project-development.md)。本地验证、真实 GitHub 验收与整批 VERIFIED 分别记录；Issue、运行和 AgentTeams 集成尚未实现。现行产品决定见 [文档导航](docs/README.md)，工程职责及扩展边界见 [开发说明](docs/current/development-scaffold.md)。
+多仓库协作产品，采用 React／TypeScript／Vite 与同一 Go 工程的三个入口。已实现 PostgreSQL 迁移、认证秘密基础、GitHub App 登录／重连、服务端会话、授权恢复页面与后台仓库发现。B03 项目管理代码已集成，提供待配置项目创建、列表、资料编辑、明确增仓、固定配置引用和原操作恢复；主目录已 INTEGRATED_LOCAL_VERIFIED。B04 已采用 D01—D04 并落地模型供应商保存、六个 HTTP 端点和 `repomesh-web sources` 导入；本地验证有缺口，非整批 VERIFIED。`businessReady=false`。范围见[项目开发说明](docs/current/project-development.md)和[B04 采用记录](docs/current/b04-model-sources-adoption.md)。本地验证、真实 GitHub 验收与整批 VERIFIED 分别记录；Issue、运行和 AgentTeams 集成尚未实现。现行产品决定见 [文档导航](docs/README.md)，工程职责及扩展边界见 [开发说明](docs/current/development-scaffold.md)。
 
 首次接手项目可按 [Agent 全局阅读指南](docs/current/AGENT-READING-GUIDE.md) 阅读产品、架构与实现材料；具体实施顺序见开发前行动指南。
 
@@ -75,7 +75,7 @@ go run ./cmd/repomesh-web db migrate --timeout 30s
 go run ./cmd/repomesh-web db check
 ```
 
-直接运行二进制时，`check` 只有在迁移历史完全匹配时退出 0，缺少迁移或历史不匹配退出 1，参数错误退出 2。`go run` 还会报告子进程退出状态。当前第四条迁移增加项目、完整仓库范围、配置固定版本、操作回执与游标；前三条建立版本记录、认证秘密和账号／会话／发现表。迁移只支持前进，SQL 与历史记录同事务提交。具体命令、超时、失败恢复及配置范围见[数据库开发说明](docs/current/database-development.md)。
+直接运行二进制时，`check` 只有在迁移历史完全匹配时退出 0，缺少迁移或历史不匹配退出 1，参数错误退出 2。`go run` 还会报告子进程退出状态。当前第五条迁移增加模型供应商、保存回执、执行来源和默认 `pinned_version`；第四条增加项目、完整仓库范围、配置固定版本、操作回执与游标；前三条建立版本记录、认证秘密和账号／会话／发现表。部署执行来源只走 `repomesh-web sources import --file PATH` 与 `sources result --import-id UUID`，使用数据库部署身份，不走浏览器。迁移只支持前进，SQL 与历史记录同事务提交。具体命令、超时、失败恢复及配置范围见[数据库开发说明](docs/current/database-development.md)。
 
 数据库批次验证需要 PowerShell 7 和 PostgreSQL 17，当前 B02 认证验证在 Linux 运行；Windows B01 历史证据对应当时的源码，不能替代当前认证平台验收。WSL 使用本页上方的 `/usr/lib/postgresql/17/bin`；下例为保留的 Windows 工具路径，本机下载目录位于被 Git 忽略的 `bin`。其他开发机可使用自己的安装目录。
 
