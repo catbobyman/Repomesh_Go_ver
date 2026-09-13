@@ -1,0 +1,19 @@
+{
+  "name": "RepoMesh",
+  "user": "ubuntu",
+  "install": "bash .cursor/install.sh",
+  "start": "bash .cursor/start.sh",
+  "terminals": [
+    {
+      "name": "web",
+      "command": "go run ./cmd/repomesh-web --addr 127.0.0.1:8080 --assets ./web/dist",
+      "description": "RepoMesh Web server. Serves the built React frontend and HTTP API at http://127.0.0.1:8080. Without auth config, /healthz returns 200 and /readyz plus /api/* return 503 (documented scaffold state)."
+    }
+  ],
+  "ports": [
+    {
+      "name": "web",
+      "port": 8080
+    }
+  ]
+}
