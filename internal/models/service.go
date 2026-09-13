@@ -340,20 +340,17 @@ func (s *Service) writeProvider(ctx context.Context, tx pgx.Tx, actor, saveID st
 			if err := tx.QueryRow(ctx, `SELECT profile_id FROM repomesh_models.model_rows WHERE provider_id=$1 AND id=$2`, providerID, rowID).Scan(&profileID); err != nil {
 				return CommittedSave{}, unavailable()
 			}
-		} else {
-			if _, err := tx.Exec(ctx, `INSERT INTO repomesh_projects.profiles(kind,id,owner,name,enabled,current_version)
-				VALUES ('model',$1,$2,$3,true,$4)`, profileID, actor, displayName(model), revision); err != nil {
-				return CommittedSave{}, unavailable()
-			}
-			if _, err := tx.Exec(ctx, `INSERT INTO repomesh_models.model_rows(id,provider_id,owner,profile_id) VALUES ($1,$2,$3,$4)`, rowID, providerID, actor, profileID); err != nil {
-				return CommittedSave{}, unavailable()
-			}
 		}
 		if err := s.catalog.RegisterModelVersion(ctx, tx, projects.ModelVersionRegistration{
 			Owner: actor, ProfileID: profileID, Name: displayName(model), ParametersComplete: true,
 			ProviderID: providerID, ProviderRevision: revision, ModelRowID: rowID, SecretVersion: secretID,
 		}); err != nil {
 			return CommittedSave{}, err
+		}
+		if model.ID == nil {
+			if _, err := tx.Exec(ctx, `INSERT INTO repomesh_models.model_rows(id,provider_id,owner,profile_id) VALUES ($1,$2,$3,$4)`, rowID, providerID, actor, profileID); err != nil {
+				return CommittedSave{}, unavailable()
+			}
 		}
 		if _, err := tx.Exec(ctx, `INSERT INTO repomesh_models.model_snapshots(provider_id,provider_revision,row_id,model_id,display_name,context_window,max_output_tokens,reasoning,vision)
 			VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`, providerID, revision, rowID, model.ModelID, displayName(model), model.ContextWindow, model.MaxOutputTokens, model.Reasoning, model.Vision); err != nil {
