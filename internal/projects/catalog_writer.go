@@ -61,20 +61,35 @@ func (w *CatalogWriter) RegisterModelVersion(ctx context.Context, tx pgx.Tx, val
 	return nil
 }
 
+// The head moves only when a version row is inserted here, so an import that
+// re-lists an older version cannot move current_version backwards.
 func (w *CatalogWriter) RegisterExecutionVersion(ctx context.Context, tx pgx.Tx, value ExecutionVersionRegistration) error {
 	if value.Owner == "" || value.ProfileID == "" || value.Version == "" || value.Name == "" || value.WorkerConcurrency < 1 || value.WorkerConcurrency > 16 {
 		return unavailable()
 	}
 	_, err := tx.Exec(ctx, `INSERT INTO repomesh_projects.profiles(kind,id,owner,name,enabled,current_version)
 		VALUES ('execution',$1,$2,$3,true,$4)
-		ON CONFLICT (kind,id) DO UPDATE SET current_version=EXCLUDED.current_version,name=EXCLUDED.name
-		WHERE repomesh_projects.profiles.owner=EXCLUDED.owner`, value.ProfileID, value.Owner, value.Name, value.Version)
+		ON CONFLICT (kind,id) DO NOTHING`, value.ProfileID, value.Owner, value.Name, value.Version)
 	if err != nil {
 		return unavailable()
 	}
-	_, err = tx.Exec(ctx, `INSERT INTO repomesh_projects.profile_versions(kind,profile_id,version,parameters_complete,worker_concurrency,verification_group_enabled)
-		VALUES ('execution',$1,$2,false,$3,$4)`, value.ProfileID, value.Version, value.WorkerConcurrency, value.VerificationGroupEnabled)
+	var owner string
+	if err = tx.QueryRow(ctx, `SELECT owner FROM repomesh_projects.profiles WHERE kind='execution' AND id=$1 FOR UPDATE`, value.ProfileID).Scan(&owner); err != nil {
+		return unavailable()
+	}
+	if owner != value.Owner {
+		return failure(409, "PROFILE_OWNER_CONFLICT")
+	}
+	inserted, err := tx.Exec(ctx, `INSERT INTO repomesh_projects.profile_versions(kind,profile_id,version,parameters_complete,worker_concurrency,verification_group_enabled)
+		VALUES ('execution',$1,$2,false,$3,$4)
+		ON CONFLICT (kind,profile_id,version) DO NOTHING`, value.ProfileID, value.Version, value.WorkerConcurrency, value.VerificationGroupEnabled)
 	if err != nil {
+		return unavailable()
+	}
+	if inserted.RowsAffected() == 0 {
+		return nil
+	}
+	if _, err = tx.Exec(ctx, `UPDATE repomesh_projects.profiles SET current_version=$2,name=$3 WHERE kind='execution' AND id=$1`, value.ProfileID, value.Version, value.Name); err != nil {
 		return unavailable()
 	}
 	return nil
