@@ -10,6 +10,7 @@
 
 | 文档 | 用途与范围 |
 | --- | --- |
+| [Agent 全局阅读指南](AGENT-READING-GUIDE.md) | 首次接手的阅读顺序、产品全貌、架构边界、实现与证据核对，以及按任务深入的入口。 |
 | [B04—B06 最新交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[可复制 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md) | 设计已完成、推荐待采用；下一任务先收口 B04 采用，再按授权实施。 |
 | [分批施工 TODO plan](IMPLEMENTATION-PLAN.md) | 当前施工范围、依赖、各批状态和验收证据。 |
 | [Astra 前置设计分工（必读）](ASTRA-DESIGN-PREPARATION.md) | B04—B11 的提前设计、函数声明、逐项允许／排除范围、文件／操作边界和交付终点；不自动采用具体候选。 |

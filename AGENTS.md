@@ -6,7 +6,7 @@ RepoMesh 是围绕多个代码仓库组织协作工作的系统，采用 React�
 
 ## 开始任务
 
-先读 [根 README](README.md)、[当前交接](docs/current/HANDOFF.md)和[当前文档索引](docs/current/README.md)，再按任务查阅相关源码与专题。领域术语见 [CONTEXT.md](CONTEXT.md)，架构取舍及替代关系见 [ADR 索引](docs/adr/README.md)，历史资料入口见 [文档总导航](docs/README.md)。局部修改不要求重读全部历史材料；用户指定的阅读范围仍须完整覆盖。
+先读 [根 README](README.md)、[当前交接](docs/current/HANDOFF.md)和[当前文档索引](docs/current/README.md)，再按任务查阅相关源码与专题。领域术语见 [CONTEXT.md](CONTEXT.md)，架构取舍及替代关系见 [ADR 索引](docs/adr/README.md)，历史资料入口见 [文档总导航](docs/README.md)。局部修改不要求重读全部历史材料；用户指定的阅读范围仍须完整覆盖。首次接手或需要了解全局时，按 [Agent 全局阅读指南](docs/current/AGENT-READING-GUIDE.md) 建立产品、架构、实现和证据之间的联系。
 
 判断设计是否有效，要看具体章节、采用范围和明确的后续替代关系，不能只比较文件日期、ADR 编号或整篇文档的 `accepted`／`proposed` 标签。已采用设计、锁定提交的源码事实、实测结果和未验证能力应分别表述。
 

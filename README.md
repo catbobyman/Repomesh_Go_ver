@@ -2,6 +2,8 @@
 
 多仓库协作产品，采用 React／TypeScript／Vite 与同一 Go 工程的三个入口。已实现 PostgreSQL 迁移、认证秘密基础、GitHub App 登录／重连、服务端会话、授权恢复页面与后台仓库发现。B03 项目管理代码已集成，提供待配置项目创建、列表、资料编辑、明确增仓、固定配置引用和原操作恢复；主目录已 INTEGRATED_LOCAL_VERIFIED，最终独立复核无开放 P0/P1/P2；businessReady=false，范围见[项目开发说明](docs/current/project-development.md)。本地验证、真实 GitHub 验收与整批 VERIFIED 分别记录；Issue、运行和 AgentTeams 集成尚未实现。现行产品决定见 [文档导航](docs/README.md)，工程职责及扩展边界见 [开发说明](docs/current/development-scaffold.md)。
 
+首次接手项目可按 [Agent 全局阅读指南](docs/current/AGENT-READING-GUIDE.md) 阅读产品、架构与实现材料；具体实施顺序见开发前行动指南。
+
 ## Codex 项目插件
 
 本仓库通过项目级配置启用 pstack 0.9.28，包含 54 个开发辅助技能。在本项目的 Codex 任务中选择 `pstack:poteto-mode` 使用；安装范围、固定来源及 Windows 限制见[插件说明](.agents/plugins/README.md)。这是开发工具配置，不改变产品 Skill 模块暂缓的决定。

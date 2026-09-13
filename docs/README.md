@@ -1,13 +1,14 @@
 # RepoMesh 文档导航
 
-更新：2026-09-12。产品仍为工程骨架，业务和 AgentTeams 尚未接入。开发前从下面的当前入口阅读；旧协作与被替代稿已移入历史归档。
+更新：2026-09-13。认证、仓库发现与项目管理已有实现；模型管理、Issue 和 AgentTeams 运行接入仍待后续批次。实际完成度及验收范围以当前交接为准。首次接手从全局阅读指南开始，旧协作与被替代稿从历史归档追溯。
 
 | 目的 | 入口 |
 | --- | --- |
+| Agent 首次接手、了解全局 | [全局阅读指南](current/AGENT-READING-GUIDE.md) |
 | 开发前读什么、先做什么 | [开发前阅读与行动指南](current/DEVELOPMENT-START.md) |
 | 当前完成度与阻塞条件 | [当前交接](current/HANDOFF.md)、[设计修订](current/design-readiness-revisions.md)、[执行接入门槛](current/execution-integration-gates.md) |
 | 构建、启动和工程边界 | [根 README](../README.md)、[开发说明](current/development-scaffold.md) |
-| 是否迁往 WSL2 开发 | [开发环境建议](current/wsl-development-recommendation.md)，含准备、切换验收与回退，尚未采用或迁移 |
+| 是否迁往 WSL2 开发 | [开发环境建议](current/wsl-development-recommendation.md)，保留方案与历史验收，当前主目录及环境状态见交接 |
 | 按主题查唯一设计和契约 | [现行文档索引](current/README.md) |
 | 页面基线及可运行原型 | [原型导航](prototypes/README.md)、[串联预览](prototypes/index.html) |
 | 术语及架构取舍 | [领域语言](../CONTEXT.md)、[ADR 索引](adr/README.md) |

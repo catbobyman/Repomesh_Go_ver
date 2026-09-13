@@ -4,6 +4,8 @@
 
 本页提供开发阅读清单与依赖顺序，不新增产品决定。实际批次状态见[施工计划](IMPLEMENTATION-PLAN.md)和[当前交接](HANDOFF.md)。用户已解除 B03 等待 B02 VERIFIED 的旧门槛，项目管理代码已合入主目录，当前为 `INTEGRATED_LOCAL_VERIFIED`，[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)无开放 P0/P1/P2；businessReady=false，不是外部、部署或整批业务 VERIFIED。B04 为 DESIGN_PREPARED_NOT_ADOPTED；B04—B06设计已形成顶部所链交付，采用后才交gpt-5.6-sol实施。旧[交接](../development/2026-09-12-b04-handoff-01/HANDOFF.md)和[Prompt](NEXT-TASK-B04-PROMPT.md)保留历史，不自动恢复实施授权。B02 外部验收按用户决定暂停，未来真实账号验证只使用主账号 A；历史跨账号失败和未完成恢复仍保留。B03 的具体实现与验证边界见[项目管理开发说明](project-development.md)。后续按明确采用的基线完成管理闭环，不要求先实现全部 F01—F15。
 
+首次接手或需要重新了解全局，先按 [Agent 全局阅读指南](AGENT-READING-GUIDE.md) 建立产品、架构与实现的联系，再按本页选择实施材料和验证步骤。
+
 ## 所有人先读的入口
 
 1. [AGENTS.md](../../AGENTS.md)：工程目录、三进程权限边界、修改与验证要求。
