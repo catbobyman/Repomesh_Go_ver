@@ -6,6 +6,10 @@
 
 最新接续入口：[B04 采用记录](b04-model-sources-adoption.md)、[B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)与[B04—B06 设计后交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)。用户原话“推进B04”仅授权 D01—D04 与 U04.1—U04.4。B05／B06 仍待各自采用。
 
+### 2026-09-13 B04 收口后复核
+
+收口合并后，另一次独立复核在已合并代码上发现一项 P1：校验未通过的保存仍跳到原操作页，丢失未秘密字段且看不到 `VALIDATION_FAILED`。另有三项 P2：`0005` 完整保存触发器含 `OR true`、拒绝回执无法清理 vault、锁序文档与实现不一致。本轮在 `cursor/b04-save-validation-stay-45b9` 修复这些问题；不把收口当时的复核改写成当时已通过这些项。不启动 B05／B06。
+
 ### 2026-09-13 B04 收口
 
 B04 为 `DESIGN_ADOPTED`、`IMPLEMENTED`、`INTEGRATED_LOCAL_VERIFIED`。完整工程检查、S01—S12 真实 PostgreSQL、B03 原回归、U04.4 夹具浏览器、配套发布 r2 与[独立复核](../development/2026-09-13-b04-closeout-01/FINAL-INDEPENDENT-REVIEW.md)已完成。未采用 D05—D08。没有整批 `VERIFIED`。没有真实模型请求。`businessReady=false`。进入 B05 还要另作 D05／D06／C05／C06 采用。
