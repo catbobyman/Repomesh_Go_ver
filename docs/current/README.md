@@ -1,6 +1,8 @@
 # RepoMesh 现行文档索引
 
-2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。新推荐仍待采用，未开始产品实现或运行验收。B02外部暂停、B03 INTEGRATED_LOCAL_VERIFIED及B04 DESIGN_PREPARED_NOT_ADOPTED保持；B05/B06实施仍TODO。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
+当前：B04 为 `INTEGRATED_LOCAL_VERIFIED`，证据见[收口 01](../development/2026-09-13-b04-closeout-01/README.md)。B05／B06 实施仍 TODO。B02 外部暂停。非整批 VERIFIED。`businessReady=false`。
+
+2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。该段保留设计当时的「新推荐仍待采用」记录，不改写成当时已实施。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
 
 更新：2026-09-13。开发先读[开发前阅读与行动指南](DEVELOPMENT-START.md)及[Astra 前置设计分工](ASTRA-DESIGN-PREPARATION.md)，当前完成度见[HANDOFF](HANDOFF.md)。本页只导航，不累计历史进度。
 
@@ -11,7 +13,9 @@
 | 文档 | 用途与范围 |
 | --- | --- |
 | [Agent 全局阅读指南](AGENT-READING-GUIDE.md) | 首次接手的阅读顺序、产品全貌、架构边界、实现与证据核对，以及按任务深入的入口。 |
-| [B04—B06 最新交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[可复制 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md) | 设计已完成、推荐待采用；下一任务先收口 B04 采用，再按授权实施。 |
+| [B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)、[独立复核](../development/2026-09-13-b04-closeout-01/FINAL-INDEPENDENT-REVIEW.md) | B04 INTEGRATED_LOCAL_VERIFIED：夹具浏览器、B03 回归、r2 包；非整批 VERIFIED。 |
+| [B04 采用记录](b04-model-sources-adoption.md) | 已采用 D01—D04 与 U04.1—U04.4。不采用 D05—D08。 |
+| [B04—B06 最新交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[可复制 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md) | 设计交接仍有效；B04 收口后 B05／B06 仍待各自采用。 |
 | [分批施工 TODO plan](IMPLEMENTATION-PLAN.md) | 当前施工范围、依赖、各批状态和验收证据。 |
 | [Astra 前置设计分工（必读）](ASTRA-DESIGN-PREPARATION.md) | B04—B11 的提前设计、函数声明、逐项允许／排除范围、文件／操作边界和交付终点；不自动采用具体候选。 |
 | [数据库基础开发](database-development.md) | 显式迁移、核查、失败处理及独立数据库验证。 |

@@ -1,6 +1,6 @@
 # RepoMesh
 
-多仓库协作产品，采用 React／TypeScript／Vite 与同一 Go 工程的三个入口。已实现 PostgreSQL 迁移、认证秘密基础、GitHub App 登录／重连、服务端会话、授权恢复页面与后台仓库发现。B03 项目管理代码已集成，提供待配置项目创建、列表、资料编辑、明确增仓、固定配置引用和原操作恢复；主目录已 INTEGRATED_LOCAL_VERIFIED。B04 已采用 D01—D04 并落地模型供应商保存、六个 HTTP 端点和 `repomesh-web sources` 导入；本地验证有缺口，非整批 VERIFIED。`businessReady=false`。范围见[项目开发说明](docs/current/project-development.md)和[B04 采用记录](docs/current/b04-model-sources-adoption.md)。本地验证、真实 GitHub 验收与整批 VERIFIED 分别记录；Issue、运行和 AgentTeams 集成尚未实现。现行产品决定见 [文档导航](docs/README.md)，工程职责及扩展边界见 [开发说明](docs/current/development-scaffold.md)。
+多仓库协作产品，采用 React／TypeScript／Vite 与同一 Go 工程的三个入口。已实现 PostgreSQL 迁移、认证秘密基础、GitHub App 登录／重连、服务端会话、授权恢复页面与后台仓库发现。B03 项目管理代码已集成，提供待配置项目创建、列表、资料编辑、明确增仓、固定配置引用和原操作恢复；主目录已 INTEGRATED_LOCAL_VERIFIED。B04 已采用 D01—D04 并落地模型供应商保存、六个 HTTP 端点和 `repomesh-web sources` 导入；主目录已 INTEGRATED_LOCAL_VERIFIED，非整批 VERIFIED。`businessReady=false`。范围见[项目开发说明](docs/current/project-development.md)和[B04 采用记录](docs/current/b04-model-sources-adoption.md)。本地验证、真实 GitHub 验收与整批 VERIFIED 分别记录；Issue、运行和 AgentTeams 集成尚未实现。现行产品决定见 [文档导航](docs/README.md)，工程职责及扩展边界见 [开发说明](docs/current/development-scaffold.md)。
 
 首次接手项目可按 [Agent 全局阅读指南](docs/current/AGENT-READING-GUIDE.md) 阅读产品、架构与实现材料；具体实施顺序见开发前行动指南。
 

@@ -30,17 +30,10 @@ postgres_started=false
 empty=0
 duration=20m
 script="$here/browser-acceptance.mjs"
-whitelist_extra=()
 
 case "$mode" in
   b04)
     duration=10m
-    whitelist_extra=(
-      '404:MODEL_SAVE_NOT_FOUND'
-      '409:MODEL_SAVE_CLOSED'
-      '409:IDEMPOTENCY_CONFLICT'
-      '410:MODEL_SAVE_RESULT_REMOVED'
-    )
     ;;
   b03-empty)
     empty=1

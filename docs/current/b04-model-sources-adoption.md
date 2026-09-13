@@ -2,7 +2,7 @@
 
 日期：2026-09-13。用户原话：“推进B04,并告诉我验收标准是什么才能进入B05”。本记录采用 D01—D04 及 B04 六个 HTTP／Key UI／schema 1 范围。不采用 D05—D08、S06、C05、C06、P9。
 
-状态：`DESIGN_ADOPTED`（B04 范围）。实现为 `IMPLEMENTED`。本地检查为 `LOCAL_VERIFIED`。S01 到 S12 已有真实 PostgreSQL 证据。不能写成整批 `VERIFIED`。
+状态：`DESIGN_ADOPTED`（B04 范围）。实现为 `IMPLEMENTED`。本地集成为 `INTEGRATED_LOCAL_VERIFIED`。S01 到 S12 已有真实 PostgreSQL 证据，并有夹具浏览器、B03 原回归、配套发布与独立复核。不能写成整批 `VERIFIED`。
 
 ## 采用
 
@@ -23,4 +23,4 @@ D05 次数预算与外发、D06 专用应用、C05／C06、D07／P9、D08 Issue 
 
 ## 实现与本地验证
 
-U04.1 到 U04.4 已落地。迁移 `0005_models.sql`。六个模型 HTTP 端点。`repomesh-web sources import|result`。Key 页面发出即清。2026-09-13 补齐 S07、S10、S11 后，`go test ./...` 为 259 通过、0 失败、2 跳过（`TestRootFileOwner`、`TestProjectBrowserServer`，均非缺库）。`TestPostgresModelSaveLostResponseAndRestart` 在 COMMIT 后丢掉 HTTP 响应，重启后 GET 原 receipt，close 仍返回 `committed`，迟到异输入 409 `IDEMPOTENCY_CONFLICT`。`TestPostgresConcurrentImportAndProviderSave` 与 `TestPostgresImportHoldsOwnersWhileOtherOwnerSaves` 证明两 owner 导入与 Provider 保存并发完成，默认与 provider owner 不串写。`TestParseImportSchema1`、`TestPostgresDeploymentRoleRejected`、`TestSourcesCLIImportWithoutAuthRuntime` 拒绝自报 actor 与非 importer 角色，并在只设 `REPOMESH_DATABASE_URL`、故意指向缺失 auth 配置时完成 CLI 导入。外部模型与发布仍 `NOT_RUN`。`businessReady=false`。
+U04.1 到 U04.4 已落地。迁移 `0005_models.sql`。六个模型 HTTP 端点。`repomesh-web sources import|result`。Key 页面发出即清。新建模型目录行只经 `CatalogWriter.RegisterModelVersion`。2026-09-13 收口证据见 [B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)。`go test ./...` 为 259 通过、0 失败、2 跳过（`TestRootFileOwner`、`TestProjectBrowserServer`，均非缺库）。夹具浏览器覆盖丢响应恢复、空槽 close、跨 actor 404。B03 普通／空目录夹具仍通过。收口包为 `dist/repomesh-0.4.0-b04-integrated-20260913-r2/`，`businessReady=false`。独立复核无开放 P0／P1／P2。外部模型与真实 GitHub 仍未跑。`businessReady=false`。
