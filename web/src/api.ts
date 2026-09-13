@@ -271,7 +271,10 @@ export function errorMessage(error: ApiError): string {
     case "AUTH_ATTEMPT_RESULT_REMOVED": return "这次授权结果已清理，无法取回。可以明确开始新的登录或重连。";
     case "VALIDATION_FAILED": return "登录请求未通过校验，请刷新页面后重试。";
     case "RATE_LIMITED": return "请求较频繁，请等待后再试。";
-    case "RESULT_UNCONFIRMED": return "暂时无法确认这次授权结果，请继续查询原尝试。";
+    case "RESULT_UNCONFIRMED": return "暂时无法确认这次结果，请继续查询原操作。";
+    case "MODEL_SAVE_NOT_FOUND": return "还看不到这次保存结果。请继续查询原操作，或明确终结。";
+    case "MODEL_SAVE_CLOSED": return "原保存已终结，未写入新配置。请用新的保存操作继续。";
+    case "MODEL_SAVE_RESULT_REMOVED": return "这次保存结果已清理，不能复用原操作。";
     case "CURSOR_EXPIRED": return "发现批次或连接已更新，请从第一页重新读取。";
     case "INVALID_CURSOR": return "当前分页与搜索条件不一致，请从第一页重新读取。";
     case "INVALID_RESPONSE": return "服务器返回了无法验证的结果，暂时不能继续。";

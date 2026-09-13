@@ -1,0 +1,22 @@
+# B04 精确采用记录
+
+日期：2026-09-13。用户原话：“推进B04,并告诉我验收标准是什么才能进入B05”。本记录采用 D01—D04 及 B04 六个 HTTP／Key UI／schema 1 范围。不采用 D05—D08、S06、C05、C06、P9。
+
+状态：`DESIGN_ADOPTED`（B04 范围）。实现与 LOCAL_VERIFIED 另列。
+
+## 采用
+
+| 决定 | 采用内容 | 替代 |
+| --- | --- | --- |
+| D01 | `projects` 拥有目录和项目固定配置。`models`／`sources` 只经 `CatalogWriter` 写目录 | 不迁解析器，不建通用配置包 |
+| D02 | 独立 `operation-input` vault 做精确比较。不保存裸 Key 哈希 | 替代内部稿 §3.1 MAC 方案 |
+| D03 | `Prepare` 在业务锁外预扣。`InsertPrepared` 加入调用方事务。预扣不退款。认证 `Seal`／`Open`／`Destroy` 保留 | 替代 Seal 独立提交后清孤儿 |
+| D04 | schema 1 每项单 owner 执行元数据。新默认必须 `pinned_version`。旧 null 保留 B03 inherit→head | 不采用 S03 全量多 owner／预算／出站 |
+
+HTTP 仅六端点：`GET /api/model-providers`、`GET /api/model-providers/{id}`、`GET /api/model-providers/{id}/versions/{revision}`、`POST /api/model-provider-saves`、`GET /api/model-provider-saves/{saveId}`、`POST /api/model-provider-saves/{saveId}/close`。字段唯一来源是 [模型浏览器稿](model-settings-browser-api-draft.md) 前六项。部署导入只走 `repomesh-web sources import|result`，无浏览器导入。
+
+Key UI 沿供应商分栏与小弹窗。发出即清内存。未知只查原 `saveId` 或明确 close。close 与 save 争同一槽。空槽 `closed_without_save` 阻挡迟到保存。成功不能被 close 撤销。
+
+## 未采用
+
+D05 次数预算与外发、D06 专用应用、C05／C06、D07／P9、D08 Issue 事务、S06 新建仓库门槛。B05 实施前须另作采用。

@@ -281,6 +281,8 @@ func (s *Service) Attempt(ctx context.Context, bindingCookie, sessionCookie, id 
 			result.NextPage = &home
 		} else if next, resolveErr := s.resolveProjectDestination(ctx, current.User.ID, target); resolveErr == nil && next != nil {
 			result.NextPage = next
+		} else if next, resolveErr := s.resolveModelSaveDestination(ctx, current.User.ID, target); resolveErr == nil && next != nil {
+			result.NextPage = next
 		} else if resolveErr != nil {
 			home := "/"
 			result.NextPage = &home
