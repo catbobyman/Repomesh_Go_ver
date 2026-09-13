@@ -32,6 +32,28 @@ go env CGO_ENABLED
 
 PostgreSQL 工具路径按本机安装位置调整。前端按已提交的 `web/package-lock.json` 安装；Go 依赖和校验和保存在根 `go.mod`、`go.sum`。`validation/go.mod` 和 `third_party/go.mod` 隔离历史实验及独立上游，根目录 Go 检查不进入它们。当前页面和认证启动不需要 Docker、Python 或启动 AgentTeams。
 
+### 云端代理的 Install／Start 配置
+
+截图所示环境设置继续使用仓库中的两个脚本：
+
+| 设置项 | 内容 |
+| --- | --- |
+| Install Script | `bash .cursor/install.sh` |
+| Start Script | `bash .cursor/start.sh` |
+
+安装脚本要求环境预先提供符合上表版本的 Go、Node.js、npm 和 OpenSSL。它检查工具、按需安装 PostgreSQL 17、初始化专用开发集群、下载 Go 依赖并构建前端；安装 PostgreSQL 的分支使用 Debian／Ubuntu 的 `apt` 和 `sudo`。PowerShell 或 race 工具缺失时会提示，不影响普通源码启动。
+
+启动脚本只启动该开发集群，创建 `repomesh_dev`，显式应用当前源码的迁移并核查。默认数据目录为 `$HOME/repomesh-pg`，端口为 5432，连接串保存在权限为 `0600` 的 `connection-url.txt`。初始化前可通过 `REPOMESH_DEV_PG_ROOT` 和 `REPOMESH_DEV_PG_PORT` 指定独立目录及端口，后续使用相同设置；已有目录不重建。
+
+[环境配置](.cursor/environment.json)中的 Web 终端读取该连接文件后单独启动 Web。Start Script 内的环境变量不会自动传到其他终端；执行数据库命令和集成测试前，在各自终端加载：
+
+```bash
+export REPOMESH_DATABASE_URL="$(cat "${REPOMESH_DEV_PG_ROOT:-$HOME/repomesh-pg}/connection-url.txt")"
+export REPOMESH_TEST_DATABASE_URL="$REPOMESH_DATABASE_URL"
+```
+
+这些连接只用于脚本创建的开发库。认证材料和 HTTPS 仍按下方步骤配置，coordinator 需另行启动；脚本不会自动恢复真实 GitHub 验收。网络访问沿用环境设置，安装依赖需要能访问相应的软件包源。
+
 ## 首次启动：查看页面
 
 此方式启动未配置认证的 Web，用于查看页面和进程诊断。

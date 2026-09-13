@@ -1,3 +1,4 @@
+.cursor/*.sh text eol=lf
 internal/database/migrations/*.sql text eol=lf
 
 # Preserve evidence bytes and the current documents named by the design manifest.
