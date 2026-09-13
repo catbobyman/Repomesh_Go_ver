@@ -25,6 +25,7 @@ import (
 	"repomesh.local/repomesh/internal/access"
 	"repomesh.local/repomesh/internal/github"
 	"repomesh.local/repomesh/internal/jsoninput"
+	"repomesh.local/repomesh/internal/models"
 	"repomesh.local/repomesh/internal/projects"
 	"repomesh.local/repomesh/internal/secrets"
 	"repomesh.local/repomesh/internal/testdb"
@@ -166,6 +167,8 @@ func startProjectBrowserServerWithOptions(t *testing.T, assets string, options b
 	go func() { discoveryDone <- runBrowserDiscovery(discoveryCtx, authService) }()
 	projectService := projects.New(pool, authService)
 	authService.SetProjectDestinationResolver(projectService.ResolveDestination)
+	modelService := models.New(pool, authService, store, projects.NewCatalogWriter())
+	authService.SetModelSaveDestinationResolver(modelService.ResolveDestination)
 	state := &browserTestServer{pool: pool, auth: authService, store: store, provider: provider, fixtures: fixtures, emptyCatalog: options.EmptyCatalog, shutdown: make(chan struct{}), rootConfig: rootConfig, stopDiscovery: stopDiscovery, discoveryDone: discoveryDone}
 	assetsFS := os.DirFS(assets)
 	if _, err := os.Stat(filepath.Join(assets, "index.html")); err != nil {
@@ -174,7 +177,7 @@ func startProjectBrowserServerWithOptions(t *testing.T, assets string, options b
 	server := httptest.NewUnstartedServer(nil)
 	state.server = server
 	origin := "https://" + server.Listener.Addr().String()
-	product := handlerConfigured(assetsFS, Auth{Service: authService, Origin: origin}, Projects{Service: projectService}, Models{})
+	product := handlerConfigured(assetsFS, Auth{Service: authService, Origin: origin}, Projects{Service: projectService}, Models{Service: modelService})
 	server.Config.Handler = state.wrapProduct(product)
 	server.StartTLS()
 	t.Cleanup(func() {
@@ -1382,9 +1385,11 @@ func TestPostgresProjectHTTPContract(t *testing.T) {
 	}
 	projectService := projects.New(server.pool, server.auth)
 	server.auth.SetProjectDestinationResolver(projectService.ResolveDestination)
+	modelService := models.New(server.pool, server.auth, server.store, projects.NewCatalogWriter())
+	server.auth.SetModelSaveDestinationResolver(modelService.ResolveDestination)
 	restarted := httptest.NewUnstartedServer(nil)
 	restartedOrigin := "https://" + restarted.Listener.Addr().String()
-	restarted.Config.Handler = handlerConfigured(os.DirFS(assets), Auth{Service: server.auth, Origin: restartedOrigin}, Projects{Service: projectService}, Models{})
+	restarted.Config.Handler = handlerConfigured(os.DirFS(assets), Auth{Service: server.auth, Origin: restartedOrigin}, Projects{Service: projectService}, Models{Service: modelService})
 	restarted.StartTLS()
 	defer restarted.Close()
 	restartedClient := restarted.Client()
