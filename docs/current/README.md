@@ -1,6 +1,6 @@
 # RepoMesh 现行文档索引
 
-当前：B04 授权范围（D01—D04、U04.1—U04.4）已结束，状态为 `INTEGRATED_LOCAL_VERIFIED`。证据见[收口 01](../development/2026-09-13-b04-closeout-01/README.md)与[收口后修复 01](../development/2026-09-13-b04-validation-stay-01/README.md)。B05／B06 实施仍 TODO，不自动开工。B02 外部暂停。非整批 VERIFIED。`businessReady=false`。
+当前：B04 授权范围（D01—D04、U04.1—U04.4）已结束，状态为 `INTEGRATED_LOCAL_VERIFIED`。验收见[B04 验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。B05／B06 实施仍 TODO，不自动开工。B02 外部暂停。非整批 VERIFIED。`businessReady=false`。
 
 2026-09-13 B04—B06 前置设计已形成[本轮交付](../development/2026-09-13-b04-b06-design-01/README.md)，含架构比较、事务/核心声明、C05/C06、P9及DB/CB验收映射；[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)已通过，无开放P0/P1/P2。该段保留设计当时的「新推荐仍待采用」记录，不改写成当时已实施。B09仅本轮四项数据兼容问题的静态部分覆盖，完整G1/G2未完成。
 
@@ -13,6 +13,7 @@
 | 文档 | 用途与范围 |
 | --- | --- |
 | [Agent 全局阅读指南](AGENT-READING-GUIDE.md) | 首次接手的阅读顺序、产品全貌、架构边界、实现与证据核对，以及按任务深入的入口。 |
+| [B04 验收报告](../development/2026-09-13-b04-acceptance-01/README.md) | 已合入 `main` 的 D01—D04／U04.1—U04.4 验收；`INTEGRATED_LOCAL_VERIFIED`，非整批 VERIFIED。 |
 | [B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)、[独立复核](../development/2026-09-13-b04-closeout-01/FINAL-INDEPENDENT-REVIEW.md) | B04 INTEGRATED_LOCAL_VERIFIED：夹具浏览器、B03 回归、r2 包；非整批 VERIFIED。 |
 | [B04 采用记录](b04-model-sources-adoption.md) | 已采用 D01—D04 与 U04.1—U04.4。不采用 D05—D08。 |
 | [B04—B06 最新交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[可复制 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md) | 设计交接仍有效；B04 收口后 B05／B06 仍待各自采用。 |

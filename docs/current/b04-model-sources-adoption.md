@@ -23,4 +23,4 @@ D05 次数预算与外发、D06 专用应用、C05／C06、D07／P9、D08 Issue 
 
 ## 实现与本地验证
 
-U04.1 到 U04.4 已落地。迁移 `0005_models.sql`，收口后另加 `0006_complete_save_vault.sql`。六个模型 HTTP 端点。`repomesh-web sources import|result`。Key 页面发出即清；校验未通过的保存留在设置页并显示 `VALIDATION_FAILED`。新建模型目录行只经 `CatalogWriter.RegisterModelVersion`。2026-09-13 收口证据见 [B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)。收口当时 `go test ./...` 为 259 通过、0 失败、2 跳过。夹具浏览器覆盖丢响应恢复、空槽 close、跨 actor 404。B03 普通／空目录夹具仍通过。收口包为 `dist/repomesh-0.4.0-b04-integrated-20260913-r2/`，`businessReady=false`。收口当时独立复核无开放 P0／P1／P2；收口合并后另一次复核发现一项 P1 与三项 P2，由后续修复跟进，不改写收口证据。外部模型与真实 GitHub 仍未跑。`businessReady=false`。
+U04.1 到 U04.4 已落地。迁移 `0005_models.sql`，收口后另加 `0006_complete_save_vault.sql`。六个模型 HTTP 端点。`repomesh-web sources import|result`。Key 页面发出即清；校验未通过的保存留在设置页并显示 `VALIDATION_FAILED`。新建模型目录行只经 `CatalogWriter.RegisterModelVersion`。合入 `main` 后的验收见 [B04 验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。收口证据见 [B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)。收口后修复见 [收口后修复 01](../development/2026-09-13-b04-validation-stay-01/README.md)。当前头复跑 `go test ./...` 为 260 通过、0 失败、2 跳过。外部模型与真实 GitHub 仍未跑。`businessReady=false`。

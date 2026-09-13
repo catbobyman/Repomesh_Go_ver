@@ -4,11 +4,11 @@
 
 ## 当前完成度
 
-最新接续入口：[B04 采用记录](b04-model-sources-adoption.md)、[B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)、[收口后修复 01](../development/2026-09-13-b04-validation-stay-01/README.md)与[B04—B06 设计后交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)。用户原话“推进B04”仅授权 D01—D04 与 U04.1—U04.4。该授权范围已结束。B05／B06 仍待各自采用，不自动开工。
+最新接续入口：[B04 验收报告](../development/2026-09-13-b04-acceptance-01/README.md)、[B04 采用记录](b04-model-sources-adoption.md)、[B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)、[收口后修复 01](../development/2026-09-13-b04-validation-stay-01/README.md)与[B04—B06 设计后交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)。用户原话“推进B04”仅授权 D01—D04 与 U04.1—U04.4。该授权范围已结束。B05／B06 仍待各自采用，不自动开工。
 
 ### 2026-09-13 B04 授权范围结束
 
-用户确认可宣布 B04 结束并合入 `main`。结束范围只覆盖已采用的 D01—D04 与 U04.1—U04.4：`INTEGRATED_LOCAL_VERIFIED`，含收口后 P1／P2 修复。不是整批 `VERIFIED`。没有真实模型请求。`businessReady=false`。进入 B05 仍须另作 D05／D06／C05／C06 采用。
+用户确认可宣布 B04 结束并合入 `main`。结束范围只覆盖已采用的 D01—D04 与 U04.1—U04.4：`INTEGRATED_LOCAL_VERIFIED`，含收口后 P1／P2 修复。验收见 [B04 验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。`main` 为 `621592d`。不是整批 `VERIFIED`。没有真实模型请求。`businessReady=false`。进入 B05 仍须另作 D05／D06／C05／C06 采用。
 
 ### 2026-09-13 B04 收口后复核
 
