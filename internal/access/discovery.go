@@ -250,7 +250,7 @@ func (s *Service) verifyOneDiscovered(ctx context.Context, c credential, queryTe
 	if err != nil {
 		capability = github.Capability{Status: "unknown", ReasonCodes: []string{"APP_AUTHORIZATION_UNCONFIRMED"}}
 	}
-	observedAt := r.at
+	observedAt := time.Now().UTC()
 	item := RepositoryItem{ID: fmt.Sprintf("repo_%020d", r.id), DisplayName: r.fullName, UserParticipation: github.Capability{Status: "allowed", ReasonCodes: []string{}, ObservedAt: &observedAt}, AppCapability: capability}
 	return verifiedRepo{item: &item}
 }

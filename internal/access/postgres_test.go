@@ -449,6 +449,26 @@ func TestPostgresDiscoveryHidesUnconfirmedNames(t *testing.T) {
 	}
 }
 
+func TestPostgresDiscoveryRefreshesParticipationObservation(t *testing.T) {
+	s, _, ctx := fixture(t)
+	_, cookie := login(t, s, ctx)
+	query := RepositoryQuery{Limit: 50}
+	_, _ = s.Repositories(ctx, cookie, query)
+	if _, err := s.RunOne(ctx); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := s.pool.Exec(ctx, `UPDATE repomesh_access.discovered_repositories SET observed_at=now()-interval '30 seconds'`); err != nil {
+		t.Fatal(err)
+	}
+	page, err := s.Repositories(ctx, cookie, query)
+	if err != nil || len(page.Items) != 1 || page.Items[0].UserParticipation.ObservedAt == nil {
+		t.Fatal("verified page missing", page, err)
+	}
+	if age := time.Since(*page.Items[0].UserParticipation.ObservedAt); age > 2*time.Second {
+		t.Fatal("verified observation was not refreshed", age)
+	}
+}
+
 func TestPostgresStaleRefreshDiscardsUncommittedSecrets(t *testing.T) {
 	s, p, ctx := fixture(t)
 	binding, cookie := login(t, s, ctx)
