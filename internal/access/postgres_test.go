@@ -400,7 +400,7 @@ func TestPostgresDiscoveryPersistsEmptyCursorAndPartialCoverage(t *testing.T) {
 	wantFailure(t, err, 409, "CURSOR_EXPIRED")
 }
 
-func TestPostgresDiscoveryStartsNewBatchWhenSnapshotObservationExpires(t *testing.T) {
+func TestPostgresDiscoveryReverifiesStaleIdentityWithoutOpeningANewBatch(t *testing.T) {
 	s, p, ctx := fixture(t)
 	_, cookie := login(t, s, ctx)
 	query := RepositoryQuery{Limit: 50}
@@ -423,10 +423,12 @@ func TestPostgresDiscoveryStartsNewBatchWhenSnapshotObservationExpires(t *testin
 		repoCalls.Add(1)
 		return github.Repository{ID: 10, Owner: "test", Name: "repo", FullName: "test/repo"}, nil
 	}
-	_, err = s.Repositories(ctx, cookie, query)
-	wantFailure(t, err, 503, "RESULT_UNCONFIRMED")
-	if repoCalls.Load() != 0 {
-		t.Fatal("stale snapshot was re-verified instead of opening a new batch")
+	page, err := s.Repositories(ctx, cookie, query)
+	if err != nil || len(page.Items) != 1 {
+		t.Fatal("successful snapshot was discarded instead of re-verified", page, err)
+	}
+	if repoCalls.Load() != 1 {
+		t.Fatal("stale identity was not re-verified", repoCalls.Load())
 	}
 }
 
