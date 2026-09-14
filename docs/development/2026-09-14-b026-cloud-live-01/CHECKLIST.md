@@ -44,7 +44,7 @@
 
 ## 下一项
 
-**LIVE-08 的 A 侧剩余。** 页面默认一页 15 条。记录是否有「下一页」、coverage 是否仍为部分发现。YAML 未填安装外仓 ID，安装外缺席只能记 BLOCKED。不要改 App 权限。不要退出。30 分钟内要有一次会话请求，避免 idle 401。
+**LIVE-07。** 把专用 App 的 Pull requests 从 write 降为 read，刷新发现，安装内测试仓应 `appCapability=denied` 且 reason 对应。再恢复权限并再观察 `allowed`。不能用私仓缺席代替 denied。不要退出。不要开始 LIVE-09。
 
 ## B02.6 本轮 LIVE
 
@@ -54,7 +54,7 @@
 | 2 | LIVE-03 | `OBSERVED_NOT_CLOSED` | 持有人登录 confirmed，账号 A。未写入本目录正式表，无独立复核。不要重登冲掉会话。 |
 | 3 | LIVE-06 | `OBSERVED_NOT_CLOSED` | 工作区画出 15 条。覆盖部分发现。安装内测试仓 App 能力已核实。未独立复核。列表已站住，可做 LIVE-04。 |
 | 4 | LIVE-04 | `PASS` | 第二次 17:26 UTC。`POST /api/auth/github/reconnect` 201。attempt `e8271f6b-71f0-4653-ad10-f0fb6dfa54fa` purpose=reconnect confirmed，expected GitHub ID `137759882`。epoch 5→6，revision 更换。本浏览器 generation 3 撤销、generation 4 有效。页面「本次连接已确认」。第一次 401 失败保留。 |
-| 5 | LIVE-08 | `OBSERVED_NOT_CLOSED` | 一页 15 条且 partial。YAML 未填安装外仓 ID。用户失权子项见 LIVE-08-USER-READ。LIVE-04 之后补 API 分页与安装外缺席。 |
+| 5 | LIVE-08 | `OBSERVED_NOT_CLOSED` | 工作区「部分发现」。页脚「第 1 页 · 本页 15 个仓库」。上一页与下一页均不可用。不是 limit=5 的多页游标证明。YAML 未填安装外仓 ID，该子项 BLOCKED。USER-READ 仍延期。 |
 | 6 | LIVE-07 | `NOT_RUN` | LIVE-04 与 LIVE-08 的 A 侧项之后做。把专用 App 权限降再恢复。不能用私仓缺席代替 denied。 |
 | 7 | LIVE-02 | `NOT_RUN` | GitHub 可能自动同意，没有 Cancel 页就不能填 PASS。不要用当前已登录工作区去撞取消。 |
 | 8 | LIVE-09 | `NOT_RUN` | LIVE-07 恢复后再重连一次，封存基线，等到自然窗口。期间禁止登录、重连、改安装权限。 |

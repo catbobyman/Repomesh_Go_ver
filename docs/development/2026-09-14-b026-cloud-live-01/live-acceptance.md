@@ -29,7 +29,7 @@
 | LIVE-05 | 错误账号重连 ACCOUNT_MISMATCH，原账号和连接不被替换，跨账号仓库结果不泄露 | NOT_RUN | DEFERRED_BY_USER。不开账号 B |
 | LIVE-06 | 已安装专用私仓且用户有读权，userParticipation.status allowed；安装未暂停且三项权限完整，appCapability.status allowed，观察时间可核对 | NOT_RUN | 2026-09-14 工作区 15 条，部分发现，安装内仓 App 能力已核实。清单记 OBSERVED_NOT_CLOSED。证据 `/opt/cursor/artifacts/workspace-repo-list.webp` |
 | LIVE-07 | 专用 App 权限或安装不足的可读仓库样本，实际 denied 与 reasonCode 对应；恢复配置后新观察 allowed。不能用私仓缺席代替 denied | NOT_RUN | 待填 |
-| LIVE-08 | 私仓发现、分页和刷新真实往返，coverage.status partial；安装外私仓缺席不误报完整覆盖，用户失去读权且原观察超过 60 秒后重查，不继续披露旧名称 | NOT_RUN | 一页 15 条且 partial。安装外 ID 未配置。USER-READ 延期 |
+| LIVE-08 | 私仓发现、分页和刷新真实往返，coverage.status partial；安装外私仓缺席不误报完整覆盖，用户失去读权且原观察超过 60 秒后重查，不继续披露旧名称 | NOT_RUN | 工作区部分发现，第 1 页 15 条，下一页不可用。安装外 ID 未配置。USER-READ 延期。不能填 PASS |
 | LIVE-09 | 保持原连接直到自然刷新窗口；前后只读快照证明 epoch 增一、revision 与期限前进、connected/idle，期间无登录或重连 | NOT_RUN | 待 LIVE-07 之后封存基线 |
 | LIVE-10 | 刷新后同一有效会话的新发现成功，注销后 session 401、清除仓库显示；桌面和移动浏览器真实往返已观察 | NOT_RUN | 发现 UI 站住前不要先退出。列表现已画出，仍等 LIVE-09 |
 
