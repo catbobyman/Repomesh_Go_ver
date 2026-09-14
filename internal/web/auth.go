@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"log/slog"
 	"mime"
 	"net/http"
 	"strconv"
@@ -127,9 +126,7 @@ func registerAuth(mux *http.ServeMux, auth Auth) {
 		if err != nil {
 			return err
 		}
-		started := time.Now()
 		result, err := auth.Service.Repositories(r.Context(), cookie(r, sessionCookie), query)
-		slog.Info("repositories", "duration_ms", time.Since(started).Milliseconds(), "ok", err == nil, "refresh", query.Refresh)
 		if err == nil {
 			writeJSON(w, 200, result)
 		}
