@@ -58,6 +58,7 @@ export type RequestOptions<T> = {
   path: string;
   parse: (value: unknown) => T;
   signal?: AbortSignal;
+  timeoutMs?: number;
   successStatuses?: readonly number[];
 } & (
   | { method?: "GET"; body?: never; csrfToken?: never; key?: never }
@@ -212,7 +213,7 @@ function parseErrorBody(value: unknown): Pick<ApiError, "code" | "fieldErrors" |
 }
 
 export async function request<T>(options: RequestOptions<T>): Promise<Result<T>> {
-  const { path, parse, signal, successStatuses = [200] } = options;
+  const { path, parse, signal, timeoutMs = 15000, successStatuses = [200] } = options;
   try {
     const headers = new Headers({ Accept: "application/json" });
     if (options.method === "POST" || options.method === "PATCH") {
@@ -220,11 +221,12 @@ export async function request<T>(options: RequestOptions<T>): Promise<Result<T>>
       if (options.csrfToken !== undefined) headers.set("X-CSRF-Token", options.csrfToken);
       if (options.key !== undefined) headers.set("Idempotency-Key", options.key);
     }
+    const timeout = AbortSignal.timeout(timeoutMs);
     const response = await fetch(path, {
       method: options.method ?? "GET", headers,
       body: options.method === "POST" || options.method === "PATCH" ? JSON.stringify(options.body) : undefined,
       credentials: "same-origin", cache: "no-store", redirect: "error",
-      signal: signal === undefined ? AbortSignal.timeout(15000) : AbortSignal.any([signal, AbortSignal.timeout(15000)]),
+      signal: signal === undefined ? timeout : AbortSignal.any([signal, timeout]),
     });
     if (!response.ok) {
       let diagnostics: Pick<ApiError, "code" | "fieldErrors" | "requestId"> = { code: "REQUEST_FAILED" };
@@ -238,7 +240,10 @@ export async function request<T>(options: RequestOptions<T>): Promise<Result<T>>
     try {
       const raw: unknown = response.status === 204 ? null : await response.json();
       return { kind: "ok", value: parse(raw) };
-    } catch {
+    } catch (error: unknown) {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return { kind: "error", status: 0, code: "ABORTED", retryAt: null };
+      }
       return { kind: "error", status: response.status, code: "INVALID_RESPONSE", retryAt: null };
     }
   } catch (error: unknown) {
@@ -257,7 +262,7 @@ export const readRepositories = ({ query, cursor, signal, refresh }: { query: st
   const params = new URLSearchParams({ q: query, limit: "50" });
   if (cursor !== null) params.set("cursor", cursor);
   if (refresh) params.set("refresh", "1");
-  return request({ path: `/api/repositories?${params}`, parse: parseRepositories, signal });
+  return request({ path: `/api/repositories?${params}`, parse: parseRepositories, signal, timeoutMs: 30000 });
 };
 
 export function errorMessage(error: ApiError): string {

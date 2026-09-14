@@ -125,12 +125,12 @@ export function useSession() {
   useEffect(() => {
     void refresh();
     const onVisible = () => {
-      if (document.visibilityState === "visible") void refresh(true);
+      if (document.visibilityState === "visible") void refresh();
     };
     const onPageShow = (event: PageTransitionEvent) => {
       if (event.persisted) void refresh(true);
     };
-    const onFocus = () => { void refresh(true); };
+    const onFocus = () => { void refresh(); };
     const broadcast = typeof BroadcastChannel === "undefined" ? null : new BroadcastChannel("repomesh-session");
     channel.current = broadcast;
     if (broadcast) broadcast.onmessage = (event: MessageEvent<unknown>) => {

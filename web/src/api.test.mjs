@@ -167,6 +167,15 @@ test("invalid success JSON and unexpected success statuses are not mistaken for 
   expectInvalid(await readSession(), 202);
 });
 
+test("an aborted success body is not reported as an invalid payload", async (t) => {
+  t.mock.method(globalThis, "fetch", async () => ({
+    ok: true,
+    status: 200,
+    json: async () => { throw new DOMException("The user aborted a request.", "AbortError"); },
+  }));
+  assert.deepEqual(await readSession(), { kind: "error", status: 0, code: "ABORTED", retryAt: null });
+});
+
 test("a lost start response stays unknown and does not retry itself", async (t) => {
   let count = 0;
   t.mock.method(globalThis, "fetch", async () => { count += 1; throw new TypeError("Network failed"); });
