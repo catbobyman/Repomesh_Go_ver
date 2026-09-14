@@ -81,7 +81,7 @@ curl -i http://127.0.0.1:8080/readyz
 
 1. 准备自己拥有的 PostgreSQL 开发数据库及连接串。迁移账号需要在该库创建 schema、表并访问迁移对象的权限；程序不会创建数据库本身。
 2. 按[认证开发说明](docs/current/authentication-development.md)和[GitHub App 操作手册](docs/current/b02-github-live-acceptance.md)准备专用 App、App ID、Client ID、client secret 和 RSA 私钥。登录授权与 App 安装分别配置。
-3. 将 [auth.example.json](configs/auth.example.json)复制到仓库及发布目录之外的部署目录，填写真实值。`origin` 必须是固定 HTTPS origin，`callbackUrl` 必须严格等于 `<origin>/api/auth/github/callback`。
+3. 将 [auth.example.json](configs/auth.example.json)复制到仓库及发布目录之外的部署目录，填写真实值。`origin` 必须是固定 HTTPS origin，`callbackUrl` 必须严格等于 `<origin>/api/auth/github/callback`。不要把填好的 `auth.json`、client secret、PEM、包装根、数据库连接串文件或验证技能的 `config.yaml` 放进仓库；根 `.gitignore` 会忽略误拷进工作树的这些文件，以及 `.env`、HAR 和 Cookie 导出。
 4. client secret、App 私钥和包装根分别使用绝对路径的普通文件，由运行 Web 和 coordinator 的 Linux 用户拥有，权限严格为 `0600`，不得是符号链接。包装根是密码学随机的原始 32 字节。已有数据库使用原配套根文件，不能重新生成同名根替换。
 5. 配置 HTTPS。使用受控反向代理时，`tlsCertificateFile` 和 `tlsKeyFile` 留空，代理转发到 Web 的回环地址；直接由 Web 提供 TLS 时同时填写证书和私钥路径，并调整监听地址。浏览器必须通过配置的 HTTPS origin 访问。
 

@@ -1,10 +1,32 @@
-# Local secrets
+# Local secrets and credential bodies. Keep live copies outside the repo.
 .env
 .env.*
 !.env.example
 !.env.sample
 *.pem
 *.key
+*.p8
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+id_ecdsa
+
+# Product / GitHub App / wrap-root files if copied into the tree
+auth.json
+auth.pending.json
+github-client-secret
+database-url
+connection-url.txt
+wrap-root
+wrap_root
+
+# Browser dumps that can carry cookies, tokens, or callback query strings
+*.har
+*cookies*.json
+*cookie*dump*
+Cookies
+Cookies-journal
 
 # OS and editor files
 .DS_Store
