@@ -30,10 +30,6 @@ export function RepositoryPicker({ session, auth, selection, onChange, onDone, m
       const before = selectionRef.current;
       const next = expireSelection(before, Date.now());
       if (Array.from(before.entries()).some(([id, item]) => item.kind !== next.get(id)?.kind)) onChangeRef.current(next);
-      setPages((current) => current.map((page) => ({ ...page, items: page.items.filter((item) => {
-        const observed = Date.parse(item.userParticipation.observedAt ?? "");
-        return Number.isFinite(observed) && observed <= Date.now() && Date.now() - observed <= 60_000;
-      }) })));
     };
     expire();
     const timer = window.setInterval(expire, 1000);

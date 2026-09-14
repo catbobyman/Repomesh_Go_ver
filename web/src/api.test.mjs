@@ -182,3 +182,40 @@ test("a lost start response stays unknown and does not retry itself", async (t) 
   assert.deepEqual(await startAuthorization({ id, purpose: "login" }), { kind: "error", status: 0, code: "NETWORK_ERROR", retryAt: null });
   assert.equal(count, 1);
 });
+
+test("overlapping repository reads share one in-flight request", async (t) => {
+  const page = { items: [], nextCursor: null, coverage: { status: "partial", reasonCodes: [], observedAt } };
+  let release;
+  let calls = 0;
+  t.mock.method(globalThis, "fetch", () => {
+    calls += 1;
+    return new Promise((resolve) => { release = () => resolve(json(page)); });
+  });
+  const first = readRepositories({ query: "single-flight-share", cursor: null });
+  const second = readRepositories({ query: "single-flight-share", cursor: null });
+  assert.equal(calls, 1);
+  release();
+  const [a, b] = await Promise.all([first, second]);
+  assert.equal(a.kind, "ok");
+  assert.equal(b.kind, "ok");
+  assert.equal(calls, 1);
+});
+
+test("aborting one repository reader leaves the shared read running", async (t) => {
+  const page = { items: [], nextCursor: null, coverage: { status: "partial", reasonCodes: [], observedAt } };
+  let release;
+  let calls = 0;
+  t.mock.method(globalThis, "fetch", () => {
+    calls += 1;
+    return new Promise((resolve) => { release = () => resolve(json(page)); });
+  });
+  const controller = new AbortController();
+  const first = readRepositories({ query: "single-flight-abort", cursor: null, signal: controller.signal });
+  const second = readRepositories({ query: "single-flight-abort", cursor: null });
+  controller.abort();
+  assert.deepEqual(await first, { kind: "error", status: 0, code: "ABORTED", retryAt: null });
+  release();
+  const remaining = await second;
+  assert.equal(remaining.kind, "ok");
+  assert.equal(calls, 1);
+});

@@ -22,24 +22,15 @@ export function RepositoryHome({ session, auth, navigate }: { session: Session; 
   const retryDelay = useRetryDelay(page.kind === "unavailable" ? page.error.retryAt : null);
 
   useEffect(() => {
-    const timer = window.setInterval(() => setPage((current) => current.kind !== "ready" ? current : { kind: "ready", page: { ...current.page, items: current.page.items.filter((item) => {
-      const observed = Date.parse(item.userParticipation.observedAt ?? "");
-      return Number.isFinite(observed) && observed <= Date.now() && Date.now() - observed <= 60_000;
-    }) } }), 1000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
     const expected = currentGeneration();
-    const controller = new AbortController();
     let cancelled = false;
     let retryTimer = 0;
     setPage({ kind: "loading" });
-    void readRepositories({ query: request.query, cursor: request.cursor, signal: controller.signal, refresh: request.refresh }).then((response) => {
+    void readRepositories({ query: request.query, cursor: request.cursor, refresh: request.refresh }).then((response) => {
       if (cancelled || !isCurrent(expected)) return;
       if (response.kind === "error") {
         if (response.status === 401) unauthorized(expected);
-        if (response.code === "RESULT_UNCONFIRMED" && request.autoRetries < 3) {
+        if ((response.code === "RESULT_UNCONFIRMED" || response.code === "ABORTED" || response.code === "NETWORK_ERROR") && request.autoRetries < 3) {
           retryTimer = window.setTimeout(() => {
             if (cancelled || !isCurrent(expected)) return;
             setRequest((before) => ({ ...before, revision: before.revision + 1, refresh: false, autoRetries: before.autoRetries + 1 }));
@@ -51,7 +42,6 @@ export function RepositoryHome({ session, auth, navigate }: { session: Session; 
     });
     return () => {
       cancelled = true;
-      controller.abort();
       if (retryTimer !== 0) window.clearTimeout(retryTimer);
     };
   }, [request, currentGeneration, isCurrent, unauthorized]);
@@ -68,7 +58,7 @@ export function RepositoryHome({ session, auth, navigate }: { session: Session; 
     <main className="workspace-main">
       <div className="page-heading"><div><p className="eyebrow">你的工作区</p><h1>仓库与账号连接</h1><p className="muted">查看当前账号，以及已发现并核实可读的仓库。</p></div><div className="heading-actions"><button className="outlined" onClick={() => navigate("/projects")}>项目</button><button className="outlined" onClick={() => navigate("/settings/models")}>模型设置</button><button className="primary compact" onClick={() => navigate("/projects/new")}>新建项目</button><span className="pill good">已登录</span></div></div>
       <section className="connection-card" aria-labelledby="account-title"><div className="avatar" aria-hidden="true">{Array.from(session.user.displayName)[0]}</div><div className="connection-account"><h2 id="account-title">{session.user.displayName}</h2><p><span className={session.githubConnection.status === "connected" ? "status-dot good-dot" : "status-dot amber-dot"} />{connectionLabel}</p><p className="small muted">连接观察于 <Observation at={session.githubConnection.observedAt} /></p></div><button className="outlined" onClick={() => navigate("/login")}>重新连接 GitHub</button></section>
-      {session.githubConnection.status !== "connected" && <p className="notice">{session.githubConnection.status === "missing" ? "GitHub 连接需要恢复。请重新连接当前绑定的账号。" : "目前无法确认 GitHub 连接状态。可以重新读取当前登录，或显式重连同一账号。"}<button className="inline-button" onClick={() => void auth.refresh(true)}>检查当前登录状态</button></p>}
+      {session.githubConnection.status !== "connected" && <p className="notice">{session.githubConnection.status === "missing" ? "GitHub 连接需要恢复。请重新连接当前绑定的账号。" : "目前无法确认 GitHub 连接状态。可以重新读取当前登录，或显式重连同一账号。"}<button className="inline-button" onClick={() => void auth.refresh()}>检查当前登录状态</button></p>}
       {previousAttempt && <div className="recovery-row"><span>有一条可查询的授权尝试记录</span><a href={`/auth/result/${previousAttempt.attemptId}`} onClick={(event) => { event.preventDefault(); navigate(`/auth/result/${previousAttempt.attemptId}`); }}>查询原尝试结果</a></div>}
       <section className="repositories" aria-labelledby="repositories-title"><div className="section-heading"><div><h2 id="repositories-title">当前发现的仓库</h2><p className="small muted">用户读取资格和 App 工作授权分别核实。</p></div><button disabled={retryDelay > 0 || page.kind === "loading"} onClick={() => setRequest((before) => ({ ...before, cursor: null, previous: [], revision: before.revision + 1, refresh: true, autoRetries: 0 }))}>重新发现</button></div>
         <form className="search-form" role="search" onSubmit={submitSearch}><label className="sr-only" htmlFor="repository-search">搜索已发现的仓库</label><svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4.5 4.5" /></svg><input id="repository-search" type="search" placeholder="搜索已发现的仓库" value={search} onChange={(event) => setSearch(event.target.value)} /><button type="submit" disabled={retryDelay > 0 || Array.from(search).length > 200}>搜索</button></form>

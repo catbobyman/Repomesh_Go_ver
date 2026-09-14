@@ -258,12 +258,36 @@ export const endSession = (csrfToken: string) => request({ path: "/api/auth/logo
   if (value !== null) throw new Error("Invalid logout response");
   return null;
 } });
-export const readRepositories = ({ query, cursor, signal, refresh }: { query: string; cursor: string | null; signal?: AbortSignal; refresh?: boolean }) => {
+
+const repositoryReads = new Map<string, Promise<Result<RepositoryPage>>>();
+
+function settleWhenAborted<T>(flight: Promise<Result<T>>, signal: AbortSignal): Promise<Result<T>> {
+  if (signal.aborted) return Promise.resolve({ kind: "error", status: 0, code: "ABORTED", retryAt: null });
+  return new Promise((resolve) => {
+    const onAbort = () => resolve({ kind: "error", status: 0, code: "ABORTED", retryAt: null });
+    signal.addEventListener("abort", onAbort, { once: true });
+    void flight.then((result) => {
+      signal.removeEventListener("abort", onAbort);
+      resolve(result);
+    });
+  });
+}
+
+export function readRepositories({ query, cursor, signal, refresh }: { query: string; cursor: string | null; signal?: AbortSignal; refresh?: boolean }): Promise<Result<RepositoryPage>> {
   const params = new URLSearchParams({ q: query, limit: "50" });
   if (cursor !== null) params.set("cursor", cursor);
   if (refresh) params.set("refresh", "1");
-  return request({ path: `/api/repositories?${params}`, parse: parseRepositories, signal, timeoutMs: 60000 });
-};
+  const key = params.toString();
+  let flight = repositoryReads.get(key);
+  if (flight === undefined) {
+    const tracked = request({ path: `/api/repositories?${key}`, parse: parseRepositories, timeoutMs: 60000 }).finally(() => {
+      if (repositoryReads.get(key) === tracked) repositoryReads.delete(key);
+    });
+    repositoryReads.set(key, tracked);
+    flight = tracked;
+  }
+  return signal === undefined ? flight : settleWhenAborted(flight, signal);
+}
 
 export function errorMessage(error: ApiError): string {
   switch (error.code) {

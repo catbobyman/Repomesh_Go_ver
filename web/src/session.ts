@@ -75,8 +75,10 @@ export function useSession() {
   }, [isCurrent, update]);
 
   const refresh = useCallback((clear = false): Promise<Result<Session> | null> => {
-    if (clear && flight.current) return flight.current.promise;
-    if (clear) invalidate();
+    if (clear && latest.current.kind !== "authenticated") {
+      if (flight.current) return flight.current.promise;
+      invalidate();
+    }
     if (flight.current) return flight.current.promise;
     const expected = version.current;
     const controller = new AbortController();
@@ -85,7 +87,7 @@ export function useSession() {
       if (result.kind === "ok") {
         reconcileStoredActor(result.value.user.id);
         const previous = latest.current;
-        const changed = previous.kind !== "authenticated" || previous.session.user.id !== result.value.user.id || previous.session.csrfToken !== result.value.csrfToken;
+        const changed = previous.kind !== "authenticated" || previous.session.user.id !== result.value.user.id;
         update({ kind: "authenticated", session: result.value }, changed);
       } else if (result.status === 401) {
         clearAllOperationInputs();
