@@ -31,16 +31,18 @@ export function RepositoryHome({ session, auth, navigate }: { session: Session; 
 
   useEffect(() => {
     const expected = currentGeneration();
+    const controller = new AbortController();
     let cancelled = false;
     setPage({ kind: "loading" });
-    void readRepositories({ query: request.query, cursor: request.cursor, refresh: request.refresh }).then((response) => {
+    void readRepositories({ query: request.query, cursor: request.cursor, signal: controller.signal, refresh: request.refresh }).then((response) => {
       if (cancelled || !isCurrent(expected)) return;
       if (response.kind === "error") {
+        if (response.code === "ABORTED") return;
         if (response.status === 401) unauthorized(expected);
         setPage({ kind: "unavailable", error: response });
       } else setPage({ kind: "ready", page: response.value });
     });
-    return () => { cancelled = true; };
+    return () => { cancelled = true; controller.abort(); };
   }, [request, currentGeneration, isCurrent, unauthorized]);
 
   function submitSearch(event: FormEvent<HTMLFormElement>) {
