@@ -44,21 +44,21 @@
 
 ## 下一项
 
-**LIVE-07。** 把专用 App 的 Pull requests 从 write 降为 read，刷新发现，安装内测试仓应 `appCapability=denied` 且 reason 对应。再恢复权限并再观察 `allowed`。不能用私仓缺席代替 denied。不要退出。不要开始 LIVE-09。
+**LIVE-09。** 基线已封存在 `snapshots/pre-live-09.json`：epoch 6，revision `c909b3e9-fe5b-432c-af62-78bf4810baae`，`access_expires_at` `2026-09-15T01:26:40Z`，coordinator 约在到期前 30 秒领取刷新。期间禁止登录、重连、改安装权限、改库到期时间。会话保活只打 `GET /api/session`。窗口过后再拍快照：epoch 增一、revision 更换、connected/idle。然后做 LIVE-10。
 
 ## B02.6 本轮 LIVE
 
 | 顺序 | ID | 本轮 | 下一步 |
 | --- | --- | --- | --- |
-| 1 | LIVE-01 | `BLOCKED` | 匿名 session 401、healthz 200、readyz 503 已看到。证书是自签，Chrome 显示 Not secure。未达「浏览器信任证书」。 |
-| 2 | LIVE-03 | `OBSERVED_NOT_CLOSED` | 持有人登录 confirmed，账号 A。未写入本目录正式表，无独立复核。不要重登冲掉会话。 |
-| 3 | LIVE-06 | `OBSERVED_NOT_CLOSED` | 工作区画出 15 条。覆盖部分发现。安装内测试仓 App 能力已核实。未独立复核。列表已站住，可做 LIVE-04。 |
+| 1 | LIVE-01 | `BLOCKED` | 匿名 session 401、healthz 200、readyz 503 已看到。证书是自签，Chrome 显示 Not secure。持有人无法为 `127.0.0.1` 提供浏览器信任的公有 CA。 |
+| 2 | LIVE-03 | `PASS` | 16:20 UTC login `0c8eb712-b6c7-4716-b6ce-63bcec1b10c8` confirmed。callback 落到 `/auth/result/{id}`。账号 A GitHub ID `137759882`、显示名 catmem 与 session `user.id` `122f497c-ee8a-44f7-ae43-3b1994192481` 一致。Chrome cookie `__Host-repomesh-session` 与 `__Host-repomesh-binding`：Secure、HttpOnly、SameSite=Lax、Path=/。见 evidence/live-03-* 与 snapshots/after-live-06.json。 |
+| 3 | LIVE-06 | `PASS` | `GET /api/repositories?limit=50` 200。15 条。fixture `repo_00000000001367444901` `userParticipation=allowed`、`appCapability=allowed`（17:57:45Z）。覆盖 `partial` / `APP_INSTALLATION_SCOPE`。安装内仓 UI 为「App 能力已核实」。见 evidence/live-06-fixture.json、snapshots/after-live-06.json。 |
 | 4 | LIVE-04 | `PASS` | 第二次 17:26 UTC。`POST /api/auth/github/reconnect` 201。attempt `e8271f6b-71f0-4653-ad10-f0fb6dfa54fa` purpose=reconnect confirmed，expected GitHub ID `137759882`。epoch 5→6，revision 更换。本浏览器 generation 3 撤销、generation 4 有效。页面「本次连接已确认」。第一次 401 失败保留。 |
-| 5 | LIVE-08 | `OBSERVED_NOT_CLOSED` | 工作区「部分发现」。页脚「第 1 页 · 本页 15 个仓库」。上一页与下一页均不可用。不是 limit=5 的多页游标证明。YAML 未填安装外仓 ID，该子项 BLOCKED。USER-READ 仍延期。 |
-| 6 | LIVE-07 | `NOT_RUN` | LIVE-04 与 LIVE-08 的 A 侧项之后做。把专用 App 权限降再恢复。不能用私仓缺席代替 denied。 |
-| 7 | LIVE-02 | `NOT_RUN` | GitHub 可能自动同意，没有 Cancel 页就不能填 PASS。不要用当前已登录工作区去撞取消。 |
-| 8 | LIVE-09 | `NOT_RUN` | LIVE-07 恢复后再重连一次，封存基线，等到自然窗口。期间禁止登录、重连、改安装权限。 |
-| 9 | LIVE-10 | `NOT_RUN` | LIVE-09 之后。注销 204、session 401、列表清空。桌面与 390×844。 |
+| 5 | LIVE-08 | `PASS` | 同源 `limit=5` 游标三页共 15 项、无重复，末页 `coverage=partial` / `APP_INSTALLATION_SCOPE`，fixture 在第 3 页且 `appCapability=allowed`。工作区「部分发现」，默认 50 项时下一页不可用。YAML 未填安装外仓 ID，没有点名缺席样本；未把覆盖写成 complete。USER-READ 仍延期。见 evidence/live-08-pagination.jsonl。 |
+| 6 | LIVE-07 | `BLOCKED` | 17:48 UTC 打开专用 App 设置页，GitHub sudo/2FA Confirm access。持有人无法在此完成二次验证。未改权限。不能用安装缺席行代替 `APP_PERMISSION_MISSING`。见 evidence/live-07-blocked.md。 |
+| 7 | LIVE-02 | `BLOCKED` | GitHub 对已授权账号自动同意，没有 Cancel 页。不在当前已登录工作区伪造取消。 |
+| 8 | LIVE-09 | `WAITING` | 未做 LIVE-07 恢复重连；基线即当前 epoch 6 连接。等到 `2026-09-15T01:26:10Z` 自然窗口。禁止改库。 |
+| 9 | LIVE-10 | `WAITING` | LIVE-09 之后。注销 204、session 401、列表清空。桌面与 390×844。在此之前不要点「退出登录」。 |
 | — | LIVE-05 | `DEFERRED_BY_USER` | 不开账号 B。 |
 | — | LIVE-08-USER-READ | `DEFERRED_BY_USER` | 不开账号 B。 |
 
