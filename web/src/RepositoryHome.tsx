@@ -37,7 +37,6 @@ export function RepositoryHome({ session, auth, navigate }: { session: Session; 
     void readRepositories({ query: request.query, cursor: request.cursor, signal: controller.signal, refresh: request.refresh }).then((response) => {
       if (cancelled || !isCurrent(expected)) return;
       if (response.kind === "error") {
-        if (response.code === "ABORTED") return;
         if (response.status === 401) unauthorized(expected);
         setPage({ kind: "unavailable", error: response });
       } else setPage({ kind: "ready", page: response.value });
