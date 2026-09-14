@@ -34,4 +34,4 @@ Preconditions:
 
 - Fixture GitHub is not B02 live.
 - `PROJECT_UPDATE_NOT_ALLOWED` in the B03 browser script is a client fulfill. It is not a real server-role proof.
-- Do not claim Issue or run success. Footer copy says those are unimplemented.
+- After 30 minutes idle on a configured HTTPS origin, `/projects` and `/settings/models` render `开始使用 RepoMesh` + `使用 GitHub 登录`. That is not the unconfigured shell.

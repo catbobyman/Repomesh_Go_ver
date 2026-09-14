@@ -153,7 +153,8 @@ Cloud VM 账号 A 的成功路径（不要改端口去迁就地址栏）：
 - GUI 代理常会编造中文文案。以截图为准。
 - 库里已有认证行时，`reuse_existing_postgres_and_wrap_root` 必须是 `true`，不要另造同名包装根。
 - 旧 origin `https://repomesh.bohanxu.me:8443` 的 PASS 不能继承到新 App／新 origin。
-- 独立复核完成前，不要把 B02 标成整批 `VERIFIED`。
+- 会话空闲 30 分钟后，已配置 origin 回到「开始使用 RepoMesh」和「使用 GitHub 登录」，不是未配置的「暂时无法确认登录状态」。
+- 不要把带私仓名的完整仓库列表截图提交进 git 或 PR。只记稳定 ID 和药丸文案。
 
 ## 填好之后
 

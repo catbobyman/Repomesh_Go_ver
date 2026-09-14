@@ -196,7 +196,7 @@ Required for a user-path claim:
 - For mutations, a second read of the same resource or a read-only database snapshot. No secrets in the snapshot.
 - Feature id and entry point recorded in `proof.json`.
 
-Forbidden in evidence: Cookie values, `authorizationUrl`, OAuth `code`/`state`, CSRF tokens, PEM, wrap-root bytes, API keys, database URLs with passwords, raw HAR.
+Forbidden in evidence: Cookie values, `authorizationUrl`, OAuth `code`/`state`, CSRF tokens, PEM, wrap-root bytes, API keys, database URLs with passwords, raw HAR, private repository names, full discovery screenshots that show those names.
 
 `/readyz` 503 and `businessReady=false` are expected. They are not failures.
 

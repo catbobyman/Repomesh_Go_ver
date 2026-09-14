@@ -33,4 +33,4 @@ Preconditions:
 - Unconfigured Web does not expose model APIs. Do not treat 404 `not_implemented` as a signed-in save.
 - A real vendor key is out of B04 authorization. Do not collect one for this feature.
 - Two different S06 names exist. Vault-root S06 is a PostgreSQL case. Adoption text “不采用 S06” is a later repo-permission gate.
-- Browser fixtures in `docs/development/2026-09-13-b04-validation-stay-01/` are the U04.2 stay-on-page proof.
+- After 30 minutes idle on a configured HTTPS origin, `/settings/models` shows `开始使用 RepoMesh` and `使用 GitHub 登录`. That is not the unconfigured 503 shell. Signed-in save proof needs a session newer than 30 minutes.

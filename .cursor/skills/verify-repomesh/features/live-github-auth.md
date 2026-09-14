@@ -60,7 +60,7 @@ Record each LIVE id in the new template. Independent review is still required be
 - Installation-complete on GitHub is not a RepoMesh login. Start from the product button.
 - GitHub auto-consent can skip the Cancel page. Then `live-02` stays uncovered. Do not burn the live workspace to force Cancel.
 - GitHub App settings may demand sudo/2FA (`Confirm access`). Holder cannot finish LIVE-07 without that. Do not change permissions. Do not treat installation-missing as `APP_PERMISSION_MISSING`.
-- Session idle is 30 minutes. LIVE-09 wait is hours. Keepalive is `GET /api/session` on the HTTPS origin, not a new login.
+- Session idle is 30 minutes. LIVE-09 wait is hours. Keepalive is `GET /api/session` on the HTTPS origin, not a new login. After idle, the holder sees `开始使用 RepoMesh` / `使用 GitHub 登录` (configured anonymous), not `暂时无法确认登录状态`. Do not treat that as unconfigured Web.
 - Logout 204 does not `Set-Cookie` expire. Next `/api/session` is still 401 because the server revoked the session.
 - First discovery 503 is `RESULT_UNCONFIRMED`. Re-read the same query. Do not swap in a fixture.
 - `coverage=partial` is expected. An out-of-install private repo missing from the list is not a `denied` sample.

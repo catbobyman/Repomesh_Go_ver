@@ -40,4 +40,5 @@ Preconditions:
 - Do not record repository names of private fixtures in shared evidence. Stable IDs are enough (`repo_00000000001367444901` for GitHub id `1367444901`).
 - computerUse paraphrases pills. The allowed fixture copy is `App 能力已核实`.
 - `RepositoryHome` does not abort the shared list fetch on unmount. `RepositoryPicker` may pass `signal`. Do not "fix" a hang by aborting the in-flight GET.
-- Local HTTP cannot hold `__Host-` cookies. Signed-in list proof uses the HTTPS origin from `auth.json`.
+- After 30 minutes idle on a **configured** HTTPS origin, the UI is `开始使用 RepoMesh` with button `使用 GitHub 登录`. That is anonymous configured, not unconfigured. Unconfigured stays `暂时无法确认登录状态` with no GitHub button.
+- Do not attach full repository-list screenshots to git or PRs. They show private names. Record stable ids, coverage, and pill copy instead.
