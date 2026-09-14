@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	"log/slog"
 	"mime"
 	"net/http"
 	"strconv"
@@ -39,7 +40,7 @@ func registerAuth(mux *http.ServeMux, auth Auth) {
 			}
 			timeout := 15 * time.Second
 			if pattern == "GET /api/repositories" {
-				timeout = 25 * time.Second
+				timeout = 45 * time.Second
 			}
 			ctx, cancel := context.WithTimeout(r.Context(), timeout)
 			defer cancel()
@@ -126,7 +127,9 @@ func registerAuth(mux *http.ServeMux, auth Auth) {
 		if err != nil {
 			return err
 		}
+		started := time.Now()
 		result, err := auth.Service.Repositories(r.Context(), cookie(r, sessionCookie), query)
+		slog.Info("repositories", "duration_ms", time.Since(started).Milliseconds(), "ok", err == nil, "refresh", query.Refresh)
 		if err == nil {
 			writeJSON(w, 200, result)
 		}
