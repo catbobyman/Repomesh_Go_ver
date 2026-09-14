@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 	"unicode/utf8"
 )
@@ -30,6 +31,9 @@ type Config struct {
 type Client struct {
 	config    Config
 	transport http.RoundTripper
+	mu        sync.Mutex
+	appJWT    string
+	appJWTExp time.Time
 }
 
 type TokenSet struct {
@@ -88,8 +92,8 @@ func New(config Config) (*Client, error) {
 			Proxy:                  nil,
 			DialContext:            (&net.Dialer{Timeout: requestTimeout, KeepAlive: 30 * time.Second}).DialContext,
 			ForceAttemptHTTP2:      true,
-			MaxIdleConns:           16,
-			MaxIdleConnsPerHost:    4,
+			MaxIdleConns:           32,
+			MaxIdleConnsPerHost:    16,
 			IdleConnTimeout:        90 * time.Second,
 			TLSHandshakeTimeout:    requestTimeout,
 			ResponseHeaderTimeout:  requestTimeout,

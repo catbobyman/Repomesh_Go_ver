@@ -17,6 +17,7 @@ import (
 	"reflect"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 )
@@ -212,4 +213,48 @@ func TestInvalidAppKeysNeverContactProvider(t *testing.T) {
 	client.config.PrivateKey = func(context.Context) ([]byte, error) { return nil, errors.New("private-key-path") }
 	_, err = client.AppCapability(context.Background(), "owner", "project")
 	requireKind(t, err, "unavailable")
+}
+
+func TestAppTokenIsReusedAcrossCalls(t *testing.T) {
+	var reads atomic.Int32
+	client := testClient(t, func(req *http.Request) (*http.Response, error) {
+		verifyAppJWT(t, req.Header.Get("Authorization"))
+		return reply(404, `{}`, nil), nil
+	})
+	keyPEM := testKeyPEM(t)
+	client.config.PrivateKey = func(context.Context) ([]byte, error) {
+		reads.Add(1)
+		return keyPEM, nil
+	}
+	for range 3 {
+		if _, err := client.AppCapability(context.Background(), "owner", "project"); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if reads.Load() != 1 {
+		t.Fatalf("private key reads = %d", reads.Load())
+	}
+}
+
+func TestAppCapabilityAllowsConcurrentCalls(t *testing.T) {
+	var calls atomic.Int32
+	client := testClient(t, func(*http.Request) (*http.Response, error) {
+		calls.Add(1)
+		time.Sleep(20 * time.Millisecond)
+		return reply(404, `{}`, nil), nil
+	})
+	var wg sync.WaitGroup
+	for range 8 {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			if _, err := client.AppCapability(context.Background(), "owner", "project"); err != nil {
+				t.Error(err)
+			}
+		}()
+	}
+	wg.Wait()
+	if calls.Load() != 8 {
+		t.Fatalf("calls = %d", calls.Load())
+	}
 }

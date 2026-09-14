@@ -24,15 +24,7 @@ func (c *Client) AppCapability(ctx context.Context, owner, name string) (Capabil
 	}
 	ctx, cancel := context.WithTimeout(ctx, requestTimeout)
 	defer cancel()
-	keyPEM, err := c.config.PrivateKey(ctx)
-	if err != nil {
-		return Capability{}, &Error{Kind: "unavailable"}
-	}
-	key, err := parsePrivateKey(keyPEM)
-	if err != nil {
-		return Capability{}, err
-	}
-	token, err := c.appToken(key)
+	token, err := c.appToken(ctx)
 	if err != nil {
 		return Capability{}, err
 	}
@@ -109,8 +101,21 @@ func parsePrivateKey(data []byte) (*rsa.PrivateKey, error) {
 	return key, nil
 }
 
-func (c *Client) appToken(key *rsa.PrivateKey) (string, error) {
+func (c *Client) appToken(ctx context.Context) (string, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	now := time.Now().UTC()
+	if c.appJWT != "" && now.Add(30*time.Second).Before(c.appJWTExp) {
+		return c.appJWT, nil
+	}
+	keyPEM, err := c.config.PrivateKey(ctx)
+	if err != nil {
+		return "", &Error{Kind: "unavailable"}
+	}
+	key, err := parsePrivateKey(keyPEM)
+	if err != nil {
+		return "", err
+	}
 	claims, err := json.Marshal(struct {
 		IssuedAt  int64  `json:"iat"`
 		ExpiresAt int64  `json:"exp"`
@@ -125,5 +130,8 @@ func (c *Client) appToken(key *rsa.PrivateKey) (string, error) {
 	if err != nil {
 		return "", &Error{Kind: "unavailable"}
 	}
-	return encoded + "." + base64.RawURLEncoding.EncodeToString(signature), nil
+	token := encoded + "." + base64.RawURLEncoding.EncodeToString(signature)
+	c.appJWT = token
+	c.appJWTExp = now.Add(8 * time.Minute)
+	return token, nil
 }

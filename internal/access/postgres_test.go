@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/rand"
 	"errors"
+	"fmt"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -24,6 +25,7 @@ type fakeGitHub struct {
 	identity             func(context.Context) (github.Identity, error)
 	repositories         func(int) (github.RepositoryPage, error)
 	repository           func() (github.Repository, error)
+	appCapability        func(owner, name string) (github.Capability, error)
 }
 
 func (f *fakeGitHub) AuthorizationURL(state, challenge string) string {
@@ -61,7 +63,10 @@ func (f *fakeGitHub) Repository(context.Context, string, string, string) (github
 	}
 	return github.Repository{ID: 10, Owner: "test", Name: "repo", FullName: "test/repo"}, nil
 }
-func (f *fakeGitHub) AppCapability(context.Context, string, string) (github.Capability, error) {
+func (f *fakeGitHub) AppCapability(_ context.Context, owner, name string) (github.Capability, error) {
+	if f.appCapability != nil {
+		return f.appCapability(owner, name)
+	}
 	now := time.Now().UTC()
 	return github.Capability{Status: "denied", ReasonCodes: []string{"APP_INSTALLATION_MISSING"}, ObservedAt: &now}, nil
 }
@@ -584,5 +589,43 @@ func TestPostgresDiscoveryOldClaimCannotPublish(t *testing.T) {
 	result, err := s.Repositories(ctx, cookie, RepositoryQuery{Limit: 50})
 	if err != nil || len(result.Items) != 1 || result.Items[0].DisplayName != "test/current" {
 		t.Fatal("expired claim overwrote replacement", result, err)
+	}
+}
+
+func TestPostgresDiscoveryVerifiesRepositoriesConcurrently(t *testing.T) {
+	s, p, ctx := fixture(t)
+	_, cookie := login(t, s, ctx)
+	items := make([]github.Repository, 8)
+	for i := range items {
+		id := int64(i + 1)
+		items[i] = github.Repository{ID: id, Owner: "test", Name: fmt.Sprintf("repo%d", id), FullName: fmt.Sprintf("test/repo%d", id)}
+	}
+	p.repositories = func(int) (github.RepositoryPage, error) {
+		return github.RepositoryPage{Items: items}, nil
+	}
+	p.appCapability = func(string, string) (github.Capability, error) {
+		time.Sleep(200 * time.Millisecond)
+		now := time.Now().UTC()
+		return github.Capability{Status: "allowed", ReasonCodes: []string{}, ObservedAt: &now}, nil
+	}
+	if _, err := s.Repositories(ctx, cookie, RepositoryQuery{Limit: 50}); err == nil {
+		t.Fatal("expected unconfirmed discovery before worker")
+	}
+	if _, err := s.RunOne(ctx); err != nil {
+		t.Fatal(err)
+	}
+	started := time.Now()
+	result, err := s.Repositories(ctx, cookie, RepositoryQuery{Limit: 50})
+	elapsed := time.Since(started)
+	if err != nil || len(result.Items) != 8 {
+		t.Fatalf("page = %+v, err = %v", result, err)
+	}
+	if elapsed > 800*time.Millisecond {
+		t.Fatalf("serial capability checks took %s", elapsed)
+	}
+	for i, item := range result.Items {
+		if item.DisplayName != items[i].FullName || item.AppCapability.Status != "allowed" {
+			t.Fatalf("item %d = %+v", i, item)
+		}
 	}
 }

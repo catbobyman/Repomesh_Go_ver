@@ -5,12 +5,15 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"sync"
 	"time"
 	"unicode/utf8"
 
 	"github.com/jackc/pgx/v5"
 	"repomesh.local/repomesh/internal/github"
 )
+
+const repositoryVerifyConcurrency = 16
 
 type RepositoryItem struct {
 	ID                string            `json:"id"`
@@ -106,11 +109,6 @@ func (s *Service) Repositories(ctx context.Context, cookie string, query Reposit
 	if err != nil {
 		return RepositoryPage{}, unavailable()
 	}
-	type observedRepo struct {
-		id                    int64
-		owner, name, fullName string
-		at                    time.Time
-	}
 	var observed []observedRepo
 	for rows.Next() {
 		var r observedRepo
@@ -130,35 +128,27 @@ func (s *Service) Repositories(ctx context.Context, cookie string, query Reposit
 		observed = observed[:query.Limit]
 	}
 	result := RepositoryPage{Items: []RepositoryItem{}, Coverage: Coverage{Status: "partial", ReasonCodes: []string{"APP_INSTALLATION_SCOPE"}, ObservedAt: b.observed}}
+	if len(observed) > 0 {
+		after = observed[len(observed)-1].id
+	}
+	verified := s.verifyDiscovered(ctx, c, query.Text, observed)
 	unconfirmed := false
-	for _, r := range observed {
-		after = r.id
-		if time.Since(r.at) > 60*time.Second {
-			fresh, err := s.provider.Repository(ctx, c.token, r.owner, r.name)
-			if err != nil {
-				if providerUnauthorized(err) {
-					s.rejectCredential(ctx, c)
-				}
-				unconfirmed = true
-				continue
-			}
-			if fresh.ID != r.id {
-				unconfirmed = true
-				continue
-			}
-			r.fullName = fresh.FullName
-			r.owner = fresh.Owner
-			r.name = fresh.Name
-			r.at = time.Now().UTC()
+	unauthorized := false
+	for _, item := range verified {
+		if item.unauthorized {
+			unauthorized = true
 		}
-		if !strings.Contains(strings.ToLower(r.fullName), strings.ToLower(query.Text)) {
+		if item.unconfirmed {
+			unconfirmed = true
 			continue
 		}
-		capability, err := s.provider.AppCapability(ctx, r.owner, r.name)
-		if err != nil {
-			capability = github.Capability{Status: "unknown", ReasonCodes: []string{"APP_AUTHORIZATION_UNCONFIRMED"}}
+		if item.item == nil {
+			continue
 		}
-		result.Items = append(result.Items, RepositoryItem{ID: fmt.Sprintf("repo_%020d", r.id), DisplayName: r.fullName, UserParticipation: github.Capability{Status: "allowed", ReasonCodes: []string{}, ObservedAt: &r.at}, AppCapability: capability})
+		result.Items = append(result.Items, *item.item)
+	}
+	if unauthorized {
+		s.rejectCredential(ctx, c)
 	}
 	if unconfirmed && len(result.Items) == 0 {
 		return RepositoryPage{}, failure(503, "AUTHORIZATION_UNCONFIRMED")
@@ -196,4 +186,66 @@ func (s *Service) readBatch(ctx context.Context, id string) (batch, error) {
 		return b, unavailable()
 	}
 	return b, nil
+}
+
+type observedRepo struct {
+	id                    int64
+	owner, name, fullName string
+	at                    time.Time
+}
+
+type verifiedRepo struct {
+	item         *RepositoryItem
+	unconfirmed  bool
+	unauthorized bool
+}
+
+func (s *Service) verifyDiscovered(ctx context.Context, c credential, queryText string, observed []observedRepo) []verifiedRepo {
+	result := make([]verifiedRepo, len(observed))
+	if len(observed) == 0 {
+		return result
+	}
+	limit := repositoryVerifyConcurrency
+	if limit > len(observed) {
+		limit = len(observed)
+	}
+	slots := make(chan struct{}, limit)
+	var wg sync.WaitGroup
+	for i, repo := range observed {
+		wg.Add(1)
+		slots <- struct{}{}
+		go func(i int, repo observedRepo) {
+			defer wg.Done()
+			defer func() { <-slots }()
+			result[i] = s.verifyOneDiscovered(ctx, c, queryText, repo)
+		}(i, repo)
+	}
+	wg.Wait()
+	return result
+}
+
+func (s *Service) verifyOneDiscovered(ctx context.Context, c credential, queryText string, r observedRepo) verifiedRepo {
+	if time.Since(r.at) > 60*time.Second {
+		fresh, err := s.provider.Repository(ctx, c.token, r.owner, r.name)
+		if err != nil {
+			return verifiedRepo{unconfirmed: true, unauthorized: providerUnauthorized(err)}
+		}
+		if fresh.ID != r.id {
+			return verifiedRepo{unconfirmed: true}
+		}
+		r.fullName = fresh.FullName
+		r.owner = fresh.Owner
+		r.name = fresh.Name
+		r.at = time.Now().UTC()
+	}
+	if !strings.Contains(strings.ToLower(r.fullName), strings.ToLower(queryText)) {
+		return verifiedRepo{}
+	}
+	capability, err := s.provider.AppCapability(ctx, r.owner, r.name)
+	if err != nil {
+		capability = github.Capability{Status: "unknown", ReasonCodes: []string{"APP_AUTHORIZATION_UNCONFIRMED"}}
+	}
+	observedAt := r.at
+	item := RepositoryItem{ID: fmt.Sprintf("repo_%020d", r.id), DisplayName: r.fullName, UserParticipation: github.Capability{Status: "allowed", ReasonCodes: []string{}, ObservedAt: &observedAt}, AppCapability: capability}
+	return verifiedRepo{item: &item}
 }
