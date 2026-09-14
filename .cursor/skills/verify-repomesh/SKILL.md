@@ -11,6 +11,8 @@ This skill is for the next agent. Read the feature map before driving. Drive eve
 
 The default drive origin is local HTTP, for example `http://127.0.0.1:18080`. Do not treat `https://repomesh.example.com` or any public hostname as the skill default. Product live GitHub auth still sets `__Host-` cookies with `Secure`. Local HTTP never proves those cookies were accepted. Mark that path `verified-unreachable` until the operator supplies a matching HTTPS origin in `auth.json`.
 
+操作员逐步填写说明见 [OPERATOR-GUIDE.md](OPERATOR-GUIDE.md)。
+
 ## Operator config
 
 Copy the example, then edit the operator file. Helpers read it. Do not commit `config.yaml`.
