@@ -86,6 +86,9 @@ func TestTransportIgnoresEnvironmentProxy(t *testing.T) {
 	if transport.ResponseHeaderTimeout != 5*time.Second || transport.TLSHandshakeTimeout != 5*time.Second {
 		t.Fatal("transport timeout missing")
 	}
+	if transport.ForceAttemptHTTP2 || transport.TLSNextProto == nil {
+		t.Fatal("github transport should not use HTTP/2")
+	}
 }
 
 func TestRedirectNeverForwardsCredential(t *testing.T) {

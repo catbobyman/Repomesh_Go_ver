@@ -82,7 +82,7 @@ func (s *Service) Repositories(ctx context.Context, cookie string, query Reposit
 	if b.id == "" {
 		lookup := `SELECT id FROM repomesh_access.discovery_batches WHERE actor=$1 AND connection_revision=$2 AND access_epoch=$3 AND query=$4 AND expires_at>now() AND (NOT complete OR NOT delivered) ORDER BY expires_at DESC LIMIT 1`
 		if !query.Refresh {
-			lookup = `SELECT id FROM repomesh_access.discovery_batches WHERE actor=$1 AND connection_revision=$2 AND access_epoch=$3 AND query=$4 AND expires_at>now() AND (NOT complete OR NOT delivered OR had_success) ORDER BY CASE WHEN NOT complete OR NOT delivered THEN 0 ELSE 1 END, expires_at DESC LIMIT 1`
+			lookup = `SELECT id FROM repomesh_access.discovery_batches WHERE actor=$1 AND connection_revision=$2 AND access_epoch=$3 AND query=$4 AND expires_at>now() AND (NOT complete OR NOT delivered OR (had_success AND observed_at > now() - interval '60 seconds')) ORDER BY CASE WHEN NOT complete OR NOT delivered THEN 0 ELSE 1 END, expires_at DESC LIMIT 1`
 		}
 		err = tx.QueryRow(ctx, lookup, view.User.ID, revision, epoch, query.Text).Scan(&b.id)
 		if errors.Is(err, pgx.ErrNoRows) {

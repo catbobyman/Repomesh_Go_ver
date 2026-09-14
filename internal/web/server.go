@@ -52,7 +52,7 @@ func RunConfigured(ctx context.Context, addr, assets string, auth Auth, projectA
 		Handler:           handlerConfigured(root, auth, projectAPI, modelAPI),
 		ReadHeaderTimeout: 5 * time.Second,
 		IdleTimeout:       60 * time.Second,
-		WriteTimeout:      30 * time.Second,
+		WriteTimeout:      90 * time.Second,
 	}
 	slog.Info("web listening", "address", listener.Addr().String(), "version", buildinfo.Version, "authentication_configured", auth.Service != nil, "business_ready", false)
 	return serve(ctx, server, listener)

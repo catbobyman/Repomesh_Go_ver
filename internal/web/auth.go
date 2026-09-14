@@ -37,7 +37,11 @@ func registerAuth(mux *http.ServeMux, auth Auth) {
 				authError(w, &access.Failure{Status: 403, Code: "ORIGIN_REJECTED"})
 				return
 			}
-			ctx, cancel := context.WithTimeout(r.Context(), 15*time.Second)
+			timeout := 15 * time.Second
+			if pattern == "GET /api/repositories" {
+				timeout = 25 * time.Second
+			}
+			ctx, cancel := context.WithTimeout(r.Context(), timeout)
 			defer cancel()
 			if err := handler(w, r.WithContext(ctx)); err != nil {
 				authError(w, err)

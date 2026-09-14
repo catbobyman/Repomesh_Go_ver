@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"io"
 	"net"
@@ -91,7 +92,8 @@ func New(config Config) (*Client, error) {
 		transport: &http.Transport{
 			Proxy:                  nil,
 			DialContext:            (&net.Dialer{Timeout: requestTimeout, KeepAlive: 30 * time.Second}).DialContext,
-			ForceAttemptHTTP2:      true,
+			ForceAttemptHTTP2:      false,
+			TLSNextProto:           map[string]func(string, *tls.Conn) http.RoundTripper{},
 			MaxIdleConns:           32,
 			MaxIdleConnsPerHost:    16,
 			IdleConnTimeout:        90 * time.Second,

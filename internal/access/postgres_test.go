@@ -400,6 +400,36 @@ func TestPostgresDiscoveryPersistsEmptyCursorAndPartialCoverage(t *testing.T) {
 	wantFailure(t, err, 409, "CURSOR_EXPIRED")
 }
 
+func TestPostgresDiscoveryStartsNewBatchWhenSnapshotObservationExpires(t *testing.T) {
+	s, p, ctx := fixture(t)
+	_, cookie := login(t, s, ctx)
+	query := RepositoryQuery{Limit: 50}
+	_, _ = s.Repositories(ctx, cookie, query)
+	if _, err := s.RunOne(ctx); err != nil {
+		t.Fatal(err)
+	}
+	first, err := s.Repositories(ctx, cookie, query)
+	if err != nil || len(first.Items) != 1 {
+		t.Fatal("fresh snapshot missing", first, err)
+	}
+	if _, err = s.pool.Exec(ctx, `UPDATE repomesh_access.discovery_batches SET observed_at=now()-interval '90 seconds'`); err != nil {
+		t.Fatal(err)
+	}
+	if _, err = s.pool.Exec(ctx, `UPDATE repomesh_access.discovered_repositories SET observed_at=now()-interval '90 seconds'`); err != nil {
+		t.Fatal(err)
+	}
+	var repoCalls atomic.Int32
+	p.repository = func() (github.Repository, error) {
+		repoCalls.Add(1)
+		return github.Repository{ID: 10, Owner: "test", Name: "repo", FullName: "test/repo"}, nil
+	}
+	_, err = s.Repositories(ctx, cookie, query)
+	wantFailure(t, err, 503, "RESULT_UNCONFIRMED")
+	if repoCalls.Load() != 0 {
+		t.Fatal("stale snapshot was re-verified instead of opening a new batch")
+	}
+}
+
 func TestPostgresDiscoveryHidesUnconfirmedNames(t *testing.T) {
 	s, p, ctx := fixture(t)
 	_, cookie := login(t, s, ctx)
