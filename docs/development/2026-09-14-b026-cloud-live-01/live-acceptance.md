@@ -31,7 +31,7 @@
 | LIVE-07 | 专用 App 权限或安装不足的可读仓库样本，实际 denied 与 reasonCode 对应；恢复配置后新观察 allowed。不能用私仓缺席代替 denied | BLOCKED | 17:48 UTC GitHub App 设置页要求 sudo/2FA。未改权限。见 evidence/live-07-blocked.md |
 | LIVE-08 | 私仓发现、分页和刷新真实往返，coverage.status partial；安装外私仓缺席不误报完整覆盖，用户失去读权且原观察超过 60 秒后重查，不继续披露旧名称 | PASS | 17:57 UTC 同源 limit=5 三页 15 项无重复，末页 partial / APP_INSTALLATION_SCOPE。YAML 未填安装外仓 ID，没有点名缺席样本。USER-READ 见延期行。见 evidence/live-08-pagination.jsonl |
 | LIVE-09 | 保持原连接直到自然刷新窗口；前后只读快照证明 epoch 增一、revision 与期限前进、connected/idle，期间无登录或重连 | NOT_RUN | 基线 snapshots/pre-live-09.json。epoch 6。WAITING 真实窗口 `2026-09-15T01:26:10Z` |
-| LIVE-10 | 刷新后同一有效会话的新发现成功，注销后 session 401、清除仓库显示；桌面和移动浏览器真实往返已观察 | NOT_RUN | 等 LIVE-09。发现 UI 已站住。不要先退出 |
+| LIVE-10 | 刷新后同一有效会话的新发现成功，注销后 session 401、清除仓库显示；桌面和移动浏览器真实往返已观察 | NOT_RUN | 等 LIVE-09。18:06 UTC 窄窗口已观察仍登录的工作区，见 evidence/live-10-mobile-pre.md。不要先退出 |
 
 ## 结果与限制
 

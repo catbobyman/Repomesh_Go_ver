@@ -58,7 +58,7 @@
 | 6 | LIVE-07 | `BLOCKED` | 17:48 UTC 打开专用 App 设置页，GitHub sudo/2FA Confirm access。持有人无法在此完成二次验证。未改权限。不能用安装缺席行代替 `APP_PERMISSION_MISSING`。见 evidence/live-07-blocked.md。 |
 | 7 | LIVE-02 | `BLOCKED` | GitHub 对已授权账号自动同意，没有 Cancel 页。不在当前已登录工作区伪造取消。 |
 | 8 | LIVE-09 | `WAITING` | 未做 LIVE-07 恢复重连；基线即当前 epoch 6 连接。等到 `2026-09-15T01:26:10Z` 自然窗口。禁止改库。 |
-| 9 | LIVE-10 | `WAITING` | LIVE-09 之后。注销 204、session 401、列表清空。桌面与 390×844。在此之前不要点「退出登录」。 |
+| 9 | LIVE-10 | `WAITING` | LIVE-09 之后才注销。18:06 UTC 已在窄窗口看到仍登录的工作区（catmem、「部分发现」），随后恢复 1820×1100。注销 204、session 401、列表清空仍未做。 |
 | — | LIVE-05 | `DEFERRED_BY_USER` | 不开账号 B。 |
 | — | LIVE-08-USER-READ | `DEFERRED_BY_USER` | 不开账号 B。 |
 
