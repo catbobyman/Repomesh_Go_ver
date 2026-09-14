@@ -23,12 +23,12 @@ Preconditions:
 
 - Authenticated session.
 - For HTTP-accurate local proof against real handlers and a GitHub test provider, the product B03 Playwright runner with `REPOMESH_B03_BROWSER_TEST=1` still exists. That runner is not this skill's launch model and is not github.com.
-- On the default local HTTP origin the signed-in recipes are `verified-unreachable`. Prerequisite: HTTPS origin in `auth.json` plus `__Host-` session cookie. Source: `internal/web/projects.go`, `web/src/main.tsx`.
+- On the default local HTTP origin the signed-in recipes are `verified-unreachable`. Prerequisite: HTTPS origin in `auth.json` plus `__Host-` session cookie. Source: `internal/web/auth.go`, `internal/web/projects.go`.
 
-- **Unconfigured gate.** `helpers/drive-local-gates.sh` opens `/projects` and `/projects/new` on `http://127.0.0.1:<port>`. Both render the auth shell. `GET /api/projects` is 503 `AUTH_NOT_CONFIGURED`.
-- **List.** Heading `项目`. Empty copy is `还没有项目` or a real list.
-- **Create.** Button `新建项目`. Pick repositories with `#project-repository-search`. Choose `完成选择`. Fill 项目资料. Choose `查看保存摘要`, then the primary save. Result is 201 or idempotent 200, `canCreateIssue=false`.
-- **Empty catalog.** Same create with no provider rows. Project stays 待配置.
+- **Unconfigured gate.** `helpers/drive-local-gates.sh` opens `/projects` and `/projects/new` on `http://127.0.0.1:<port>`. Both render `AuthEntry` with `暂时无法确认登录状态`. `GET /api/projects` is 503 `AUTH_NOT_CONFIGURED`.
+- **List.** Heading `项目`. Empty copy is `还没有项目`, or `没有匹配的项目` when searching.
+- **Create.** Button `新建项目`. Pick repositories with `#project-repository-search`. Choose `完成选择`. Fill 项目资料. Choose `查看保存摘要`, then `确认保存项目`. Result is 201 or idempotent 200, `canCreateIssue=false`.
+- **Empty catalog.** Same create with no provider rows. Copy says the project stays 待配置; detail may show `项目已保存，必要配置尚未满足`.
 
 ## Gotchas
 

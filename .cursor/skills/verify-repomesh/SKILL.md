@@ -97,9 +97,32 @@ Ready when the helper prints `ready origin=http://127.0.0.1:18080` (or the yaml 
 
 `account-a-live` and `restore-leftovers` start Web and coordinator on the same local listen address, using `auth_config_path` and the database URL from yaml. Doctor can then see `/api/session` 401 `AUTHENTICATION_REQUIRED`. Browser login remains `verified-unreachable` until the holder opens the HTTPS origin from `auth.json`. Local HTTP is still the launch/doctor address the skill uses.
 
-Refuse to drive a shared instance you did not start. Default environment Web on `:8080` may already exist. This skill uses `:18080` unless yaml names another free loopback port.
+Refuse to drive a shared instance you did not start. Default environment Web on `:8080` may already exist. This skill uses `:18080` unless yaml names another free loopback port. If `:18080` already holds a live account-A run (Web + TLS proxy), do not launch a second live process on that port and do not run `cleanup.sh` against that state directory. Unconfigured proof then uses a throwaway yaml (`REPOMESH_VERIFY_CONFIG`) on another loopback port such as `18082`.
 
-Teardown uses the cleanup helper. It kills only the PIDs in the state directory. Do not `pkill` by name.
+Teardown uses the cleanup helper. It kills only the PIDs in the state directory of **this** drive. Do not `pkill` by name. Do not tear down a LIVE-09 wait instance.
+
+## HTTPS cookie proof
+
+Local HTTP is launch/doctor only. Cookie acceptance is a different origin.
+
+Proven Cloud VM path (account A, loopback TLS proxy):
+
+1. Skill Web listens `http://127.0.0.1:18080`. Coordinator shares the same `auth.json` and database.
+2. A reverse proxy terminates TLS on `https://127.0.0.1:18443` and forwards to `18080`. After it decodes upstream chunked bodies it must set `Content-Length` and close. Stripping `Transfer-Encoding` without a length leaves Chrome waiting until timeout. The proxy script stays outside git.
+3. `auth.json` `origin` is exactly `https://127.0.0.1:18443` and `callbackUrl` is that origin plus `/api/auth/github/callback`.
+4. The holder browser opens **only** `https://127.0.0.1:18443/`. Never type `:18080` or env `:8080` in the address bar for cookie proof.
+5. Self-signed certs show Chrome **Not secure**. That blocks LIVE-01 (trusted public CA). It is not by itself a cookie failure. Proceeding can still set `__Host-` cookies.
+6. Record cookie **flags** only (`Secure`, `HttpOnly`, `SameSite=Lax`, `Path=/`). Never write cookie values, OAuth `code`, or HAR.
+7. Session idle is 30 minutes (`last_active_at`). Keep the tab alive with `GET /api/session` on the HTTPS origin. Do not commit Chrome cookie-decrypt scripts.
+8. Do not click `退出登录` until LIVE-09 natural refresh has a snapshot. Coordinator claims refresh at `access_expires_at` minus 30 seconds. Do not edit expiry in the database.
+
+Helper for anonymous HTTPS probes (`curl -k`, no Cookie header):
+
+```bash
+bash .cursor/skills/verify-repomesh/helpers/probe-https-origin.sh https://127.0.0.1:18443
+```
+
+computerUse and similar GUI agents invent Chinese copy. Trust screenshots. The allowed App pill is `App 能力已核实`, not paraphrases.
 
 ## Doctor
 
@@ -121,12 +144,20 @@ Prefer Playwright role clicks, matching `docs/development/2026-09-12-batch-02/br
 | Unconfigured login heading | `暂时无法确认登录状态` |
 | Unconfigured retry | button `检查当前登录状态` |
 | Live login | button `使用 GitHub 登录` |
-| Live reconnect | button `重新连接同一账号` |
-| Query prior attempt | button `查询原授权尝试` or `查询本次授权结果` |
+| Live reconnect | workspace `重新连接 GitHub`; login page `重新连接同一账号` |
+| Query prior attempt | button `查询原授权尝试` |
+| Query login result | button `查询本次授权结果` |
+| Query reconnect result | button `查询本次连接结果` |
 | Return to workspace | button `稍后处理，返回工作区` |
 | Sign out | button `退出登录` or `退出当前账号` |
+| Connection connected | `GitHub 已连接` |
+| Connection stale/unknown | `GitHub 连接待确认` (observation older than 60s is not a list failure) |
+| App capability allowed | pill `App 能力已核实` |
+| App capability denied | pill `App 工作授权不足` |
+| App capability unknown | pill `App 能力待确认` |
 | Projects | button `项目` and heading `项目` |
 | New project | button `新建项目` |
+| Save project | button `确认保存项目` |
 | Model settings | muted header `模型设置`; page heading `模型连接` |
 | Save provider | button `保存供应商` |
 
@@ -144,7 +175,7 @@ bash .cursor/skills/verify-repomesh/helpers/drive-local-gates.sh
 
 Live GitHub recipe lives in `features/live-github-auth.md`. Copy `docs/development/2026-09-12-b02-external-preparation/live-acceptance-template.md` into a new `docs/development/<date>-b026-<topic>/` directory. Do not overwrite old LIVE evidence.
 
-The current Cloud VM account-A run is [CHECKLIST.md](../../../docs/development/2026-09-14-b026-cloud-live-01/CHECKLIST.md). After every LIVE item, update that checklist, write a snapshot with `helpers/live-snapshot.sh`, and append `docs/development/2026-09-14-b026-cloud-live-01/decisions.tsv`. A new origin or App gets a new dated directory. Do not inherit PASS from `https://repomesh.bohanxu.me:8443`.
+The current Cloud VM account-A run is [CHECKLIST.md](../../../docs/development/2026-09-14-b026-cloud-live-01/CHECKLIST.md). After every LIVE item, update that checklist, write a snapshot with `helpers/live-snapshot.sh`, and append `docs/development/2026-09-14-b026-cloud-live-01/decisions.tsv`. A new origin or App gets a new dated directory. Do not inherit PASS from `https://repomesh.bohanxu.me:8443`. Do not mark B02 `VERIFIED` from a skill drive.
 
 Local batch script is not a user-path proof:
 
@@ -188,7 +219,10 @@ All helpers are in `.cursor/skills/verify-repomesh/helpers/`. Invoke them from t
 - `doctor.sh` is read-only and refuses a non-local origin.
 - `drive-unconfigured-login.sh` exercises `/login` on the unconfigured process and writes `proof.json`.
 - `drive-local-gates.sh` opens `/`, `/projects`, `/projects/new`, and `/settings/models` on that process and records signed-in features as `verified-unreachable` when session is `AUTH_NOT_CONFIGURED`. Unconfigured `/api/model-providers` is 404 `not_implemented` because those routes are not registered without a model service.
-- `cleanup.sh` tears down PIDs from the state directory.
+- `cleanup.sh` tears down PIDs from the state directory of this drive only.
+- `live-snapshot.sh` writes a read-only JSON snapshot of account, attempts, sessions, connection epoch/revision/expiry, and latest discovery. No tokens, cookies, or PEM. Needs `REPOMESH_DATABASE_URL_FILE` or `$HOME/.config/repomesh/database-url`.
+- `probe-https-origin.sh` curls a loopback HTTPS origin with `curl -k`, no Cookie header, and writes `https-probes/proof.json`. Rejects HTTP and public hosts.
+- `test-probe-https-origin.sh` checks those URL guards without starting RepoMesh.
 
 ## Feature map
 

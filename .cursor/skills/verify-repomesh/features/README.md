@@ -4,12 +4,12 @@ This directory is the maintained source for verifying user-facing RepoMesh behav
 
 ## Baseline preconditions
 
-- Skill launch, doctor, and drive use a local origin from operator yaml, default `http://127.0.0.1:18080`. Copy `config.example.yaml` to `config.yaml` before filling live fields. Human steps are in [OPERATOR-GUIDE.md](../OPERATOR-GUIDE.md).
+- Skill launch, doctor, and drive use a local origin from operator yaml, default `http://127.0.0.1:18080`. Copy `config.example.yaml` to `config.yaml` before filling live fields. Human steps are in [OPERATOR-GUIDE.md](../OPERATOR-GUIDE.md). If live Web already owns 18080, unconfigured proof uses another port.
 - Unconfigured UI proofs use that isolated Web started by `helpers/launch.sh` with `run_scope: unconfigured-only`.
-- Live GitHub proofs need `run_scope: account-a-live` (or `restore-leftovers`), `auth.json` with a product HTTPS origin, and a coordinator you started. Local HTTP is still the helper listen address. It does not prove `__Host-` cookies.
-- Run `helpers/doctor.sh` first. Refuse a process you did not start.
+- Live GitHub proofs need `run_scope: account-a-live` (or `restore-leftovers`), `auth.json` with a product HTTPS origin, and a coordinator you started. Local HTTP is still the helper listen address. It does not prove `__Host-` cookies. Proven loopback cookie origin on the Cloud VM is `https://127.0.0.1:18443/` via a TLS proxy; see [SKILL.md](../SKILL.md) HTTPS cookie proof and [live-github-auth.md](./live-github-auth.md).
+- Run `helpers/doctor.sh` first. Refuse a process you did not start. Do not `cleanup.sh` a LIVE-09 wait instance to free a port.
 - Never drive Vite `http://127.0.0.1:5173` for API or auth claims.
-- Never paste secrets into evidence.
+- Never paste secrets into evidence. Cookie proof records flags only.
 
 ## Driving conventions
 
