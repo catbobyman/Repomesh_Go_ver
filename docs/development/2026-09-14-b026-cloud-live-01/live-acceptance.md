@@ -25,7 +25,7 @@
 | LIVE-01 | 浏览器信任固定 HTTPS 证书，同源登录入口可用，未登录 session 401；healthz 200、readyz 503 | BLOCKED | 2026-09-14。匿名 `GET /api/session` 401。healthz 200。readyz 503。Chrome 地址栏 Not secure。未证明浏览器信任证书。[CHECKLIST.md](CHECKLIST.md) |
 | LIVE-02 | 在真实 GitHub 授权页取消，原 attempt cancelled/USER_CANCELLED，无新会话 | NOT_RUN | 待填。GitHub 可能自动同意 |
 | LIVE-03 | 真实授权返回固定 callback，303 到结果页，原 attempt confirmed，session 为预期账号；Cookie 标志正确，URL 无 code/state 残留 | NOT_RUN | 2026-09-14 持有人登录 confirmed，账号 A。清单记 OBSERVED_NOT_CLOSED。正式 PASS 待独立复核 |
-| LIVE-04 | 同账号重连原尝试 confirmed，user.id 不变，连接 revision 更新，旧本浏览器会话撤销 | NOT_RUN | 待执行。快照见 snapshots |
+| LIVE-04 | 同账号重连原尝试 confirmed，user.id 不变，连接 revision 更新，旧本浏览器会话撤销 | NOT_RUN | 第一次 17:21 UTC 失败。reconnect POST 401（会话 idle 30 分钟）。随后 login 201，不是 reconnect。见 evidence/live-04-attempt1-proxy.txt。第二次待立刻执行 |
 | LIVE-05 | 错误账号重连 ACCOUNT_MISMATCH，原账号和连接不被替换，跨账号仓库结果不泄露 | NOT_RUN | DEFERRED_BY_USER。不开账号 B |
 | LIVE-06 | 已安装专用私仓且用户有读权，userParticipation.status allowed；安装未暂停且三项权限完整，appCapability.status allowed，观察时间可核对 | NOT_RUN | 2026-09-14 工作区 15 条，部分发现，安装内仓 App 能力已核实。清单记 OBSERVED_NOT_CLOSED。证据 `/opt/cursor/artifacts/workspace-repo-list.webp` |
 | LIVE-07 | 专用 App 权限或安装不足的可读仓库样本，实际 denied 与 reasonCode 对应；恢复配置后新观察 allowed。不能用私仓缺席代替 denied | NOT_RUN | 待填 |

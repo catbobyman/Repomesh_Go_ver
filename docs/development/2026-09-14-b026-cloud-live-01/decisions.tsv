@@ -1,3 +1,4 @@
 ts	phase	decision	why	evidence	result
 2026-09-14T17:16:00Z	list	put this VM live run on one checklist and keep it as the only progress table	a second copy would drift from the real origin and App	docs/development/2026-09-14-b026-cloud-live-01/CHECKLIST.md	open
 2026-09-14T17:16:00Z	sequence	drive LIVE-04 next and leave logout for after LIVE-09	the workspace list already rendered, so reconnect is the next A-only item that still needs a purpose=reconnect row	CHECKLIST.md next item	LIVE-04 NOT_RUN
+2026-09-14T17:21:27Z	live-04	treat the first reconnect click as a failed LIVE-04, not a PASS	the proxy recorded POST /api/auth/github/reconnect 401 then login 201; the workspace SPA still showed catmem after the 30 minute idle window	evidence/live-04-attempt1-proxy.txt snapshots/after-live-04-attempt.json	FAIL retry now
