@@ -44,7 +44,7 @@
 
 ## 下一项
 
-**LIVE-04 第二次。** 会话刚在 17:21 UTC 由一次 login 重建。立刻点「重新连接 GitHub」。若出现「继续核查原授权尝试」，点「明确开始一次新的重连」，不要点「查询原授权尝试」。不要点「检查当前登录状态」。不要退出。30 分钟内必须完成，否则 idle 会话会再 401。
+**LIVE-08 的 A 侧剩余。** 页面默认一页 15 条。记录是否有「下一页」、coverage 是否仍为部分发现。YAML 未填安装外仓 ID，安装外缺席只能记 BLOCKED。不要改 App 权限。不要退出。30 分钟内要有一次会话请求，避免 idle 401。
 
 ## B02.6 本轮 LIVE
 
@@ -53,7 +53,7 @@
 | 1 | LIVE-01 | `BLOCKED` | 匿名 session 401、healthz 200、readyz 503 已看到。证书是自签，Chrome 显示 Not secure。未达「浏览器信任证书」。 |
 | 2 | LIVE-03 | `OBSERVED_NOT_CLOSED` | 持有人登录 confirmed，账号 A。未写入本目录正式表，无独立复核。不要重登冲掉会话。 |
 | 3 | LIVE-06 | `OBSERVED_NOT_CLOSED` | 工作区画出 15 条。覆盖部分发现。安装内测试仓 App 能力已核实。未独立复核。列表已站住，可做 LIVE-04。 |
-| 4 | LIVE-04 | `NOT_RUN` | 第一次失败。17:21:15 `POST /api/auth/github/reconnect` 401。工作区 SPA 仍显示已登录，但会话 idle 超过 30 分钟。随后 17:21:27 `POST /api/auth/github/login` 201，attempt 仍是 login，epoch 4→5。证据 `evidence/live-04-attempt1-proxy.txt` 与 `snapshots/after-live-04-attempt.json`。**现在立刻重试。** 必须出现 `purpose=reconnect` 的 confirmed 行。 |
+| 4 | LIVE-04 | `PASS` | 第二次 17:26 UTC。`POST /api/auth/github/reconnect` 201。attempt `e8271f6b-71f0-4653-ad10-f0fb6dfa54fa` purpose=reconnect confirmed，expected GitHub ID `137759882`。epoch 5→6，revision 更换。本浏览器 generation 3 撤销、generation 4 有效。页面「本次连接已确认」。第一次 401 失败保留。 |
 | 5 | LIVE-08 | `OBSERVED_NOT_CLOSED` | 一页 15 条且 partial。YAML 未填安装外仓 ID。用户失权子项见 LIVE-08-USER-READ。LIVE-04 之后补 API 分页与安装外缺席。 |
 | 6 | LIVE-07 | `NOT_RUN` | LIVE-04 与 LIVE-08 的 A 侧项之后做。把专用 App 权限降再恢复。不能用私仓缺席代替 denied。 |
 | 7 | LIVE-02 | `NOT_RUN` | GitHub 可能自动同意，没有 Cancel 页就不能填 PASS。不要用当前已登录工作区去撞取消。 |
