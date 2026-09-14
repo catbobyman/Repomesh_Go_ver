@@ -122,6 +122,11 @@ test("repository pages preserve partial coverage and empty pages with a continua
   assert.equal(params.get("q"), "订单 & api");
   assert.equal(params.get("cursor"), "cursor/+?=");
   assert.equal(params.get("limit"), "50");
+  assert.equal(params.get("refresh"), null);
+  const refreshed = [];
+  t.mock.method(globalThis, "fetch", async (path) => { refreshed.push(path); return json(page); });
+  await readRepositories({ query: "", cursor: null, refresh: true });
+  assert.equal(new URL(refreshed[0], "https://example.invalid").searchParams.get("refresh"), "1");
 });
 
 test("repository names with unconfirmed user participation never enter a successful page", async (t) => {

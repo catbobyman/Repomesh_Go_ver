@@ -253,9 +253,10 @@ export const endSession = (csrfToken: string) => request({ path: "/api/auth/logo
   if (value !== null) throw new Error("Invalid logout response");
   return null;
 } });
-export const readRepositories = ({ query, cursor, signal }: { query: string; cursor: string | null; signal?: AbortSignal }) => {
+export const readRepositories = ({ query, cursor, signal, refresh }: { query: string; cursor: string | null; signal?: AbortSignal; refresh?: boolean }) => {
   const params = new URLSearchParams({ q: query, limit: "50" });
   if (cursor !== null) params.set("cursor", cursor);
+  if (refresh) params.set("refresh", "1");
   return request({ path: `/api/repositories?${params}`, parse: parseRepositories, signal });
 };
 

@@ -134,7 +134,7 @@ func parseRepositoryQuery(r *http.Request) (access.RepositoryQuery, error) {
 	values := r.URL.Query()
 	query := access.RepositoryQuery{Text: values.Get("q"), Cursor: values.Get("cursor"), Limit: 50}
 	for key, value := range values {
-		if len(value) != 1 || key != "q" && key != "cursor" && key != "limit" {
+		if len(value) != 1 || key != "q" && key != "cursor" && key != "limit" && key != "refresh" {
 			return query, &access.Failure{Status: 422, Code: "VALIDATION_FAILED"}
 		}
 	}
@@ -144,6 +144,12 @@ func parseRepositoryQuery(r *http.Request) (access.RepositoryQuery, error) {
 			return query, &access.Failure{Status: 422, Code: "VALIDATION_FAILED"}
 		}
 		query.Limit = value
+	}
+	if raw, ok := values["refresh"]; ok {
+		if raw[0] != "1" {
+			return query, &access.Failure{Status: 422, Code: "VALIDATION_FAILED"}
+		}
+		query.Refresh = true
 	}
 	return query, nil
 }

@@ -385,6 +385,11 @@ func TestPostgresDiscoveryPersistsEmptyCursorAndPartialCoverage(t *testing.T) {
 	}
 	query.Cursor = ""
 	query.Limit = 100
+	reused, err := restarted.Repositories(ctx, cookie, query)
+	if err != nil || len(reused.Items) != 1 || reused.Items[0].DisplayName != "test/match" {
+		t.Fatal("delivered discovery was not reread", reused, err)
+	}
+	query.Refresh = true
 	_, err = restarted.Repositories(ctx, cookie, query)
 	wantFailure(t, err, 503, "RESULT_UNCONFIRMED")
 	if _, err = s.pool.Exec(ctx, `UPDATE repomesh_access.connections SET access_epoch=access_epoch+1`); err != nil {
