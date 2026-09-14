@@ -262,7 +262,7 @@ export const readRepositories = ({ query, cursor, signal, refresh }: { query: st
   const params = new URLSearchParams({ q: query, limit: "50" });
   if (cursor !== null) params.set("cursor", cursor);
   if (refresh) params.set("refresh", "1");
-  return request({ path: `/api/repositories?${params}`, parse: parseRepositories, signal, timeoutMs: 30000 });
+  return request({ path: `/api/repositories?${params}`, parse: parseRepositories, signal, timeoutMs: 45000 });
 };
 
 export function errorMessage(error: ApiError): string {

@@ -43,7 +43,7 @@ export function RepositoryHome({ session, auth, navigate }: { session: Session; 
           retryTimer = window.setTimeout(() => {
             if (cancelled || !isCurrent(expected)) return;
             setRequest((before) => ({ ...before, revision: before.revision + 1, refresh: false, autoRetries: before.autoRetries + 1 }));
-          }, 1000);
+          }, 2000);
           return;
         }
         setPage({ kind: "unavailable", error: response });
