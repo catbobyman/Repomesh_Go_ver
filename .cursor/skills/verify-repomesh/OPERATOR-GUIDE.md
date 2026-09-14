@@ -133,3 +133,7 @@ bash .cursor/skills/verify-repomesh/helpers/cleanup.sh
 ## 填好之后
 
 把 `config.yaml` 放在上述路径。在对话里只说范围和路径已经填好。不要粘贴文件正文。代理按 `SKILL.md` 和功能图继续跑。
+
+## 本轮 LIVE 进度
+
+当前 Cloud VM 账号 A 清单是 [CHECKLIST.md](../../../docs/development/2026-09-14-b026-cloud-live-01/CHECKLIST.md)。每做完一项就改那一页。新 origin 或新 App 另开目录。

@@ -57,5 +57,6 @@ Record each LIVE id in the new template. Independent review is still required be
 - GitHub auto-consent can skip the Cancel page. Then `live-02` stays uncovered.
 - First discovery 503 is `RESULT_UNCONFIRMED`. Re-read the same query. Do not swap in a fixture.
 - `coverage=partial` is expected. An out-of-install private repo missing from the list is not a `denied` sample.
-- Retained PASS for LIVE-01 through 04, 06, 07, 09, 10 does not reopen those items unless the operator asks.
+- Retained PASS for LIVE-01 through 04, 06, 07, 09, 10 does not reopen those items unless the operator asks. That sentence applies only to the origin and App that produced the PASS. A new HTTPS origin or App starts at [the current checklist](../../../docs/development/2026-09-14-b026-cloud-live-01/CHECKLIST.md).
 - Restore leftovers from `second-account-02` need `run_scope: restore-leftovers` and the leftover confirmation flags.
+- Update the current checklist after every LIVE item. Snapshot with `helpers/live-snapshot.sh`. Do not mark B02 `VERIFIED` from this file.

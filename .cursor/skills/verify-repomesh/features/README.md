@@ -38,7 +38,7 @@ Each feature file starts with an H1 and one paragraph. It then uses exactly thes
 ## Features
 
 - [Unconfigured login](./unconfigured-login.md) is the isolated no-App UI. This is the default skill proof.
-- [Live GitHub auth](./live-github-auth.md) is B02.6. Launch is local; cookie acceptance is HTTPS-only.
+- [Live GitHub auth](./live-github-auth.md) is B02.6. Launch is local; cookie acceptance is HTTPS-only. Current account-A progress is [CHECKLIST.md](../../../docs/development/2026-09-14-b026-cloud-live-01/CHECKLIST.md).
 - [Repository discovery](./repository-discovery.md) is the signed-in workspace list.
 - [Projects](./projects.md) is create, list, settings, and original-operation recovery.
 - [Model providers](./model-providers.md) is save and close of a provider. No real model HTTP.

@@ -144,6 +144,8 @@ bash .cursor/skills/verify-repomesh/helpers/drive-local-gates.sh
 
 Live GitHub recipe lives in `features/live-github-auth.md`. Copy `docs/development/2026-09-12-b02-external-preparation/live-acceptance-template.md` into a new `docs/development/<date>-b026-<topic>/` directory. Do not overwrite old LIVE evidence.
 
+The current Cloud VM account-A run is [CHECKLIST.md](../../../docs/development/2026-09-14-b026-cloud-live-01/CHECKLIST.md). After every LIVE item, update that checklist, write a snapshot with `helpers/live-snapshot.sh`, and append `docs/development/2026-09-14-b026-cloud-live-01/decisions.tsv`. A new origin or App gets a new dated directory. Do not inherit PASS from `https://repomesh.bohanxu.me:8443`.
+
 Local batch script is not a user-path proof:
 
 ```bash
