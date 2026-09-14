@@ -38,7 +38,7 @@
 | App | `RepoMesh-Cloud-Verify-1ef0`，ID `4940006`，安装 `161608372` |
 | 安装内测试仓 | 稳定 ID `1367444901` |
 | 账号 A | login `catbobyman`，展示名 `catmem`，GitHub ID `137759882` |
-| 源码头 | 产品修复在 `cursor/fix-discovery-timeout-1ef0`，PR 6，头随提交前进 |
+| 源码头 | 已快进合入 `main`（`e889844`）。发现超时修复、本目录 LIVE 证据，以及忽略密钥/Cookie 的 `.gitignore` 都在其中。独立复核前不要把 B02 标成 `VERIFIED` |
 | 状态目录 | `/tmp/repomesh-verify-20260914T115738-48932` |
 | 证据禁写 | 私仓名、cookie、OAuth code、PEM、数据库密码 |
 
