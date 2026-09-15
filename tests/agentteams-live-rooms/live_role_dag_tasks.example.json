@@ -1,0 +1,30 @@
+[
+  {
+    "taskId": "rd-01",
+    "title": "Leader 拆解跨仓方案",
+    "assignedTo": "live-lead",
+    "dependsOn": [],
+    "status": "completed"
+  },
+  {
+    "taskId": "rd-02",
+    "title": "Worker 实现后端接口",
+    "assignedTo": "",
+    "dependsOn": ["rd-01"],
+    "status": "planned"
+  },
+  {
+    "taskId": "rd-03",
+    "title": "Worker 实现前端页面",
+    "assignedTo": "",
+    "dependsOn": ["rd-01"],
+    "status": "planned"
+  },
+  {
+    "taskId": "rd-04",
+    "title": "Leader 联调验收",
+    "assignedTo": "",
+    "dependsOn": ["rd-02", "rd-03"],
+    "status": "planned"
+  }
+]

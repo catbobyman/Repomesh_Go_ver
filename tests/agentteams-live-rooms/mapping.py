@@ -17,6 +17,8 @@ GATEWAY = os.environ.get("AGENTTEAMS_GATEWAY", "http://127.0.0.1:18080")
 ELEMENT = os.environ.get("AGENTTEAMS_ELEMENT", "http://127.0.0.1:18088")
 CONTAINER = os.environ.get("AGENTTEAMS_CONTROLLER", "agentteams-controller")
 SECRETS = Path.home() / ".config/agentteams-live"
+ROLE_SPEC_PATH = Path(__file__).resolve().parent / "role_dag_spec.json"
+ROLE_ZH = {"team_leader": "Leader", "worker": "Worker"}
 
 
 def _read_admin_password() -> str:
@@ -237,6 +239,106 @@ def collect_controller() -> dict[str, Any]:
     return out
 
 
+def load_role_spec(path: Path | None = None) -> dict[str, Any]:
+    spec_path = path or ROLE_SPEC_PATH
+    if not spec_path.exists():
+        return {}
+    return json.loads(spec_path.read_text())
+
+
+def worker_lookup(controller: dict[str, Any]) -> dict[str, dict[str, str]]:
+    workers_raw = controller.get("workers")
+    workers = workers_raw.get("workers") if isinstance(workers_raw, dict) else workers_raw
+    index: dict[str, dict[str, str]] = {}
+    for worker in workers or []:
+        if not isinstance(worker, dict):
+            continue
+        name = str(worker.get("name") or "")
+        role = str(worker.get("role") or "")
+        mxid = str(worker.get("matrixUserID") or "")
+        record = {"name": name, "role": role, "matrixUserID": mxid}
+        keys = [name, mxid]
+        if mxid.startswith("@"):
+            keys.append(mxid[1:].split(":", 1)[0])
+            keys.append(mxid.split(":", 1)[0])
+        for key in keys:
+            if key:
+                index[key] = record
+    return index
+
+
+def _assignee_keys(assignee: str) -> list[str]:
+    text = (assignee or "").strip()
+    if not text:
+        return []
+    keys = [text]
+    if text.startswith("@"):
+        keys.append(text[1:].split(":", 1)[0])
+        keys.append(text.split(":", 1)[0])
+    else:
+        keys.append(text.split(":", 1)[0])
+    return keys
+
+
+def annotate_node_role(
+    node: dict[str, Any],
+    lookup: dict[str, dict[str, str]],
+    spec_node: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    spec_node = spec_node or {}
+    assignee = str(node.get("assignee") or "").strip()
+    match: dict[str, str] | None = None
+    for key in _assignee_keys(assignee):
+        if key in lookup:
+            match = lookup[key]
+            break
+    required = spec_node.get("requiredRole") or (assignee if assignee in ROLE_ZH and match is None else None)
+    needs = match is None
+    assigned_role = match["role"] if match else None
+    if match:
+        role_label = f"已分配 {ROLE_ZH.get(assigned_role, assigned_role)} · {match['name']}"
+    elif required:
+        role_label = spec_node.get("labelZh") or f"待分配 {ROLE_ZH.get(required, required)}"
+    else:
+        role_label = "待分配角色"
+    return {
+        **node,
+        "requiredRole": required,
+        "assignedRole": assigned_role,
+        "assignedWorker": match["name"] if match else None,
+        "needsRoleAssignment": needs,
+        "roleLabelZh": role_label,
+    }
+
+
+def annotate_workflows(
+    graphs: list[dict[str, Any]],
+    controller: dict[str, Any],
+    spec: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    spec = spec or {}
+    lookup = worker_lookup(controller)
+    project_spec_id = spec.get("projectId")
+    node_specs = spec.get("nodes") or {}
+    out: list[dict[str, Any]] = []
+    for graph in graphs:
+        workflow = dict(graph.get("workflow") or {})
+        apply_spec = (not project_spec_id) or graph.get("projectId") == project_spec_id
+        nodes = []
+        for node in workflow.get("nodes") or []:
+            if not isinstance(node, dict):
+                continue
+            extra = node_specs.get(node.get("id")) if apply_spec else None
+            nodes.append(annotate_node_role(node, lookup, extra if isinstance(extra, dict) else None))
+        workflow["nodes"] = nodes
+        annotated = dict(graph)
+        annotated["workflow"] = workflow
+        annotated["needsRoleAssignment"] = [n["id"] for n in nodes if n.get("needsRoleAssignment")]
+        annotated["roleSpecNotes"] = spec.get("notes") if apply_spec and spec.get("notes") else None
+        out.append(annotated)
+    return out
+
+
 def collect_workflows(projects: Any) -> list[dict[str, Any]]:
     items: list[Any] = []
     if isinstance(projects, dict):
@@ -269,7 +371,7 @@ def capture() -> dict[str, Any]:
     rooms = collect_rooms(token)
     controller = collect_controller()
     apply_controller_roles(rooms, controller)
-    workflows = collect_workflows(controller.get("projects"))
+    workflows = annotate_workflows(collect_workflows(controller.get("projects")), controller, load_role_spec())
     return {
         "source": "live-agentteams",
         "gateway": GATEWAY,
@@ -283,6 +385,7 @@ def capture() -> dict[str, Any]:
             "team_room → RepoMesh Leader 协作（Leader↔Worker）",
             "leader worker_room → AT 文档 Leader Room（Manager↔Leader）",
             "workflow.next → 候选就绪，不是派工",
+            "无真实 Worker assignee → 待分配角色（Leader/Worker）",
         ],
     }
 

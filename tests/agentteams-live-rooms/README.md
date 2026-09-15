@@ -49,6 +49,8 @@ Embedded 安装：`agentteams-controller` + `agentteams-manager`（`openai-compa
 
 Project `live-dag-1` 经 `agt project create` / `replan` 写入 DAG：`n2` 在 `workflow.next`（候选就绪，不是派工）。Worker 曾因 MinIO 不可达退出；修好桥接 FORWARD 并重启 `live-lead` / `live-dev` 后容器保持 Up。
 
+另有 Project `live-role-dag`（标题：需要分配角色的任务 DAG）：扇出图 `rd-01(Leader 已完成 live-lead) → rd-02/rd-03(Worker 待分配，且均在 next) → rd-04(Leader 待分配)`。空 `assignedTo` 会被 Controller 接受；映射页用 `role_dag_spec.json` 标 requiredRole，**不把 next 当成已经派工**。Team 房间 `Team: live-demo` 发过该图说明。探测用的 `live-role-probe` 已 pause。
+
 映射页：http://127.0.0.1:18089/
 
 1. 安装并启动 AgentTeams（见仓库外安装记录）。Element：http://127.0.0.1:18088/#/login

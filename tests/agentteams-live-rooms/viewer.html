@@ -21,6 +21,10 @@
     .dag { display: flex; flex-wrap: wrap; gap: 8px; }
     .node { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-width: 140px; }
     .node.next { border-color: #7dd3a0; }
+    .node.need { border-color: #e7b549; background: #1d1810; }
+    .node.done { border-color: #4d6b8a; }
+    .edges { color: var(--muted); font-size: 12px; margin: 6px 0 10px; }
+    .warn { color: #e7b549; font-weight: 650; }
     button { background: #243028; color: var(--text); border: 1px solid #365043; border-radius: 8px; padding: 6px 10px; cursor: pointer; }
     a { color: #9ecbff; }
     @media (max-width: 980px) { main { grid-template-columns: 1fr; } }
@@ -79,8 +83,21 @@
         const wf = graph.workflow || {};
         const nodes = wf.nodes || [];
         const next = new Set(wf.next || []);
-        const nodeHtml = nodes.map((n) => `<div class="node${next.has(n.id) ? " next" : ""}"><strong>${esc(n.name || n.id)}</strong><div class="notes">${esc(n.status)} ${next.has(n.id) ? "· 候选就绪 · 非派工" : ""}</div></div>`).join("");
-        return `<div><h3>${esc(graph.projectId)}</h3><div class="dag">${nodeHtml || "<span class='notes'>无节点</span>"}</div></div>`;
+        const nodeHtml = nodes.map((n) => {
+          const cls = n.needsRoleAssignment ? " need" : (n.status === "completed" ? " done" : "");
+          const nextHint = next.has(n.id) ? " · 候选就绪 · 非派工" : "";
+          return `<div class="node${cls}${next.has(n.id) ? " next" : ""}"><strong>${esc(n.name || n.id)}</strong><div class="notes">${esc(n.status)}${nextHint}</div><div class="${n.needsRoleAssignment ? "warn" : "notes"}">${esc(n.roleLabelZh || "")}</div></div>`;
+        }).join("");
+        const edges = (wf.edges || []).map((e) => `${e.source} → ${e.target}`).join(" · ");
+        const needs = (graph.needsRoleAssignment || []).join("、") || "无";
+        const notes = graph.roleSpecNotes ? `<p class="notes">${esc(graph.roleSpecNotes)}</p>` : "";
+        return `<div>
+          <h3>${esc(graph.projectId)} <span class="kind">${esc(wf.status || "")}</span></h3>
+          ${notes}
+          <div class="notes">待分配节点：${esc(needs)}</div>
+          <div class="edges">${esc(edges)}</div>
+          <div class="dag">${nodeHtml || "<span class='notes'>无节点</span>"}</div>
+        </div>`;
       }).join("");
     }
 
