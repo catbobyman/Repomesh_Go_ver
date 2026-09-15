@@ -11,3 +11,6 @@ ts	phase	decision	why	evidence	result
 2026-09-15T12:32:47Z	draft	由 claude-fable-5-1-thinking-max 按规格成稿 1971 行、152 个端点；根代理复核后改正 2.8 把两个中文枚举误记为方案英文值的归类，并去掉对写作规格的引用	写作与复核分离；成稿必须只引用仓库内存在的来源	commit 49d311f	校验脚本只剩本轮 README 缺失
 2026-09-15T13:06:20Z	review	grok-4.6 独立复核给出 A18/B13/C10/D8/E10 共 59 条；采纳 30 条修订，驳回 4 条并给出理由（Skill 节保留但标不得实施、handling 状态可达、semantic-search 读路径算向量不违反 ADR-0021、项目管理员与组织管理员两名并存）	另一模型家族复核比自审更能发现方案误读；每条按依据裁定而不是照单全收	commit e1c1ef6	修订已合入
 2026-09-15T13:07:27Z	verify	校验脚本 6 项全部通过（失败 0），git diff --check 无输出；附录 E 16 条冲突、23 条成稿发现	完成判据以脚本输出为准，不以自述为准	docs/development/2026-09-15-api-redesign-01/README.md	VERIFIED（静态文档核对）
+2026-09-15T13:14:18Z	subtract	删除 23 个文件时没有在 docs/archive 留副本，归档 README 只记录最后版本所在的 main 提交 f0b0e68	旧目录 14005 行且 HTML 由脚本生成，git 历史已是完整副本	docs/archive/2026-09-15-api-database-catalog/README.md	已写明来源提交
+2026-09-15T13:14:18Z	subtract	把校验脚本的‘现行文档不得出现 api-database/’放宽为只拦 Markdown 链接	HANDOFF、索引与新文档需要在正文里提到已删目录的名字来解释去向	commit 82faa5c 中 verify_api_doc.py 的 check_no_live_reference	完成判据第 1 条按此口径
+2026-09-15T13:14:18Z	audit	补正日志证据：第 2 行迁移文件为 0001_schema_migrations.sql 至 0008_decision_chain.sql；第 5 行对应提交 82faa5c；第 10 行的写作规格已复制为本目录 api-spec.md；复核 59 条的逐条裁定写入 review-triage.md	决策日志复核指出多处 evidence 不能从仓库打开	docs/development/2026-09-15-api-redesign-01/api-spec.md, review-triage.md	已补
