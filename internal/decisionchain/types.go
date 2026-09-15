@@ -148,6 +148,14 @@ type Service struct {
 	pool  *pgxpool.Pool
 	cfg   Config
 	store Store
+	client *http.Client
+
+	// Authenticate guards every decision endpoint (session + CSRF via the
+	// composition root). Nil = unguarded — tests only.
+	Authenticate func(r *http.Request) error
+	// ActorName resolves the operator name for the settings audit trail.
+	// Nil = recorded as empty.
+	ActorName func(r *http.Request) string
 }
 
 // New wires the module onto the shared pool (composition root only).
@@ -155,7 +163,7 @@ func New(cfg Config, pool *pgxpool.Pool) *Service {
 	if cfg.EmbeddingModel == "" {
 		cfg.EmbeddingModel = "bge-m3"
 	}
-	return &Service{pool: pool, cfg: cfg, store: NewPostgresStore(pool)}
+	return &Service{pool: pool, cfg: cfg, store: NewPostgresStore(pool), client: &http.Client{}}
 }
 
 // ErrDisabled is returned by Record while the feature toggle is off. The
@@ -228,13 +236,7 @@ func (s *Service) Enabled() bool {
 	return on
 }
 
-// RegisterRoutes mounts the 5 decision endpoints and the 2 toggle endpoints:
-// GET /api/decision-chains, GET /api/decision-chains/{id},
-// GET /api/decision-chains/similar, GET /api/decision-chains/semantic-search,
-// POST /api/decision-chains/embeddings/refresh,
-// GET|PUT /api/settings/decision-chain.
-// P4 implementation; body is a stub until then.
-func (s *Service) RegisterRoutes(mux *http.ServeMux) {}
+// RegisterRoutes mounts the 7 endpoints — see http.go (P4).
 
 func truncate(text string, max int) string {
 	runes := []rune(text)
