@@ -2,7 +2,10 @@ module repomesh.local/repomesh
 
 go 1.26.0
 
-require github.com/jackc/pgx/v5 v5.11.0
+require (
+	github.com/BurntSushi/toml v1.4.0
+	github.com/jackc/pgx/v5 v5.11.0
+)
 
 require (
 	github.com/jackc/pgpassfile v1.0.0 // indirect
