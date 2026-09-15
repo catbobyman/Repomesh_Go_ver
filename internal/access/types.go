@@ -29,8 +29,10 @@ type Service struct {
 	pool                         *pgxpool.Pool
 	secrets                      *secrets.Store
 	provider                     Provider
-	projectDestinationResolver   ProjectDestinationResolver
-	modelSaveDestinationResolver ModelSaveDestinationResolver
+	projectDestinationResolver     ProjectDestinationResolver
+	modelSaveDestinationResolver  ModelSaveDestinationResolver
+	modelTestDestinationResolver  ModelTestDestinationResolver
+	modelApplyDestinationResolver ModelApplyDestinationResolver
 }
 
 func New(pool *pgxpool.Pool, store *secrets.Store, provider Provider) *Service {

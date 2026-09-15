@@ -14,6 +14,7 @@ import (
 	"unicode/utf8"
 
 	"repomesh.local/repomesh/internal/access"
+	"repomesh.local/repomesh/internal/models"
 	"repomesh.local/repomesh/internal/projects"
 )
 
@@ -23,10 +24,11 @@ type projectErrorBody struct {
 	Error projectError `json:"error"`
 }
 type projectError struct {
-	Code        string                `json:"code"`
-	Message     string                `json:"message"`
-	FieldErrors []projects.FieldError `json:"fieldErrors"`
-	RequestID   string                `json:"requestId"`
+	Code        string                 `json:"code"`
+	Message     string                 `json:"message"`
+	FieldErrors []projects.FieldError  `json:"fieldErrors"`
+	RequestID   string                 `json:"requestId"`
+	Details     *models.TestOutstandingDetails `json:"details,omitempty"`
 }
 
 func registerProjects(mux *http.ServeMux, auth Auth, projectAPI Projects) {
@@ -206,12 +208,16 @@ func projectIdempotencyKey(r *http.Request) (string, error) {
 func writeProjectError(w http.ResponseWriter, err error) {
 	status, code := 503, "RESULT_UNCONFIRMED"
 	fields := []projects.FieldError{}
+	var details *models.TestOutstandingDetails
 	var projectFailure *projects.Failure
 	var accessFailure *access.Failure
 	if errors.As(err, &projectFailure) {
 		status, code = projectFailure.Status, projectFailure.Code
 		if projectFailure.FieldErrors != nil {
 			fields = projectFailure.FieldErrors
+		}
+		if d, ok := projectFailure.Details.(*models.TestOutstandingDetails); ok {
+			details = d
 		}
 	} else if errors.As(err, &accessFailure) {
 		status, code = accessFailure.Status, accessFailure.Code
@@ -221,7 +227,7 @@ func writeProjectError(w http.ResponseWriter, err error) {
 	}
 	var request [16]byte
 	_, _ = rand.Read(request[:])
-	body := projectErrorBody{Error: projectError{Code: code, Message: "The request could not be completed.", FieldErrors: fields, RequestID: hex.EncodeToString(request[:])}}
+	body := projectErrorBody{Error: projectError{Code: code, Message: "The request could not be completed.", FieldErrors: fields, RequestID: hex.EncodeToString(request[:]), Details: details}}
 	writeJSON(w, status, body)
 }
 
@@ -271,5 +277,8 @@ func projectBrowserRoute(path string) bool {
 	if len(parts) == 3 && parts[0] == "projects" && parts[2] == "settings" {
 		return parts[1] != "new" && validResource(parts[1])
 	}
-	return len(parts) == 4 && parts[0] == "projects" && parts[1] != "new" && parts[2] == "updates" && validResource(parts[1]) && validUUID(parts[3])
+	if len(parts) == 4 && parts[0] == "projects" && parts[1] != "new" && parts[2] == "updates" {
+		return validResource(parts[1]) && validUUID(parts[3])
+	}
+	return len(parts) == 4 && parts[0] == "projects" && parts[1] != "new" && parts[2] == "model-applications" && validResource(parts[1]) && validUUID(parts[3])
 }

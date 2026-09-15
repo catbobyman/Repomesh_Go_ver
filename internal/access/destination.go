@@ -21,6 +21,8 @@ type ProjectDestination struct {
 
 type ProjectDestinationResolver func(context.Context, string, ProjectDestination) (*string, error)
 type ModelSaveDestinationResolver func(context.Context, string, string) (*string, error)
+type ModelTestDestinationResolver func(context.Context, string, string) (*string, error)
+type ModelApplyDestinationResolver func(context.Context, string, string, string) (*string, error)
 
 func (s *Service) SetProjectDestinationResolver(resolver ProjectDestinationResolver) {
 	s.projectDestinationResolver = resolver
@@ -28,6 +30,14 @@ func (s *Service) SetProjectDestinationResolver(resolver ProjectDestinationResol
 
 func (s *Service) SetModelSaveDestinationResolver(resolver ModelSaveDestinationResolver) {
 	s.modelSaveDestinationResolver = resolver
+}
+
+func (s *Service) SetModelTestDestinationResolver(resolver ModelTestDestinationResolver) {
+	s.modelTestDestinationResolver = resolver
+}
+
+func (s *Service) SetModelApplyDestinationResolver(resolver ModelApplyDestinationResolver) {
+	s.modelApplyDestinationResolver = resolver
 }
 
 func (d Destination) ModelSaveDestination() (string, bool) {
@@ -58,6 +68,79 @@ func (s *Service) resolveModelSaveDestination(ctx context.Context, actor string,
 		return nil, nil
 	}
 	return s.modelSaveDestinationResolver(ctx, actor, saveID)
+}
+
+func (d Destination) ModelTestDestination() (string, bool) {
+	fields, ok := d.operationDestination()
+	if !ok {
+		return "", false
+	}
+	var operationKind, operationID string
+	_ = json.Unmarshal(fields["operationKind"], &operationKind)
+	_ = json.Unmarshal(fields["operationId"], &operationID)
+	if operationKind != "model_test" {
+		return "", false
+	}
+	id, err := normalizeOperationID(operationID)
+	if err != nil {
+		return "", false
+	}
+	return id, true
+}
+
+func (d Destination) ModelApplyDestination() (projectID, applicationID string, ok bool) {
+	fields, hasFields := d.operationDestination()
+	if !hasFields {
+		return "", "", false
+	}
+	var operationKind, operationID, boundProject string
+	_ = json.Unmarshal(fields["operationKind"], &operationKind)
+	_ = json.Unmarshal(fields["operationId"], &operationID)
+	_ = json.Unmarshal(fields["projectId"], &boundProject)
+	if operationKind != "model_apply" {
+		return "", "", false
+	}
+	if err := validProjectID(boundProject); err != nil {
+		return "", "", false
+	}
+	id, err := normalizeOperationID(operationID)
+	if err != nil {
+		return "", "", false
+	}
+	return boundProject, id, true
+}
+
+// operationDestination is the shared guard for operation destinations: not
+// home, a canonical object, kind == "operation".
+func (d Destination) operationDestination() (map[string]json.RawMessage, bool) {
+	if d.canonical == "" || d.home {
+		return nil, false
+	}
+	var fields map[string]json.RawMessage
+	if json.Unmarshal([]byte(d.canonical), &fields) != nil || fields == nil {
+		return nil, false
+	}
+	var kind string
+	_ = json.Unmarshal(fields["kind"], &kind)
+	if kind != "operation" {
+		return nil, false
+	}
+	return fields, true
+}
+
+func validProjectID(raw string) error {
+	if !ValidID(strings.ToLower(raw)) {
+		return failure(422, "VALIDATION_FAILED")
+	}
+	return nil
+}
+
+func normalizeOperationID(raw string) (string, error) {
+	value := strings.ToLower(raw)
+	if !ValidID(value) {
+		return "", failure(422, "VALIDATION_FAILED")
+	}
+	return value, nil
 }
 
 func normalizeProviderSaveID(raw string) (string, error) {
@@ -94,6 +177,22 @@ func (s *Service) resolveProjectDestination(ctx context.Context, actor string, d
 		return nil, nil
 	}
 	return s.projectDestinationResolver(ctx, actor, target)
+}
+
+func (s *Service) resolveModelTestDestination(ctx context.Context, actor string, destination Destination) (*string, error) {
+	testID, ok := destination.ModelTestDestination()
+	if !ok || s.modelTestDestinationResolver == nil {
+		return nil, nil
+	}
+	return s.modelTestDestinationResolver(ctx, actor, testID)
+}
+
+func (s *Service) resolveModelApplyDestination(ctx context.Context, actor string, destination Destination) (*string, error) {
+	projectID, applicationID, ok := destination.ModelApplyDestination()
+	if !ok || s.modelApplyDestinationResolver == nil {
+		return nil, nil
+	}
+	return s.modelApplyDestinationResolver(ctx, actor, projectID, applicationID)
 }
 
 func ParseDestination(data []byte) (Destination, error) {

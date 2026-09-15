@@ -20,6 +20,9 @@ type Failure struct {
 	Status      int
 	Code        string
 	FieldErrors []FieldError
+	// Details carries opaque structured context (e.g. outstanding-test
+	// pointers) that the web layer serializes under error.details.
+	Details any
 }
 
 func (e *Failure) Error() string { return e.Code }

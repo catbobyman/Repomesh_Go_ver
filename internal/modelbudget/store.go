@@ -100,37 +100,121 @@ func (s *Store) EnsureProjectWindow(ctx context.Context, tx pgx.Tx, scope Window
 	return *window, nil
 }
 
-// ReserveTest reserves one counted request for an actor model test in the
-// actor's day window. The caller's tx must already hold the actor account lock.
+// ReserveTest reserves one counted request for an actor model test. The
+// caller owns the whole registration transaction: it has locked the account,
+// created the tests row and must consume the reservation in the same permit
+// transaction. The window row must already exist; a missing window is not
+// created here.
 func (s *Store) ReserveTest(ctx context.Context, tx pgx.Tx, actor, testID string, policy projects.RequestPolicy, now time.Time) (Reservation, error) {
-	// Implementation lands with the models test tables (0016); the window
-	// accounting shape below is the target.
-	scope := WindowID{ScopeKind: "actor_model_test", ScopeID: actor, StartUTC: now}
-	reservation := Reservation{ActorID: actor, TestID: testID, Window: scope, Policy: policy.Ref}
-	_ = reservation
-	return Reservation{}, failure(2, "RESERVATION_NOT_IMPLEMENTED")
+	scope := WindowID{ScopeKind: "actor_model_test", ScopeID: actor, StartUTC: now.UTC()}
+	window, err := lockWindow(ctx, tx, scope)
+	if err != nil {
+		return Reservation{}, err
+	}
+	if err = checkWindowUsable(*window, now.UTC()); err != nil {
+		return Reservation{}, err
+	}
+	effective, reasons := effectiveLimit(*window, policy)
+	if len(reasons) > 0 || effective-window.Reserved < 1 {
+		return Reservation{}, failure(409, "QUOTA_EXHAUSTED")
+	}
+	tag, err := tx.Exec(ctx, `UPDATE repomesh_modelbudget.windows
+		SET reserved = reserved + 1, revision = $4
+		WHERE scope_kind=$1 AND scope_id=$2 AND start_utc=$3 AND reserved < daily_limit`,
+		scope.ScopeKind, scope.ScopeID, scope.StartUTC, newRevisionValue())
+	if err != nil {
+		return Reservation{}, unavailable()
+	}
+	if tag.RowsAffected() == 0 {
+		return Reservation{}, failure(409, "QUOTA_EXHAUSTED")
+	}
+	if _, err = tx.Exec(ctx, `INSERT INTO repomesh_modelbudget.test_reservations
+		(actor, test_id, scope_kind, scope_id, start_utc, budget_policy_id, budget_policy_version,
+		 amount, state, reserved_at)
+		VALUES ($1, $2, 'actor_model_test', $1, $3, $4, $5, 1, 'reserved', $6)`,
+		actor, testID, scope.StartUTC, policy.Ref.ID, policy.Ref.Version, now.UTC()); err != nil {
+		return Reservation{}, unavailable()
+	}
+	return Reservation{ActorID: actor, TestID: testID, Window: scope, Policy: policy.Ref}, nil
 }
 
-// ConsumeTest marks a reserved request consumed once the external operation id
-// is known. It runs on the caller's tx.
+// ConsumeTest moves one reserved unit to consumed and settles the window
+// counter in the same transaction. The caller invokes it inside the send-permit
+// transaction once externalOperationID is committed; consumed is final.
 func (s *Store) ConsumeTest(ctx context.Context, tx pgx.Tx, reservation Reservation, externalOperationID string) error {
-	// Implementation lands with the models test tables (0016).
-	return failure(2, "CONSUMPTION_NOT_IMPLEMENTED")
+	if externalOperationID == "" {
+		return failure(2, "EXTERNAL_OPERATION_REQUIRED")
+	}
+	tag, err := tx.Exec(ctx, `UPDATE repomesh_modelbudget.test_reservations
+		SET state='consumed', settled_at=now()
+		WHERE actor=$1 AND test_id=$2 AND state='reserved'`,
+		reservation.ActorID, reservation.TestID)
+	if err != nil {
+		return unavailable()
+	}
+	if tag.RowsAffected() == 0 {
+		return failure(409, "RESERVATION_NOT_OUTSTANDING")
+	}
+	if _, err = tx.Exec(ctx, `UPDATE repomesh_modelbudget.windows
+		SET reserved = reserved - 1, consumed = consumed + 1, revision = $4
+		WHERE scope_kind=$1 AND scope_id=$2 AND start_utc=$3`,
+		reservation.Window.ScopeKind, reservation.Window.ScopeID, reservation.Window.StartUTC, newRevisionValue()); err != nil {
+		return unavailable()
+	}
+	return nil
 }
 
-// ReleaseUnsent returns a reservation to the window. It is valid only inside a
-// transaction that proves no send permission can be used; timeout alone never
-// releases.
+// ReleaseUnsent returns one reserved unit to the window. proof must come from
+// ProveUnsent in the same transaction; timeout alone never releases.
 func (s *Store) ReleaseUnsent(ctx context.Context, tx pgx.Tx, reservation Reservation, proof NotSentProof) error {
-	// Implementation lands with the models test tables (0016).
-	return failure(2, "RELEASE_NOT_IMPLEMENTED")
+	if proof.actorID != reservation.ActorID || proof.testID != reservation.TestID {
+		return failure(2, "RELEASE_PROOF_MISMATCH")
+	}
+	tag, err := tx.Exec(ctx, `UPDATE repomesh_modelbudget.test_reservations
+		SET state='released', settled_at=now()
+		WHERE actor=$1 AND test_id=$2 AND state='reserved'`,
+		reservation.ActorID, reservation.TestID)
+	if err != nil {
+		return unavailable()
+	}
+	if tag.RowsAffected() == 0 {
+		return failure(409, "RESERVATION_NOT_OUTSTANDING")
+	}
+	if _, err = tx.Exec(ctx, `UPDATE repomesh_modelbudget.windows
+		SET reserved = reserved - 1, revision = $4
+		WHERE scope_kind=$1 AND scope_id=$2 AND start_utc=$3`,
+		reservation.Window.ScopeKind, reservation.Window.ScopeID, reservation.Window.StartUTC, newRevisionValue()); err != nil {
+		return unavailable()
+	}
+	return nil
 }
 
-// ProveUnsent verifies inside the caller's tx that the actor's test has no
-// consumable send permit and returns the private proof for ReleaseUnsent.
+// ProveUnsent verifies inside the caller's tx that the test's dispatch row
+// still exists with a usable, unconsumed, unrevoked send permit and no
+// may-have-sent fact. It returns the private proof; only the caller holding
+// both this proof and the reservation in one tx can release.
 func (s *Store) ProveUnsent(ctx context.Context, tx pgx.Tx, actorID, testID string) (NotSentProof, error) {
-	// Implementation lands with the models test tables (0016).
-	return NotSentProof{}, failure(2, "PROOF_NOT_IMPLEMENTED")
+	var permitID, revision string
+	var mayHaveSent *time.Time
+	var revokedAt *time.Time
+	err := tx.QueryRow(ctx, `SELECT d.send_permit_id, d.may_have_sent_at, d.capability_revoked_at
+		FROM repomesh_models.test_dispatch d
+		JOIN repomesh_models.tests t ON t.actor=d.actor AND t.test_id=d.test_id
+		WHERE d.actor=$1 AND d.test_id=$2
+		FOR UPDATE OF d`, actorID, testID).Scan(&permitID, &mayHaveSent, &revokedAt)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return NotSentProof{}, failure(404, "DISPATCH_NOT_FOUND")
+	}
+	if err != nil {
+		return NotSentProof{}, unavailable()
+	}
+	if mayHaveSent != nil || revokedAt != nil {
+		return NotSentProof{}, failure(409, "SEND_ALREADY_AUTHORIZED")
+	}
+	// The permit revision recorded here binds the proof to the exact permit
+	// generation the caller observed; ReleaseUnsent rechecks inside its tx.
+	revision = permitID
+	return NotSentProof{actorID: actorID, testID: testID, permitRevision: revision, evidenceID: newRevisionValue()}, nil
 }
 
 // lockWindow locks and reads one window row. scope_id is a GENERATED column;

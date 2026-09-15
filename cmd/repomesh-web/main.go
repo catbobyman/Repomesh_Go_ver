@@ -13,10 +13,12 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/jackc/pgx/v5"
 	"repomesh.local/repomesh/internal/access"
 	"repomesh.local/repomesh/internal/buildinfo"
 	"repomesh.local/repomesh/internal/database"
 	"repomesh.local/repomesh/internal/decisionchain"
+	"repomesh.local/repomesh/internal/modelbudget"
 	"repomesh.local/repomesh/internal/models"
 	"repomesh.local/repomesh/internal/projects"
 	"repomesh.local/repomesh/internal/reposcan"
@@ -33,6 +35,50 @@ func mainExit() int {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 	return run(ctx, os.Args[1:], os.Stdout, os.Stderr)
+}
+
+// configureModelBudgets wires the project quota surface to the modelbudget
+// store. projects never imports modelbudget; nil means unknown, never zero.
+// Both sides address windows by (project_model_runtime scope, UTC midnight) —
+// the same key ReserveTest reserves under, so observations and reservations
+// always describe the same ledger.
+func configureModelBudgets(projectService *projects.Service, budgets *modelbudget.Store) {
+	scope := func(scopeID string, now time.Time) modelbudget.WindowID {
+		day := now.UTC().Truncate(24 * time.Hour)
+		return modelbudget.WindowID{ScopeKind: "project_model_runtime", ScopeID: scopeID, StartUTC: day}
+	}
+	projectService.SetRequestQuotaObserver(func(ctx context.Context, tx pgx.Tx, scopeID string, revision projects.ConfigurationRevision, policy projects.RequestPolicy, now time.Time) (projects.QuotaObservation, error) {
+		observation, err := budgets.Observe(ctx, tx, scope(scopeID, now), policy)
+		if err != nil {
+			return projects.UnknownQuotaObservation(revision, []string{"quota_observation_failed"}, nil), err
+		}
+		switch known := observation.(type) {
+		case modelbudget.Known:
+			return projects.KnownQuotaObservation(revision, projects.KnownQuota{
+				Policy:         policy.Ref,
+				WindowStart:    known.Window.ID.StartUTC,
+				WindowEnd:      known.Window.EndUTC,
+				ObservedAt:     known.At,
+				EffectiveLimit: known.EffectiveLimit,
+				Reserved:       known.Window.Reserved,
+				Consumed:       known.Window.Consumed,
+				Remaining:      known.Remaining,
+			}), nil
+		case modelbudget.Unknown:
+			return projects.UnknownQuotaObservation(revision, known.Reasons, known.At), nil
+		default:
+			return projects.UnknownQuotaObservation(revision, []string{"quota_observation_failed"}, nil), nil
+		}
+	})
+	projectService.SetRequestWindowInitializer(func(ctx context.Context, tx pgx.Tx, scopeID string, policy projects.RequestPolicy) error {
+		windowScope := scope(scopeID, time.Now())
+		evidence, err := budgets.CheckEmptyWindowHistory(ctx, tx, windowScope)
+		if err != nil {
+			return err
+		}
+		_, err = budgets.EnsureProjectWindow(ctx, tx, windowScope, policy, evidence)
+		return err
+	})
 }
 
 func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
@@ -85,7 +131,17 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		catalog := projects.NewCatalogWriter()
 		modelService := models.New(runtime.Pool(), runtime.Service, runtime.SecretStore(), catalog)
 		runtime.Service.SetModelSaveDestinationResolver(modelService.ResolveDestination)
-		modelAPI = web.Models{Service: modelService}
+		// B05: budgeted model tests and project-scoped model applications.
+		// The budget store never blocks startup — windows initialize lazily on
+		// the first reservation, so a fresh database is simply a zero-quota
+		// observation, not a boot failure.
+		budgets := modelbudget.New()
+		configureModelBudgets(projectService, budgets)
+		testService := models.NewTestService(runtime.Pool(), runtime.Service, runtime.SecretStore(), budgets)
+		applyService := models.NewApplicationService(runtime.Pool(), runtime.Service, projectService, runtime.SecretStore())
+		runtime.Service.SetModelTestDestinationResolver(testService.ResolveDestination)
+		runtime.Service.SetModelApplyDestinationResolver(applyService.ResolveDestination)
+		modelAPI = web.Models{Service: modelService, Tests: testService, Applications: applyService}
 		certFile, keyFile = runtime.Deployment.TLSCertificateFile, runtime.Deployment.TLSKeyFile
 
 		// Scan block: repository scanning + scope selection (D5/D8, design

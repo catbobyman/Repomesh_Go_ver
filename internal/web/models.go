@@ -2,6 +2,8 @@ package web
 
 import (
 	"context"
+	"crypto/rand"
+	"encoding/hex"
 	"errors"
 	"io"
 	"mime"
@@ -15,7 +17,12 @@ import (
 	"repomesh.local/repomesh/internal/projects"
 )
 
-type Models struct{ Service *models.Service }
+type Models struct {
+	Service      *models.Service
+	Tests        *models.TestService
+	Applications *models.ApplicationService
+}
+
 type modelHandler func(http.ResponseWriter, *http.Request, access.ProjectPrincipal) error
 
 func registerModels(mux *http.ServeMux, auth Auth, api Models) {
@@ -93,6 +100,100 @@ func registerModels(mux *http.ServeMux, auth Auth, api Models) {
 		}
 		return err
 	})
+	if api.Tests != nil {
+		registerModelRoute(mux, "POST /api/model-test-previews", auth, func(w http.ResponseWriter, r *http.Request, principal access.ProjectPrincipal) error {
+			data, err := readSnapshotBody(w, r)
+			if err != nil {
+				return err
+			}
+			target, err := models.ReadSnapshotTarget(data)
+			if err != nil {
+				return err
+			}
+			result, err := api.Tests.Preview(r.Context(), principal, target)
+			if err == nil {
+				writeJSON(w, http.StatusOK, result)
+			}
+			return err
+		})
+		registerModelRoute(mux, "POST /api/model-tests", auth, func(w http.ResponseWriter, r *http.Request, principal access.ProjectPrincipal) error {
+			data, err := readSnapshotBody(w, r)
+			if err != nil {
+				return err
+			}
+			key, err := projectIdempotencyKey(r)
+			if err != nil {
+				return err
+			}
+			command, err := models.ParseTestCommand(key, data)
+			if err != nil {
+				return err
+			}
+			result, err := api.Tests.Submit(r.Context(), principal, command)
+			if err == nil {
+				writeJSON(w, http.StatusAccepted, result)
+			}
+			return err
+		})
+		registerModelRoute(mux, "GET /api/model-tests/{testId}", auth, func(w http.ResponseWriter, r *http.Request, principal access.ProjectPrincipal) error {
+			result, err := api.Tests.Get(r.Context(), principal, r.PathValue("testId"))
+			if err == nil {
+				writeJSON(w, http.StatusOK, result)
+			}
+			return err
+		})
+	}
+	if api.Applications != nil {
+		registerProjectRoute(mux, "POST /api/projects/{projectId}/model-application-previews", auth, func(w http.ResponseWriter, r *http.Request, principal access.ProjectPrincipal) error {
+			data, err := readSnapshotBody(w, r)
+			if err != nil {
+				return err
+			}
+			target, err := models.ReadSnapshotTarget(data)
+			if err != nil {
+				return err
+			}
+			result, err := api.Applications.Preview(r.Context(), principal, r.PathValue("projectId"), target)
+			if err == nil {
+				writeJSON(w, http.StatusOK, result)
+			}
+			return err
+		})
+		registerProjectRoute(mux, "POST /api/projects/{projectId}/model-applications", auth, func(w http.ResponseWriter, r *http.Request, principal access.ProjectPrincipal) error {
+			data, err := readSnapshotBody(w, r)
+			if err != nil {
+				return err
+			}
+			key, err := projectIdempotencyKey(r)
+			if err != nil {
+				return err
+			}
+			command, err := models.ParseApplicationCommand(r.PathValue("projectId"), key, newRequestID(), data)
+			if err != nil {
+				return err
+			}
+			result, err := api.Applications.Apply(r.Context(), principal, command)
+			if err == nil {
+				writeJSON(w, http.StatusOK, result)
+			}
+			return err
+		})
+		registerProjectRoute(mux, "GET /api/projects/{projectId}/model-applications/{applicationId}", auth, func(w http.ResponseWriter, r *http.Request, principal access.ProjectPrincipal) error {
+			result, err := api.Applications.Get(r.Context(), principal, r.PathValue("projectId"), r.PathValue("applicationId"))
+			if err == nil {
+				writeJSON(w, http.StatusOK, result)
+			}
+			return err
+		})
+	}
+}
+
+// newRequestID generates the 32-hex request identifier ParseApplicationCommand
+// requires; the application service journals it alongside the operation.
+func newRequestID() string {
+	var data [16]byte
+	rand.Read(data[:])
+	return hex.EncodeToString(data[:])
 }
 
 func registerModelRoute(mux *http.ServeMux, pattern string, auth Auth, handler modelHandler) {
@@ -122,27 +223,25 @@ func registerModelRoute(mux *http.ServeMux, pattern string, auth Auth, handler m
 }
 
 func readModelBody(w http.ResponseWriter, r *http.Request) (models.RawSaveBody, error) {
-	contentType, params, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
-	if err != nil || contentType != "application/json" || len(params) > 1 || len(params) == 1 && !strings.EqualFold(params["charset"], "utf-8") {
-		return models.RawSaveBody{}, &models.Failure{Status: 415, Code: "UNSUPPORTED_MEDIA_TYPE", FieldErrors: []models.FieldError{}}
-	}
-	data, err := io.ReadAll(http.MaxBytesReader(w, r.Body, 256*1024))
-	var tooLarge *http.MaxBytesError
-	if errors.As(err, &tooLarge) {
-		return models.RawSaveBody{}, &models.Failure{Status: 413, Code: "REQUEST_TOO_LARGE", FieldErrors: []models.FieldError{}}
-	}
+	data, err := readJSONBody(w, r, 256*1024)
 	if err != nil {
-		return models.RawSaveBody{}, &models.Failure{Status: 400, Code: "INVALID_JSON", FieldErrors: []models.FieldError{}}
+		return models.RawSaveBody{}, err
 	}
 	return models.ReadSaveBody(data)
 }
 
-func readCloseBody(w http.ResponseWriter, r *http.Request) ([]byte, error) {
+// readSnapshotBody reads the shared preview/submit JSON body with the same
+// media-type and size discipline as the save endpoints.
+func readSnapshotBody(w http.ResponseWriter, r *http.Request) ([]byte, error) {
+	return readJSONBody(w, r, 256*1024)
+}
+
+func readJSONBody(w http.ResponseWriter, r *http.Request, limit int64) ([]byte, error) {
 	contentType, params, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil || contentType != "application/json" || len(params) > 1 || len(params) == 1 && !strings.EqualFold(params["charset"], "utf-8") {
 		return nil, &models.Failure{Status: 415, Code: "UNSUPPORTED_MEDIA_TYPE", FieldErrors: []models.FieldError{}}
 	}
-	data, err := io.ReadAll(http.MaxBytesReader(w, r.Body, 256))
+	data, err := io.ReadAll(http.MaxBytesReader(w, r.Body, limit))
 	var tooLarge *http.MaxBytesError
 	if errors.As(err, &tooLarge) {
 		return nil, &models.Failure{Status: 413, Code: "REQUEST_TOO_LARGE", FieldErrors: []models.FieldError{}}
@@ -151,6 +250,10 @@ func readCloseBody(w http.ResponseWriter, r *http.Request) ([]byte, error) {
 		return nil, &models.Failure{Status: 400, Code: "INVALID_JSON", FieldErrors: []models.FieldError{}}
 	}
 	return data, nil
+}
+
+func readCloseBody(w http.ResponseWriter, r *http.Request) ([]byte, error) {
+	return readJSONBody(w, r, 256)
 }
 
 func writeModelError(w http.ResponseWriter, err error) {
@@ -163,18 +266,35 @@ func writeModelError(w http.ResponseWriter, err error) {
 		writeProjectError(w, &projects.Failure{Status: modelFailure.Status, Code: modelFailure.Code, FieldErrors: fields})
 		return
 	}
+	var submitFailure *models.TestSubmitFailure
+	if errors.As(err, &submitFailure) {
+		fields := make([]projects.FieldError, 0, len(submitFailure.FieldErrors))
+		for _, field := range submitFailure.FieldErrors {
+			fields = append(fields, projects.FieldError{Field: field.Field, Code: field.Code})
+		}
+		writeProjectError(w, &projects.Failure{Status: submitFailure.Status, Code: submitFailure.Code, FieldErrors: fields, Details: submitFailure.Details})
+		return
+	}
 	writeProjectError(w, err)
 }
 
 func modelBrowserRoute(path string) bool {
-	if path == "/settings/models" {
+	if path == "/settings/models" || path == "/settings/model-tests" {
 		return true
+	}
+	if strings.HasPrefix(path, "/settings/model-tests/") {
+		id := strings.TrimPrefix(path, "/settings/model-tests/")
+		return browserOperationID(id)
 	}
 	if !strings.HasPrefix(path, "/settings/model-saves/") || strings.HasSuffix(path, "/") || strings.Contains(path, "%") {
 		return false
 	}
 	id := strings.TrimPrefix(path, "/settings/model-saves/")
-	if strings.Contains(id, "/") || !utf8.ValidString(id) || len(id) != 36 {
+	return browserOperationID(id)
+}
+
+func browserOperationID(id string) bool {
+	if strings.HasSuffix(id, "/") || strings.Contains(id, "/") || strings.Contains(id, "%") || !utf8.ValidString(id) || len(id) != 36 {
 		return false
 	}
 	return access.ValidID(strings.ToLower(id))
