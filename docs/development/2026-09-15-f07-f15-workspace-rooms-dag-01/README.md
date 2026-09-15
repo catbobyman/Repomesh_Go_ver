@@ -9,6 +9,20 @@
 - `plan-graph` 含 native `planned|assigned|in_progress|…`、压缩 `workflow`、`next`≠派工、overlay 跨仓阻塞。
 - 会话页 dock r2：悬浮入口打开同页右栏，主会话与输入框保留。
 
+## 验收结果
+
+A01–A11 **PASS**。A12 **BLOCKED**（本环境无 Docker，未启动 Matrix／Controller，未写入供应商密钥）。
+
+现场探测摘要（[http-probes.md](http-probes.md)）：
+
+- `GET /api/issues/iss_1/rooms` 200，`rm_main_iss_1` / `rm_leader_iss_1_service` / `rm_leader_iss_1_admin` 均可进。
+- `GET /api/issues/iss_1/rooms/rm_main_iss_1` → `roomKind=task_room`。
+- `GET /api/issues/iss_1/rooms/rm_leader_iss_1_service` → `roomKind=team_room`，`readOnly=true`，`composer.enabled=false`。
+- `GET /api/issues/iss_2/rooms/rm_leader_iss_2_service` → 403 `ROOM_NOT_ENTERABLE`。
+- `GET /api/issues/iss_1/plan-graph`：`ui-01` 为 `assigned` + `inNext` + `not_dispatched`；overlay 记录跨仓阻塞。
+
+检查：`cd web && npm run typecheck && npm test && npm run build` → typecheck 通过，44 测试通过，Vite 构建成功。
+
 ## 不是什么
 
 - 不是 B07—B11 产品实现，无 Go 路由、无真实 Matrix。

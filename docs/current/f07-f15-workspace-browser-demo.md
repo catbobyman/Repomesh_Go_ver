@@ -17,7 +17,7 @@
 5. **可验证**  
    解析器与 mock 有 `web/src/workspace.test.mjs`；浏览器走 `/demo/workspace` 的场景条，确认 Network 里出现对应 `/api` 请求。
 
-F11 更正已发生工作、F13 动态换图写接口、F14 真实验证流水、F15 真实 Python 扫描均未做。SSE 未接，刷新靠显式 GET。F12 进房与 F13 只读图在本演示内用假后端完成，不是产品运行接入。
+F11 更正已发生工作、F13 动态换图写接口、F14 真实验证流水、F15 真实 Python 扫描均未做。SSE 未接，刷新靠显式 GET。F12 进房与 F13 只读图在本演示内用假后端完成，不是产品运行接入。房间／DAG／假后端验收见 [ACCEPTANCE](../development/2026-09-15-f07-f15-workspace-rooms-dag-01/ACCEPTANCE.md)：A01–A11 PASS，A12（AgentTeams 活起动）因无 Docker 保持 BLOCKED。
 
 ## 页面元素与 API
 
