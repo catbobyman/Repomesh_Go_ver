@@ -1,6 +1,6 @@
 # RepoMesh ADR 索引与决策演进
 
-更新：2026-09-14。ADR 保存“为什么作出决定”及确认来源；详细规则见[现行专题](../current/README.md)，当前工作状态见 [HANDOFF](../current/HANDOFF.md)。下列决定均为设计，不代表产品实现或上游运行验收。
+更新：2026-09-15。ADR 保存“为什么作出决定”及确认来源；详细规则见[现行专题](../current/README.md)，当前工作状态见 [HANDOFF](../current/HANDOFF.md)。下列决定均为设计，不代表产品实现或上游运行验收。
 
 ## 阅读状态
 
@@ -34,6 +34,7 @@
 | [0020](0020-python-repository-analysis-plugin.md) | 2026-09-09 | 建项前 Python 仓库分析 | 旧项目调查后的用户选择；可选按钮、受控 Python 包与 Go 作业／来源，局部扩展 0010／0013。分析不触发实例准备，历史分析与向量库不作为首期依赖。 |
 | [0021](0021-pgvector-rag-storage-plugin.md) | 2026-09-14 | pgvector RAG 存储插件 | 收口决策链语义检索的存储选型与迁移路径（维度契约、HNSW 余弦、SQL 下推、无扩展降级）。Python 控制台已验证；Go 迁移 0007 待实施，实施批次与 0020「向量库不作首期依赖」的时序说明不冲突。 |
 | [0022](0022-human-checkpoint-resolution-governance.md) | 2026-09-14 | 人工检查点决议治理 | 唯一落库入口、政策漂移存量单管理员兜底、聊天批复二选一定位、策略入口常驻现场。依据 2026-09-14 生产库实证（26 单锁死）；Python 已修复，Go 版 HITL 链路设计第一输入。 |
+| [0023](0023-decision-chain-native-module-and-pgvector.md) | 2026-09-15 | 历史决策链原生模块与 pgvector 落地 | Go 原生重建决策链（圈定确认为首生产者、记录即投影、前端开关落库 feature_settings）；实施 0021 的存储选型：迁移 0008 落 vector(1024) + HNSW + JSON 兜底双写，语义检索按 model 过滤，开关与 API 见接口总册 I 板块。 |
 
 ## 三条主要演进链
 
