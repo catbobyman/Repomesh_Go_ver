@@ -26,6 +26,18 @@ func (f *countingFetcher) FetchCommits(ctx context.Context, repoURL string, limi
 	return []string{"one", "two", "three"}, nil
 }
 
+func (f *countingFetcher) FetchHead(ctx context.Context, repoURL string) (string, error) {
+	return "head-sha", nil
+}
+
+func (f *countingFetcher) ResolveName(ctx context.Context, repoURL string) (string, error) {
+	return "orders", nil
+}
+
+func (f *countingFetcher) ListRepos(ctx context.Context, groupURL string) ([]RepoInfo, error) {
+	return nil, nil
+}
+
 func (f *countingFetcher) FetchFileContent(ctx context.Context, repoURL string, path string) (string, error) {
 	f.contents.Add(1)
 	if path == f.missingPath {

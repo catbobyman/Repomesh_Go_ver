@@ -12,10 +12,26 @@ type TreeEntry struct {
 	IsDir bool
 }
 
-// Fetcher supplies the three raw materials the scan pipeline consumes:
-// the full file tree, the recent commit subjects, and individual file
-// contents. Implementations talk to one hosting platform; they never
-// parse repository content — that is the channels' job.
+// RepoInfo is one repository as listed from a group/org. Skippable reports
+// whether the scanner should pass it by (archived or empty repositories
+// always; forks unless the run explicitly includes them).
+type RepoInfo struct {
+	Name        string
+	URL         string
+	Description string
+	Archived    bool
+	Empty       bool
+	Fork        bool
+}
+
+// Skippable reports whether the scanner should pass this repository by.
+func (r RepoInfo) Skippable(includeForks bool) bool {
+	return r.Archived || r.Empty || (!includeForks && r.Fork)
+}
+
+// Fetcher supplies the raw materials the scan pipeline consumes. FetchHead
+// feeds the incremental fingerprint gate; ListRepos and ResolveName serve
+// the organization walk and single-repository entry points.
 type Fetcher interface {
 	// FetchTree lists every file and directory entry of the default branch.
 	FetchTree(ctx context.Context, repoURL string) ([]TreeEntry, error)
@@ -26,6 +42,14 @@ type Fetcher interface {
 	// return an error for missing or unreadable files; the pipeline
 	// treats any error as "this channel sees nothing here".
 	FetchFileContent(ctx context.Context, repoURL string, path string) (string, error)
+	// FetchHead returns the repository's latest commit SHA — the
+	// incremental fingerprint. One lightweight call.
+	FetchHead(ctx context.Context, repoURL string) (string, error)
+	// ResolveName returns the platform's authoritative repository name,
+	// or "" when the platform cannot confirm the URL names a repository.
+	ResolveName(ctx context.Context, repoURL string) (string, error)
+	// ListRepos lists the repositories under a group/org.
+	ListRepos(ctx context.Context, groupURL string) ([]RepoInfo, error)
 }
 
 // ErrUnauthorized reports the configured credential was rejected.
@@ -49,6 +73,12 @@ type Cache struct {
 	commits     []string
 	commitsDone bool
 	contents    map[string]cachedContent
+	head        string
+	headDone    bool
+	name        string
+	nameDone    bool
+	repos       []RepoInfo
+	reposDone   bool
 }
 
 type cachedContent struct {
@@ -106,4 +136,50 @@ func (c *Cache) FetchFileContent(ctx context.Context, repoURL string, path strin
 	value, err := c.inner.FetchFileContent(ctx, repoURL, path)
 	c.contents[path] = cachedContent{value: value, err: err}
 	return value, err
+}
+
+// FetchHead implements Fetcher (memoized: the fingerprint gate and the
+// card both use it, one upstream call per scan).
+func (c *Cache) FetchHead(ctx context.Context, repoURL string) (string, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if !c.headDone {
+		head, err := c.inner.FetchHead(ctx, repoURL)
+		if err != nil {
+			return "", err
+		}
+		c.head = head
+		c.headDone = true
+	}
+	return c.head, nil
+}
+
+// ResolveName implements Fetcher (memoized).
+func (c *Cache) ResolveName(ctx context.Context, repoURL string) (string, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if !c.nameDone {
+		name, err := c.inner.ResolveName(ctx, repoURL)
+		if err != nil {
+			return "", err
+		}
+		c.name = name
+		c.nameDone = true
+	}
+	return c.name, nil
+}
+
+// ListRepos implements Fetcher (memoized).
+func (c *Cache) ListRepos(ctx context.Context, groupURL string) ([]RepoInfo, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	if !c.reposDone {
+		repos, err := c.inner.ListRepos(ctx, groupURL)
+		if err != nil {
+			return nil, err
+		}
+		c.repos = repos
+		c.reposDone = true
+	}
+	return c.repos, nil
 }

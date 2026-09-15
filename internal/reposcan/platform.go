@@ -184,3 +184,11 @@ func SplitRepoPath(normalizedURL string) ([]string, bool) {
 	}
 	return segments, true
 }
+
+// NormalizeGroupURL trims whitespace, trailing slashes and a trailing
+// ".git" from a group/org address (same normalization as repositories).
+func NormalizeGroupURL(rawURL string) string {
+	trimmed := strings.TrimSpace(rawURL)
+	trimmed = strings.TrimRight(trimmed, "/")
+	return strings.TrimSuffix(trimmed, ".git")
+}

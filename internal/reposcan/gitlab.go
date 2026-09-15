@@ -127,6 +127,7 @@ func (f *GitLabFetcher) FetchTree(ctx context.Context, repoURL string) ([]TreeEn
 }
 
 type gitLabCommit struct {
+	ID    string `json:"id"`
 	Title string `json:"title"`
 }
 
