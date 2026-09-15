@@ -111,6 +111,26 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 				return card.Name, true
 			},
 		}, runtime.Pool())
+		// Same guard convention as the scan block: reads stay open, writes
+		// require Origin + session + CSRF.
+		decisionService.Authenticate = func(r *http.Request) error {
+			if r.Method == http.MethodGet {
+				return nil
+			}
+			if runtime.Deployment.Origin == "" || r.Header.Get("Origin") != runtime.Deployment.Origin {
+				return errors.New("origin rejected")
+			}
+			_, err := runtime.Service.AuthenticateProjectRequest(
+				r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), true)
+			return err
+		}
+		decisionService.ActorName = func(r *http.Request) string {
+			if principal, err := runtime.Service.AuthenticateProjectRequest(
+				r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), false); err == nil {
+				return principal.ActorID()
+			}
+			return ""
+		}
 		decisionAPI = web.Decision{API: decisionService}
 		fetcher := &reposcan.Router{
 			GitHub: &reposcan.GitHubFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITHUB_TOKEN")},
@@ -155,6 +175,9 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 					RepositoryIDs:  d.RepositoryIDs,
 					Accepted:       d.Accepted,
 				})
+				if errors.Is(err, decisionchain.ErrDisabled) {
+					return // toggle off: silent no-op (D12), nothing to audit
+				}
 				if err != nil {
 					fmt.Fprintf(stderr, "decision chain record failed: %v (requirement=%q ids=%v key=%s actor=%q)\n",
 						err, d.Requirement, d.RepositoryIDs, d.IdempotencyKey, actor)
