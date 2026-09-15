@@ -1,0 +1,36 @@
+{
+  "issueId": "iss_2",
+  "roomId": "rm_leader_iss_2_service",
+  "roomRole": "leader",
+  "readOnly": true,
+  "displayName": "order-service · Leader 协作",
+  "conversationId": null,
+  "availability": "preparing",
+  "canEnter": false,
+  "observedAt": "2026-09-15T12:00:00Z",
+  "repositoryId": "repo_service",
+  "repositoryIssueId": "ri_iss_2_1",
+  "upstream": {
+    "roomKind": "team_room",
+    "lifecycle": "persistent",
+    "createdBy": "agentteams",
+    "schemaVersion": 1
+  },
+  "participants": [],
+  "messages": [
+    {
+      "id": "rmsg_denied_1",
+      "sequence": "1",
+      "author": { "role": "system", "displayName": "系统" },
+      "content": "此正文不得返回给浏览器：列表 canEnter=false，GET 必须再核权失败。",
+      "createdAt": "2026-09-15T12:00:00Z",
+      "kind": "text"
+    }
+  ],
+  "composer": { "enabled": false, "target": "none" },
+  "environment": null,
+  "navigation": {
+    "issueId": "iss_2",
+    "conversationId": "conv_1"
+  }
+}

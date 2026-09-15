@@ -7,9 +7,10 @@ import type {
   ClarificationSnapshot,
   ConversationList,
   ConversationSnapshot,
+  DispatchState,
   GraphNodeKind,
-  GraphNodeStatus,
   IssueCreationConversations,
+  NativeTaskStatus,
   IssueCreationOptions,
   IssueCreationReceipt,
   IssueDelivery,
@@ -24,6 +25,9 @@ import type {
   PlanGraph,
   RoomAvailability,
   RoomObservation,
+  RoomSnapshot,
+  UpstreamProjectGraph,
+  WorkflowTaskStatus,
 } from "./types";
 
 function member<const T extends string>(value: unknown, values: readonly T[]): T {
@@ -49,8 +53,13 @@ const sourceKinds = ["issue_page", "manager_mcp"] as const;
 const roomAvailabilities = ["ready", "preparing", "unavailable", "unknown"] as const;
 const authorKinds = ["user", "manager", "system"] as const;
 const clarificationStates = ["open", "answer_saved", "resolved", "superseded", "invalidated"] as const;
-const graphKinds = ["repo_task", "coordination", "verification"] as const;
-const graphStatuses = ["accepted", "running", "ready_candidate", "waiting", "pending"] as const;
+const graphKinds = ["upstream_task", "coordination", "verification"] as const;
+const nativeStatuses = ["planned", "assigned", "in_progress", "submitted", "completed", "revision", "blocked", "cancelled"] as const;
+const workflowStatuses = ["pending", "delegated", "in-progress", "completed", "revision", "blocked"] as const;
+const dispatchStates = ["not_dispatched", "attempt_active", "completed", "not_applicable"] as const;
+const roomRoles = ["main", "leader"] as const;
+const roomMessageRoles = ["user", "manager", "leader", "worker", "system"] as const;
+const upstreamRoomKinds = ["task_room", "team_room", "worker_room", "direct_room"] as const;
 const analysisAvailabilities = ["available", "disabled", "unavailable"] as const;
 const analysisStatuses = ["queued", "running", "recovering", "succeeded", "failed"] as const;
 const conversationModes = ["new", "existing"] as const;
@@ -289,26 +298,123 @@ export function parseClarification(value: unknown): ClarificationSnapshot {
   };
 }
 
+function parseDispatch(value: unknown): DispatchState {
+  return member(value, dispatchStates);
+}
+
+function parseNativeStatus(value: unknown): NativeTaskStatus {
+  return member(value, nativeStatuses);
+}
+
+function parseWorkflowStatus(value: unknown): WorkflowTaskStatus {
+  return member(value, workflowStatuses);
+}
+
+function parseTaskRef(value: unknown): { projectId: string; taskId: string } {
+  const data = object(value);
+  return { projectId: identifier(data.projectId), taskId: identifier(data.taskId) };
+}
+
+function parseUpstreamProject(value: unknown): UpstreamProjectGraph {
+  const data = object(value);
+  const native = object(data.native);
+  const workflow = object(data.workflow);
+  const values = object(workflow.values);
+  if (!Array.isArray(native.tasks) || native.tasks.length > 100) throw new Error("Invalid native tasks");
+  if (!Array.isArray(workflow.nodes) || workflow.nodes.length > 100) throw new Error("Invalid workflow nodes");
+  if (!Array.isArray(workflow.edges) || workflow.edges.length > 200) throw new Error("Invalid workflow edges");
+  if (!Array.isArray(workflow.next) || workflow.next.length > 100) throw new Error("Invalid workflow next");
+  if (!Array.isArray(workflow.interrupts) || workflow.interrupts.length > 50) throw new Error("Invalid interrupts");
+  const taskCountRaw = object(values.taskCount);
+  const taskCount: Record<string, number> = {};
+  for (const [key, count] of Object.entries(taskCountRaw)) taskCount[key] = integer(count, 0, 1000);
+  return {
+    projectId: identifier(data.projectId),
+    repositoryId: identifier(data.repositoryId),
+    teamId: identifier(data.teamId),
+    native: {
+      status: member(native.status, ["active", "paused", "completed"]),
+      planType: member(native.planType, ["dag", "loop"]),
+      tasks: native.tasks.map((item: unknown) => {
+        const row = object(item);
+        return {
+          taskId: identifier(row.taskId),
+          title: text(row.title, 200),
+          assignedTo: text(row.assignedTo, 200),
+          dependsOn: strings(row.dependsOn, 50, 128),
+          status: parseNativeStatus(row.status),
+        };
+      }),
+    },
+    workflow: {
+      nodes: workflow.nodes.map((item: unknown) => {
+        const row = object(item);
+        return { id: identifier(row.id), name: text(row.name, 200), status: parseWorkflowStatus(row.status), assignee: text(row.assignee, 200) };
+      }),
+      edges: workflow.edges.map((item: unknown) => {
+        const row = object(item);
+        if (typeof row.conditional !== "boolean") throw new Error("Invalid workflow edge");
+        return { source: identifier(row.source), target: identifier(row.target), conditional: row.conditional };
+      }),
+      next: workflow.next.map((item: unknown) => identifier(item)),
+      interrupts: workflow.interrupts.map((item: unknown) => {
+        const row = object(item);
+        return { type: text(row.type, 128), message: text(row.message, 2000) };
+      }),
+      values: {
+        projectId: identifier(values.projectId),
+        status: text(values.status, 32),
+        planType: text(values.planType, 32),
+        taskCount,
+      },
+    },
+  };
+}
+
 export function parsePlanGraph(value: unknown): PlanGraph {
   const data = object(value);
   if (!Array.isArray(data.nodes) || data.nodes.length > 100) throw new Error("Invalid graph nodes");
   if (!Array.isArray(data.edges) || data.edges.length > 200) throw new Error("Invalid graph edges");
+  if (!Array.isArray(data.upstreamProjects) || data.upstreamProjects.length > 20) throw new Error("Invalid upstream projects");
   if (data.readOnly !== true) throw new Error("Invalid graph");
+  const overlay = object(data.businessOverlay);
+  if (overlay.readyIsNotDispatch !== true) throw new Error("Invalid overlay");
+  if (!Array.isArray(overlay.crossRepoEdges) || overlay.crossRepoEdges.length > 100) throw new Error("Invalid overlay edges");
+  const blocking = object(overlay.blockingReasons);
+  const blockingReasons: Record<string, string[]> = {};
+  for (const [key, reasons] of Object.entries(blocking)) blockingReasons[identifier(key)] = strings(reasons, 20, 128);
+  const dispatchRaw = object(overlay.dispatchState);
+  const dispatchState: Record<string, DispatchState> = {};
+  for (const [key, state] of Object.entries(dispatchRaw)) dispatchState[identifier(key)] = parseDispatch(state);
   return {
     issueId: identifier(data.issueId),
     planVersion: text(data.planVersion, 32),
     round: integer(data.round, 1, 1000),
     readOnly: true,
     observedAt: timestamp(data.observedAt),
+    upstreamProjects: data.upstreamProjects.map(parseUpstreamProject),
+    businessOverlay: {
+      readyIsNotDispatch: true,
+      crossRepoEdges: overlay.crossRepoEdges.map((item: unknown) => {
+        const row = object(item);
+        return { from: parseTaskRef(row.from), to: parseTaskRef(row.to) };
+      }),
+      blockingReasons,
+      dispatchState,
+    },
     nodes: data.nodes.map((item: unknown) => {
       const row = object(item);
+      if (typeof row.inNext !== "boolean") throw new Error("Invalid graph node");
       return {
         id: identifier(row.id),
         kind: member(row.kind, graphKinds) as GraphNodeKind,
         title: text(row.title, 200),
         owner: text(row.owner, 200),
         repositoryId: row.repositoryId === null ? null : identifier(row.repositoryId),
-        status: member(row.status, graphStatuses) as GraphNodeStatus,
+        nativeStatus: row.nativeStatus === null ? null : parseNativeStatus(row.nativeStatus),
+        workflowStatus: row.workflowStatus === null ? null : parseWorkflowStatus(row.workflowStatus),
+        inNext: row.inNext,
+        dispatchState: parseDispatch(row.dispatchState),
         detail: text(row.detail, 2000),
       };
     }),
@@ -316,6 +422,67 @@ export function parsePlanGraph(value: unknown): PlanGraph {
       const row = object(item);
       return { from: identifier(row.from), to: identifier(row.to) };
     }),
+  };
+}
+
+export function parseRoomSnapshot(value: unknown): RoomSnapshot {
+  const data = object(value);
+  if (!Array.isArray(data.participants) || data.participants.length > 50) throw new Error("Invalid participants");
+  if (!Array.isArray(data.messages) || data.messages.length > 200) throw new Error("Invalid room messages");
+  const upstream = object(data.upstream);
+  const composer = object(data.composer);
+  const navigation = object(data.navigation);
+  const readOnly = data.readOnly === true;
+  const roomRole = member(data.roomRole, roomRoles);
+  if (roomRole === "leader" && !readOnly) throw new Error("Leader rooms must be read-only");
+  if (typeof composer.enabled !== "boolean") throw new Error("Invalid composer");
+  let environment: RoomSnapshot["environment"] = null;
+  if (data.environment !== null) {
+    const row = object(data.environment);
+    environment = {
+      repositoryDisplayName: text(row.repositoryDisplayName, 512),
+      changeSetId: identifier(row.changeSetId),
+      attemptLabel: text(row.attemptLabel, 200),
+      workDirNote: text(row.workDirNote, 200),
+    };
+  }
+  return {
+    issueId: identifier(data.issueId),
+    roomId: identifier(data.roomId),
+    roomRole,
+    readOnly,
+    displayName: text(data.displayName, 200),
+    conversationId: data.conversationId === null ? null : identifier(data.conversationId),
+    availability: member(data.availability, roomAvailabilities) as RoomAvailability,
+    canEnter: data.canEnter === true,
+    observedAt: timestamp(data.observedAt),
+    repositoryId: data.repositoryId === undefined || data.repositoryId === null ? null : identifier(data.repositoryId),
+    repositoryIssueId: data.repositoryIssueId === undefined || data.repositoryIssueId === null ? null : identifier(data.repositoryIssueId),
+    upstream: {
+      roomKind: member(upstream.roomKind, upstreamRoomKinds),
+      lifecycle: member(upstream.lifecycle, ["persistent", "ephemeral"]),
+      createdBy: text(upstream.createdBy, 64),
+      schemaVersion: integer(upstream.schemaVersion, 1, 10),
+    },
+    participants: data.participants.map((item: unknown) => {
+      const row = object(item);
+      return { role: member(row.role, roomMessageRoles), displayName: text(row.displayName, 200) };
+    }),
+    messages: data.messages.map((item: unknown) => {
+      const row = object(item);
+      const author = object(row.author);
+      return {
+        id: identifier(row.id),
+        sequence: text(row.sequence, 32),
+        author: { role: member(author.role, roomMessageRoles), displayName: text(author.displayName, 200) },
+        content: text(row.content, 20_000),
+        createdAt: timestamp(row.createdAt),
+        kind: member(row.kind, ["text"]),
+      };
+    }),
+    composer: { enabled: composer.enabled, target: member(composer.target, ["manager", "none"]) },
+    environment,
+    navigation: { issueId: identifier(navigation.issueId), conversationId: identifier(navigation.conversationId) },
   };
 }
 

@@ -1,0 +1,60 @@
+{
+  "issueId": "iss_1",
+  "roomId": "rm_leader_iss_1_admin",
+  "roomRole": "leader",
+  "readOnly": true,
+  "displayName": "admin-console · Leader 协作",
+  "conversationId": null,
+  "availability": "ready",
+  "canEnter": true,
+  "observedAt": "2026-09-15T12:00:00Z",
+  "repositoryId": "repo_admin",
+  "repositoryIssueId": "ri_iss_1_2",
+  "upstream": {
+    "roomKind": "team_room",
+    "lifecycle": "persistent",
+    "createdBy": "agentteams",
+    "schemaVersion": 1
+  },
+  "participants": [
+    { "role": "leader", "displayName": "Leader" },
+    { "role": "worker", "displayName": "Worker" }
+  ],
+  "messages": [
+    {
+      "id": "rmsg_ui_1",
+      "sequence": "1",
+      "author": { "role": "leader", "displayName": "Leader" },
+      "content": "已收到 Manager 的仓库委派：支付状态筛选。本仓负责界面交互与兼容检查。",
+      "createdAt": "2026-09-15T09:02:00Z",
+      "kind": "text"
+    },
+    {
+      "id": "rmsg_ui_2",
+      "sequence": "2",
+      "author": { "role": "worker", "displayName": "Worker" },
+      "content": "筛选控件任务已委派。跨仓接口约定尚未完成，RepoMesh 未把本节点记为已派工。",
+      "createdAt": "2026-09-15T09:06:00Z",
+      "kind": "text"
+    },
+    {
+      "id": "rmsg_ui_3",
+      "sequence": "3",
+      "author": { "role": "leader", "displayName": "Leader" },
+      "content": "上游 ready_nodes 把 ui-01 标成候选就绪，只说明依赖在本仓图内已满足，不是执行许可。",
+      "createdAt": "2026-09-15T09:10:00Z",
+      "kind": "text"
+    }
+  ],
+  "composer": { "enabled": false, "target": "none" },
+  "environment": {
+    "repositoryDisplayName": "repomesh/admin-console",
+    "changeSetId": "cs_1",
+    "attemptLabel": "尚无已启动的执行尝试",
+    "workDirNote": "Worker 独立 clone"
+  },
+  "navigation": {
+    "issueId": "iss_1",
+    "conversationId": "conv_1"
+  }
+}

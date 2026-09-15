@@ -1,21 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import type { ClarificationSnapshot, ConversationSnapshot, Message } from "./types";
 
-const graphLabel: Record<string, string> = {
-  accepted: "结果已采纳",
-  running: "执行中",
-  ready_candidate: "候选就绪 · 待派工",
-  waiting: "等待两仓候选",
-  pending: "待验证",
-};
-
 export function ConversationView({
   conversation,
   messages,
   clarification,
   onSend,
   onOpenIssue,
-  onOpenPlan,
   onCreateIssue,
 }: {
   conversation: ConversationSnapshot;
@@ -23,13 +14,11 @@ export function ConversationView({
   clarification: ClarificationSnapshot | null;
   onSend: (content: string, replyTo?: { clarificationId: string; expectedRevision: string }) => Promise<void>;
   onOpenIssue: (issueId: string) => void;
-  onOpenPlan: (issueId: string) => void;
   onCreateIssue: () => void;
 }) {
   const [input, setInput] = useState("");
   const [reply, setReply] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
-  const issue = conversation.linkedIssues[0] ?? null;
   useEffect(() => {
     const el = bodyRef.current;
     if (el !== null) el.scrollTop = el.scrollHeight;
@@ -48,22 +37,13 @@ export function ConversationView({
     <div className="ws-conversation">
       <header className="ws-top">
         <div>
-          <p>订单系统 / 会话</p>
+          <p>订单系统 / 会话 · Manager 主房间</p>
           <h1>{conversation.title}</h1>
-          <p>关联 {conversation.linkedIssues.length} 条 Issue</p>
+          <p>关联 {conversation.linkedIssues.length} 条 Issue · 映射上游 task_room，不嵌入 Element</p>
         </div>
         <button onClick={onCreateIssue}>＋ 建立新的 Issue</button>
       </header>
       <div className="ws-body" ref={bodyRef}>
-        {issue !== null && (
-          <nav className="ws-dock" aria-label="悬浮快捷入口">
-            <button onClick={() => onOpenIssue(issue.id)}>#{issue.number} Issue 详情</button>
-            <button onClick={() => onOpenPlan(issue.id)}>任务 DAG</button>
-            <p className="ws-quiet">Leader 房间 · 只读</p>
-            <button disabled>L₁ order-service · Leader</button>
-            <button disabled>L₂ admin-console · Leader</button>
-          </nav>
-        )}
         <div className="ws-chat">
           {messages.map((message) => {
             const card = message.issueCard;
@@ -123,5 +103,3 @@ export function ConversationView({
     </div>
   );
 }
-
-export { graphLabel };

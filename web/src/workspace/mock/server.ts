@@ -1,6 +1,9 @@
+import { existsSync } from "node:fs";
+import { fixturePath, loadFixture } from "../../../fake-backend/load";
 import { isUuid, scalarLength } from "../../values";
 import { DEMO_ACTOR, DEMO_CSRF, DEMO_PROJECT_ID } from "../types";
-import { CREATION_CONTEXT_REVISION, issueGraph, OBSERVED_AT, projectId, REPOSITORIES, seedStore, mainRoom } from "./store";
+import type { IssueRooms, PlanGraph, RoomSnapshot } from "../types";
+import { CREATION_CONTEXT_REVISION, OBSERVED_AT, projectId, REPOSITORIES, seedStore, mainRoom } from "./store";
 import type { StoredAnalysis, StoredClarification, StoredConversation, StoredIssue, StoredMessage, WorkspaceStore } from "./store";
 
 export type MockRequest = {
@@ -51,6 +54,7 @@ function match(pathname: string, method: string): RouteMatch | null {
     ["GET", "/api/projects/:projectId/conversations", ["projectId"]],
     ["POST", "/api/projects/:projectId/repository-analyses", ["projectId"]],
     ["GET", "/api/projects/:projectId/repository-analyses/:analysisId", ["projectId", "analysisId"]],
+    ["GET", "/api/issues/:issueId/rooms/:roomId", ["issueId", "roomId"]],
     ["GET", "/api/issues/:issueId/rooms", ["issueId"]],
     ["GET", "/api/issues/:issueId/plan-graph", ["issueId"]],
     ["GET", "/api/issues/:issueId/delivery", ["issueId"]],
@@ -203,8 +207,55 @@ function analysisBody(analysis: StoredAnalysis) {
   };
 }
 
-function graphStatusLabel(status: StoredIssue["id"]): ReturnType<typeof issueGraph> {
-  return issueGraph(status);
+function maybeFixture<T>(relativePath: string): T | null {
+  if (!existsSync(fixturePath(relativePath))) return null;
+  return loadFixture<T>(relativePath);
+}
+
+function emptyPlanGraph(issueId: string): PlanGraph {
+  return {
+    issueId,
+    planVersion: "none",
+    round: 1,
+    readOnly: true,
+    observedAt: OBSERVED_AT,
+    upstreamProjects: [],
+    businessOverlay: { readyIsNotDispatch: true, crossRepoEdges: [], blockingReasons: {}, dispatchState: {} },
+    nodes: [],
+    edges: [],
+  };
+}
+
+function generatedRooms(issue: StoredIssue): IssueRooms {
+  const main = mainRoom(issue);
+  return {
+    issueId: issue.id,
+    main: { conversationId: issue.conversationId, ...main, observedAt: OBSERVED_AT },
+    leaders: issue.repositoryIds.filter((id) => id !== "repo_billing").map((repositoryId, index) => {
+      const repo = REPOSITORIES.find((item) => item.repositoryId === repositoryId);
+      return {
+        repositoryIssueId: `ri_${issue.id}_${index + 1}`,
+        repositoryId,
+        displayName: repo?.displayName ?? repositoryId,
+        conversationId: null,
+        availability: "unavailable" as const,
+        reason: "NOT_ASSOCIATED",
+        roomId: null,
+        canEnter: false,
+        observedAt: OBSERVED_AT,
+        readOnly: true as const,
+      };
+    }),
+  };
+}
+
+function roomsFor(issue: StoredIssue): IssueRooms {
+  return maybeFixture<IssueRooms>(`rooms/${issue.id}.json`) ?? generatedRooms(issue);
+}
+
+function findRoomObservation(rooms: IssueRooms, roomId: string) {
+  if (rooms.main.roomId === roomId) return rooms.main;
+  return rooms.leaders.find((item) => item.roomId === roomId) ?? null;
 }
 
 export function createWorkspaceMock() {
@@ -522,42 +573,26 @@ export function createWorkspaceMock() {
     if (matched.pattern === "/api/issues/:issueId/rooms") {
       const issue = store.issues.find((item) => item.id === params.issueId);
       if (issue === undefined) return fail(404, "RESOURCE_NOT_FOUND", "资源不存在或当前不可见。");
-      const main = mainRoom(issue);
-      return {
-        status: 200,
-        body: {
-          issueId: issue.id,
-          main: { conversationId: issue.conversationId, ...main, observedAt: OBSERVED_AT },
-          leaders: issue.repositoryIds.filter((id) => id !== "repo_billing").map((repositoryId, index) => {
-            const repo = REPOSITORIES.find((item) => item.repositoryId === repositoryId);
-            return {
-              repositoryIssueId: `ri_${issue.id}_${index + 1}`,
-              repositoryId,
-              displayName: repo?.displayName ?? repositoryId,
-              conversationId: null,
-              availability: "unavailable" as const,
-              reason: "NOT_ASSOCIATED",
-              roomId: null,
-              canEnter: false,
-              observedAt: OBSERVED_AT,
-              readOnly: true,
-            };
-          }),
-        },
-      };
+      return { status: 200, body: roomsFor(issue) };
+    }
+
+    if (matched.pattern === "/api/issues/:issueId/rooms/:roomId") {
+      const issue = store.issues.find((item) => item.id === params.issueId);
+      if (issue === undefined) return fail(404, "RESOURCE_NOT_FOUND", "资源不存在或当前不可见。");
+      const observation = findRoomObservation(roomsFor(issue), params.roomId);
+      if (observation === null) return fail(404, "RESOURCE_NOT_FOUND", "资源不存在或当前不可见。");
+      if (!observation.canEnter) return fail(403, "ROOM_NOT_ENTERABLE", "当前不能进入该房间。列表上的旧 canEnter 不能继续授权。");
+      const snapshot = maybeFixture<RoomSnapshot>(`rooms/snapshots/${params.roomId}.json`);
+      if (snapshot === null || snapshot.issueId !== issue.id || snapshot.roomId !== params.roomId) {
+        return fail(404, "RESOURCE_NOT_FOUND", "资源不存在或当前不可见。");
+      }
+      return { status: 200, body: snapshot };
     }
 
     if (matched.pattern === "/api/issues/:issueId/plan-graph") {
       const issue = store.issues.find((item) => item.id === params.issueId);
       if (issue === undefined) return fail(404, "RESOURCE_NOT_FOUND", "资源不存在或当前不可见。");
-      const graph = graphStatusLabel(issue.id);
-      if (graph === null) {
-        return {
-          status: 200,
-          body: { issueId: issue.id, planVersion: "none", round: 1, readOnly: true, observedAt: OBSERVED_AT, nodes: [], edges: [] },
-        };
-      }
-      return { status: 200, body: { issueId: issue.id, planVersion: "v1", round: 1, readOnly: true, observedAt: OBSERVED_AT, nodes: graph.nodes, edges: graph.edges } };
+      return { status: 200, body: maybeFixture<PlanGraph>(`plan-graph/${issue.id}.json`) ?? emptyPlanGraph(issue.id) };
     }
 
     if (matched.pattern === "/api/issues/:issueId/delivery") {

@@ -1,5 +1,5 @@
 import { DEMO_PROJECT_ID } from "../types";
-import type { AnalysisJobStatus, AuthorKind, ClarificationState, GraphNodeStatus, RoomAvailability } from "../types";
+import type { AnalysisJobStatus, AuthorKind, ClarificationState, RoomAvailability } from "../types";
 
 export const OBSERVED_AT = "2026-09-15T12:00:00Z";
 
@@ -77,16 +77,6 @@ export type StoredAnalysis = {
   description: string;
 };
 
-export type StoredGraphNode = {
-  id: string;
-  kind: "repo_task" | "coordination" | "verification";
-  title: string;
-  owner: string;
-  repositoryId: string | null;
-  status: GraphNodeStatus;
-  detail: string;
-};
-
 export type WorkspaceStore = {
   issues: StoredIssue[];
   conversations: StoredConversation[];
@@ -106,26 +96,6 @@ export const REPOSITORIES = [
 ];
 
 export const CREATION_CONTEXT_REVISION = "ctx_17";
-
-export function issueGraph(issueId: string): { nodes: StoredGraphNode[]; edges: Array<{ from: string; to: string }> } | null {
-  if (issueId !== "iss_1") return null;
-  return {
-    nodes: [
-      { id: "node_contract", kind: "repo_task", title: "接口约定", owner: "order-service", repositoryId: "repo_service", status: "accepted", detail: "接口结果已核对适用，可供后续任务使用。" },
-      { id: "node_service", kind: "repo_task", title: "服务端修改", owner: "order-service", repositoryId: "repo_service", status: "running", detail: "接口前驱已满足，本轮执行尚未结束。" },
-      { id: "node_ui", kind: "repo_task", title: "界面适配", owner: "admin-console", repositoryId: "repo_admin", status: "ready_candidate", detail: "依赖结果已采纳；仍需后台核验资源与执行条件，尚无实际启动确认。" },
-      { id: "node_combination", kind: "coordination", title: "选定固定组合", owner: "Manager", repositoryId: null, status: "waiting", detail: "等待两仓候选及适用的初审结果，再选定明确组合；不能仅凭任务结束自动放行。" },
-      { id: "node_verify", kind: "verification", title: "独立验证", owner: "验证活动", repositoryId: null, status: "pending", detail: "尚未形成可验证的固定组合，独立验证未开始。" },
-    ],
-    edges: [
-      { from: "node_contract", to: "node_service" },
-      { from: "node_contract", to: "node_ui" },
-      { from: "node_service", to: "node_combination" },
-      { from: "node_ui", to: "node_combination" },
-      { from: "node_combination", to: "node_verify" },
-    ],
-  };
-}
 
 export function seedStore(): WorkspaceStore {
   const issues: StoredIssue[] = [
@@ -162,9 +132,7 @@ export function seedStore(): WorkspaceStore {
   };
 }
 
-export function mainRoom(issue: StoredIssue): { availability: RoomAvailability; reason: string | null; roomId: string | null; canEnter: boolean } {
-  if (issue.id === "iss_1") return { availability: "preparing", reason: "NOT_READY", roomId: null, canEnter: false };
-  if (issue.id === "iss_3") return { availability: "unknown", reason: "OBSERVATION_STALE", roomId: null, canEnter: false };
+export function mainRoom(_issue: StoredIssue): { availability: RoomAvailability; reason: string | null; roomId: string | null; canEnter: boolean } {
   return { availability: "unavailable", reason: "NOT_ASSOCIATED", roomId: null, canEnter: false };
 }
 

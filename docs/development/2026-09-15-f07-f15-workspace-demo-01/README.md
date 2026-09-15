@@ -13,7 +13,7 @@
 
 - 不是 B07—B11 产品实现，没有 Go 路由、迁移或真实 Manager／房间／Python 分析。
 - 没有改 `docs/current/api-design.md` 的 `/api/v1` 方案。
-- SSE、F11 更正、F12 进房、F13 换图写接口、F14 交付动作未做。
+- SSE、F11 更正、F13 换图写接口、F14 交付动作未做。可进房间与只读原生 DAG 见后续 [房间／DAG 记录](../2026-09-15-f07-f15-workspace-rooms-dag-01/README.md)。
 
 ## 如何打开
 

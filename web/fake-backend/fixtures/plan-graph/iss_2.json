@@ -1,0 +1,16 @@
+{
+  "issueId": "iss_2",
+  "planVersion": "none",
+  "round": 1,
+  "readOnly": true,
+  "observedAt": "2026-09-15T12:00:00Z",
+  "upstreamProjects": [],
+  "businessOverlay": {
+    "readyIsNotDispatch": true,
+    "crossRepoEdges": [],
+    "blockingReasons": {},
+    "dispatchState": {}
+  },
+  "nodes": [],
+  "edges": []
+}

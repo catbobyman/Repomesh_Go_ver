@@ -6,6 +6,7 @@ export type WorkspaceRoute =
   | { kind: "issue"; issueId: string }
   | { kind: "issue-plan"; issueId: string }
   | { kind: "issue-delivery"; issueId: string }
+  | { kind: "issue-room"; issueId: string; roomId: string }
   | { kind: "not-found" };
 
 export const WORKSPACE_DEMO_PREFIX = "/demo/workspace";
@@ -24,6 +25,9 @@ export function parseWorkspaceRoute(path: string): WorkspaceRoute {
   if (segments.length === 2 && segments[0] === "issues" && isSafeSegment(segments[1])) return { kind: "issue", issueId: segments[1] };
   if (segments.length === 3 && segments[0] === "issues" && isSafeSegment(segments[1]) && segments[2] === "plan") return { kind: "issue-plan", issueId: segments[1] };
   if (segments.length === 3 && segments[0] === "issues" && isSafeSegment(segments[1]) && segments[2] === "delivery") return { kind: "issue-delivery", issueId: segments[1] };
+  if (segments.length === 4 && segments[0] === "issues" && isSafeSegment(segments[1]) && segments[2] === "rooms" && isSafeSegment(segments[3])) {
+    return { kind: "issue-room", issueId: segments[1], roomId: segments[3] };
+  }
   return { kind: "not-found" };
 }
 
@@ -34,6 +38,7 @@ export function workspacePath(route: WorkspaceRoute): string {
     case "issue": return `${WORKSPACE_DEMO_PREFIX}/issues/${route.issueId}`;
     case "issue-plan": return `${WORKSPACE_DEMO_PREFIX}/issues/${route.issueId}/plan`;
     case "issue-delivery": return `${WORKSPACE_DEMO_PREFIX}/issues/${route.issueId}/delivery`;
+    case "issue-room": return `${WORKSPACE_DEMO_PREFIX}/issues/${route.issueId}/rooms/${route.roomId}`;
     case "not-found": return WORKSPACE_DEMO_PREFIX;
   }
 }

@@ -1,15 +1,6 @@
-import { useState } from "react";
-import type { AnalysisSnapshot, IssueCreationConversations, IssueCreationOptions, IssueDelivery, IssueListItem, IssueRooms, IssueSnapshot, PlanGraph } from "./types";
-import { graphLabel } from "./ConversationView";
-
-const kindLabel = { repo_task: "仓内任务", coordination: "业务协调", verification: "验证活动" } as const;
-const layout: Record<string, { x: number; y: number }> = {
-  node_contract: { x: 24, y: 148 },
-  node_service: { x: 268, y: 36 },
-  node_ui: { x: 268, y: 248 },
-  node_combination: { x: 512, y: 148 },
-  node_verify: { x: 756, y: 148 },
-};
+import { useMemo, useState } from "react";
+import { dispatchLabel, kindLabel, nativeStatusLabel, nodeStatusLine, workflowStatusLabel } from "./labels";
+import type { AnalysisSnapshot, IssueCreationConversations, IssueCreationOptions, IssueDelivery, IssueListItem, IssueRooms, IssueSnapshot, PlanGraph, PlanGraphNode } from "./types";
 
 function runtimeText(rooms: IssueRooms | null): string {
   if (rooms === null) return "运行状态待确认";
@@ -17,6 +8,30 @@ function runtimeText(rooms: IssueRooms | null): string {
   if (rooms.main.availability === "preparing") return "正在准备主房间。";
   if (rooms.main.availability === "unavailable") return "主房间暂不可用。";
   return "主房间可进入。";
+}
+
+const nodeLayout: Record<string, { x: number; y: number }> = {
+  "svc-01": { x: 24, y: 40 },
+  "svc-02": { x: 268, y: 40 },
+  "svc-03": { x: 512, y: 40 },
+  "ui-01": { x: 268, y: 200 },
+  "ui-02": { x: 512, y: 200 },
+  "overlay-combination": { x: 756, y: 120 },
+  "overlay-verify": { x: 1000, y: 120 },
+};
+
+const NODE_W = 188;
+const NODE_H = 92;
+
+function pointFor(id: string, index: number): { x: number; y: number } {
+  return nodeLayout[id] ?? { x: 24 + (index % 4) * 240, y: 40 + Math.floor(index / 4) * 160 };
+}
+
+function tone(node: PlanGraphNode): "done" | "active" | "ready" | "wait" {
+  if (node.dispatchState === "completed" || node.nativeStatus === "completed") return "done";
+  if (node.dispatchState === "attempt_active" || node.nativeStatus === "in_progress" || node.nativeStatus === "submitted") return "active";
+  if (node.inNext) return "ready";
+  return "wait";
 }
 
 export function IssueListView({ issues, onOpen, onCreate }: { issues: IssueListItem[]; onOpen: (id: string) => void; onCreate: () => void }) {
@@ -46,15 +61,17 @@ export function IssueListView({ issues, onOpen, onCreate }: { issues: IssueListI
 }
 
 export function IssueOverview({
-  issue, rooms, onOpenConversation, onOpenPlan, onOpenDelivery, onBack,
+  issue, rooms, onOpenConversation, onOpenPlan, onOpenDelivery, onOpenRoom, onBack,
 }: {
   issue: IssueSnapshot;
   rooms: IssueRooms | null;
   onOpenConversation: (id: string) => void;
   onOpenPlan: () => void;
   onOpenDelivery: () => void;
+  onOpenRoom: (roomId: string) => void;
   onBack: () => void;
 }) {
+  const enterableLeaders = rooms?.leaders.filter((item) => item.canEnter && item.roomId !== null) ?? [];
   return (
     <div className="ws-panel">
       <header className="ws-top">
@@ -74,7 +91,29 @@ export function IssueOverview({
           {issue.repositoryIds.map((id) => <span className="ws-pill" key={id}>{id}</span>)}
         </div>
         <h2>关联会话</h2>
-        <button onClick={() => onOpenConversation(issue.source.conversationId)}>查看关联会话 →</button>
+        <div className="ws-notice">
+          <p>Manager 主房间映射上游 task_room，不是 Admin DM。</p>
+          <button onClick={() => onOpenConversation(issue.source.conversationId)}>查看关联会话 →</button>
+          {rooms?.main.canEnter === true && rooms.main.roomId !== null ? (
+            <button onClick={() => onOpenConversation(issue.source.conversationId)}>进入主房间 →</button>
+          ) : (
+            <p className="ws-quiet">尚无主房间就绪依据，暂不可进入</p>
+          )}
+        </div>
+        <h2>仓库房间</h2>
+        {enterableLeaders.length === 0 && (
+          <div className="ws-notice">
+            <p>当前没有可进入的 Leader 房间。</p>
+            <p className="ws-quiet">空列表只表示当前无可进入入口，不推断无委派。Leader 房间映射上游 team_room，只读。</p>
+          </div>
+        )}
+        {enterableLeaders.map((leader) => (
+          <section className="ws-notice" key={leader.repositoryIssueId}>
+            <h2 style={{ margin: "0 0 8px", fontSize: 15 }}>{leader.displayName}</h2>
+            <p className="ws-quiet">Leader 房间 · 只读 · {leader.roomId}</p>
+            <button onClick={() => leader.roomId !== null && onOpenRoom(leader.roomId)}>进入 Leader 房间 →</button>
+          </section>
+        ))}
         <p className="ws-quiet">主 ChangeSet {issue.mainChangeSetId} · 状态观察与记录保存分开。</p>
         <div className="ws-tabs">
           <button className="is-on">概览与房间</button>
@@ -88,17 +127,26 @@ export function IssueOverview({
 
 export function IssuePlanView({ issue, graph, onBack, onDelivery }: { issue: IssueSnapshot; graph: PlanGraph; onBack: () => void; onDelivery: () => void }) {
   const [selected, setSelected] = useState(graph.nodes[0]?.id ?? "");
+  const [zoom, setZoom] = useState(1);
   const node = graph.nodes.find((item) => item.id === selected) ?? graph.nodes[0];
+  const positions = useMemo(
+    () => Object.fromEntries(graph.nodes.map((item, index) => [item.id, pointFor(item.id, index)])),
+    [graph.nodes],
+  );
+  const incoming = graph.edges.filter((edge) => edge.to === node?.id).map((edge) => graph.nodes.find((item) => item.id === edge.from)?.title ?? edge.from);
+  const overlayReasons = node === undefined ? [] : (graph.businessOverlay.blockingReasons[node.id] ?? []);
+  const width = 1220;
+  const height = 340;
   return (
     <div className="ws-panel">
       <header className="ws-top">
         <div>
           <button onClick={onBack}>← Issue #{issue.number}</button>
           <h1>#{issue.number} {issue.title}</h1>
-          <p>计划 {graph.planVersion} · 第 {graph.round} 轮 · 当前安排只读</p>
+          <p>计划 {graph.planVersion} · 第 {graph.round} 轮 · native + Controller workflow · 只读</p>
         </div>
       </header>
-      <div className="ws-details">
+      <div className="ws-details ws-dag-page">
         <div className="ws-tabs">
           <button onClick={onBack}>概览与房间</button>
           <button className="is-on">任务图与规格</button>
@@ -106,23 +154,88 @@ export function IssuePlanView({ issue, graph, onBack, onDelivery }: { issue: Iss
         </div>
         {graph.nodes.length === 0 && <p className="ws-quiet">当前没有可读计划。记录保存不等于已经排图。</p>}
         {graph.nodes.length > 0 && (
-          <div className="ws-dag" aria-label="当前轮次只读任务依赖图">
-            {graph.nodes.map((item) => {
-              const point = layout[item.id] ?? { x: 24, y: 24 };
-              return (
-                <button key={item.id} className={`ws-dag-node ${item.status}${item.id === selected ? " is-on" : ""}`} style={{ left: point.x, top: point.y }} onClick={() => setSelected(item.id)}>
-                  <small>{kindLabel[item.kind]} · {item.owner}</small>
-                  <strong>{item.title}</strong>
-                  <span className="ws-status">{graphLabel[item.status]}</span>
-                </button>
-              );
-            })}
-          </div>
+          <>
+            <div className="ws-dag-toolbar">
+              <p className="ws-quiet">箭头是 depends_on / workflow.edges。workflow.next 是候选就绪，不是派工。</p>
+              <div className="ws-dag-tools">
+                <button type="button" onClick={() => setZoom((value) => Math.max(0.8, value - 0.2))}>−</button>
+                <span>{Math.round(zoom * 100)}%</span>
+                <button type="button" onClick={() => setZoom((value) => Math.min(1.6, value + 0.2))}>＋</button>
+                <button type="button" onClick={() => setZoom(1)}>重置</button>
+              </div>
+            </div>
+            <div className="ws-dag-viewport" aria-label="当前轮次只读任务依赖图">
+              <svg className="ws-dag-svg" style={{ width: `${zoom * 100}%` }} viewBox={`0 0 ${width} ${height}`} role="group">
+                <text x="24" y="22" fill="#8e8e8e" fontSize="12">仓内上游 Project</text>
+                <text x="756" y="22" fill="#8e8e8e" fontSize="12">RepoMesh overlay</text>
+                {graph.edges.map((edge) => {
+                  const from = positions[edge.from];
+                  const to = positions[edge.to];
+                  if (from === undefined || to === undefined) return null;
+                  const x1 = from.x + NODE_W;
+                  const y1 = from.y + NODE_H / 2;
+                  const x2 = to.x;
+                  const y2 = to.y + NODE_H / 2;
+                  const selectedEdge = edge.from === selected || edge.to === selected;
+                  return <path key={`${edge.from}-${edge.to}`} d={`M${x1} ${y1} C${x1 + 36} ${y1}, ${x2 - 36} ${y2}, ${x2} ${y2}`} className={selectedEdge ? "is-on" : undefined} />;
+                })}
+                {graph.nodes.map((item) => {
+                  const point = positions[item.id];
+                  return (
+                    <g
+                      key={item.id}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`${item.title}：${nodeStatusLine(item)}`}
+                      aria-pressed={item.id === selected}
+                      className={`ws-dag-node-svg ${tone(item)}${item.id === selected ? " is-on" : ""}`}
+                      transform={`translate(${point.x},${point.y})`}
+                      onClick={() => setSelected(item.id)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          setSelected(item.id);
+                        }
+                      }}
+                    >
+                      <rect width={NODE_W} height={NODE_H} rx="9" />
+                      <text x="14" y="22" fontSize="10" fill="#9c9c9c">{kindLabel[item.kind]} · {item.owner}</text>
+                      <text x="14" y="46" fontSize="15" fill="#e2e2e2">{item.title}</text>
+                      <circle cx="18" cy="70" r="3" />
+                      <text x="28" y="74" fontSize="11">{nodeStatusLine(item)}</text>
+                    </g>
+                  );
+                })}
+              </svg>
+            </div>
+            <div className="ws-dag-legend">
+              <span>native 状态来自 plan_dag / meta.json</span>
+              <span>压缩态来自 GET …/workflow</span>
+              <span>next[] ≠ 派工</span>
+            </div>
+          </>
         )}
         {node !== undefined && (
-          <section className="ws-notice" style={{ marginTop: 16 }}>
+          <section className="ws-dag-detail">
             <h2 style={{ margin: "0 0 8px", fontSize: 15 }}>{node.title} · {kindLabel[node.kind]}</h2>
-            <p>{node.detail}</p>
+            <div className="ws-kv"><span>所属范围</span><span>{node.owner}</span></div>
+            <div className="ws-kv"><span>前置依赖</span><span>{incoming.join("、") || "无前置任务"}</span></div>
+            <div className="ws-kv"><span>native status</span><span>{node.nativeStatus === null ? "无（overlay）" : nativeStatusLabel[node.nativeStatus]}</span></div>
+            <div className="ws-kv"><span>workflow status</span><span>{node.workflowStatus === null ? "无（overlay）" : workflowStatusLabel[node.workflowStatus]}</span></div>
+            <div className="ws-kv"><span>workflow.next</span><span>{node.inNext ? "在候选就绪集合中 · 不是派工" : "不在 next"}</span></div>
+            <div className="ws-kv"><span>RepoMesh 派工</span><span>{dispatchLabel[node.dispatchState]}</span></div>
+            {overlayReasons.length > 0 && <div className="ws-kv"><span>overlay 阻塞</span><span>{overlayReasons.join("、")}</span></div>}
+            <p className="ws-quiet" style={{ marginTop: 12 }}>{node.detail}</p>
+          </section>
+        )}
+        {graph.upstreamProjects.length > 0 && (
+          <section className="ws-notice" style={{ marginTop: 16 }}>
+            <h2 style={{ margin: "0 0 8px", fontSize: 15 }}>上游 Project 切片</h2>
+            {graph.upstreamProjects.map((project) => (
+              <p key={project.projectId} className="ws-quiet">
+                {project.projectId} · {project.teamId} · native {project.native.status}/{project.native.planType} · next [{project.workflow.next.join(", ") || "空"}]
+              </p>
+            ))}
           </section>
         )}
       </div>

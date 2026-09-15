@@ -16,6 +16,7 @@ import {
   parseMessagePage,
   parseMessageSubmission,
   parsePlanGraph,
+  parseRoomSnapshot,
 } from "./parse";
 import { DEMO_CSRF, DEMO_PROJECT_ID } from "./types";
 import type {
@@ -34,6 +35,7 @@ import type {
   MessagePage,
   MessageSubmission,
   PlanGraph,
+  RoomSnapshot,
 } from "./types";
 
 const project = DEMO_PROJECT_ID;
@@ -70,6 +72,8 @@ export const sendMessage = (conversationId: string, key: string, body: { content
 
 export const readIssue = (issueId: string) => request({ path: `/api/issues/${encodeURIComponent(issueId)}`, parse: parseIssueSnapshot });
 export const readIssueRooms = (issueId: string) => request({ path: `/api/issues/${encodeURIComponent(issueId)}/rooms`, parse: parseIssueRooms });
+export const readRoom = (issueId: string, roomId: string) =>
+  request({ path: `/api/issues/${encodeURIComponent(issueId)}/rooms/${encodeURIComponent(roomId)}`, parse: parseRoomSnapshot });
 export const readPlanGraph = (issueId: string) => request({ path: `/api/issues/${encodeURIComponent(issueId)}/plan-graph`, parse: parsePlanGraph });
 export const readDelivery = (issueId: string) => request({ path: `/api/issues/${encodeURIComponent(issueId)}/delivery`, parse: parseIssueDelivery });
 
@@ -126,4 +130,5 @@ export type {
   MessagePage,
   MessageSubmission,
   PlanGraph,
+  RoomSnapshot,
 };
