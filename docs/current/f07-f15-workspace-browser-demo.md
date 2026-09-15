@@ -55,4 +55,4 @@ F11 更正已发生工作、F12 真实进房、F13 动态换图、F14 真实验�
 | `/demo/workspace/issues/{id}/plan` | 只读 DAG |
 | `/demo/workspace/issues/{id}/delivery` | 验证与交付 |
 
-该前缀绕过 GitHub 登录，避免假数据演示依赖 B02。
+该前缀绕过 GitHub 登录，避免假数据演示依赖 B02。演示入口不调用 `GET /api/session`。

@@ -40,7 +40,7 @@ export function ConversationView({
     setReply(false);
   };
   return (
-    <>
+    <div className="ws-conversation">
       <header className="ws-top">
         <div>
           <p>订单系统 / 会话</p>
@@ -94,28 +94,28 @@ export function ConversationView({
             );
           })}
         </div>
-        <div className="ws-composer-wrap">
-          {reply && clarification !== null && (
-            <div className="ws-reply-ref">
-              <span>回复 Manager 的目标问题<small style={{ display: "block" }}>引用 {clarification.id}</small></span>
-              <button onClick={() => setReply(false)} aria-label="移除问题引用">×</button>
-            </div>
-          )}
-          <div className="ws-composer">
-            <textarea value={input} onChange={(event) => setInput(event.target.value)} placeholder="继续讨论；聊天不会自动修改某条 Issue…" aria-label="给 Manager 的消息" />
-            <div className="ws-composer-bottom">
-              <span>
-                Manager
-                {clarification?.actions.canReply === true && (
-                  <button type="button" onClick={() => setReply(true)} style={{ marginLeft: 8 }}>引用澄清问题</button>
-                )}
-              </span>
-              <button className="ws-send" onClick={() => void submit()} aria-label="发送">↑</button>
-            </div>
+      </div>
+      <div className="ws-composer-wrap">
+        {reply && clarification !== null && (
+          <div className="ws-reply-ref">
+            <span>回复 Manager 的目标问题<small style={{ display: "block" }}>引用 {clarification.id}</small></span>
+            <button onClick={() => setReply(false)} aria-label="移除问题引用">×</button>
+          </div>
+        )}
+        <div className="ws-composer">
+          <textarea value={input} onChange={(event) => setInput(event.target.value)} placeholder="继续讨论；聊天不会自动修改某条 Issue…" aria-label="给 Manager 的消息" />
+          <div className="ws-composer-bottom">
+            <span>
+              Manager
+              {clarification?.actions.canReply === true && (
+                <button type="button" onClick={() => setReply(true)} style={{ marginLeft: 8 }}>引用澄清问题</button>
+              )}
+            </span>
+            <button className="ws-send" onClick={() => void submit()} aria-label="发送">↑</button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

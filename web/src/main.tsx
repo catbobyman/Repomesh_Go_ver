@@ -19,7 +19,6 @@ import "./style.css";
 
 function App() {
   const [path, setPath] = useState(() => window.location.pathname);
-  const auth = useSession();
   useEffect(() => {
     const onPopState = () => setPath(window.location.pathname);
     window.addEventListener("popstate", onPopState);
@@ -31,6 +30,11 @@ function App() {
     window.scrollTo(0, 0);
   }, []);
   if (isWorkspaceDemoPath(path)) return <WorkspaceApp path={path} navigate={navigate} />;
+  return <ProductApp path={path} navigate={navigate} />;
+}
+
+function ProductApp({ path, navigate }: { path: string; navigate: (path: string) => void }) {
+  const auth = useSession();
   const currentRoute = parseRoute(path);
   if (currentRoute.kind === "result") return <AuthResult key={`${currentRoute.id}:${auth.generation}`} id={currentRoute.id} auth={auth} navigate={navigate} />;
   if (currentRoute.kind !== "login" && currentRoute.kind !== "not-found" && auth.state.kind !== "authenticated") {

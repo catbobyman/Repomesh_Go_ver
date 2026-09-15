@@ -163,6 +163,11 @@ export function WorkspaceApp({ path, navigate }: { path: string; navigate: (path
     await loadConversation(conversation.id);
   };
 
+  const waiting = busy && (
+    (route.kind === "conversation" && conversation === null)
+    || ((route.kind === "issue" || route.kind === "issue-plan" || route.kind === "issue-delivery") && issue === null)
+  );
+
   const scene = useMemo(() => {
     if (creating) return "create";
     if (route.kind === "issues") return "issues";
@@ -208,7 +213,7 @@ export function WorkspaceApp({ path, navigate }: { path: string; navigate: (path
         </aside>
         <section className="ws-main">
           {error !== null && <p className="ws-error" role="alert">{error}</p>}
-          {busy && <p className="ws-quiet" style={{ padding: "8px 22px" }}>正在读取 /api …</p>}
+          {waiting && <p className="ws-quiet" style={{ padding: "8px 22px" }}>正在读取 /api …</p>}
           {route.kind === "conversation" && conversation !== null && (
             <ConversationView
               conversation={conversation}

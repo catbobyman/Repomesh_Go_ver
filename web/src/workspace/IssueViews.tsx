@@ -21,7 +21,7 @@ function runtimeText(rooms: IssueRooms | null): string {
 
 export function IssueListView({ issues, onOpen, onCreate }: { issues: IssueListItem[]; onOpen: (id: string) => void; onCreate: () => void }) {
   return (
-    <>
+    <div className="ws-panel">
       <header className="ws-top">
         <div>
           <p>订单系统 / Issue</p>
@@ -41,7 +41,7 @@ export function IssueListView({ issues, onOpen, onCreate }: { issues: IssueListI
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -56,7 +56,7 @@ export function IssueOverview({
   onBack: () => void;
 }) {
   return (
-    <>
+    <div className="ws-panel">
       <header className="ws-top">
         <div>
           <p>订单系统 / Issue</p>
@@ -82,7 +82,7 @@ export function IssueOverview({
           <button onClick={onOpenDelivery}>验证与交付</button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -90,7 +90,7 @@ export function IssuePlanView({ issue, graph, onBack, onDelivery }: { issue: Iss
   const [selected, setSelected] = useState(graph.nodes[0]?.id ?? "");
   const node = graph.nodes.find((item) => item.id === selected) ?? graph.nodes[0];
   return (
-    <>
+    <div className="ws-panel">
       <header className="ws-top">
         <div>
           <button onClick={onBack}>← Issue #{issue.number}</button>
@@ -126,13 +126,13 @@ export function IssuePlanView({ issue, graph, onBack, onDelivery }: { issue: Iss
           </section>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
 export function IssueDeliveryView({ issue, delivery, onBack, onPlan }: { issue: IssueSnapshot; delivery: IssueDelivery; onBack: () => void; onPlan: () => void }) {
   return (
-    <>
+    <div className="ws-panel">
       <header className="ws-top">
         <div>
           <button onClick={onBack}>← Issue #{issue.number}</button>
@@ -158,7 +158,7 @@ export function IssueDeliveryView({ issue, delivery, onBack, onPlan }: { issue: 
         ))}
         <p className="ws-quiet">正式审查与人工合并分别记录；部署状态另行表达。主 ChangeSet {delivery.mainChangeSetId}。</p>
       </div>
-    </>
+    </div>
   );
 }
 

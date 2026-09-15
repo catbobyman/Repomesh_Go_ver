@@ -25,7 +25,7 @@
 .ws-banner button[aria-current="page"], .ws-banner button.is-on { background: #37362e; color: #eee; }
 .ws-banner .ws-spacer { flex: 1; }
 .ws-shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 0; flex: 1; }
-.ws-sidebar { background: #191919; border-right: 1px solid #303030; padding: 12px 10px; display: flex; flex-direction: column; min-width: 0; }
+.ws-sidebar { background: #191919; border-right: 1px solid #303030; padding: 12px 10px; display: flex; flex-direction: column; min-width: 0; overflow: auto; }
 .ws-brand { display: flex; align-items: center; gap: 8px; padding: 2px 8px 16px; font-weight: 550; }
 .ws-nav { display: flex; flex-direction: column; gap: 3px; }
 .ws-nav button, .ws-project-head, .ws-issue-link, .ws-conversation-link {
@@ -41,11 +41,18 @@
 .ws-nav button.ws-active, .ws-conversation-link.ws-active, .ws-issue-link.ws-active { background: #252525; color: #eee; }
 .ws-label { font-size: 12px; color: #a0a0a0; margin: 22px 10px 10px; display: flex; justify-content: space-between; }
 .ws-main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.ws-conversation, .ws-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.ws-panel { overflow: auto; }
 .ws-top { min-height: 57px; padding: 12px 22px; display: flex; gap: 12px; align-items: center; justify-content: space-between; font-size: 12px; color: #a0a0a0; border-bottom: 1px solid #252525; }
 .ws-top h1 { font-size: 17px; font-weight: 500; margin: 0; color: #eee; }
 .ws-top p { margin: 4px 0 0; }
 .ws-body { flex: 1; min-height: 0; overflow: auto; position: relative; }
-.ws-chat { padding: 22px 28px 120px; max-width: 860px; }
+.ws-chat { padding: 22px 228px 24px 28px; }
 .ws-message { margin: 0 0 22px; font-size: 13px; overflow-wrap: anywhere; }
 .ws-message-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; color: #b9b9b9; }
 .ws-message-head time { margin-left: auto; color: #a0a0a0; font-size: 11px; }
@@ -69,7 +76,7 @@
 }
 .ws-primary { background: #e5e5e5; color: #202020; border-color: #e5e5e5; }
 .ws-primary:hover { background: #fff; }
-.ws-composer-wrap { position: sticky; bottom: 0; padding: 12px 28px 22px; background: linear-gradient(transparent, #131313 28%); }
+.ws-composer-wrap { flex-shrink: 0; padding: 8px 28px 18px; background: #131313; }
 .ws-composer { background: #222; border: 1px solid #343434; border-radius: 19px; padding: 14px 14px 10px; max-width: 804px; }
 .ws-composer textarea { display: block; width: 100%; min-height: 70px; resize: vertical; background: transparent; border: 0; color: #e8e8e8; font-size: 16px; }
 .ws-composer-bottom { display: flex; justify-content: space-between; align-items: center; color: #a0a0a0; font-size: 12px; margin-top: 8px; }
@@ -93,7 +100,7 @@
 .ws-dag-node.is-on { border-color: #9baea2; box-shadow: 0 0 0 1px #9baea2; }
 .ws-dag-node.accepted .ws-status { color: #90b899; }
 .ws-dag-node.running .ws-status { color: #d7b788; }
-.ws-dock { position: absolute; right: 18px; top: 84px; width: 196px; background: #1a1a1a; border: 1px solid #343434; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 4px; z-index: 2; }
+.ws-dock { position: absolute; right: 18px; top: 16px; width: 196px; background: #1a1a1a; border: 1px solid #343434; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 4px; z-index: 2; }
 .ws-dock button { width: 100%; justify-content: flex-start; font-size: 12px; color: #cfcfcf; }
 .ws-modal-backdrop { position: fixed; inset: 0; background: #000a; display: grid; place-items: center; padding: 24px; z-index: 20; }
 .ws-modal { width: min(640px, 100%); background: #1c1c1c; border: 1px solid #3a3a3a; border-radius: 14px; padding: 22px; max-height: 86dvh; overflow: auto; }
