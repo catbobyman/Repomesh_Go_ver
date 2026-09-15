@@ -21,6 +21,7 @@ import (
 	"repomesh.local/repomesh/internal/projects"
 	"repomesh.local/repomesh/internal/reposcan"
 	"repomesh.local/repomesh/internal/scan"
+	skills "repomesh.local/repomesh/internal/skills"
 	"repomesh.local/repomesh/internal/web"
 )
 
@@ -66,6 +67,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	var modelAPI web.Models
 	var scanAPI web.Scan
 	var decisionAPI web.Decision
+	var skillsAPI web.Skills
 	var certFile, keyFile string
 	if *authConfig != "" {
 		startup, cancel := context.WithTimeout(ctx, 30*time.Second)
@@ -132,6 +134,40 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 			return ""
 		}
 		decisionAPI = web.Decision{API: decisionService}
+
+		// Skill governance block (capability_management plugin ported to Go):
+		// 15 seeded SKILL.md presets, tiered approvals, AB blind evaluation,
+		// MCP call policies. Seeds are idempotent and non-blocking.
+		skillStore := &skills.Store{Pool: runtime.Pool()}
+		if err := skills.SeedMcpPolicies(ctx, skillStore); err != nil {
+			fmt.Fprintf(stderr, "seed mcp policies (non-blocking): %v\n", err)
+		}
+		if err := skills.SeedSkills(ctx, skillStore, "system-seed"); err != nil {
+			fmt.Fprintf(stderr, "seed skills (non-blocking): %v\n", err)
+		}
+		skillService := skills.NewService(skillStore)
+		// Same guard convention as the decision block: writes require Origin +
+		// session + CSRF; GET reads stay open.
+		skillService.Authenticate = func(r *http.Request) error {
+			if r.Method == http.MethodGet {
+				return nil
+			}
+			if runtime.Deployment.Origin == "" || r.Header.Get("Origin") != runtime.Deployment.Origin {
+				return errors.New("origin rejected")
+			}
+			_, err := runtime.Service.AuthenticateProjectRequest(
+				r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), true)
+			return err
+		}
+		skillService.ActorName = func(r *http.Request) string {
+			if principal, err := runtime.Service.AuthenticateProjectRequest(
+				r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), false); err == nil {
+				return principal.ActorID()
+			}
+			return ""
+		}
+		skillsAPI = web.Skills{API: skillService}
+
 		fetcher := &reposcan.Router{
 			GitHub: &reposcan.GitHubFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITHUB_TOKEN")},
 			GitLab: &reposcan.GitLabFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITLAB_TOKEN")},
@@ -185,7 +221,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 			},
 		}}
 	}
-	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, modelAPI, scanAPI, decisionAPI, certFile, keyFile); err != nil {
+	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, modelAPI, scanAPI, decisionAPI, skillsAPI, certFile, keyFile); err != nil {
 		fmt.Fprintln(stderr, "web stopped:", err)
 		return 1
 	}

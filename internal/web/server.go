@@ -25,10 +25,10 @@ func Run(ctx context.Context, addr, assets string) error {
 }
 
 func RunAuthenticated(ctx context.Context, addr, assets string, auth Auth, certFile, keyFile string) error {
-	return RunConfigured(ctx, addr, assets, auth, Projects{}, Models{}, Scan{}, Decision{}, certFile, keyFile)
+	return RunConfigured(ctx, addr, assets, auth, Projects{}, Models{}, Scan{}, Decision{}, Skills{}, certFile, keyFile)
 }
 
-func RunConfigured(ctx context.Context, addr, assets string, auth Auth, projectAPI Projects, modelAPI Models, scan Scan, decision Decision, certFile, keyFile string) error {
+func RunConfigured(ctx context.Context, addr, assets string, auth Auth, projectAPI Projects, modelAPI Models, scan Scan, decision Decision, skills Skills, certFile, keyFile string) error {
 	root := os.DirFS(assets)
 	if info, err := fs.Stat(root, "index.html"); err != nil || info.IsDir() {
 		return fmt.Errorf("frontend index.html missing in %q; run npm --prefix web ci and npm --prefix web run build", assets)
@@ -49,7 +49,7 @@ func RunConfigured(ctx context.Context, addr, assets string, auth Auth, projectA
 		listener = tls.NewListener(listener, &tls.Config{MinVersion: tls.VersionTLS12, Certificates: []tls.Certificate{certificate}})
 	}
 	server := &http.Server{
-		Handler:           handlerConfigured(root, auth, projectAPI, modelAPI, scan, decision),
+		Handler:           handlerConfigured(root, auth, projectAPI, modelAPI, scan, decision, skills),
 		ReadHeaderTimeout: 5 * time.Second,
 		IdleTimeout:       60 * time.Second,
 		WriteTimeout:      90 * time.Second,
@@ -88,16 +88,17 @@ func newHandler(assets fs.FS) http.Handler {
 }
 
 func handlerWithAuth(assets fs.FS, auth Auth) http.Handler {
-	return handlerConfigured(assets, auth, Projects{}, Models{}, Scan{}, Decision{})
+	return handlerConfigured(assets, auth, Projects{}, Models{}, Scan{}, Decision{}, Skills{})
 }
 
-func handlerConfigured(assets fs.FS, auth Auth, projectAPI Projects, modelAPI Models, scan Scan, decision Decision) http.Handler {
+func handlerConfigured(assets fs.FS, auth Auth, projectAPI Projects, modelAPI Models, scan Scan, decision Decision, skills Skills) http.Handler {
 	mux := http.NewServeMux()
 	registerAuth(mux, auth)
 	registerProjects(mux, auth, projectAPI)
 	registerModels(mux, auth, modelAPI)
 	registerScanRoutes(mux, scan)
 	registerDecisionRoutes(mux, decision)
+	registerSkillRoutes(mux, skills)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]any{
 			"process": "repomesh-web", "version": buildinfo.Version,
