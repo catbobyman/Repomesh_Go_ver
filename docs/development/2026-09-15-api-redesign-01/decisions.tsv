@@ -1,0 +1,4 @@
+ts	phase	decision	why	evidence	result
+2026-09-15T11:46:34Z	frame	以 docs/RepoMesh_Go版数据库重构方案.html 的 44 张目标表为 API 资源来源，删除 docs/api-database 并重写 API 文档	用户明确指定该 HTML 为正式数据库方案，旧目录按 B00-B11 与 63→34 合表组织，已不适用	docs/RepoMesh_Go版数据库重构方案.html	开始
+2026-09-15T11:46:34Z	frame	发现方案中的‘原表’名（local_human_accounts、agent_principals 等）与本仓库 8 个迁移文件的 40 张表名都对不上	rg 全仓只在 HTML 中出现这些名字；本仓库当前表名形如 repomesh_access.accounts	internal/database/migrations/0001-0008	记为待决：现有 Go 表到 44 张目标表的迁移映射未定义
+2026-09-15T11:46:35Z	frame	完成判据：api-database 目录不存在且现行文档无引用；索引指向 HTML 方案与新 API 文档；校验脚本确认 44 张表全部映射到资源、端点全部入索引、21 份 ADR 全部被引用、本地链接可解析	把‘文档写完’变成可脚本复核的事实	docs/development/2026-09-15-api-redesign-01/scripts/verify_api_doc.py	待实现
