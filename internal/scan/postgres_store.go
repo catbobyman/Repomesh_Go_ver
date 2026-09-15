@@ -84,9 +84,11 @@ func (c *PostgresCatalog) UpdateAutoCard(ctx context.Context, id string, card Au
 	if err != nil {
 		return err
 	}
+	// The new payload is the base; the observed block is carried over from
+	// the old metadata so a scan refresh never wipes runtime evidence.
 	tag, err := c.pool.Exec(ctx, `
 		UPDATE repomesh_scan.repositories
-		SET metadata = jsonb_set(metadata, '{observedCalls}',
+		SET metadata = jsonb_set($2::jsonb, '{observedCalls}',
 			COALESCE(metadata->'observedCalls', '[]'::jsonb), true),
 		    languages = $3, fingerprint = $4, profiled_at = now()
 		WHERE id = $1`, id, payload, jsonSlice(languages), fingerprint)

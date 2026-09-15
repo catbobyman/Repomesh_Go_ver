@@ -173,10 +173,10 @@ func (r *Runner) unchanged(ctx context.Context, name, head string) bool {
 }
 
 func (r *Runner) resolveName(ctx context.Context, repoURL string) (string, error) {
-	name, err := r.Fetcher.ResolveName(ctx, repoURL)
-	if err != nil {
-		return "", err
-	}
+	// Platform resolution is preferred but never load-bearing: when the
+	// platform cannot confirm the name, the URL's last segment takes over
+	// (Python parity).
+	name, _ := r.Fetcher.ResolveName(ctx, repoURL)
 	if name == "" {
 		segments, ok := reposcan.SplitRepoPath(strings.TrimSuffix(strings.TrimRight(repoURL, "/"), ".git"))
 		if !ok || len(segments) == 0 {
@@ -207,9 +207,11 @@ func (r *Runner) scanRepository(ctx context.Context, info reposcan.RepoInfo, hea
 	if commitLimit <= 0 {
 		commitLimit = 5
 	}
+	// Commits are optional material: a fetch failure degrades to an empty
+	// list instead of failing the card (Python parity).
 	commits, err := cached.FetchCommits(ctx, info.URL, commitLimit)
 	if err != nil {
-		return RepositoryCard{}, err
+		commits = []string{}
 	}
 
 	var deps, exposedAPIs []string

@@ -3,7 +3,6 @@ package scan
 import (
 	"context"
 	"fmt"
-	"strings"
 	"sync"
 	"time"
 )
@@ -52,6 +51,14 @@ func NewJobRegistry() *JobRegistry {
 // progress receives (done, total, repository name) while running.
 func (r *JobRegistry) Start(kind, url string, run func(ctx context.Context, progress func(done, total int, name string)) (RegistrationCounts, error)) string {
 	r.mu.Lock()
+	defer r.mu.Unlock()
+	// One running job per (kind, url): a duplicate submit joins the
+	// existing job instead of racing itself for the same catalog rows.
+	for _, job := range r.jobs {
+		if job.Status == JobRunning && job.Kind == kind && job.URL == url {
+			return job.ID
+		}
+	}
 	r.seq++
 	id := fmt.Sprintf("scan-%d-%d", time.Now().Unix(), r.seq)
 	job := &ScanJob{
@@ -104,11 +111,4 @@ func (r *JobRegistry) Get(id string) (ScanJob, bool) {
 		return ScanJob{}, false
 	}
 	return *job, true
-}
-
-// sanitizeMessage keeps outbound failure messages generic; outbound details
-// belong in the server log only.
-func sanitizeMessage(err error) string {
-	message := strings.TrimSpace(err.Error())
-	return message
 }

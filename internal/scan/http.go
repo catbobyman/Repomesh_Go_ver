@@ -38,16 +38,27 @@ type HTTP struct {
 
 	assist atomic.Bool
 	mu     sync.Mutex
+	// scopeReceipts is the in-process idempotency cache for scope
+	// submissions (design §1.2: replay returns the same result; the cache
+	// lives as long as the process — restarts invalidate keys).
+	scopeReceipts map[string]scopeReceipt
+}
+
+type scopeReceipt struct {
+	Confirmed     bool     `json:"confirmed"`
+	RepositoryIDs []string `json:"repositoryIds"`
+	DecidedAt     string   `json:"decidedAt"`
 }
 
 // NewHTTP assembles the HTTP adapter.
 func NewHTTP(service *Service, runner *Runner, jobs *JobRegistry, suggester ScopeSuggester) *HTTP {
 	return &HTTP{
-		Service:   service,
-		Runner:    runner,
-		Jobs:      jobs,
-		Suggester: suggester,
-		assist:    atomic.Bool{},
+		Service:       service,
+		Runner:        runner,
+		Jobs:          jobs,
+		Suggester:     suggester,
+		assist:        atomic.Bool{},
+		scopeReceipts: map[string]scopeReceipt{},
 	}
 }
 
@@ -204,7 +215,9 @@ func (h *HTTP) handleRepositoryCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	body.Name = strings.TrimSpace(body.Name)
-	body.URL = strings.TrimSpace(body.URL)
+	// The stored URL is normalized the same way the scanner normalizes
+	// targets, so "https://x.git" and "https://x" are one repository.
+	body.URL = strings.TrimSuffix(strings.TrimRight(strings.TrimSpace(body.URL), "/"), ".git")
 	if body.Name == "" || body.URL == "" {
 		writeError(w, http.StatusBadRequest, "name and url are required")
 		return
@@ -215,8 +228,7 @@ func (h *HTTP) handleRepositoryCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	for _, card := range cards {
-		if card.Name == body.Name || card.URL == strings.TrimSuffix(body.URL, ".git") ||
-			card.URL == strings.TrimSuffix(body.URL, "/") {
+		if card.Name == body.Name || card.URL == body.URL {
 			writeError(w, http.StatusConflict, "repository already registered")
 			return
 		}
@@ -249,12 +261,19 @@ func (h *HTTP) handleScopeSuggestions(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "invalid JSON body")
 		return
 	}
+	if strings.TrimSpace(body.Requirement) == "" {
+		writeError(w, http.StatusUnprocessableEntity, "requirement is required")
+		return
+	}
 	if !h.AssistEnabled() || h.Suggester == nil {
 		writeError(w, http.StatusServiceUnavailable, "scope assist is disabled")
 		return
 	}
 	if body.Limit <= 0 {
 		body.Limit = 5
+	}
+	if body.Limit > 50 {
+		body.Limit = 50
 	}
 	suggestions, err := h.Suggester.Suggest(body.Requirement, body.Limit)
 	if err != nil {
@@ -273,7 +292,16 @@ func (h *HTTP) handleScopeCheck(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "invalid JSON body")
 		return
 	}
-	registry := BuildAliasRegistry(h.mustCards(r))
+	if len(body.RepositoryIDs) == 0 {
+		writeError(w, http.StatusUnprocessableEntity, "repositoryIds must not be empty")
+		return
+	}
+	cards, err := h.Store.List(r.Context())
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	registry := BuildAliasRegistry(cards)
 	report, err := CheckCompleteness(r.Context(), h.Store, registry, body.RepositoryIDs)
 	var unknown *UnknownRepositoriesError
 	if errors.As(err, &unknown) {
@@ -306,6 +334,13 @@ func (h *HTTP) handleScopeSubmit(w http.ResponseWriter, r *http.Request) {
 	}
 	if strings.TrimSpace(body.IdempotencyKey) == "" {
 		writeError(w, http.StatusUnprocessableEntity, "idempotencyKey is required")
+		return
+	}
+	h.mu.Lock()
+	receipt, replay := h.scopeReceipts[body.IdempotencyKey]
+	h.mu.Unlock()
+	if replay {
+		writeJSON(w, http.StatusOK, receipt)
 		return
 	}
 	err := SubmitScope(r.Context(), h.Store, body.RepositoryIDs, func(confirmed []string) error {
