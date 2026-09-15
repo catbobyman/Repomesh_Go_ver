@@ -117,3 +117,76 @@ func newCatalogID() string {
 	value[8] = value[8]&63 | 128
 	return hex.EncodeToString(value[:4]) + "-" + hex.EncodeToString(value[4:6]) + "-" + hex.EncodeToString(value[6:8]) + "-" + hex.EncodeToString(value[8:10]) + "-" + hex.EncodeToString(value[10:])
 }
+
+// RegisterCompleteExecution registers one complete (schema2) execution version
+// on the projects side: the profile head plus the pinned policy ids in
+// profile_versions. The sources-side execution_versions row (complete=true
+// with its recipe columns) is written by the sources importer itself, so this
+// method never touches repomesh_sources.
+func (w *CatalogWriter) RegisterCompleteExecution(ctx context.Context, tx pgx.Tx, owner, profileID, version, name string, recipe ExecutionRecipe) error {
+	if owner == "" || profileID == "" || version == "" || name == "" ||
+		recipe.WorkerConcurrency < 1 || recipe.WorkerConcurrency > 16 ||
+		recipe.Budget.Ref.ID == "" || recipe.Budget.Ref.Version == "" ||
+		recipe.Limits.Ref.ID == "" || recipe.Limits.Ref.Version == "" {
+		return unavailable()
+	}
+	_, err := tx.Exec(ctx, `INSERT INTO repomesh_projects.profiles(kind,id,owner,name,enabled,current_version)
+		VALUES ('execution',$1,$2,$3,true,$4)
+		ON CONFLICT (kind,id) DO NOTHING`, profileID, owner, name, version)
+	if err != nil {
+		return unavailable()
+	}
+	var existingOwner string
+	if err = tx.QueryRow(ctx, `SELECT owner FROM repomesh_projects.profiles WHERE kind='execution' AND id=$1 FOR UPDATE`, profileID).Scan(&existingOwner); err != nil {
+		return unavailable()
+	}
+	if existingOwner != owner {
+		return failure(409, "PROFILE_OWNER_CONFLICT")
+	}
+	inserted, err := tx.Exec(ctx, `INSERT INTO repomesh_projects.profile_versions(kind,profile_id,version,parameters_complete,worker_concurrency,verification_group_enabled,budget_policy_id,time_limit_policy_id)
+		VALUES ('execution',$1,$2,false,$3,$4,$5,$6)
+		ON CONFLICT (kind,profile_id,version) DO NOTHING`,
+		profileID, version, recipe.WorkerConcurrency, recipe.VerificationGroupEnabled,
+		recipe.Budget.Ref.ID, recipe.Limits.Ref.ID)
+	if err != nil {
+		return unavailable()
+	}
+	if inserted.RowsAffected() == 0 {
+		return nil
+	}
+	if _, err = tx.Exec(ctx, `UPDATE repomesh_projects.profiles SET current_version=$2,name=$3 WHERE kind='execution' AND id=$1`, profileID, version, name); err != nil {
+		return unavailable()
+	}
+	return nil
+}
+
+// RegisterRequestPolicy writes one immutable request policy version.
+func (w *CatalogWriter) RegisterRequestPolicy(ctx context.Context, tx pgx.Tx, policy RequestPolicy) error {
+	if policy.Ref.ID == "" || policy.Ref.Version == "" ||
+		policy.Scope != "actor_model_test" && policy.Scope != "project_model_runtime" ||
+		policy.Limit <= 0 || policy.MaxUnresolved <= 0 {
+		return unavailable()
+	}
+	_, err := tx.Exec(ctx, `INSERT INTO repomesh_projects.request_policy_versions(id,version,scope,daily_limit,max_unresolved,enabled)
+		VALUES ($1,$2,$3,$4,$5,$6)`,
+		policy.Ref.ID, policy.Ref.Version, policy.Scope, policy.Limit, policy.MaxUnresolved, policy.Enabled)
+	if err != nil {
+		return unavailable()
+	}
+	return nil
+}
+
+// RegisterTimePolicy writes one immutable time policy version.
+func (w *CatalogWriter) RegisterTimePolicy(ctx context.Context, tx pgx.Tx, policy TimePolicy) error {
+	if policy.Ref.ID == "" || policy.Ref.Version == "" ||
+		policy.ModelRequestSeconds <= 0 || policy.WorkerAttemptSeconds <= 0 {
+		return unavailable()
+	}
+	_, err := tx.Exec(ctx, `INSERT INTO repomesh_projects.time_policy_versions(id,version,scope,model_request_seconds,worker_attempt_seconds)
+		VALUES ($1,$2,'project_model_runtime',$3,$4)`,
+		policy.Ref.ID, policy.Ref.Version, policy.ModelRequestSeconds, policy.WorkerAttemptSeconds)
+	if err != nil {
+		return unavailable()
+	}
+	return nil
+}

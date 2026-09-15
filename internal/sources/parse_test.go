@@ -16,7 +16,8 @@ func TestParseImportSchema1(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if command.value.ImportID != "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa" || len(command.canonical) == 0 {
+	manifest, ok := command.payload.(Manifest)
+	if !ok || manifest.ImportID != "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa" || len(command.canonical) == 0 {
 		t.Fatal("import command incomplete")
 	}
 	_, err = ParseImport([]byte(`{"schemaVersion":1,"importId":"aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa","actor":"self","environmentTemplates":[{"id":"tpl","version":"v1","executorPoolId":"pool","approvedTemplateDigest":"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","networkPolicyRef":"net","resourceClassId":"class","enabled":true}],"executionProfiles":[{"id":"exec","version":"v1","ownerId":"owner-1","name":"执行","templateId":"tpl","templateVersion":"v1","workerConcurrency":2,"verificationGroupEnabled":false}],"defaultBindings":[{"kind":"execution","ownerId":"owner-1","profileId":"exec","profileVersion":"v1"}]}`))

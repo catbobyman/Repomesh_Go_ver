@@ -72,13 +72,13 @@ func (s *Importer) Import(ctx context.Context, command ImportCommand) (ImportRes
 	if err = checkDeployment(ctx, tx, s.principal); err != nil {
 		return ImportResult{}, err
 	}
-	if err = lockImport(ctx, tx, s.principal.deploymentID, command.value.ImportID); err != nil {
+	if err = lockImport(ctx, tx, s.principal.deploymentID, commandImportID(command)); err != nil {
 		return ImportResult{}, err
 	}
 	if err = s.phase(ctx, importLocked); err != nil {
 		return ImportResult{}, err
 	}
-	prior, canonical, found, err := readImport(ctx, tx, s.principal.deploymentID, command.value.ImportID)
+	prior, canonical, found, err := readImport(ctx, tx, s.principal.deploymentID, commandImportID(command))
 	if err != nil {
 		return ImportResult{}, err
 	}
@@ -91,7 +91,7 @@ func (s *Importer) Import(ctx context.Context, command ImportCommand) (ImportRes
 		}
 		return ImportResult{Receipt: prior, Replayed: true}, nil
 	}
-	owners := ownerSet(command.value)
+	owners := ownerSetFor(command)
 	if err = lockOwners(ctx, tx, owners); err != nil {
 		return ImportResult{}, err
 	}
@@ -105,39 +105,17 @@ func (s *Importer) Import(ctx context.Context, command ImportCommand) (ImportRes
 	if err = tx.QueryRow(ctx, `SELECT clock_timestamp()`).Scan(&at); err != nil {
 		return ImportResult{}, unavailable()
 	}
-	receipt := Receipt{ImportID: command.value.ImportID, SchemaVersion: 1, CommittedAt: at}
-	for _, template := range command.value.EnvironmentTemplates {
-		if err = insertTemplate(ctx, tx, template); err != nil {
-			return ImportResult{}, err
-		}
-		receipt.EnvironmentTemplates = append(receipt.EnvironmentTemplates, VersionRef{ID: template.ID, Version: template.Version})
+	var receipt Receipt
+	switch payload := command.payload.(type) {
+	case Manifest:
+		receipt, err = s.importV1(ctx, tx, payload, at)
+	case ManifestV2:
+		receipt, err = s.importV2(ctx, tx, at, payload)
+	default:
+		err = unavailable()
 	}
-	if err = s.phase(ctx, templatesInserted); err != nil {
+	if err != nil {
 		return ImportResult{}, err
-	}
-	for _, profile := range command.value.ExecutionProfiles {
-		if err = s.catalog.RegisterExecutionVersion(ctx, tx, projects.ExecutionVersionRegistration{
-			Owner: profile.OwnerID, ProfileID: profile.ID, Version: profile.Version, Name: profile.Name,
-			WorkerConcurrency: profile.WorkerConcurrency, VerificationGroupEnabled: profile.VerificationGroupEnabled,
-		}); err != nil {
-			return ImportResult{}, err
-		}
-		if err = insertExecutionSource(ctx, tx, profile); err != nil {
-			return ImportResult{}, err
-		}
-		receipt.ExecutionProfiles = append(receipt.ExecutionProfiles, VersionRef{ID: profile.ID, Version: profile.Version})
-	}
-	if err = s.phase(ctx, executionProfilesInserted); err != nil {
-		return ImportResult{}, err
-	}
-	for _, binding := range command.value.DefaultBindings {
-		revision, bindErr := s.catalog.BindExecutionDefault(ctx, tx, binding.OwnerID, binding.ProfileID, binding.ProfileVersion)
-		if bindErr != nil {
-			return ImportResult{}, bindErr
-		}
-		receipt.DefaultBindings = append(receipt.DefaultBindings, DefaultResult{
-			OwnerID: binding.OwnerID, ProfileID: binding.ProfileID, ProfileVersion: binding.ProfileVersion, DefaultRevision: revision,
-		})
 	}
 	if err = s.phase(ctx, defaultsBound); err != nil {
 		return ImportResult{}, err
@@ -216,6 +194,21 @@ func readImport(ctx context.Context, tx pgx.Tx, deploymentID, importID string) (
 	if json.Unmarshal(raw, &receipt) != nil {
 		return Receipt{}, nil, false, unavailable()
 	}
+	if receipt.SchemaVersion == 2 {
+		var extras struct {
+			BudgetPolicies    []VersionRef        `json:"budgetPolicies"`
+			TimeLimitPolicies []VersionRef        `json:"timeLimitPolicies"`
+			EgressPolicies    []VersionRef        `json:"egressPolicies"`
+			TestBindings      []TestBindingResult `json:"testBindings"`
+		}
+		if json.Unmarshal(raw, &extras) != nil {
+			return Receipt{}, nil, false, unavailable()
+		}
+		receipt.policyResults = &PolicyImportResults{
+			BudgetPolicies: extras.BudgetPolicies, TimeLimitPolicies: extras.TimeLimitPolicies,
+			EgressPolicies: extras.EgressPolicies, TestBindings: extras.TestBindings,
+		}
+	}
 	return receipt, canonical, true, nil
 }
 
@@ -269,7 +262,7 @@ func commitImport(ctx context.Context, tx pgx.Tx, deploymentID string, command I
 		return unavailable()
 	}
 	_, err = tx.Exec(ctx, `INSERT INTO repomesh_sources.imports(deployment_id,import_id,schema_version,canonical,receipt,committed_at)
-		VALUES ($1,$2,1,$3,$4,$5)`, deploymentID, command.value.ImportID, command.canonical, body, receipt.CommittedAt)
+		VALUES ($1,$2,$3,$4,$5,$6)`, deploymentID, commandImportID(command), command.schemaVersion, command.canonical, body, receipt.CommittedAt)
 	if err != nil {
 		return unavailable()
 	}

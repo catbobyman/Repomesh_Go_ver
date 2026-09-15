@@ -492,16 +492,22 @@ func (s *Service) Get(ctx context.Context, principal access.ProjectPrincipal, pr
 	if err != nil {
 		return ProjectView{}, err
 	}
-	configuration, err := readFixedConfiguration(ctx, tx, project.id, project.configurationRevision)
+	fixed, err := s.hydrateFixedConfiguration(ctx, tx, project)
 	if err != nil {
 		return ProjectView{}, err
 	}
-	checks, err := s.inspectConfiguration(ctx, tx, principal.ActorID(), configuration.fixed)
+	checks, err := s.inspectConfiguration(ctx, tx, principal.ActorID(), fixed.snap.record.fixed)
+	if err != nil {
+		return ProjectView{}, err
+	}
+	summary, quota, err := s.readConfigurationSummary(ctx, tx, project.id, fixed, time.Now().UTC())
 	if err != nil {
 		return ProjectView{}, err
 	}
 	view := ProjectView{ID: project.id, Name: project.name, Purpose: project.purpose, ProjectRevision: project.revision, CreatedAt: project.createdAt,
-		Configuration: configurationView(configuration, checks), Actions: Actions{CanEdit: true, CanCreateIssue: false}, CreationReadiness: creationReadiness(checks)}
+		Configuration: configurationView(fixed.snap.record, checks), Actions: Actions{CanEdit: true, CanCreateIssue: false}, CreationReadiness: creationReadiness(checks)}
+	view.Configuration.FixedSummary = summary
+	view.Configuration.QuotaObservation = quota
 	return view, nil
 }
 

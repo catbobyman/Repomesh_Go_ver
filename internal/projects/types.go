@@ -108,6 +108,8 @@ type ConfigurationView struct {
 	ExecutionProfile ProfileChoice          `json:"executionProfile"`
 	Effective        EffectiveConfiguration `json:"effective"`
 	Checks           github.Capability      `json:"checks"`
+	FixedSummary     FixedSummary           `json:"fixedSummary"`
+	QuotaObservation QuotaObservation       `json:"quotaObservation"`
 }
 
 type Actions struct {
@@ -180,6 +182,10 @@ type Service struct {
 	pool   *pgxpool.Pool
 	access *access.Service
 	hook   transactionHook
+	// Combination callbacks injected by the composition root. projects never
+	// imports modelbudget; nil means the runtime quota surface is unavailable.
+	requestWindowInitializer InitializeRequestWindow
+	requestQuotaObserver     ObserveRequestQuota
 }
 
 func New(pool *pgxpool.Pool, authorization *access.Service) *Service {

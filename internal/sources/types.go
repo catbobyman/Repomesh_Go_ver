@@ -2,6 +2,7 @@ package sources
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -44,9 +45,68 @@ type Manifest struct {
 	DefaultBindings      []DefaultBinding      `json:"defaultBindings"`
 }
 
+func (Manifest) importPayload() {}
+
+// EgressPolicy is one schema2 outbound allowlist version. Registration never
+// performs DNS or HTTP probes.
+type EgressPolicy struct {
+	ID, Version           string
+	ApprovedBaseURLs      []string
+	AllowedPort           int
+	AllowPrivateAddresses bool
+	FollowRedirects       bool
+}
+
+// TestBinding pins one owner to one exact combination of three policy versions.
+type TestBinding struct {
+	OwnerID string
+	Budget  projects.PolicyRef
+	Limits  projects.PolicyRef
+	Egress  projects.PolicyRef
+}
+
+// CompleteExecution is one schema2 execution version: the schema1 identity plus
+// the two pinned policy refs. The same id/version as a schema1 record must not
+// be completed in place; a new version is required.
+type CompleteExecution struct {
+	Identity ExecutionProfile
+	Budget   projects.PolicyRef
+	Limits   projects.PolicyRef
+}
+
+// ManifestCommon holds the declarations shared with schema1 but is not a wire
+// key: the schema2 wire format keeps one flat executionProfiles array.
+type ManifestCommon struct {
+	SchemaVersion        int
+	ImportID             string
+	EnvironmentTemplates []EnvironmentTemplate
+	DefaultBindings      []DefaultBinding
+}
+
+// ManifestV2 is normalized internal data. Its flat wire schema has exactly one
+// executionProfiles array. Common is not a wire key, and parseImportV2 retains
+// canonical bytes for exact replay.
+type ManifestV2 struct {
+	Common            ManifestCommon
+	ExecutionProfiles []CompleteExecution
+	Budgets           []projects.RequestPolicy
+	Limits            []projects.TimePolicy
+	Egress            []EgressPolicy
+	Tests             []TestBinding
+}
+
+func (ManifestV2) importPayload() {}
+
+// importPayload marks one parsed import payload version. ParseImport's
+// existing signature dispatches the version and constructs exactly one payload.
+type importPayload interface {
+	importPayload()
+}
+
 type ImportCommand struct {
-	value     Manifest
-	canonical []byte
+	payload       importPayload
+	canonical     []byte
+	schemaVersion int
 }
 
 type VersionRef struct {
@@ -61,6 +121,21 @@ type DefaultResult struct {
 	DefaultRevision string `json:"defaultRevision"`
 }
 
+// PolicyImportResults is the schema2 receipt addendum: the four arrays are
+// returned even when empty. There is no "policies" wire key, and schema1
+// receipts keep their exact original shape.
+type PolicyImportResults struct {
+	BudgetPolicies    []VersionRef
+	TimeLimitPolicies []VersionRef
+	EgressPolicies    []VersionRef
+	TestBindings      []TestBindingResult
+}
+
+type TestBindingResult struct {
+	OwnerID  string
+	Revision string
+}
+
 type Receipt struct {
 	ImportID             string          `json:"importId"`
 	SchemaVersion        int             `json:"schemaVersion"`
@@ -68,6 +143,50 @@ type Receipt struct {
 	ExecutionProfiles    []VersionRef    `json:"executionProfiles"`
 	DefaultBindings      []DefaultResult `json:"defaultBindings"`
 	CommittedAt          time.Time       `json:"committedAt"`
+	policyResults        *PolicyImportResults
+}
+
+// MarshalJSON appends the four schema2 arrays only when policyResults is set;
+// the schema1 branch preserves the exact original receipt shape.
+func (r Receipt) MarshalJSON() ([]byte, error) {
+	base := struct {
+		ImportID             string          `json:"importId"`
+		SchemaVersion        int             `json:"schemaVersion"`
+		EnvironmentTemplates []VersionRef    `json:"environmentTemplates"`
+		ExecutionProfiles    []VersionRef    `json:"executionProfiles"`
+		DefaultBindings      []DefaultResult `json:"defaultBindings"`
+		CommittedAt          time.Time       `json:"committedAt"`
+	}{r.ImportID, r.SchemaVersion, r.EnvironmentTemplates, r.ExecutionProfiles, r.DefaultBindings, r.CommittedAt}
+	if r.policyResults == nil {
+		return json.Marshal(base)
+	}
+	empty := func(refs []VersionRef) []VersionRef {
+		if refs == nil {
+			return []VersionRef{}
+		}
+		return refs
+	}
+	emptyBindings := func(bindings []TestBindingResult) []TestBindingResult {
+		if bindings == nil {
+			return []TestBindingResult{}
+		}
+		return bindings
+	}
+	results := *r.policyResults
+	return json.Marshal(struct {
+		ImportID             string              `json:"importId"`
+		SchemaVersion        int                 `json:"schemaVersion"`
+		EnvironmentTemplates []VersionRef        `json:"environmentTemplates"`
+		ExecutionProfiles    []VersionRef        `json:"executionProfiles"`
+		DefaultBindings      []DefaultResult     `json:"defaultBindings"`
+		CommittedAt          time.Time           `json:"committedAt"`
+		BudgetPolicies       []VersionRef        `json:"budgetPolicies"`
+		TimeLimitPolicies    []VersionRef        `json:"timeLimitPolicies"`
+		EgressPolicies       []VersionRef        `json:"egressPolicies"`
+		TestBindings         []TestBindingResult `json:"testBindings"`
+	}{base.ImportID, base.SchemaVersion, base.EnvironmentTemplates, base.ExecutionProfiles, base.DefaultBindings,
+		base.CommittedAt, empty(results.BudgetPolicies), empty(results.TimeLimitPolicies),
+		empty(results.EgressPolicies), emptyBindings(results.TestBindings)})
 }
 
 type ImportResult struct {

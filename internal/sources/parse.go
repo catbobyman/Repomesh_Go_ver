@@ -24,6 +24,23 @@ func ParseImport(data []byte) (ImportCommand, error) {
 	if json.Unmarshal(data, &fields) != nil || fields == nil {
 		return ImportCommand{}, failure(2, "INVALID_JSON")
 	}
+	var version struct {
+		SchemaVersion int `json:"schemaVersion"`
+	}
+	if json.Unmarshal(data, &version) != nil {
+		return ImportCommand{}, failure(2, "INVALID_JSON")
+	}
+	switch version.SchemaVersion {
+	case 1:
+		return parseImportV1(data, fields)
+	case 2:
+		return parseImportV2(data, fields)
+	default:
+		return ImportCommand{}, failure(2, "UNSUPPORTED_SCHEMA")
+	}
+}
+
+func parseImportV1(data []byte, fields map[string]json.RawMessage) (ImportCommand, error) {
 	allowed := map[string]bool{
 		"schemaVersion": true, "importId": true, "environmentTemplates": true,
 		"executionProfiles": true, "defaultBindings": true,
@@ -96,7 +113,7 @@ func ParseImport(data []byte) (ImportCommand, error) {
 	if err != nil {
 		return ImportCommand{}, unavailable()
 	}
-	return ImportCommand{value: manifest, canonical: canonical}, nil
+	return ImportCommand{payload: manifest, canonical: canonical, schemaVersion: 1}, nil
 }
 
 func validID(value string) bool {
