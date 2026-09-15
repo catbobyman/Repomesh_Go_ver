@@ -312,7 +312,7 @@ configuration 提供时是完整两引用并显式重新解析固定版本；未
 
 ## 10. C05 固定预算时限摘要候选
 
-状态 `C05-r1 / PROPOSED_NOT_ADOPTED`，2026-09-13。本节补 §5 的字段缺口，原 RM-API-01 r3 已采用字段不变。本节按 S05 的有限 request 预算推荐设计；若选择金额方案，本节 budget 分支须重新设计，不把次数改名为金额。实现与验收均未开始。
+状态 `C05-r2 / PROPOSED_NOT_ADOPTED`，2026-09-15。本节补 §5 的字段缺口，原 RM-API-01 r3 已采用字段不变。B05 只固定运行政策，项目运行额度窗口移交 B10；B10 未实现前必须明确返回 unavailable，不能把政策限额伪装成当前余额。实现与验收均未开始。
 
 推荐在 `GET /api/projects/{projectId}` 的 configuration 内新增 `fixedSummary` 与 `quotaObservation`，不新增策略查询端点。二者与原 `effective.configurationRevision` 指向同一配置；固定摘要从不可变记录读取，额度独立核当前窗口。只读 GET 不创建窗口、消费额度或重解析默认。
 
@@ -320,14 +320,14 @@ configuration 提供时是完整两引用并显式重新解析固定版本；未
 
 | 字段／分支 | 完整形状 |
 | --- | --- |
-| budget，已完整固定 | `{status:"available",policyId:string,policyVersion:string,scope:"project_model_runtime",unit:"request",period:"utc_day",limit:integer,maxUnresolved:integer}` |
+| budget，已完整固定 | `{status:"available",policyId:string,policyVersion:string,scope:"project_model_runtime",unit:"request",period:"utc_day",limit:integer}` |
 | budget，未解析或缺历史材料 | `{status:"unresolved",reasonCodes:string[]}`，无策略 ID 或数值 |
 | timeLimits，已完整固定 | `{status:"available",policyId:string,policyVersion:string,modelRequestTimeoutSeconds:integer,workerAttemptLimitSeconds:integer}` |
 | timeLimits，未解析或缺历史材料 | `{status:"unresolved",reasonCodes:string[]}`，无数值 |
 
 available 表示原固定参数可读取，不表示当前已启用/额度充足/进程停止。政策已禁用但历史材料仍可读时仍展示原固定值，由 configuration.checks 表达当前限制。unresolved 不能填0、无限或推荐默认。原配置未解析 execution 时 executionVersionId=null；有可信版本但材料不完整时保留其确切版本和 unresolved 分支。
 
-`quotaObservation` 只针对上述固定运行政策，完整分支为：
+`quotaObservation` 只针对上述固定运行政策。B10 额度账本未实现前固定为 `{status:"unavailable",configurationRevision,reasonCodes:["RUNTIME_LEDGER_NOT_AVAILABLE"]}`，不返回额度数值。B10 落地后可采用以下分支：
 
 - `{status:"known",configurationRevision,policyId,policyVersion,unit:"request",windowStart,windowEnd,effectiveLimit,reserved,consumed,remaining,observedAt}`。UTC 时间；非负整数，remaining=max(0,effectiveLimit-reserved-consumed)。effectiveLimit 是原政策限额与该窗口保守下调限额的较小值，可能小于 fixedSummary.budget.limit。
 - `{status:"unknown",configurationRevision,reasonCodes,observedAt}`。observedAt 为本次核查 UTC 时间或null；没有可靠账本／读取失败不得伪造0。
@@ -337,4 +337,4 @@ available 表示原固定参数可读取，不表示当前已启用/额度充足
 
 响应中的固定摘要与 effective 必须来自同一配置版本；额度观察允许稍后变化，不承诺跨网络最新或已为 Issue 预留。默认改变后旧项目仍显示旧版本数值，模型专用应用保持原 execution 数值。契约设计覆盖[原检查 C05](../reviews/2026-09-12-project-contracts/README.md#c05-项目预算和时限缺少只读响应)，采用与真实验收尚待后续完成。
 
-C05的project_model_runtime窗口不代替actor_model_test窗口，也不表示模型测试可提交。模型测试预览在[模型字段稿§4](model-settings-browser-api-draft.md#4-单模型测试预览与费用确认)同次观察当前actor的outstanding和测试额度。已有未核清测试与额度观察是两个独立条件；浏览器不得从本节remaining推导测试canSubmit。
+`project_model_runtime` 窗口由 B10 持有，B05 只读固定政策。原 `actor_model_test` 窗口和模型测试预览整体延期；浏览器不得从固定政策 `limit` 推导当前可用额度或模型连通性。

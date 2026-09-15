@@ -7,6 +7,8 @@ implementation: not-started
 
 # 首批模型设置：保存、测试与专用应用字段草案
 
+> **当前范围替代说明（2026-09-15）：** 单模型测试三条路由、`model_test` 恢复页和测试预览字段整体延期。专用模型应用保留，但预览改为无状态比较，不再返回或消费 `previewId`；当前字段以 [B05 设计](../api-database/b05.md) 为准。本文第 4 节测试协议和旧应用预览消费字段只保留历史候选。
+
 页面独占新增浏览器字段唯一草案；补旧模型UI r3未定协议，独立RM-MODEL-API r1，不改变[现行项目PATCH](first-batch-browser-api-contract.md)或已采用界面范围。全部为本次六项完整待审包中的候选。内部实现责任只在[后端模型稿](backend-model-operations-draft.md)维护；若该稿使用内部状态，不自动成为HTTP枚举。
 
 2026-09-12候选修订：依据[设计审查R01](../reviews/2026-09-12-design-readiness/README.md#r01key-保存的永久未知状态)，补充原saveId原子终结协议，替代本稿原先“Key保存未知只能查询”的限制。新增端点、closed_without_save终态及页面动作仍待采用，不改写历史r1技术核对轮次，也不表示已实现。
@@ -29,14 +31,14 @@ Provider为稳定供应商身份；revision为当前完整连接／模型快照�
 | POST /api/model-provider-saves | 原子创建／更新完整快照与Key意图 |
 | GET /api/model-provider-saves/{saveId} | 查询原保存回执 |
 | POST /api/model-provider-saves/{saveId}/close | 原子终结原保存；已提交则返回原结果，未提交则阻止迟到保存 |
-| POST /api/model-test-previews | 得到固定单模型、出站及费用政策的测试确认 |
-| POST /api/model-tests | 登记一次测试及持久外发责任 |
-| GET /api/model-tests/{testId} | 查询该次测试状态／结果 |
-| POST /api/projects/{projectId}/model-application-previews | 项目模型替换预览 |
-| POST /api/projects/{projectId}/model-applications | 比较预览并只换模型 |
+| POST /api/model-test-previews | **延期**：原固定单模型测试确认候选 |
+| POST /api/model-tests | **延期**：原测试登记候选 |
+| GET /api/model-tests/{testId} | **延期**：原测试结果候选 |
+| POST /api/projects/{projectId}/model-application-previews | 当前 B05 的无状态项目模型替换比较 |
+| POST /api/projects/{projectId}/model-applications | 按预期项目／配置修订只换模型 |
 | GET /api/projects/{projectId}/model-applications/{applicationId} | 原应用回执 |
 
-预览POST仅建立短期授权比较上下文，无模型调用、费用预留或配置修改，不作为业务工作启动。所有links.*均为API链接；浏览器恢复页另用`/settings/model-saves/{id}`、`/settings/model-tests/{id}`、`/projects/{projectId}/model-applications/{id}`。
+当前应用预览 POST 只读取比较上下文，不落库、无模型调用、费用预留或配置修改，也不作为业务工作启动。所有 links 均为 API 链接；浏览器恢复页使用 `/settings/model-saves/{id}` 和 `/projects/{projectId}/model-applications/{id}`。`/settings/model-tests/{id}` 随模型测试延期。
 
 ## 3. 供应商读取与完整保存
 

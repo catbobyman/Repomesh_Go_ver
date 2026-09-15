@@ -5,7 +5,7 @@ design_revision: RM-FIRST-SOURCES-r1
 implementation: not-started
 ---
 
-> **物理承载替代说明（2026-09-15）：** B04 已实现的来源与模型表保持不变；B05 起的政策、绑定与导入承载及锁序以 [B05-B11 物理合表](b05-b11-storage-consolidation.md)为准，本文候选状态和逻辑语义不变。
+> **范围与物理承载替代说明（2026-09-15）：** B04 已实现的来源与模型表保持不变。当前 B05 只保留 `project_model_runtime` 运行政策、execution 绑定和 schema 2 导入，完整定义见 [B05 当前设计](../api-database/b05.md)；`actor_model_test`、`testBindings`、测试未核上限及其窗口整体延期。项目运行窗口移交 B10。本文相应测试段落只保留历史候选语义，不再是当前实施前置。
 
 # 首批真实配置与秘密来源 · 完整待审方案
 
