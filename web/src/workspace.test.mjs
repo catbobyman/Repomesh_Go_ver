@@ -25,6 +25,13 @@ test("workspace demo routes map F07-F15 surfaces", () => {
   assert.equal(workspacePath({ kind: "issue-delivery", issueId: "iss_1" }), "/demo/workspace/issues/iss_1/delivery");
 });
 
+test("the same demo path always parses to the same route shape", () => {
+  const first = parseWorkspaceRoute("/demo/workspace/conversations/conv_1");
+  const second = parseWorkspaceRoute("/demo/workspace/conversations/conv_1");
+  assert.deepEqual(first, second);
+  assert.equal(JSON.stringify(first), JSON.stringify(second));
+});
+
 test("mock API lists issues and conversations then returns adopted snapshots", async (t) => {
   installMock(t);
   const list = await readIssueList();

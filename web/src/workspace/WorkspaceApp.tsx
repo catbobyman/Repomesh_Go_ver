@@ -39,7 +39,7 @@ import type {
 import "./workspace.css";
 
 export function WorkspaceApp({ path, navigate }: { path: string; navigate: (path: string) => void }) {
-  const route = parseWorkspaceRoute(path);
+  const route = useMemo(() => parseWorkspaceRoute(path), [path]);
   const [issues, setIssues] = useState<IssueListItem[]>([]);
   const [conversations, setConversations] = useState<ConversationListItem[]>([]);
   const [conversation, setConversation] = useState<ConversationSnapshot | null>(null);
@@ -112,12 +112,13 @@ export function WorkspaceApp({ path, navigate }: { path: string; navigate: (path
   }, [loadLists]);
 
   useEffect(() => {
-    if (route.kind === "conversation") void loadConversation(route.conversationId);
-    if (route.kind === "issue") void loadIssueBundle(route.issueId, "overview");
-    if (route.kind === "issue-plan") void loadIssueBundle(route.issueId, "plan");
-    if (route.kind === "issue-delivery") void loadIssueBundle(route.issueId, "delivery");
-    if (route.kind === "issues") setIssue(null);
-  }, [route, loadConversation, loadIssueBundle]);
+    const current = parseWorkspaceRoute(path);
+    if (current.kind === "conversation") void loadConversation(current.conversationId);
+    if (current.kind === "issue") void loadIssueBundle(current.issueId, "overview");
+    if (current.kind === "issue-plan") void loadIssueBundle(current.issueId, "plan");
+    if (current.kind === "issue-delivery") void loadIssueBundle(current.issueId, "delivery");
+    if (current.kind === "issues") setIssue(null);
+  }, [path, loadConversation, loadIssueBundle]);
 
   const openCreate = async () => {
     setCreating(true);

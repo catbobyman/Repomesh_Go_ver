@@ -1,9 +1,11 @@
 .ws-app {
+  height: 100dvh;
   min-height: 100dvh;
   background: #131313;
   color: #dedede;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 .ws-banner {
   height: 46px;
