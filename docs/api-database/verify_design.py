@@ -39,6 +39,7 @@ DECL_NEAR_RE = re.compile(r"^\**\s*物理表\s*[:：]")
 STAT_RE = re.compile(r'<div class="n">(\d+)</div><div class="t">([^<]+)</div>')
 
 ORIGINS = ("legacy_merge", "new", "new_required_dependency")
+EXISTING_GROUPS = ("manual_baseline", "scan", "decision_chain")
 ROLES = (
     "schema2_import_receipt",
     "candidate_version",
@@ -98,6 +99,11 @@ def scan_migrations() -> List[dict]:
 
 
 def check_existing(manifest: dict, migrations: List[dict], report: Report) -> None:
+    """按显式分组清单核对已有表与迁移事实。
+
+    每张已有表必须由某个分组用明确的 migration 清单拥有：清单未登记的迁移整文件报错，
+    不能沿用“不是 0007 就并入手册基线”的隐式归类，否则上游新增迁移会被静默算进旧基线。
+    """
     existing = manifest.get("existing") or {}
     listed = existing.get("tables")
     if not isinstance(listed, list):
@@ -106,6 +112,55 @@ def check_existing(manifest: dict, migrations: List[dict], report: Report) -> No
     names = [row.get("table") for row in listed if isinstance(row, dict)]
     if len(names) != len(set(names)):
         report.error("existing.tables 存在重复表名")
+
+    owner: Dict[str, str] = {}
+    group_counts: Dict[str, int] = {}
+    for group in EXISTING_GROUPS:
+        info = existing.get(group)
+        if not isinstance(info, dict):
+            report.error(f"existing.{group} 必须是对象")
+            continue
+        files = info.get("migrations")
+        if not isinstance(files, list) or not files:
+            report.error(f"existing.{group}.migrations 必须是非空列表")
+            continue
+        for name in files:
+            if not isinstance(name, str) or not name:
+                report.error(f"existing.{group}.migrations 含非法文件名: {name!r}")
+                continue
+            if not (MIGRATION_DIR / name).is_file():
+                report.error(f"existing.{group} 登记的迁移文件不存在: {name}")
+                continue
+            previous = owner.get(name)
+            if previous is not None:
+                report.error(f"迁移 {name} 同时登记在 {previous} 与 {group}")
+                continue
+            owner[name] = group
+        owned = [row for row in migrations if row["migration"] in set(files)]
+        group_counts[group] = len(owned)
+        if info.get("expected_count") != len(owned):
+            report.error(
+                f"{group} 应为 {len(owned)} 张，清单写 {info.get('expected_count')}"
+            )
+        declared = info.get("tables")
+        if isinstance(declared, list):
+            owned_names = {row["table"] for row in owned}
+            if set(declared) != owned_names:
+                missing_names = sorted(owned_names - set(declared))
+                extra_names = sorted(set(declared) - owned_names)
+                if missing_names:
+                    report.error(f"{group} 漏登迁移表: {missing_names}")
+                if extra_names:
+                    report.error(f"{group} 登记了迁移中不存在的表: {extra_names}")
+
+    unclassified = sorted(
+        {row["migration"] for row in migrations if row["migration"] not in owner}
+    )
+    if unclassified:
+        report.error(
+            f"未归类迁移: {unclassified}（请在 existing 分组里显式登记，不能默认并入手册基线）"
+        )
+
     actual = {row["table"]: (row["migration"], row["line"]) for row in migrations}
     listed_map = {
         row.get("table"): (row.get("migration"), row.get("line"))
@@ -123,32 +178,41 @@ def check_existing(manifest: dict, migrations: List[dict], report: Report) -> No
         recorded = listed_map.get(table)
         if recorded != (migration, line):
             report.error(f"{table}: 清单的迁移位置 {recorded} 与源码 {(migration, line)} 不一致")
+    for row in listed:
+        if not isinstance(row, dict):
+            continue
+        group = row.get("group")
+        expected_group = owner.get(str(row.get("migration")))
+        if group not in EXISTING_GROUPS:
+            report.error(f"{row.get('table')}: 分组 {group!r} 未登记")
+        elif expected_group is not None and group != expected_group:
+            report.error(
+                f"{row.get('table')}: 分组写 {group}，但 {row.get('migration')} 属于 {expected_group}"
+            )
 
-    manual = existing.get("manual_baseline") or {}
-    scan = existing.get("scan") or {}
-    manual_tables = [row for row in migrations if not row["migration"].startswith("0007")]
-    scan_tables = [row for row in migrations if row["migration"].startswith("0007")]
-    if manual.get("expected_count") != len(manual_tables):
-        report.error(
-            f"手册基线应为 {len(manual_tables)} 张，清单写 {manual.get('expected_count')}"
-        )
-    if scan.get("expected_count") != len(scan_tables):
-        report.error(f"扫描表应为 {len(scan_tables)} 张，清单写 {scan.get('expected_count')}")
     if existing.get("expected_total") != len(migrations):
         report.error(
             f"全量已有表应为 {len(migrations)} 张，清单写 {existing.get('expected_total')}"
         )
+    manual = existing.get("manual_baseline") or {}
     system_table = manual.get("system_table")
     if system_table not in set(names):
         report.error(f"手册基线缺少系统表: {system_table}")
-    business = len([row for row in migrations if row["table"] != system_table and not row["migration"].startswith("0007")])
+    business = len(
+        [
+            row
+            for row in migrations
+            if row["table"] != system_table and owner.get(row["migration"]) == "manual_baseline"
+        ]
+    )
     if manual.get("business_count") != business:
         report.error(f"手册基线业务表应为 {business} 张，清单写 {manual.get('business_count')}")
     report.counts["existing"] = {
-        "manual_baseline": len(manual_tables),
+        "manual_baseline": group_counts.get("manual_baseline", 0),
         "manual_business": business,
-        "manual_system": len(manual_tables) - business,
-        "scan": len(scan_tables),
+        "manual_system": group_counts.get("manual_baseline", 0) - business,
+        "scan": group_counts.get("scan", 0),
+        "decision_chain": group_counts.get("decision_chain", 0),
         "total": len(migrations),
     }
 
@@ -485,13 +549,15 @@ def check_html(manifest: dict, report: Report) -> None:
     existing = manifest.get("existing") or {}
     manual = (existing.get("manual_baseline") or {}).get("expected_count")
     scan = (existing.get("scan") or {}).get("expected_count")
+    decision = (existing.get("decision_chain") or {}).get("expected_count")
     design = len(manifest.get("target_tables") or [])
     expected = {
         "已有数据库表（手册基线）": manual,
         "扫描表（手册外）": scan,
+        "决策链表（手册外）": decision,
         "B05-B11 设计表": design,
         "手册范围合计": manual + design,
-        "全仓含扫描合计": manual + scan + design,
+        "全仓含扩展合计": manual + scan + decision + design,
     }
     for label, value in expected.items():
         if label not in stats:
@@ -502,6 +568,8 @@ def check_html(manifest: dict, report: Report) -> None:
         report.error("index.html 仍使用旧统计标签「表格」，应改为「说明表格」")
     if "接口与数据卡" in stats:
         report.error("index.html 仍把文档卡片计为接口与数据卡，应收敛为说明统计")
+    if "全仓含扫描合计" in stats:
+        report.error("index.html 仍使用旧统计标签「全仓含扫描合计」，应改为「全仓含扩展合计」")
     document_tables = count_doc_tables([HERE / name for name in SOURCES])
     if "说明表格" not in stats:
         report.error("index.html 缺少统计标签: 说明表格")
@@ -617,20 +685,25 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     targets = counts.get("targets") or {}
     print(
         "清单: 旧表 {legacy} 张 → 目标 {target} 张；已有手册基线 {manual} 张"
-        "（业务 {business} + 系统 {system}）+ 扫描表 {scan} = 全仓 {total}".format(
+        "（业务 {business} + 系统 {system}）+ 扫描表 {scan} + 决策链表 {decision} = 全仓 {total}".format(
             legacy=legacy.get("total"),
             target=targets.get("total"),
             manual=existing.get("manual_baseline"),
             business=existing.get("manual_business"),
             system=existing.get("manual_system"),
             scan=existing.get("scan"),
+            decision=existing.get("decision_chain"),
             total=existing.get("total"),
         )
     )
     manual = existing.get("manual_baseline") or 0
     design = targets.get("total") or 0
     scan = existing.get("scan") or 0
-    print(f"统计口径: 手册范围 {manual + design} = {manual} + {design}；全仓含扫描 {manual + scan + design}")
+    decision = existing.get("decision_chain") or 0
+    print(
+        f"统计口径: 手册范围 {manual + design} = {manual} + {design}；"
+        f"全仓含扩展 {manual + scan + decision + design}"
+    )
     print(
         "文档统计: 说明表格 {tables} 张（与数据库表数分列）".format(
             tables=counts.get("document_tables")

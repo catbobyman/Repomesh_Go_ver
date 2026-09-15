@@ -106,4 +106,4 @@
 
 ## B05-B11 物理合表
 
-[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 33 张，B01-B04 的 36 张手册基线表与 0007 扫描表保持不动。合表只改变物理承载，已采用逻辑契约、各候选与验收状态不变；相关专题顶部的替代说明只把 B05 与物理承载、锁序指向该文。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json) 和 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md)。
+[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 34 张，B01-B04 的 36 张手册基线表、0007 扫描表与 0008 决策链 3 张保持不动；手册范围 70 张，全仓含扩展 74 张。合表只改变物理承载，已采用逻辑契约、各候选与验收状态不变；相关专题顶部的替代说明只把 B05 与物理承载、锁序指向该文。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json) 和 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md)，上游同步见 [主分支同步记录](../development/2026-09-15-table-consolidation-main-sync.md)。

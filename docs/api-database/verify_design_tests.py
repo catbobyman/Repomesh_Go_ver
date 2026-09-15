@@ -67,13 +67,15 @@ def write_index(api: Path, manifest: dict) -> None:
     existing = manifest.get("existing") or {}
     manual = (existing.get("manual_baseline") or {}).get("expected_count", 0)
     scan = (existing.get("scan") or {}).get("expected_count", 0)
+    decision = (existing.get("decision_chain") or {}).get("expected_count", 0)
     design = len(manifest.get("target_tables") or [])
     stats = [
         ("已有数据库表（手册基线）", manual),
         ("扫描表（手册外）", scan),
+        ("决策链表（手册外）", decision),
         ("B05-B11 设计表", design),
         ("手册范围合计", manual + design),
-        ("全仓含扫描合计", manual + scan + design),
+        ("全仓含扩展合计", manual + scan + decision + design),
         ("说明表格", len(CHAPTERS)),
     ]
     body = "".join(
@@ -136,6 +138,66 @@ def case_missing_legacy_mapping() -> None:
     save_manifest(api, data)
     expect(run(api), "b07: legacy_count 写 1，实际 0")
     expect(run(api), "旧表总数应为 63，实际 62")
+
+
+def stage_with_unregistered_migration() -> Path:
+    """把迁移目录从符号链接换成副本，加入仓库里不存在的 0009 迁移。"""
+    api = make_stage()
+    internal = api.parent.parent / "internal"
+    internal.unlink()
+    migrations = internal / "database" / "migrations"
+    migrations.mkdir(parents=True)
+    for path in (REPO / "internal/database/migrations").glob("*.sql"):
+        shutil.copy(path, migrations / path.name)
+    (migrations / "0009_unclassified.sql").write_text(
+        "CREATE TABLE public.unclassified_probe (id uuid PRIMARY KEY);\n", encoding="utf-8"
+    )
+    return api
+
+
+def case_unregistered_migration() -> None:
+    api = stage_with_unregistered_migration()
+    expect(run(api), "未归类迁移: ['0009_unclassified.sql']")
+
+
+def case_decision_chain_not_grouped() -> None:
+    api = make_stage()
+    data = load_manifest(api)
+    data["existing"]["decision_chain"]["migrations"] = []
+    save_manifest(api, data)
+    expect(run(api), "existing.decision_chain.migrations 必须是非空列表")
+    expect(run(api), "未归类迁移: ['0008_decision_chain.sql']")
+
+
+def case_decision_chain_count_mismatch() -> None:
+    api = make_stage()
+    data = load_manifest(api)
+    data["existing"]["decision_chain"]["expected_count"] = 2
+    save_manifest(api, data)
+    expect(run(api), "decision_chain 应为 3 张，清单写 2")
+
+
+def case_decision_chain_table_name_mismatch() -> None:
+    api = make_stage()
+    data = load_manifest(api)
+    data["existing"]["decision_chain"]["tables"] = [
+        "public.decision_chain_nodes",
+        "public.decision_embeddings",
+    ]
+    save_manifest(api, data)
+    expect(run(api), "decision_chain 漏登迁移表: ['public.feature_settings']")
+
+
+def case_wrong_group_label() -> None:
+    api = make_stage()
+    data = load_manifest(api)
+    row = next(entry for entry in data["existing"]["tables"] if entry["group"] == "decision_chain")
+    row["group"] = "manual_baseline"
+    save_manifest(api, data)
+    expect(
+        run(api),
+        f"{row['table']}: 分组写 manual_baseline，但 0008_decision_chain.sql 属于 decision_chain",
+    )
 
 
 def case_duplicate_target() -> None:
@@ -217,6 +279,8 @@ def case_missing_declaration_strict() -> None:
     (api / "b10.md").write_text(
         text.replace(f"物理表：`{table}`\n", "", 1), encoding="utf-8"
     )
+    data["status"] = "in_progress"
+    save_manifest(api, data)
     result = run(api)
     check(result.returncode == 0, f"进行中状态不应因待办失败: {result.stdout}{result.stderr}")
     check(f"待作者声明: b10.md 物理表：`{table}`" in result.stdout, f"缺少待办提示: {result.stdout}")
@@ -234,6 +298,11 @@ def case_protected_file_modified() -> None:
 CASES = (
     ("positive-control", case_positive_control),
     ("missing-legacy-mapping", case_missing_legacy_mapping),
+    ("unregistered-migration", case_unregistered_migration),
+    ("decision-chain-not-grouped", case_decision_chain_not_grouped),
+    ("decision-chain-count-mismatch", case_decision_chain_count_mismatch),
+    ("decision-chain-table-name-mismatch", case_decision_chain_table_name_mismatch),
+    ("wrong-group-label", case_wrong_group_label),
     ("duplicate-target", case_duplicate_target),
     ("duplicate-declaration", case_duplicate_declaration),
     ("declaration-wrong-batch", case_declaration_wrong_batch),

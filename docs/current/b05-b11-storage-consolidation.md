@@ -8,8 +8,9 @@
 
 - 手册基线 36 张 = 35 张业务表加 1 张系统表 `public.repomesh_schema_migrations`，来自 `0001` 至 `0006` 迁移。
 - 手册外扫描表 1 张：`repomesh_scan.repositories`，来自 `0007_scan_catalog.sql`。
+- 手册外决策链表 3 张：`public.decision_chain_nodes`、`public.decision_embeddings`、`public.feature_settings`，来自 `0008_decision_chain.sql`（origin/main `6899665`）；单独成组，不计入 B05-B11 的 34 张。
 - B05-B11 合表 63 张候选或提案表压到 34 张目标物理表。
-- 手册范围合计 70 = 36 + 34；全仓含扫描合计 71 = 36 + 1 + 34。
+- 手册范围合计 70 = 36 + 34；全仓含扩展合计 74 = 36 + 1 扫描 + 3 决策链 + 34 设计。
 
 ## 批次与目标表
 

@@ -2,7 +2,7 @@
   "manifest_version": 1,
   "status": "design_only",
   "updated": "2026-09-15",
-  "scope": "B05-B11 物理合表：63 张旧提案按物理承载合到 34 张（净减 29，约 46%）；B01-B04 手册基线 36 张（35 业务 + 1 系统表）与 0007 扫描表 1 张保持不动",
+  "scope": "B05-B11 物理合表：63 张旧提案按物理承载合到 34 张（净减 29，约 46%）；B01-B04 手册基线 36 张（35 业务 + 1 系统表）与 0007 扫描表 1 张保持不动；0008 决策链表 3 张按手册外单独分组，不进入这 34 张",
   "declaration": {
     "format": "物理表：`schema.table`",
     "rule": "每张目标物理表只在所属 batch 正文声明一次；跨 batch 复用不重复声明；B00-B04 与 B08 不写声明。",
@@ -22,7 +22,7 @@
     "expected_total": 63
   },
   "existing": {
-    "source": "internal/database/migrations/0001..0007",
+    "source": "internal/database/migrations/0001..0008",
     "manual_baseline": {
       "migrations": [
         "0001_schema_migrations.sql",
@@ -46,7 +46,19 @@
       ],
       "note": "手册外扫描表；全仓统计含此表"
     },
-    "expected_total": 37,
+    "decision_chain": {
+      "migrations": [
+        "0008_decision_chain.sql"
+      ],
+      "expected_count": 3,
+      "tables": [
+        "public.decision_chain_nodes",
+        "public.decision_embeddings",
+        "public.feature_settings"
+      ],
+      "note": "手册外决策链表（origin/main 6899665 的 0008 迁移）；单独分组，不计入 B05-B11 设计 34 张"
+    },
+    "expected_total": 40,
     "tables": [
       {
         "table": "public.repomesh_schema_migrations",
@@ -269,6 +281,24 @@
         "migration": "0007_scan_catalog.sql",
         "line": 9,
         "group": "scan"
+      },
+      {
+        "table": "public.decision_chain_nodes",
+        "migration": "0008_decision_chain.sql",
+        "line": 17,
+        "group": "decision_chain"
+      },
+      {
+        "table": "public.decision_embeddings",
+        "migration": "0008_decision_chain.sql",
+        "line": 55,
+        "group": "decision_chain"
+      },
+      {
+        "table": "public.feature_settings",
+        "migration": "0008_decision_chain.sql",
+        "line": 70,
+        "group": "decision_chain"
       }
     ]
   },
@@ -1518,8 +1548,8 @@
   "totals": {
     "target_total": 34,
     "manual_scope_total": 70,
-    "repo_scope_total": 71,
-    "note": "手册范围 70 = 手册基线 36 + 设计 34；全仓含扫描 71 = 36 + 1 + 34；旧表映射仍为 63 张。"
+    "repo_scope_total": 74,
+    "note": "手册范围 70 = 手册基线 36 + 设计 34；全仓含扩展 74 = 36 + 1 扫描 + 3 决策链 + 34 设计；旧表映射仍为 63 张。"
   },
   "status_note": "用户已批准 B05-B11 物理合表设计（63 张提案合到 34 张）；B01-B04 现有 36 张手册基线表、既有逻辑/API 与 B05-B11 候选、提案、实现、验收状态全部不变。清单与校验只做静态文档检查，不执行迁移，也不证明任何数据库行为已经验证。",
   "review_documents": [

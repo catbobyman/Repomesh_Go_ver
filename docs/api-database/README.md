@@ -24,7 +24,7 @@
 
 用户已授权 B05-B11 的物理合表设计。原有 63 张候选或提案表按同一业务事实、写入者与生命周期合到 34 张：B05 9 张、B06 6 张、B07 1 张、B08 0 张、B09 6 张、B10 10 张、B11 2 张，净减 29 张，约 46%。合表只改变物理承载，已采用的逻辑身份、唯一性、作用域、事务、恢复和清理语义不变；B05-B11 的候选、提案、未实施与验收状态也不因合表升级。B10 的 `business_plan_versions` 显式承载原目录漏登的业务计划版本实体，与执行层技术 `plan_revisions` 分离；B10 实施时给 B06 新 `issues` 增补 `current_business_plan_version_id`、`business_plan_pointer_revision`、`next_business_plan_version_index` 三列，不增加 B06 表数。B05 的 `policy_imports` 承接 schema2 导入回执；B10 的 `change_set_versions` 显式承载 candidate 与 combination 两个子型。规则和逐表映射见 [B05-B11 物理合表专题](../current/b05-b11-storage-consolidation.md)。
 
-表数按源码和清单分开计数。手册 B01-B04 基线 36 张，来自 `0001` 至 `0006` 迁移，其中 35 张业务表加 1 张系统表 `public.repomesh_schema_migrations`；`0007_scan_catalog.sql` 另有 1 张手册外扫描表 `repomesh_scan.repositories`。加上设计 34 张，手册范围合计 70 张，全仓含扫描合计 71 张。机器可校验清单是 [table-manifest.json](./table-manifest.json)，每张目标物理表只在所属批次正文用独立一行声明：
+表数按源码和清单分开计数。手册 B01-B04 基线 36 张，来自 `0001` 至 `0006` 迁移，其中 35 张业务表加 1 张系统表 `public.repomesh_schema_migrations`；`0007_scan_catalog.sql` 有 1 张手册外扫描表 `repomesh_scan.repositories`，`0008_decision_chain.sql` 有 3 张手册外决策链表 `public.decision_chain_nodes`、`public.decision_embeddings`、`public.feature_settings`，两者各自成组，都不计入 B05-B11 的 34 张。加上设计 34 张，手册范围合计 70 张，全仓含扩展合计 74 张。机器可校验清单是 [table-manifest.json](./table-manifest.json)，每张目标物理表只在所属批次正文用独立一行声明：
 
 ```text
 物理表：`repomesh_issues.issues`
@@ -56,7 +56,7 @@ python3 docs/api-database/verify_design_tests.py
 
 第三条命令验证生成器对陈旧文件、缺失章节、坏链接、重复标题及换行格式的处理。它使用临时副本，不修改设计正文。它验证文档工具，不代替 API 与数据库语义复核。
 
-第四条命令是日常检查，校验表清单、迁移事实、合表前正文快照、正文声明和 HTML 统计口径。它默认不读取历史 baseline，不把产品代码冻结带进每次文档更新；`--strict` 用于交付冻结时把待办视为失败。本轮合表的受保护文件范围审计单独执行：
+第四条命令是日常检查，校验表清单、迁移事实、合表前正文快照、正文声明和 HTML 统计口径。清单按显式迁移清单分组：`0001` 至 `0006` 是手册基线，`0007` 是扫描表，`0008` 是决策链表；漏登记的迁移或未归组表直接失败，不会默认并入手册基线。它默认不读取历史 baseline，不把产品代码冻结带进每次文档更新；`--strict` 用于交付冻结时把待办视为失败。本轮合表的受保护文件范围审计单独执行：
 
 ```bash
 python3 docs/api-database/verify_design.py --baseline docs/development/2026-09-15-table-consolidation-01/baseline.json
@@ -68,4 +68,4 @@ python3 docs/api-database/verify_design.py --baseline docs/development/2026-09-1
 
 正文使用标题、段落、列表、管道表格、围栏代码、链接、粗体和行内代码。HTML 用章节目录、白色卡片与字段表呈现。表格中的文字竖线写成 &#124;，避免被当作列分隔符。
 
-生成检查不能证明 API 的业务正确性。发布前仍要对照来源复核状态、字段和恢复约束，并实际打开 HTML 检查布局。目录制作证据见 [制作与复核记录](../development/2026-09-15-api-db-catalog-01/README.md)，本轮合表清单与统计证据见 [合表制作记录](../development/2026-09-15-table-consolidation-01/README.md)。
+生成检查不能证明 API 的业务正确性。发布前仍要对照来源复核状态、字段和恢复约束，并实际打开 HTML 检查布局。目录制作证据见 [制作与复核记录](../development/2026-09-15-api-db-catalog-01/README.md)，本轮合表清单与统计证据见 [合表制作记录](../development/2026-09-15-table-consolidation-01/README.md)，上游 `0008` 三表引起的统计同步见 [主分支同步记录](../development/2026-09-15-table-consolidation-main-sync.md)。

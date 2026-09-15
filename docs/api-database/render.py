@@ -700,9 +700,11 @@ def render_all(
     existing = manifest.get("existing") or {}
     manual = (existing.get("manual_baseline") or {})
     scan = (existing.get("scan") or {})
+    decision = (existing.get("decision_chain") or {})
     manual_count = manual.get("expected_count", 0)
     business_count = manual.get("business_count", 0)
     scan_count = scan.get("expected_count", 0)
+    decision_count = decision.get("expected_count", 0)
     design_count = len(manifest.get("target_tables") or [])
     batch_counts = "、".join(
         f"{batch.get('id', '').upper()} {batch.get('expected_target_count', 0)}"
@@ -712,9 +714,10 @@ def render_all(
     stats = [
         (manual_count, "已有数据库表（手册基线）"),
         (scan_count, "扫描表（手册外）"),
+        (decision_count, "决策链表（手册外）"),
         (design_count, "B05-B11 设计表"),
         (manual_count + design_count, "手册范围合计"),
-        (manual_count + scan_count + design_count, "全仓含扫描合计"),
+        (manual_count + scan_count + decision_count + design_count, "全仓含扩展合计"),
         (len(docs), "Markdown 章节"),
         (sum(len(doc.groups) for doc in docs), "设计专题（说明）"),
         (sum(len(group.cards) for doc in docs for group in doc.groups), "文档卡片（说明）"),
@@ -739,8 +742,10 @@ def render_all(
             "目录和文档计数按内容计算。"
             f"数据库统计来自迁移与 table-manifest.json：手册基线 {manual_count} 张"
             f"（业务 {business_count} + 系统表 1）、扫描表 {scan_count} 张（手册外）、"
+            f"决策链表 {decision_count} 张（手册外，0008 迁移）、"
             f"B05-B11 设计表 {design_count} 张（{batch_counts}）；"
-            f"手册范围合计 {manual_count + design_count}，全仓含扫描 {manual_count + scan_count + design_count}。"
+            f"手册范围合计 {manual_count + design_count}，"
+            f"全仓含扩展 {manual_count + scan_count + decision_count + design_count}。"
             "设计专题、文档卡片、说明表格等数字是文档统计，不是 API 数或已实现表数。"
         ),
         "GENERATOR": GENERATOR,

@@ -125,19 +125,24 @@ def case_render_and_check() -> None:
     manifest = json.loads((api / "table-manifest.json").read_text(encoding="utf-8"))
     manual = manifest["existing"]["manual_baseline"]["expected_count"]
     scan = manifest["existing"]["scan"]["expected_count"]
+    decision = manifest["existing"]["decision_chain"]["expected_count"]
     design = len(manifest["target_tables"])
     page_stats = stats(page)
     check(page_stats["Markdown 章节"] == 13, f"章节数应为 13，实际 {page_stats}")
     check(page_stats["已有数据库表（手册基线）"] == manual, f"手册基线应 {manual}，实际 {page_stats}")
     check(page_stats["扫描表（手册外）"] == scan, f"扫描表应 {scan}，实际 {page_stats}")
+    check(
+        page_stats["决策链表（手册外）"] == decision,
+        f"决策链表应 {decision}，实际 {page_stats}",
+    )
     check(page_stats["B05-B11 设计表"] == design, f"设计表应 {design}，实际 {page_stats}")
     check(
         page_stats["手册范围合计"] == manual + design,
         f"手册范围应 {manual + design}，实际 {page_stats}",
     )
     check(
-        page_stats["全仓含扫描合计"] == manual + scan + design,
-        f"全仓应 {manual + scan + design}，实际 {page_stats}",
+        page_stats["全仓含扩展合计"] == manual + scan + decision + design,
+        f"全仓应 {manual + scan + decision + design}，实际 {page_stats}",
     )
     check("说明表格" in page_stats, f"缺少说明表格统计: {page_stats}")
     check("表格" not in page_stats, f"仍使用旧统计标签: {page_stats}")
@@ -327,6 +332,7 @@ def case_design_counts_follow_manifest() -> None:
     data = json.loads(manifest.read_text(encoding="utf-8"))
     manual = data["existing"]["manual_baseline"]["expected_count"]
     scan = data["existing"]["scan"]["expected_count"]
+    decision = data["existing"]["decision_chain"]["expected_count"]
     base = len(data["target_tables"])
     removed = data["target_tables"].pop()
     for batch in data["batches"]:
@@ -344,8 +350,31 @@ def case_design_counts_follow_manifest() -> None:
         f"手册范围统计没有跟随 manifest: {page_stats}",
     )
     check(
-        page_stats["全仓含扫描合计"] == manual + scan + base - 1,
+        page_stats["全仓含扩展合计"] == manual + scan + decision + base - 1,
         f"全仓统计没有跟随 manifest: {page_stats}",
+    )
+    result = run(api, "--check")
+    check(result.returncode == 0, f"按 manifest 重生成后 --check 应通过: {result.stderr.strip()}")
+
+
+def case_extension_counts_follow_manifest() -> None:
+    api = make_stage()
+    manifest = api / "table-manifest.json"
+    data = json.loads(manifest.read_text(encoding="utf-8"))
+    manual = data["existing"]["manual_baseline"]["expected_count"]
+    scan = data["existing"]["scan"]["expected_count"]
+    design = len(data["target_tables"])
+    data["existing"]["decision_chain"]["expected_count"] = 2
+    manifest.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    page_stats = stats(render(api))
+    check(page_stats["决策链表（手册外）"] == 2, f"决策链统计没有跟随 manifest: {page_stats}")
+    check(
+        page_stats["手册范围合计"] == manual + design,
+        f"决策链不应进入手册范围: {page_stats}",
+    )
+    check(
+        page_stats["全仓含扩展合计"] == manual + scan + 2 + design,
+        f"全仓含扩展没有跟随 manifest: {page_stats}",
     )
     result = run(api, "--check")
     check(result.returncode == 0, f"按 manifest 重生成后 --check 应通过: {result.stderr.strip()}")
@@ -445,6 +474,7 @@ CASES = (
     ("stale-manifest", case_stale_manifest),
     ("missing-manifest-is-fatal", case_missing_manifest_is_fatal),
     ("design-counts-follow-manifest", case_design_counts_follow_manifest),
+    ("extension-counts-follow-manifest", case_extension_counts_follow_manifest),
     ("visible-table-declaration", case_visible_table_declaration),
     ("stale-generator-code", case_stale_generator_code),
     ("stale-html-tamper", case_stale_html_tamper),

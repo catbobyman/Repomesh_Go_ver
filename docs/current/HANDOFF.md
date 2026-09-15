@@ -48,4 +48,4 @@ LIVE-09、LIVE-10 的既有通过结果保留。second-account-02 的 LIVE-05 �
 
 ## B05-B11 物理合表入口
 
-[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录 2026-09-15 用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 33 张，B01-B04 的 36 张手册基线表与 0007 扫描表 1 张保持不动。合表只改变物理承载，候选、提案、实现与验收状态不变。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json)，制作进度、检查结果与限制见 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md)；该记录不代表数据库行为已验证。
+[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录 2026-09-15 用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 34 张，B01-B04 的 36 张手册基线表、0007 扫描表 1 张与 0008 决策链 3 张保持不动；手册范围 70 张，全仓含扩展 74 张。合表只改变物理承载，候选、提案、实现与验收状态不变。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json)，制作进度、检查结果与限制见 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md) 和 [主分支同步记录](../development/2026-09-15-table-consolidation-main-sync.md)；该记录不代表数据库行为已验证。
