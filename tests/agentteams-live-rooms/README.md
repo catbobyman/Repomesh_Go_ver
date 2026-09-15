@@ -21,7 +21,21 @@ DAG：`GET /api/v1/projects/{id}/workflow` 的 `nodes` / `edges` / `next`。`nex
 
 密钥、管理员口令只放在 `$HOME/.config/agentteams-live/`，不要提交。安装日志 `/tmp/agentteams-install.log` 也不要提交。
 
-## 入口
+## 本机这次跑通的事实
+
+Embedded 安装：`agentteams-controller` + `agentteams-manager`（deepseek-chat / qwenpaw）。Element http://127.0.0.1:18088 ，Matrix 网关 http://127.0.0.1:18080 。
+
+已创建 `live-demo` 团队（leader=`live-lead`，worker=`live-dev`）。Admin 加入的房间包括：
+
+- `Manager: default` → `direct_room` → Manager 主对话
+- `Team: live-demo` → `team_room` → RepoMesh Leader 协作
+- `Leader DM: live-lead` → `direct_room` → Leader↔Admin
+- `Worker: live-lead` → `worker_room` + Controller `team_leader` → AT 文档 Leader Room
+- `Worker: live-dev` → `worker_room` → Worker 个人房间
+
+Project `live-dag-1` 经 `agt project create` / `replan` 写入 DAG：`n2` 在 `workflow.next`（候选就绪，不是派工）。Worker 容器随后因 MinIO mirror 失败退出，不影响已创建的 Matrix 房间与 Controller workflow。
+
+映射页：http://127.0.0.1:18089/
 
 1. 安装并启动 AgentTeams（见仓库外安装记录）。Element：http://127.0.0.1:18088/#/login
 2. 采集并打开映射页：
