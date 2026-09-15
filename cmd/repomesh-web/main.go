@@ -16,6 +16,7 @@ import (
 	"repomesh.local/repomesh/internal/access"
 	"repomesh.local/repomesh/internal/buildinfo"
 	"repomesh.local/repomesh/internal/database"
+	"repomesh.local/repomesh/internal/decisionchain"
 	"repomesh.local/repomesh/internal/models"
 	"repomesh.local/repomesh/internal/projects"
 	"repomesh.local/repomesh/internal/reposcan"
@@ -94,6 +95,21 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		for _, channel := range scan.DefaultChannels() {
 			scanService.RegisterChannel(channel)
 		}
+		// 历史决策 module (design: 历史决策终版设计, D9-D14): scope
+		// confirmations become decision nodes. Embedding config presence
+		// toggles semantic recall; without it recall degrades to structural.
+		decisionService := decisionchain.New(decisionchain.Config{
+			EmbeddingBaseURL: os.Getenv("REPOMESH_EMBEDDING_BASE_URL"),
+			EmbeddingAPIKey:  os.Getenv("REPOMESH_EMBEDDING_API_KEY"),
+			EmbeddingModel:   os.Getenv("REPOMESH_EMBEDDING_MODEL"),
+			ResolveName: func(ctx context.Context, id string) (string, bool) {
+				card, err := scanCatalog.Get(ctx, id)
+				if err != nil || card == nil {
+					return "", false
+				}
+				return card.Name, true
+			},
+		}, runtime.Pool())
 		fetcher := &reposcan.Router{
 			GitHub: &reposcan.GitHubFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITHUB_TOKEN")},
 			GitLab: &reposcan.GitLabFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITLAB_TOKEN")},
@@ -118,6 +134,25 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 				_, err := runtime.Service.AuthenticateProjectRequest(
 					r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), true)
 				return err
+			},
+			OnScopeDecided: func(r *http.Request, d scan.ScopeDecision) {
+				// Fail-open (方案清单 F3): a record failure must never fail
+				// the user's scope submission.
+				actor := ""
+				if principal, err := runtime.Service.AuthenticateProjectRequest(
+					r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), true); err == nil {
+					actor = principal.ActorID()
+				}
+				err := decisionService.Record(r.Context(), decisionchain.Event{
+					Requirement:    d.Requirement,
+					Actor:          actor,
+					IdempotencyKey: d.IdempotencyKey,
+					RepositoryIDs:  d.RepositoryIDs,
+					Accepted:       d.Accepted,
+				})
+				if err != nil {
+					fmt.Fprintln(stderr, "decision chain record failed:", err)
+				}
 			},
 		}}
 	}
