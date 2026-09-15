@@ -1,0 +1,23 @@
+{
+  "projectId": "live-role-dag",
+  "title": "需要分配角色的任务 DAG",
+  "notes": "rd-01 已由 Leader 完成；rd-02/rd-03 是 next 候选就绪但未派工，且尚未分配 Worker；rd-04 需要 Leader，仍被前驱挡住。",
+  "nodes": {
+    "rd-01": {
+      "requiredRole": "team_leader",
+      "labelZh": "需要 Leader"
+    },
+    "rd-02": {
+      "requiredRole": "worker",
+      "labelZh": "需要 Worker"
+    },
+    "rd-03": {
+      "requiredRole": "worker",
+      "labelZh": "需要 Worker"
+    },
+    "rd-04": {
+      "requiredRole": "team_leader",
+      "labelZh": "需要 Leader"
+    }
+  }
+}

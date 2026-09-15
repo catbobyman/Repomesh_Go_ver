@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgentTeams 活房间映射（测试隔离）</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0f1214; --panel:#171b1f; --line:#2a3138; --text:#e8ecef; --muted:#93a0ab; --accent:#7dd3a0; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 14px/1.45 ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--text); }
+    header { padding: 16px 20px; border-bottom: 1px solid var(--line); }
+    header p { margin: 6px 0 0; color: var(--muted); }
+    main { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; padding: 16px 20px 32px; }
+    section { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-height: 240px; }
+    h2 { margin: 0 0 10px; font-size: 15px; }
+    .room { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+    .kind { display: inline-block; font-size: 11px; letter-spacing: .04em; color: var(--accent); border: 1px solid #2d5a42; border-radius: 999px; padding: 1px 8px; }
+    .map { margin-top: 6px; font-weight: 650; }
+    .notes, .id { color: var(--muted); font-size: 12px; word-break: break-all; }
+    .msg { margin-top: 8px; padding: 8px; background: #101418; border-radius: 8px; color: #d5dde3; }
+    .dag { display: flex; flex-wrap: wrap; gap: 8px; }
+    .node { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-width: 180px; max-width: 240px; }
+    .node.next { border-color: #7dd3a0; }
+    .node.need { border-color: #e7b549; background: #1d1810; }
+    .node.done { border-color: #4d6b8a; }
+    .edges { color: var(--muted); font-size: 12px; margin: 6px 0 10px; }
+    .warn { color: #e7b549; font-weight: 650; }
+    button { background: #243028; color: var(--text); border: 1px solid #365043; border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+    a { color: #9ecbff; }
+    @media (max-width: 980px) { main { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>真实 AgentTeams 房间 → RepoMesh 映射</h1>
+    <p>本页只存在于 <code>tests/agentteams-live-rooms/</code>。数据来自本机 Element／Matrix／Controller，不是 <code>web/fake-backend</code>。</p>
+    <p><button id="reload">重新采集</button> <span id="status" class="notes"></span></p>
+  </header>
+  <main>
+    <section>
+      <h2>活房间</h2>
+      <div id="rooms">读取中…</div>
+    </section>
+    <section>
+      <h2>Controller / DAG</h2>
+      <div id="controller" class="notes"></div>
+      <div id="dags"></div>
+    </section>
+  </main>
+  <script>
+    const statusEl = document.getElementById("status");
+    const roomsEl = document.getElementById("rooms");
+    const dagsEl = document.getElementById("dags");
+    const controllerEl = document.getElementById("controller");
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+    }
+
+    function render(snap) {
+      statusEl.textContent = (snap.captureError ? "采集失败，显示缓存：" + snap.captureError + " · " : "") +
+        "gateway " + (snap.gateway || "") + " · 房间 " + (snap.rooms || []).length;
+      roomsEl.innerHTML = (snap.rooms || []).map((room) => {
+        const msgs = (room.messages || []).slice(0, 3).map((m) => `<div class="msg">${esc(m.sender)}：${esc(m.body)}</div>`).join("");
+        return `<article class="room">
+          <div><span class="kind">${esc(room.roomKind || "no-meta")}</span> ${esc(room.name || "(未命名)")}</div>
+          <div class="id">${esc(room.roomId)}</div>
+          <div class="map">${esc(room.mapping?.labelZh)}</div>
+          <div class="notes">${esc(room.mapping?.notes)}</div>
+          ${room.elementUrl ? `<div class="notes"><a href="${esc(room.elementUrl)}" target="_blank" rel="noreferrer">在 Element 打开</a></div>` : ""}
+          ${msgs}
+        </article>`;
+      }).join("") || "<p class='notes'>还没有采集到房间。</p>";
+
+      const ctrl = snap.controller || {};
+      controllerEl.textContent = "managers / workers / teams / projects 见下方 DAG。";
+      const graphs = snap.workflows || [];
+      if (!graphs.length) {
+        dagsEl.innerHTML = "<p class='notes'>尚无 Project workflow。有团队后用 projectflow plan_dag 才会出现 nodes/edges/next。</p>";
+        return;
+      }
+      dagsEl.innerHTML = graphs.map((graph) => {
+        const wf = graph.workflow || {};
+        const nodes = wf.nodes || [];
+        const next = new Set(wf.next || []);
+        const nodeHtml = nodes.map((n) => {
+          const cls = n.needsRoleAssignment ? " need" : (n.status === "completed" ? " done" : "");
+          const nextHint = next.has(n.id) ? " · 候选就绪 · 非派工" : "";
+          return `<div class="node${cls}${next.has(n.id) ? " next" : ""}"><strong>${esc(n.name || n.id)}</strong><div class="notes">${esc(n.status)}${nextHint}</div><div class="${n.needsRoleAssignment ? "warn" : "notes"}">${esc(n.roleLabelZh || "")}</div></div>`;
+        }).join("");
+        const edges = (wf.edges || []).map((e) => `${e.source} → ${e.target}`).join(" · ");
+        const needs = (graph.needsRoleAssignment || []).join("、") || "无";
+        const notes = graph.roleSpecNotes ? `<p class="notes">${esc(graph.roleSpecNotes)}</p>` : "";
+        return `<div>
+          <h3>${esc(graph.projectId)} <span class="kind">${esc(wf.status || "")}</span></h3>
+          ${notes}
+          <div class="notes">待分配节点：${esc(needs)}</div>
+          <div class="edges">${esc(edges)}</div>
+          <div class="dag">${nodeHtml || "<span class='notes'>无节点</span>"}</div>
+        </div>`;
+      }).join("");
+    }
+
+    async function load() {
+      statusEl.textContent = "正在向本机 AgentTeams 采集…";
+      const res = await fetch("/api/snapshot", { cache: "no-store" });
+      const snap = await res.json();
+      if (!res.ok) {
+        statusEl.textContent = snap.error || ("HTTP " + res.status);
+        return;
+      }
+      render(snap);
+    }
+    document.getElementById("reload").onclick = load;
+    load();
+  </script>
+</body>
+</html>
