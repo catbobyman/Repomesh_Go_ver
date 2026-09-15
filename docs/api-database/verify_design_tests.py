@@ -208,6 +208,39 @@ def case_duplicate_target() -> None:
     expect(run(api), "target_tables 存在重复表名")
 
 
+def case_active_legacy_missing_target() -> None:
+    api = make_stage()
+    data = load_manifest(api)
+    row = next(entry for entry in data["legacy_tables"] if entry["disposition"] == "active")
+    row["target"] = None
+    save_manifest(api, data)
+    expect(
+        run(api),
+        f"{row['batch']}:{row['table']} 的目标 None 不在 target_tables",
+    )
+
+
+def case_deferred_legacy_has_target() -> None:
+    api = make_stage()
+    data = load_manifest(api)
+    row = next(entry for entry in data["legacy_tables"] if entry["disposition"] == "deferred")
+    row["target"] = data["target_tables"][0]["table"]
+    save_manifest(api, data)
+    expect(
+        run(api),
+        f"{row['batch']}:{row['table']} 已延期但仍声明目标 {row['target']}",
+    )
+
+
+def case_deferred_count_mismatch() -> None:
+    api = make_stage()
+    data = load_manifest(api)
+    batch = next(entry for entry in data["batches"] if entry["id"] == "b05")
+    batch["deferred_legacy_count"] -= 1
+    save_manifest(api, data)
+    expect(run(api), "b05: deferred_legacy_count 写 8，实际 9")
+
+
 def case_duplicate_declaration() -> None:
     api = make_stage()
     data = load_manifest(api)
@@ -304,6 +337,9 @@ CASES = (
     ("decision-chain-table-name-mismatch", case_decision_chain_table_name_mismatch),
     ("wrong-group-label", case_wrong_group_label),
     ("duplicate-target", case_duplicate_target),
+    ("active-legacy-missing-target", case_active_legacy_missing_target),
+    ("deferred-legacy-has-target", case_deferred_legacy_has_target),
+    ("deferred-count-mismatch", case_deferred_count_mismatch),
     ("duplicate-declaration", case_duplicate_declaration),
     ("declaration-wrong-batch", case_declaration_wrong_batch),
     ("orphan-declaration", case_orphan_declaration),

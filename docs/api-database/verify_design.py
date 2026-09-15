@@ -39,6 +39,7 @@ DECL_NEAR_RE = re.compile(r"^\**\s*物理表\s*[:：]")
 STAT_RE = re.compile(r'<div class="n">(\d+)</div><div class="t">([^<]+)</div>')
 
 ORIGINS = ("legacy_merge", "new", "new_required_dependency")
+LEGACY_DISPOSITIONS = ("active", "deferred")
 EXISTING_GROUPS = ("manual_baseline", "scan", "decision_chain")
 ROLES = (
     "schema2_import_receipt",
@@ -238,6 +239,24 @@ def check_batches(manifest: dict, report: Report) -> None:
             report.error(
                 f"{batch_id}: legacy_count 写 {batch.get('legacy_count')}，实际 {legacy_count}"
             )
+        active_count = sum(
+            1
+            for row in legacy
+            if row.get("batch") == batch_id and row.get("disposition") == "active"
+        )
+        deferred_count = sum(
+            1
+            for row in legacy
+            if row.get("batch") == batch_id and row.get("disposition") == "deferred"
+        )
+        if batch.get("active_legacy_count") != active_count:
+            report.error(
+                f"{batch_id}: active_legacy_count 写 {batch.get('active_legacy_count')}，实际 {active_count}"
+            )
+        if batch.get("deferred_legacy_count") != deferred_count:
+            report.error(
+                f"{batch_id}: deferred_legacy_count 写 {batch.get('deferred_legacy_count')}，实际 {deferred_count}"
+            )
         if batch.get("expected_target_count") != target_count:
             report.error(
                 f"{batch_id}: expected_target_count 写 {batch.get('expected_target_count')}，实际 {target_count}"
@@ -271,9 +290,16 @@ def check_legacy(manifest: dict, report: Report) -> Dict[str, dict]:
             continue
         key = (str(row.get("batch")), str(row.get("table")))
         seen[key] = seen.get(key, 0) + 1
+        disposition = row.get("disposition")
+        if disposition not in LEGACY_DISPOSITIONS:
+            report.error(
+                f"{row.get('batch')}:{row.get('table')} 的 disposition 必须是 {LEGACY_DISPOSITIONS}"
+            )
         target = row.get("target")
-        if target not in target_map:
+        if disposition == "active" and target not in target_map:
             report.error(f"{row.get('batch')}:{row.get('table')} 的目标 {target} 不在 target_tables")
+        if disposition == "deferred" and target is not None:
+            report.error(f"{row.get('batch')}:{row.get('table')} 已延期但仍声明目标 {target}")
         source = row.get("source")
         if not isinstance(source, dict):
             report.error(f"{key[1]}: 缺少 source 快照")
@@ -315,6 +341,22 @@ def check_legacy(manifest: dict, report: Report) -> Dict[str, dict]:
     if repeated:
         report.note(f"跨批次同名的旧表名（按批次分别登记）: {repeated}")
     report.counts["legacy"] = {"total": len(legacy)}
+    active_total = sum(
+        1 for row in legacy if isinstance(row, dict) and row.get("disposition") == "active"
+    )
+    deferred_total = sum(
+        1 for row in legacy if isinstance(row, dict) and row.get("disposition") == "deferred"
+    )
+    snapshot = manifest.get("legacy_snapshot") or {}
+    if snapshot.get("active_total") != active_total:
+        report.error(
+            f"活动旧提案总数应为 {snapshot.get('active_total')}，实际 {active_total}"
+        )
+    if snapshot.get("deferred_total") != deferred_total:
+        report.error(
+            f"延期旧提案总数应为 {snapshot.get('deferred_total')}，实际 {deferred_total}"
+        )
+    report.counts["legacy"].update(active=active_total, deferred=deferred_total)
     return target_map
 
 
@@ -322,7 +364,11 @@ def check_targets(manifest: dict, target_map: Dict[str, dict], report: Report) -
     targets = manifest.get("target_tables") or []
     legacy = manifest.get("legacy_tables") or []
     batches = {row.get("id"): row for row in manifest.get("batches") or [] if isinstance(row, dict)}
-    referenced = {row.get("target") for row in legacy if isinstance(row, dict)}
+    referenced = {
+        row.get("target")
+        for row in legacy
+        if isinstance(row, dict) and row.get("disposition") == "active"
+    }
     names = [row.get("table") for row in targets if isinstance(row, dict)]
     if len(names) != len(set(names)):
         report.error("target_tables 存在重复表名")
@@ -353,7 +399,11 @@ def check_targets(manifest: dict, target_map: Dict[str, dict], report: Report) -
             if not isinstance(ref, str) or not ref:
                 report.error(f"{table}: new_required_dependency 必须给出 design_ref")
     for row in legacy:
-        if isinstance(row, dict) and row.get("target") not in target_map:
+        if (
+            isinstance(row, dict)
+            and row.get("disposition") == "active"
+            and row.get("target") not in target_map
+        ):
             report.error(f"{row.get('table')}: 目标不存在")
     new_only = [
         row.get("table")
