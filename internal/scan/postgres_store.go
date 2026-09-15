@@ -86,7 +86,9 @@ func (c *PostgresCatalog) UpdateAutoCard(ctx context.Context, id string, card Au
 	}
 	tag, err := c.pool.Exec(ctx, `
 		UPDATE repomesh_scan.repositories
-		SET metadata = $2, languages = $3, fingerprint = $4, profiled_at = now()
+		SET metadata = jsonb_set(metadata, '{observedCalls}',
+			COALESCE(metadata->'observedCalls', '[]'::jsonb), true),
+		    languages = $3, fingerprint = $4, profiled_at = now()
 		WHERE id = $1`, id, payload, jsonSlice(languages), fingerprint)
 	if err != nil {
 		return err
@@ -138,6 +140,27 @@ func cardMetadata(card *AutoCard) map[string]any {
 		return map[string]any{}
 	}
 	return autoCardPayload(*card)
+}
+
+// ReplaceObservedCalls writes the runtime-observed call block (mechanism 6
+// import). The block is a sibling of the card inside metadata: a re-scan
+// refresh must not erase it, and a re-import replaces it wholesale.
+func (c *PostgresCatalog) ReplaceObservedCalls(ctx context.Context, id string, calls []ObservedCall) error {
+	encoded, err := json.Marshal(calls)
+	if err != nil {
+		return err
+	}
+	tag, err := c.pool.Exec(ctx, `
+		UPDATE repomesh_scan.repositories
+		SET metadata = jsonb_set(metadata, '{observedCalls}', $2, true)
+		WHERE id = $1`, id, encoded)
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() == 0 {
+		return pgx.ErrNoRows
+	}
+	return nil
 }
 
 func jsonSlice(values []string) []byte {

@@ -79,6 +79,9 @@ type Edge struct {
 	ToName     string
 	Mechanism  Mechanism
 	Confidence Confidence
+	// Calls is the observed call count; zero for edges without runtime
+	// evidence (mechanism 6 import).
+	Calls int
 }
 
 // Graph is the derived repository dependency graph.
@@ -97,6 +100,25 @@ func BuildGraph(cards []RepositoryCard, registry AliasRegistry) Graph {
 	seen := map[string]bool{}
 	var edges []Edge
 	for _, card := range cards {
+		for _, observed := range card.ObservedCalls {
+			target, ok := registry.Resolve(observed.Target)
+			if !ok || target.ID == card.ID {
+				continue
+			}
+			key := lower(card.ID + "|" + target.ID + "|" + string(MechanismObserved))
+			if seen[key] {
+				continue
+			}
+			seen[key] = true
+			edges = append(edges, Edge{
+				FromID:     card.ID,
+				ToID:       target.ID,
+				ToName:     target.Name,
+				Mechanism:  MechanismObserved,
+				Confidence: ConfidenceConfirmed,
+				Calls:      observed.Calls,
+			})
+		}
 		if card.AutoCard == nil {
 			continue
 		}

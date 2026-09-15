@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"sort"
-	"strconv"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -240,47 +239,48 @@ func yamlIdentifiers(content string) []kv {
 	var flat []kv
 	decoder := yaml.NewDecoder(strings.NewReader(content))
 	for {
-		var document any
-		if err := decoder.Decode(&document); err != nil {
+		var node yaml.Node
+		if err := decoder.Decode(&node); err != nil {
 			if !errors.Is(err, io.EOF) {
 				return nil // a malformed stream yields nothing, never a failure
 			}
 			break
 		}
-		if document == nil {
-			continue
+		if node.Kind == 0 {
+			continue // empty document between --- separators
 		}
-		flattenYAML(document, "", &flat)
+		flattenYAML(&node, "", &flat)
 	}
 	return flat
 }
 
-// flattenYAML flattens nested YAML into dot-separated leaf key/value pairs.
-// Lists are indexed (kafka.consumer[0].topic); only scalar leaves are kept.
-func flattenYAML(data any, prefix string, out *[]kv) {
-	switch typed := data.(type) {
-	case map[string]any:
-		for key, value := range typed {
+// flattenYAML walks a yaml.Node tree preserving document order (mapping
+// pairs in key order, sequences indexed) into dot-separated leaf pairs.
+// Only scalar leaves are kept; nulls name nothing.
+func flattenYAML(node *yaml.Node, prefix string, out *[]kv) {
+	switch node.Kind {
+	case yaml.DocumentNode:
+		if len(node.Content) > 0 {
+			flattenYAML(node.Content[0], prefix, out)
+		}
+	case yaml.MappingNode:
+		for index := 0; index+1 < len(node.Content); index += 2 {
+			key := node.Content[index].Value
 			path := key
 			if prefix != "" {
 				path = prefix + "." + key
 			}
-			flattenYAML(value, path, out)
+			flattenYAML(node.Content[index+1], path, out)
 		}
-	case []any:
-		for index, item := range typed {
+	case yaml.SequenceNode:
+		for index, item := range node.Content {
 			flattenYAML(item, fmt.Sprintf("%s[%d]", prefix, index), out)
 		}
-	case string:
-		*out = append(*out, kv{key: prefix, value: typed})
-	case int:
-		*out = append(*out, kv{key: prefix, value: strconv.Itoa(typed)})
-	case int64:
-		*out = append(*out, kv{key: prefix, value: strconv.FormatInt(typed, 10)})
-	case float64:
-		*out = append(*out, kv{key: prefix, value: strconv.FormatFloat(typed, 'g', -1, 64)})
-	case bool:
-		*out = append(*out, kv{key: prefix, value: strconv.FormatBool(typed)})
+	case yaml.ScalarNode:
+		if node.Tag == "!!null" {
+			return
+		}
+		*out = append(*out, kv{key: prefix, value: node.Value})
 	}
 }
 

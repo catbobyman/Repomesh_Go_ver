@@ -121,17 +121,15 @@ func parseCompose(content string) ([]string, []string) {
 	seenIdentities := map[string]bool{}
 
 	for _, document := range yamlDocuments(content) {
-		services, ok := document["services"].(map[string]any)
-		if !ok {
+		services := mappingValue(document, "services")
+		if services == nil || services.Kind != yaml.MappingNode {
 			continue
 		}
-		for serviceName, spec := range services {
+		for index := 0; index+1 < len(services.Content); index += 2 {
+			serviceName := services.Content[index].Value
 			appendUniqueString(&identities, seenIdentities, serviceName)
-			specMap, ok := spec.(map[string]any)
-			if !ok {
-				continue
-			}
-			for _, dep := range dependsOnNames(specMap["depends_on"]) {
+			dependsOn := mappingValue(services.Content[index+1], "depends_on")
+			for _, dep := range dependsOnNames(dependsOn) {
 				appendUniqueString(&targets, seenTargets, dep)
 			}
 		}
@@ -139,23 +137,23 @@ func parseCompose(content string) ([]string, []string) {
 	return targets, identities
 }
 
-// dependsOnNames: depends_on as a list of names or a long-syntax dict →
-// names. A ${...} placeholder names no concrete service and is skipped.
-func dependsOnNames(value any) []string {
-	var names []string
-	switch typed := value.(type) {
-	case []any:
-		for _, item := range typed {
-			if name, ok := item.(string); ok {
-				names = append(names, name)
-			}
-		}
-	case map[string]any:
-		for name := range typed {
-			names = append(names, name)
-		}
-	default:
+// dependsOnNames: depends_on as a sequence of names or a long-syntax
+// mapping → names. A ${...} placeholder names no concrete service and is
+// skipped.
+func dependsOnNames(node *yaml.Node) []string {
+	if node == nil {
 		return nil
+	}
+	var names []string
+	switch node.Kind {
+	case yaml.SequenceNode:
+		for _, item := range node.Content {
+			names = append(names, item.Value)
+		}
+	case yaml.MappingNode:
+		for index := 0; index < len(node.Content); index += 2 {
+			names = append(names, node.Content[index].Value)
+		}
 	}
 	kept := make([]string, 0, len(names))
 	for _, name := range names {
@@ -177,7 +175,8 @@ func parseK8s(content string) ([]string, []string) {
 	seenIdentities := map[string]bool{}
 
 	for _, document := range yamlDocuments(content) {
-		switch kind, _ := document["kind"].(string); kind {
+		kind := scalarValue(mappingValue(document, "kind"))
+		switch kind {
 		case "Deployment", "StatefulSet", "DaemonSet":
 			if label := workloadAppLabel(document); label != "" {
 				appendUniqueString(&identities, seenIdentities, label)
@@ -196,31 +195,37 @@ func parseK8s(content string) ([]string, []string) {
 
 // workloadAppLabel reads spec.template.metadata.labels first (the pod
 // labels, which is what selectors actually match), then metadata.labels.
-func workloadAppLabel(document map[string]any) string {
-	if labels := nested(document, "spec", "template", "metadata", "labels"); labels != nil {
+func workloadAppLabel(document *yaml.Node) string {
+	if labels := nestedNode(document, "spec", "template", "metadata", "labels"); labels != nil {
 		if value := labelValue(labels); value != "" {
 			return value
 		}
 	}
-	return labelValue(nested(document, "metadata", "labels"))
+	return labelValue(nestedNode(document, "metadata", "labels"))
 }
 
-func serviceSelectorApp(document map[string]any) string {
-	return labelValue(nested(document, "spec", "selector"))
+func serviceSelectorApp(document *yaml.Node) string {
+	return labelValue(nestedNode(document, "spec", "selector"))
 }
 
 // labelValue: a concrete app value from a labels/selector mapping.
-func labelValue(labels any) string {
-	table, ok := labels.(map[string]any)
-	if !ok {
+func labelValue(labels *yaml.Node) string {
+	if labels == nil || labels.Kind != yaml.MappingNode {
 		return ""
 	}
-	for _, key := range k8sAppLabelKeys {
-		value, ok := table[key].(string)
-		if !ok {
+	for index := 0; index+1 < len(labels.Content); index += 2 {
+		key := labels.Content[index].Value
+		recognized := false
+		for _, appKey := range k8sAppLabelKeys {
+			if key == appKey {
+				recognized = true
+				break
+			}
+		}
+		if !recognized {
 			continue
 		}
-		value = strings.TrimSpace(value)
+		value := strings.TrimSpace(labels.Content[index+1].Value)
 		if value != "" && !strings.Contains(value, "$") {
 			return value
 		}
@@ -228,31 +233,23 @@ func labelValue(labels any) string {
 	return ""
 }
 
-func metadataName(document map[string]any) string {
-	metadata, ok := nested(document, "metadata").(map[string]any)
-	if !ok {
-		return ""
-	}
-	name, ok := metadata["name"].(string)
-	if !ok {
-		return ""
-	}
-	name = strings.TrimSpace(name)
+func metadataName(document *yaml.Node) string {
+	name := scalarValue(mappingValue(nestedNode(document, "metadata"), "name"))
 	if name == "" || strings.Contains(name, "$") {
 		return ""
 	}
 	return name
 }
 
-// nested descends a dict path, guarding non-dict nodes along the way.
-func nested(document map[string]any, path ...string) any {
-	var node any = document
+// nestedNode descends a mapping path, guarding non-mapping nodes along the
+// way.
+func nestedNode(document *yaml.Node, path ...string) *yaml.Node {
+	node := document
 	for _, part := range path {
-		table, ok := node.(map[string]any)
-		if !ok {
+		if node == nil || node.Kind != yaml.MappingNode {
 			return nil
 		}
-		node = table[part]
+		node = mappingValue(node, part)
 	}
 	return node
 }
@@ -261,24 +258,48 @@ func nested(document map[string]any, path ...string) any {
 // shared YAML helpers
 // ---------------------------------------------------------------------------
 
-// yamlDocuments parses a multi-document YAML stream into dict documents.
-// Never executes code and never fails: a malformed stream yields nil.
-func yamlDocuments(content string) []map[string]any {
+// yamlDocuments parses a multi-document YAML stream into documents,
+// preserving key order for deterministic identities and targets. Never
+// fails: a malformed stream yields nil.
+func yamlDocuments(content string) []*yaml.Node {
 	decoder := yaml.NewDecoder(strings.NewReader(content))
-	var documents []map[string]any
+	var documents []*yaml.Node
 	for {
-		var document any
+		var document yaml.Node
 		if err := decoder.Decode(&document); err != nil {
 			if !errors.Is(err, io.EOF) {
 				return nil
 			}
 			break
 		}
-		if table, ok := document.(map[string]any); ok {
-			documents = append(documents, table)
+		if document.Kind == 0 || len(document.Content) == 0 {
+			continue // empty document between --- separators
 		}
+		// A YAML document node wraps the root node — mount the root.
+		documents = append(documents, document.Content[0])
 	}
 	return documents
+}
+
+// mappingValue returns the value node of a mapping entry, or nil.
+func mappingValue(node *yaml.Node, key string) *yaml.Node {
+	if node == nil || node.Kind != yaml.MappingNode {
+		return nil
+	}
+	for index := 0; index+1 < len(node.Content); index += 2 {
+		if node.Content[index].Value == key {
+			return node.Content[index+1]
+		}
+	}
+	return nil
+}
+
+// scalarValue reads a scalar node's text, trimmed.
+func scalarValue(node *yaml.Node) string {
+	if node == nil || node.Kind != yaml.ScalarNode {
+		return ""
+	}
+	return strings.TrimSpace(node.Value)
 }
 
 func appendUniqueString(items *[]string, seen map[string]bool, value string) {

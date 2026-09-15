@@ -96,6 +96,19 @@ func (s *pipelineStore) GetByName(ctx context.Context, name string) (*Repository
 	return nil, nil
 }
 
+// ReplaceObservedCalls implements CatalogStore: the observed block rides on
+// the row and survives card refreshes.
+func (s *pipelineStore) ReplaceObservedCalls(ctx context.Context, id string, calls []ObservedCall) error {
+	for name, row := range s.rows {
+		if row.ID == id {
+			row.ObservedCalls = calls
+			s.rows[name] = row
+			return nil
+		}
+	}
+	return errors.New("missing row")
+}
+
 func (s *pipelineStore) UpdateAutoCard(ctx context.Context, id string, card AutoCard, languages []string, fingerprint string) error {
 	for name, row := range s.rows {
 		if row.ID == id {
