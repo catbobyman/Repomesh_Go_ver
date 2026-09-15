@@ -29,7 +29,7 @@ documentation_updated: 2026-09-12
 
 ## 1. 共用规则和接口目录
 
-认证来自服务端可信会话，不接受客户端 userId／owner／role 赋权。Cookie 同源写操作执行 Origin 与 CSRF 校验；查询和后续 SSE 同样核当前权限。JSON 响应 `Cache-Control: no-store`；不把凭据放入 URL、操作索引或日志。统一错误结构引用创建契约 `error={code,message,fieldErrors,requestId}`，requestId 不等于业务操作身份。
+认证来自服务端可信会话，不接受客户端 userId／owner／role 赋权。Cookie 同源写操作执行 Origin 与 CSRF 校验；查询和后续 SSE 同样核当前权限。JSON 响应 `Cache-Control: no-store`；不把凭据放入 URL、操作索引或日志。统一错误结构引用创建契约 `error={code,message,fieldErrors,requestId}`，requestId 不等于业务操作身份。模型测试提交的409 TEST_ALREADY_OUTSTANDING可按[模型字段稿§4](model-settings-browser-api-draft.md#4-单模型测试预览与费用确认)增加受限`error.details={existingTestId,links:{operation}}`；它只定位当前actor仍可读的阻断记录，不放入其他错误或项目接口。
 
 UTF-8 JSON 请求体最大 256 KiB。格式错误、重复 JSON 属性名、非法 Unicode 编码返回 `400 INVALID_JSON`，合法 JSON 的未知字段／非法长度／重复集合成员返回 `422 VALIDATION_FAILED`；请求体过大 `413 REQUEST_TOO_LARGE`。文本长度按 Unicode 标量计数，保留实际提交内容，不根据相似标题归并。
 
@@ -336,3 +336,5 @@ available 表示原固定参数可读取，不表示当前已启用/额度充足
 本地项目 owner 可读上述本项目摘要，不要求所有原仓恢复读权。策略来源身份不可披露时不返回相关政策名或数值；当前 owner 资格无法确认仍整次503 AUTHORIZATION_UNCONFIRMED。本批 owner 私有执行引用的政策没有额外共享 ACL；若以后增加策略 ACL，需要新增受限分支，不用 unresolved 隐藏已知无权。普通账本故障可返回 quotaObservation.unknown，但项目主体/配置快照无法可靠读取时仍返回503，不拼旧快照。
 
 响应中的固定摘要与 effective 必须来自同一配置版本；额度观察允许稍后变化，不承诺跨网络最新或已为 Issue 预留。默认改变后旧项目仍显示旧版本数值，模型专用应用保持原 execution 数值。契约设计覆盖[原检查 C05](../reviews/2026-09-12-project-contracts/README.md#c05-项目预算和时限缺少只读响应)，采用与真实验收尚待后续完成。
+
+C05的project_model_runtime窗口不代替actor_model_test窗口，也不表示模型测试可提交。模型测试预览在[模型字段稿§4](model-settings-browser-api-draft.md#4-单模型测试预览与费用确认)同次观察当前actor的outstanding和测试额度。已有未核清测试与额度观察是两个独立条件；浏览器不得从本节remaining推导测试canSubmit。

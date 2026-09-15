@@ -240,13 +240,15 @@ Issue 新建身份、项目内展示编号、主 ChangeSet 身份和主会话身
 
 本批创建一个 `issue_continue` DurableWork，唯一 `(causeOperationId, kind, targetId)`，状态为 `blocked/INTEGRATION_NOT_AVAILABLE`，重新评估条件为安装并采用相应消费者；externalOperationId、phase、leaseOwner 为空。它只引用 Issue 固定配置，不复制可变配置。创建一个 Issue `snapshot_invalidated` 事件，流序号1及计数行同事务。事件类型沿现行通知契约，保留期24小时；本批不发送、不实现心跳。RepositoryIssue 初始零条，不给未生效计划生成仓内任务。
 
-### 7.2 权限观察与统一锁序
+### 7.2 权限观察与逐路径锁序边界
 
 现有 B03 CheckProjectObservation 只验证用户参与观察和 connection 代次，使用 transaction_timestamp 与60秒窗口；这不足以证明 Issue App 能力和完整历史内容可读。本候选增加 Issue 专用 opaque 观察，仍由 access 产生：actor、credentialVersion/connectionRevision、accessEpoch、准确仓库集合、每仓用户观察时间、所选工作仓库的 App 安装身份/权限版本/观察时间。当前用户须可读提交范围及所关联会话完整内容范围；新创建的工作仓库须有已采用能力政策。推荐 S06 最低 Metadata read、Contents write、Pull requests write，作为待采用的新门槛；不从 B02 登录成功推导此能力。
 
 推荐新创建所有必要观察在最终提交前以数据库 clock_timestamp 检查不超过60秒、不得来自未来；这是延续 B03 数值、补齐覆盖和提交时钟的候选，不代表远端权限原子性。观察过期或本地代次变化，回滚后重新获取，不能持锁访问 GitHub。外部明确不足按当前契约隐藏404或可披露的409；未知503 AUTHORIZATION_UNCONFIRMED。原结果读取只要求当前内容读取权，不要求重新通过 App 写权限、预算和创建条件。
 
-各交互写路径共用偏序：binding → session → account → project → connection（需要观察时）→ creation operation → 同项目已有 conversation/issue（按对象类型及ID排序）→ catalog → profile/version → policy/额度窗口 → secret availability → 包装根。不存在的 operation 不靠 SELECT FOR UPDATE 得锁，由 account/project 序列化与最终唯一约束保障。创建不锁 Provider head，不重新解析默认。已有会话范围更新者必须先 project 再 conversation；清理亦遵此序，不反拿 account/project。目录作者仍先 owner account、再 catalog，禁止 catalog 持有者回拿 owner/project/Provider。
+所有owner交互写先锁principal的binding、session和account。持有project、operation、catalog、Provider、额度窗口或secret等后段锁时不得回取account。同owner写由account锁串行，因此各用例保留自己的后续顺序。B03项目写和B06创建继续使用principal→project→operation→catalog/profile，再按各自业务对象、policy/额度窗口和secret顺序取锁；已有conversation/issue按对象类型及ID排序。不存在的operation不靠SELECT FOR UPDATE得锁，由account/project串行及最终唯一约束保障。
+
+B04模型保存独立采用principal→operation slot→catalog→Provider。B05测试采用principal→operation→catalog/profile→Provider→policy/额度窗口→secret；B05应用保留项目路径的principal→project→operation→catalog/profile→Provider。目录作者先按owner account ID排序锁全部owner，再取catalog，禁止catalog持有者回取owner/project/Provider。Provider.owner、profile.owner和来源执行版本owner必须由DDL保持不可变；用例中的owner检查不能替代该约束。来源导入先持import单例，原键未命中后才锁owner accounts和catalog；交互路径不取import单例。
 
 本地秘密撤销以秘密可用性行串行；撤销先提交再异步传播项目观察，因此创建直接检查精确 secretVersion，不能等待 creationContextRevision 更新。模型/执行停用同理核确切版本状态。读取结果先拿最小身份和内容范围修订，不取敏感正文，在事务外核观察；短读事务锁主体/project/connection及目标范围，重比范围版本后投影。会话集合已扩大则重新观察全部集合，绝不凭旧小范围返回新正文。此处授权观察与快照复核也供候选会话查询使用。
 

@@ -2,6 +2,8 @@
 
 页面独占；用户要求六项全部交付，本稿把首批现有契约落到页面状态、动作及恢复路径。本文不改原三类写操作和列表的JSON／错误／幂等协议。F02保持RM-UI-PROJECT-EDIT r1技术呈现范围；公共恢复在r1上作2026-09-12一致性修订RM-FIRST-RECOVERY r2候选，补认证返回会话和Key原保存安全终结的引用。新增设计仍待采用，旧契约已收口的三轮不重开。
 
+2026-09-14 设计收口固定了前端恢复模块归属和模型测试预览的字段投影。该收口属于本轮五项修订授权，不代表采用全部 B05、B06 候选，也不采用 D05、D06 的候选数值。B05、B06 产品实现和运行验收仍未开始。
+
 ## R01 全站呈现规则
 
 先有当前身份和目标读取资格，再显示目标名称及正文；加载时骨架无假数据；确认空列表显示“还没有…”与有权创建入口。初次读取网络失败给重读，不显示空成功；权限未知隐藏旧敏感正文，不把unknown当denied。已确定没有资格用通用“当前无法访问”，不暴露存在性。
@@ -9,6 +11,27 @@
 每个页面上下文含actor、projectId、objectId、query/filter、requestGeneration。切换任何一项先增加代次、终止旧展示，晚到响应无条件丢弃；AbortController只节省请求，不被当服务器取消。每快照最多一个在途请求，其间失效通知合并一次补读。原请求是否提交只靠原操作核查，不靠取消网络或离开页面。
 
 401清当前身份敏感草稿／派生缓存／选择器／订阅；403/404按错误语义及当前读权清理对应受限内容和派生视图；仅403 PROJECT_UPDATE_NOT_ALLOWED取消写资格时，保留已核可读外壳、禁写，不清仍有权的视图；权限unknown隐藏旧对象内容直至重新核实。保留最小操作定位索引不授予权限，未登录不展示其受限名称。重新登录需同一稳定actor才能查询原操作，换账号不继承草稿。
+
+### R01.1 前端恢复模块归属
+
+B05、B06 扩展现有 `web/src/modelRecovery.ts`。该模块共享操作定位、浏览器存储和读取代次检查，不新增第三套恢复框架。`provider_save`、`model_test`、`model_apply` 和 `issue_create` 各自保留结果解析器、业务 reducer、重试资格和页面状态。共用存储只返回已校验的原定位或非秘密输入，不根据一个通用状态决定重发。
+
+现有 `SaveLocator` 迁移为 `OperationLocator` 的 `provider_save` 分支，并导出 `ProviderSaveLocator` 供保存页面使用。`OperationLocator` 的每个分支都含原 actor、operation kind 和原操作 ID。项目范围操作还含 `projectId`。读取票据同时比较完整 locator、会话 generation 和当前已认证 actor，任一项不同便丢弃响应。
+
+现有 B04 存储键保持兼容。`localStorage` 继续使用 `repomesh.model.save-index.v1`，`sessionStorage` 继续使用 `repomesh.model.save.v1:{actor}:{id}`。后续 operation kind 通过同一存储帮助函数使用各自命名空间，不把正文放入一个跨业务公共值。失去认证、切换 actor 或收到对应受限结果时，客户端清除 `sessionStorage` 中的非秘密输入和当前页面内容，但保留 `localStorage` 中的最小索引。最小索引只含 actor、operation kind、原操作 ID、可选 `projectId` 和记录时间。读取索引必须按当前 actor 过滤并重新向服务端核权。
+
+输入恢复遵守各业务契约。允许精确重试的业务只能复用已解析并冻结的原 body 和原操作 ID。共享模块不能从标题、当前表单、最新 revision 或最小索引重建输入。`provider_save` 发出后已清 Key，replace 保存只能查询或终结原 `saveId`。`model_test` 在可能提交后只查询原 `testId`，不能再次外发。`model_apply` 沿 F04 只核查原应用。`issue_create` 仅在创建契约允许时以原 `creationId` 和确切输入重试。缺少确切输入的操作只查询。
+
+调用者迁移如下：
+
+| 调用者 | 同一批迁移 |
+| --- | --- |
+| `ModelSavePage.tsx` | 将 `SaveLocator`、旧 `OperationState<T>` 和旧读取参数改为 `ProviderSaveLocator`、保存专用状态及完整 locator；继续使用共用 `beginRead`、`acceptsRead` 和保存 reducer。 |
+| `ModelSettingsPage.tsx` | 继续调用共用索引和会话快照写入；`provider_save` 仍走现有 B04 键和恢复路径，不改变 Key 清理时点。 |
+| `session.ts` | 用跨批 `clearRecoveryPayloads` 取代 `clearModelRecovery`；仍单独调用 B03 的 `clearAllOperationInputs`。两种清理都不删除最小索引。 |
+| `model.test.mjs` | 保留 B04 键、actor 隔离、Key 不落盘和晚到代次测试，再覆盖新增 locator、按 kind 解析、各 reducer 隔离、失权清正文但留索引，以及业务允许时只按原 ID 和原输入重试。旧 `SaveLocator` 在这些调用者同时通过类型检查后删除。 |
+
+`web/src/projectRecovery.ts` 继续拥有 B03 的 `project_create` 和 `project_update`。它保留 `OperationIdentity`、项目操作键规范化、输入解析与冻结、`prepareOperation`、`loadOperation`、项目恢复路由、项目 reducer，以及 `repomesh.project.operation*` 存储键。B05、B06 收口不搬迁这些职责，也不让模型恢复 reducer 解释项目输入。`projectRecovery.ts` 后续可以复用读取票据，但该选择不改变本次边界。
 
 ## R02 首批六包页面状态及动作
 
@@ -22,6 +45,16 @@
 | 模型设置 | 保留原Key、显式替换入草稿；未保存禁测/用 | owner/密钥/地址/次数额度未知分别处理，配置保存不证明可调用 | 保存未知查原结果或显式安全终结原saveId；未取得确定回执不能新保存。测试/应用保持各自恢复限制，不重发收费调用或项目应用 |
 
 仅列表必要分页纳首批，高级筛选／消息全局搜索不扩展。第一批会话以已有业务记录只读查看为主，不把历史Manager样例当真实发送链路完成。
+
+### R02.1 模型测试预览占用与处理器观察
+
+`TestPreview.reasonCodes` 新增 `TEST_ALREADY_OUTSTANDING`。当 `queued`、`running` 或 `recovery.open` 的 `unknown` 测试命中当前有效的提交阻断条件，而且当前 actor 仍可读取该测试时，预览返回 200、`canSubmit=false`，并同时返回顶层 `existingTestId` 与 `links.operation`。两字段只在该分支成对出现。页面打开原操作，不生成新 `testId`。其他 actor 的测试和当前 actor 已失权的测试都不能通过这两个字段披露。该字段不固定未核测试数量或候选默认值。
+
+占用判断与当前额度窗口分开。占用记录读取失败时返回相应通用 503，不能当作没有占用。提交事务再次检查当前有效的未核测试提交阻断条件。预览后发生竞争时，提交仍返回 409 `TEST_ALREADY_OUTSTANDING`，不登记或发送本次新测试。
+
+该 409 使用通用错误封装。当当前 actor 仍可读取阻断测试时，`error.details` 为 `{existingTestId,links:{operation}}`，页面据此打开原操作。失权、其他 actor 或不可披露分支省略 `details`。其他错误码不得返回该形状。Preview 顶层定位和 Submit 错误详情分别覆盖预览时已占用和提交竞争，不互相替代，也不引入新的错误框架。
+
+当前没有满足协议与限制映射的有效处理器登记时，预览返回 200、`canSubmit=false` 和 `TEST_HANDLER_UNAVAILABLE`。读取处理器登记的观察失败时，整次预览返回 503 `TEST_HANDLER_UNCONFIRMED`，不返回可确认的预览正文。`RESULT_UNCONFIRMED` 只表示写入或提交结果未知，不能用于只读预览。以上字段只收口 B05 草图与核心候选的同名投影，不表示处理器、测试页面或真实模型请求已经实现。
 
 ## R03 三类已有写入的精确恢复映射
 

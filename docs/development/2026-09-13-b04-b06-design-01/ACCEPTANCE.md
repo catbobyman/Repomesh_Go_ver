@@ -30,15 +30,20 @@
 | T05 | 真实调用开始、HTTP成功/明确错误/超时 | running只在发送观察后；passed/failed有独立响应证据；超时unknown；费用金额始终null。 |
 | T06 | 旧provider head更新、原secret失效、DNS/private/redirect | 已登记test只用原snapshot；不可用拒绝/unknown，不换新Key；受控端点证明无越界请求/重定向/重试。 |
 | T07 | UTC换日、降低额度/换政策、unknown跨日 | 原window消费，counter不重置；新日不清actorOutstanding；当前remaining不能凭缺行填0。 |
-| T08 | 运维关unknown缺证据/有撤销证据 | 缺证据保持open；已确认旧发送能力撤销才closed_without_result，state仍unknown、预算consumed。 |
-| T09 | 迟到旧generation响应/失权/30日清理 | 只登记相同external op证据，当前reconciler采纳；不覆盖新test；失权不披露；清理不丢未核责任。 |
+| T08 | 运维关unknown缺证据/有撤销证据 | 缺准确sender退出或旧发送能力撤销任一材料都保持open；受控操作员两类核查齐全才closed_without_result，state仍unknown、预算consumed。 |
+| T09 | 迟到旧generation响应/失权/30日清理 | 只登记相同external op证据；已运维关闭时不改unknown、关闭审计或预算；失权不披露；清理不丢未核责任。 |
 | A01 | execution默认C1→C2后应用模型 | SQL fixed JSON中execution选择/版本/参数完全等于原项目；不用当前default。 |
 | A02 | 同模型同reference/版本；inherit→同模型reference | 前者no-op保留三修订和稳定回执；后者选择依据变化产生一新配置。 |
-| A03 | 应用与项目PATCH/Provider保存交错 | project→Provider→catalog固定偏序；CAS冲突全回滚，原操作重放优先。 |
+| A03 | 应用与项目PATCH/Provider保存交错 | 同owner都先锁account；应用保持project→operation→catalog/profile→Provider，B04保存保持operation→catalog→Provider；CAS冲突全回滚，原操作重放优先。 |
 | A04 | 原模型受限/未配置/可读但disabled | C06三分支精确；受限无ID泄露且不阻止修复；可读只取指定snapshot，不取latest。 |
 | A05 | execution材料无法确认与已知当前不可用 | 无法确认canApply=false；已知固定历史但不可用可受限保存，仍完全保留execution。 |
 | C05 | 固定policy历史、无可信window、政策停用 | GET fixedSummary与effective同revision；未知不填0；historical available不等于可执行；GET不写表。 |
 | C06 | 快照迟到/切actor/查询失权 | 前端按actor+目标+代次核对，不移植旧preview/测试；只读受限立即清敏感数据。 |
+| T10，待执行 | quota有余量但existing outstanding命中；Preview后竞争到Submit | Preview同次观察给canSubmit=false、TEST_ALREADY_OUTSTANDING和本人可读定位；quota独立；Submit事务重查409并在仍可读时给error.details定位。 |
+| T11，待执行 | 无handler登记、handler读取失败、原testId重放 | 缺失为Preview阻止原因和Submit确定拒绝；读取失败503 TEST_HANDLER_UNCONFIRMED且无新记录；原key原输入回执优先于这些新建检查。 |
+| T12，待执行 | unknown inspect/close缺材料、同testId跨actor、错绑定、双close、COMMIT回执丢失、晚到结果 | CLI从受控环境取得operator；actor/test/permit/sender/capability绑定不符拒绝；同UUID不同actor隔离；原closeKey收敛同回执；关闭只原子清对应outstanding并留unknown/consumed/审计；晚到只追加Observation。 |
+| T13，待执行 | 同owner交互写与多owner来源导入交错；故意UPDATE owner | 所有路径先account且后段不回取；B04保存slot→catalog→Provider，项目路径保留project→operation→catalog/profile；来源sorted owner accounts→catalog；DDL拒绝owner改属。 |
+| T14，待执行 | schema1重放、schema2含重复execution集合、同scope同UTC日插第二窗口、伪造scope_id | schema1回执字节不升级；schema2只接受一个executionProfiles；scope互斥FK和派生列拒绝冒领；复合主键拒绝第二窗口。 |
 
 ## B06
 
@@ -63,4 +68,4 @@
 
 ## 跨批交付门槛
 
-实现验证必须按实际函数、事务和存储运行；真实模型请求另行授权。B02 外部暂停不被此矩阵解除。B03全量原回归是U04.1/U05.3/U06.3集成门槛；最终readiness仍区分管理面可创建与运行未实现。文档/声明校验结果单列在 checks.json，不能填进上述业务用例的“通过”。
+实现验证必须按实际函数、事务和存储运行；真实模型请求另行授权。T10—T14是2026-09-14新增的待执行验收，不是实测结果。B02外部暂停不被此矩阵解除。B03全量原回归是U04.1/U05.3/U06.3集成门槛；最终readiness仍区分管理面可创建与运行未实现。历史文档/声明校验结果保留在checks.json，不能填进上述业务用例的“通过”。

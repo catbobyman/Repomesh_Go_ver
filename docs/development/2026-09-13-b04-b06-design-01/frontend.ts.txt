@@ -73,12 +73,34 @@ export declare function parseSaveResult(raw: unknown): SaveResult;
 
 // B05 single test: target is exactly one saved row at one immutable provider revision.
 export type SnapshotTarget = Readonly<{ providerId: ProviderID; providerRevision: ProviderRevision; modelRowId: ModelRowID }>;
-export type TestPreview = SnapshotTarget & Readonly<{
+export type TestPreviewReason =
+  | "QUOTA_UNAVAILABLE"
+  | "EGRESS_NOT_ALLOWED"
+  | "SECRET_UNAVAILABLE"
+  | "PROFILE_UNAVAILABLE"
+  | "TEST_HANDLER_UNAVAILABLE"
+  | "LIMIT_UNSUPPORTED"
+  | "TEST_ALREADY_OUTSTANDING";
+type TestPreviewFields = SnapshotTarget & Readonly<{
   previewId: PreviewID; expiresAt: ISOTime; modelId: string; secretVersionId: SecretVersionID;
   policyRevision: string; cost: { basis: "request_count"; units: 1; mayCharge: true; currency: null; maxEstimatedCharge: null };
-  requestLimit: { maxOutputTokens: number; timeoutSeconds: number }; canSubmit: boolean; reasonCodes: readonly string[];
+  requestLimit: { maxOutputTokens: number; timeoutSeconds: number }; canSubmit: boolean; reasonCodes: readonly TestPreviewReason[];
 }>;
+export type TestPreview = TestPreviewFields & (
+  | Readonly<{ existingTestId: TestID; links: { operation: APIPath } }>
+  | Readonly<{ existingTestId?: never; links?: never }>
+);
+// parseTestPreview accepts existingTestId and links together only when canSubmit is false and
+// reasonCodes contains TEST_ALREADY_OUTSTANDING. The test must remain readable by this actor.
+// Other preview branches reject both fields. A missing current handler is a 200 preview with
+// TEST_HANDLER_UNAVAILABLE. Failure to observe handler registration is a 503
+// TEST_HANDLER_UNCONFIRMED error. RESULT_UNCONFIRMED is reserved for uncertain writes.
 export type TestBody = Readonly<{ previewId: PreviewID; confirmPotentialCharge: true }>;
+export type OutstandingTestDetails = Readonly<{ existingTestId: TestID; links: { operation: APIPath } }>;
+type TransportError = Extract<TransportResult<never>, { kind: "error" }>;
+export type TestSubmitError =
+  | (TransportError & Readonly<{ status: 409; code: "TEST_ALREADY_OUTSTANDING"; details?: OutstandingTestDetails }>)
+  | (TransportError & Readonly<{ details?: never }>);
 export type TestEvidence = Readonly<{
   code: "OK" | "NOT_STARTED" | "PROVIDER_REQUEST_FAILED" | "PROVIDER_ACCESS_REJECTED" | "MODEL_UNAVAILABLE" |
     "PROVIDER_RESPONSE_INVALID" | "REQUEST_TIMEOUT_UNCONFIRMED" | "POLICY_CHANGED" | "ACCESS_REVOKED";
@@ -95,9 +117,16 @@ export type TestResult = SnapshotTarget & Readonly<{
 // parseTestResult validates cross-field states: running needs actual start evidence;
 // passed/failed/rejected -> not_needed; unknown may be open/closed, never coerced to failed.
 export declare function previewTest(context: WriteContext, target: SnapshotTarget, signal: AbortSignal): Promise<APIReply<TestPreview>>;
-export declare function submitTest(context: WriteContext, id: TestID, body: TestBody, signal: AbortSignal): Promise<APIReply<TestResult>>;
+export declare function submitTest(context: WriteContext, id: TestID, body: TestBody, signal: AbortSignal): Promise<Extract<APIReply<TestResult>, { kind: "ok" }> | TestSubmitError>;
 export declare function getTest(id: TestID, signal: AbortSignal): Promise<APIReply<TestResult>>;
+export declare function parseTestPreview(raw: unknown): TestPreview;
+export declare function parseOutstandingTestDetails(raw: unknown): OutstandingTestDetails;
 export declare function parseTestResult(raw: unknown): TestResult;
+// Submit rechecks the current effective outstanding-test block. A race returns 409
+// TEST_ALREADY_OUTSTANDING and does not register or send another test. Its wire error.details
+// contains the same locator only while this actor can still read the blocking test. An unreadable
+// test omits details. No other error code accepts this details shape. The endpoint helper reuses
+// request() with this narrow decoder; it does not add another error or transport framework.
 
 // C06: historical lookup is only on the fixed link; a restricted branch has no identifiers.
 export type OriginalModel = Readonly<
@@ -175,46 +204,82 @@ export declare function createIssue(context: WriteContext, project: ProjectID, i
 export declare function getCreation(project: ProjectID, id: CreationID, signal: AbortSignal): Promise<APIReply<CreationReceipt>>;
 export declare function parseCreationReceipt(raw: unknown): CreationReceipt;
 
-// Cross-batch recovery: identity owns state. Never merge a new account or new operation into it.
+// Cross-batch recovery extends the existing web/src/modelRecovery.ts module. It shares only
+// locator, browser storage, and read-generation mechanics. Each operation keeps its reducer,
+// result parser, retry policy, and page state. Do not add a third recovery framework.
 export type OperationLocator = Readonly<
   | { kind: "provider_save"; actor: ActorID; id: SaveID }
   | { kind: "model_test"; actor: ActorID; id: TestID }
   | { kind: "model_apply"; actor: ActorID; projectId: ProjectID; id: ApplicationID }
   | { kind: "issue_create"; actor: ActorID; projectId: ProjectID; id: CreationID }
 >;
+export type ProviderSaveLocator = Extract<OperationLocator, { kind: "provider_save" }>;
+export type ModelTestLocator = Extract<OperationLocator, { kind: "model_test" }>;
+export type ModelApplyLocator = Extract<OperationLocator, { kind: "model_apply" }>;
+export type IssueCreateLocator = Extract<OperationLocator, { kind: "issue_create" }>;
 export type RecoveryIndex = OperationLocator & Readonly<{ createdAt: ISOTime }>;
 export type SecretFreeSaveSnapshot = SaveFields & Readonly<{ secretMode: "keep" | "replace" }>;
-// Only these non-secret snapshots may persist in sessionStorage; localStorage only RecoveryIndex.
+// Only these non-secret snapshots may persist in sessionStorage. localStorage holds only a
+// RecoveryIndex. Storage keys include actor and operation identity before lookup.
 export type SessionRecovery = Readonly<
-  | { locator: Extract<OperationLocator, { kind: "provider_save" }>; snapshot: SecretFreeSaveSnapshot }
-  | { locator: Extract<OperationLocator, { kind: "model_test" }>; body: TestBody }
-  | { locator: Extract<OperationLocator, { kind: "model_apply" }>; body: { previewId: PreviewID } }
-  | { locator: Extract<OperationLocator, { kind: "issue_create" }>; body: IssueCreateBody }
+  | { locator: ProviderSaveLocator; snapshot: SecretFreeSaveSnapshot }
+  | { locator: ModelTestLocator; body: TestBody }
+  | { locator: ModelApplyLocator; body: { previewId: PreviewID } }
+  | { locator: IssueCreateLocator; body: IssueCreateBody }
 >;
-export type ReadTicket = Readonly<{ locator: OperationLocator; generation: number; requestSerial: number }>;
-export type OperationState<T> = Readonly<
-  | { state: "in_flight" | "unconfirmed" | "checking"; locator: OperationLocator; generation: number }
-  | { state: "confirmed"; locator: OperationLocator; generation: number; result: T }
-  | { state: "removed"; locator: OperationLocator; generation: number }
-  | { state: "reauthenticate" | "restricted"; locator: OperationLocator; generation: number }
+export type SessionRecoveryFor<L extends OperationLocator> = Extract<SessionRecovery, { locator: L }>;
+export type ReadTicket<L extends OperationLocator = OperationLocator> = Readonly<{ locator: L; generation: number; requestSerial: number }>;
+export type OperationState<L extends OperationLocator, T> = Readonly<
+  | { state: "in_flight" | "unconfirmed" | "checking"; locator: L; generation: number }
+  | { state: "confirmed"; locator: L; generation: number; result: T }
+  | { state: "removed"; locator: L; generation: number }
+  | { state: "reauthenticate" | "restricted"; locator: L; generation: number }
 >;
+export type SaveRecoveryState = OperationState<ProviderSaveLocator, SaveResult>;
+export type TestRecoveryState = OperationState<ModelTestLocator, TestResult>;
+export type ApplicationRecoveryState = OperationState<ModelApplyLocator, ApplicationResult>;
+export type CreationRecoveryState = OperationState<IssueCreateLocator, CreationReceipt>;
 export declare function persistRecoveryIndex(index: RecoveryIndex): { readonly saved: boolean; readonly recoveryPath: string };
 export declare function persistSessionRecovery(snapshot: SessionRecovery): boolean;
+export declare function readSessionRecovery<L extends OperationLocator>(locator: L): SessionRecoveryFor<L> | null;
 export declare function readRecoveryIndex(raw: unknown, actor: ActorID): RecoveryIndex | null;
-export declare function beginRead(locator: OperationLocator, generation: number): ReadTicket;
-export declare function acceptsRead(current: ReadTicket, incoming: ReadTicket, authenticatedActor: ActorID): boolean;
-export declare function reduceSave(current: OperationState<SaveResult>, ticket: ReadTicket, result: APIReply<SaveResult>): OperationState<SaveResult>;
-export declare function reduceTest(current: OperationState<TestResult>, ticket: ReadTicket, result: APIReply<TestResult>): OperationState<TestResult>;
-export declare function reduceApplication(current: OperationState<ApplicationResult>, ticket: ReadTicket, result: APIReply<ApplicationResult>): OperationState<ApplicationResult>;
-export declare function reduceCreation(current: OperationState<CreationReceipt>, ticket: ReadTicket, result: APIReply<CreationReceipt>): OperationState<CreationReceipt>;
+export declare function beginRead<L extends OperationLocator>(locator: L, generation: number): ReadTicket<L>;
+export declare function acceptsRead<L extends OperationLocator>(current: ReadTicket<L>, incoming: ReadTicket<L>, authenticatedActor: ActorID): boolean;
+export declare function reduceSave(current: SaveRecoveryState, ticket: ReadTicket<ProviderSaveLocator>, result: APIReply<SaveResult>): SaveRecoveryState;
+export declare function reduceTest(current: TestRecoveryState, ticket: ReadTicket<ModelTestLocator>, result: APIReply<TestResult>): TestRecoveryState;
+export declare function reduceApplication(current: ApplicationRecoveryState, ticket: ReadTicket<ModelApplyLocator>, result: APIReply<ApplicationResult>): ApplicationRecoveryState;
+export declare function reduceCreation(current: CreationRecoveryState, ticket: ReadTicket<IssueCreateLocator>, result: APIReply<CreationReceipt>): CreationRecoveryState;
+export declare function clearRecoveryPayload(locator: OperationLocator): void;
+export declare function clearRecoveryPayloads(): void;
 // Reducers ignore mismatched actor/locator/generation; at most one test read is in flight.
 // 404/503/abort retain locator and frozen input. 410 clears payload but does not restore key reuse.
 // Save body Key released after sending; save recovery can only GET/close, never rebuild original Key.
 // Durable rejected/closed permits an explicit new save; Issue has no durable rejected receipt.
 // Unknown Issue retains frozen body; user cannot silently replace expected context under old id.
+// An exact retry, where its business contract permits one, reuses the stored body and original id.
+// Shared storage never manufactures input and never decides whether an operation may retry.
 // Authentication recovery passes an allowlisted Destination; browser never auto-resubmits on login.
 // B06 renders stable creation receipt. Detail/rooms routes stay deferred, not fabricated as ready.
+
+// Provider-save storage remains byte-compatible with the implemented B04 keys:
+// localStorage repomesh.model.save-index.v1 and sessionStorage
+// repomesh.model.save.v1:{actor}:{id}. Added kinds use distinct kind-specific prefixes through
+// the same storage helper. Identity loss clears session payloads but retains the minimal indexes.
+// Indexes never grant read access and are filtered by the authenticated actor before display.
+// The current SaveLocator export migrates to ProviderSaveLocator. ModelSavePage migrates its
+// locator, ticket, state, and readSessionRecovery call. ModelSettingsPage keeps the existing
+// provider-save persistence path. session.ts replaces clearModelRecovery with
+// clearRecoveryPayloads and keeps clearAllOperationInputs for B03. model.test.mjs keeps the B04
+// key, actor-isolation, secret-removal, and stale-generation assertions, then adds each new
+// locator and reducer. The old SaveLocator type is deleted after these callers compile together.
+
+// web/src/projectRecovery.ts remains the B03 project_create/project_update owner. It keeps
+// OperationIdentity, key normalization, input parsing and freezing, prepare/load, project routes,
+// its reducer, and repomesh.project.operation*. It may use shared read tickets later, but this
+// B05/B06 design does not move project input storage or retry rules into modelRecovery.ts.
 
 // Existing api.ts Result<T> carries diagnostics/retryAt. WriteContext is obtained from the
 // authenticated session, cleared on identity change, and never persisted in RecoveryIndex.
 // Existing RequestOptions supplies CSRF and Idempotency-Key, Origin checks remain server-side.
+// B05 and B06 remain declaration-only. These corrections do not adopt D05, D06, their candidate
+// numeric values, or the rest of the B04-B06 recommendation package.

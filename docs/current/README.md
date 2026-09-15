@@ -10,6 +10,7 @@
 | --- | --- |
 | [Agent 全局阅读指南](AGENT-READING-GUIDE.md) | 首次接手的阅读顺序、产品全貌、架构边界、实现与证据核对，以及按任务深入的入口。 |
 | [B04 验收报告](../development/2026-09-13-b04-acceptance-01/README.md) | 已合入 `main` 的 D01—D04／U04.1—U04.4 验收；`INTEGRATED_LOCAL_VERIFIED`，非整批 VERIFIED。 |
+| [B05/B06 五项设计收口](../development/2026-09-14-b05-b06-design-closeout-01/README.md) | 固定测试预览与handler、unknown关闭、逐路径锁序与共同owner account边界、schema2 execution及窗口scope设计；产品未实施，运行未验收，其余候选未采用。 |
 | [B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)、[独立复核](../development/2026-09-13-b04-closeout-01/FINAL-INDEPENDENT-REVIEW.md) | B04 INTEGRATED_LOCAL_VERIFIED：夹具浏览器、B03 回归、r2 包；非整批 VERIFIED。 |
 | [B04 采用记录](b04-model-sources-adoption.md) | 已采用 D01—D04 与 U04.1—U04.4。不采用 D05—D08。 |
 | [B04—B06 设计交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[设计阶段历史 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md) | 设计交接仍有效；B04 收口后 B05／B06 仍待各自采用。 |
@@ -98,3 +99,7 @@
 | [AgentTeams 调研](../agentteams-survey-2026-09-07/agentteams-survey.md) · [API／CLI 附录](../agentteams-survey-2026-09-07/agentteams-api-cli-survey-2026-09-07.md) | 后端需结合确定源码和后续实测核对，不能当作已集成。 |
 | [09-12 审查](../reviews/2026-09-12-design-readiness/README.md) · [修订检查](../reviews/2026-09-12-design-fixes/README.md) | 历史证据及限定检查，不代表真实业务通过。 |
 | [计划目录整理与旧任务提示](../archive/2026-09-13-plan-organization/README.md) · [全部历史](../archive/README.md) | 已过期 B03、B04 提示，整理前交接、计划、迁移映射与原始字节；更早归档从历史总导航进入。 |
+
+## 按批次查看 API 与数据库设计
+
+[B00-B11 API 与数据库目录](../api-database/README.md) 提供 [HTML 手册](../api-database/index.html) 和对应 Markdown，集中列出接口、字段、关系、事务、恢复与设计理由。已实现、已采用设计、既有候选和本次提案分别标记。既有专题与采用记录继续决定采用范围，新目录不改变产品或验收状态。

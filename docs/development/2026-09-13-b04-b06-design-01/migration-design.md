@@ -31,19 +31,47 @@ save_operations 在最终状态只允许三种形态：①save_input、committed
 | projects.request_policy_versions / time_policy_versions | PK(id,version)，来源§9的显式参数CHECK；不可变，不以ID覆盖旧版。scope不混用actor测试与project运行。 |
 | sources.egress_policy_versions / test_bindings | egress PK(id,version)不可变，白名单数组规范化无重项；test binding PK(owner)，三个确切政策FK、组合revision。改绑定不改历史preview/test。 |
 | sources.execution_versions完整扩展 | v2版本增加预算/时限id/version复合FK及完整标志；v1保持不完整。相同id/version不得UPDATE补全；新版本须模板、政策和project profile_version共同存在。project profile_versions的旧policy_id列与新复合引用由延迟一致性检查对应。 |
-| modelbudget.windows | PK(scope_kind,scope_id,start_utc)，end_utc恰次日、limit>0、reserved/consumed>=0，revision；同窗口limit只能减少。policy不在主键。scope以actor/project二选一列和各自FK约束，不能任意字符串冒领。 |
-| modelbudget.test_reservations | test_id唯一FK test、actor、window FK、policy FK、amount=1、状态reserved/consumed/released；状态变更与窗口计数同tx。consumed不可转released。跨日仍结算原window。 |
+| modelbudget.windows | scope_kind只能为actor_model_test或project_model_runtime；actor_scope_id与project_scope_id按kind恰有一个非空并分别FK account/project。scope_id是从该非空FK列生成的stored列，调用方不能独立写。start_utc规范为UTC 00:00，end_utc=start_utc+1 day；limit>0、reserved/consumed>=0，revision；同窗口limit只能减少。PK(scope_kind,scope_id,start_utc)，policy不在主键。 |
+| modelbudget.test_reservations | UNIQUE(actor,test_id)并复合FK tests(actor,test_id)，另有window FK、policy FK、amount=1、状态reserved/consumed/released；状态变更与窗口计数同tx。consumed不可转released。跨日仍结算原window。 |
 | models.previews | id随机PK，kind=test/apply分型，actor/固定snapshot/完整政策/有效期；apply额外project/version/完整before；不可变输入，consumed_by只能空→一个operation，不可释放再用。保留最小消费墓碑，不随5分钟TTL删去消费事实。 |
 | models.tests | PK(actor,test_id)，固定snapshot FK、preview及policy、accepted_at；canonical输入、当前state/result_revision/recovery、removed_at；身份与accepted_at不可改，观察列按状态机更新。preview唯一消费约束。 |
 | models.test_handler_leases | instance_id随机不可复用PK、protocol_version、last_seen/lease_until、retired_at；仅coordinator登记/续期，Web只读。过期不是撤销证明。 |
-| models.test_dispatch | test_id唯一且FK；external_operation_id唯一、may_have_sent_at、generation/lease、sender_instance_id FK handler租约记录及sender身份、证据引用。may_have_sent只能空→非空，不能重置。发送身份与test固定目标对应。 |
-| models.test_observations | evidence_id PK，test/external_operation复合FK、已知观察字段；append-only；不存完整供应商响应/Key。旧generation可追加该逻辑调用证据，只有当前reconciler采纳，不让迟到者直接更新正式状态。 |
-| models.actor_outstanding_tests | actor PK、test_id唯一FK及recovery-open依据。注册和责任清除锁account后在同tx处理；30天结果清理不能删未核清责任。 |
+| models.test_dispatch | UNIQUE(actor,test_id)并复合FK tests(actor,test_id)；external_operation_id和send_permit_id唯一、may_have_sent_at、generation/lease、sender_instance_id FK handler租约记录、credential_capability_id/version、capability_revoked_at及revocation_evidence_digest。发送许可事务固定这些身份；may_have_sent只能空→非空，能力撤销只能空→固定事实。关闭后该sender/permit不能再取得凭据。本地撤销记录不冒充提供商远端凭据撤销。 |
+| models.test_observations | evidence_id PK，actor/test/external_operation复合FK至同一dispatch、已知观察字段；append-only；不存完整供应商响应/Key。旧generation可追加该逻辑调用证据，只有当前reconciler采纳，不让迟到者直接更新正式状态。 |
+| models.actor_outstanding_tests | actor PK，(actor,test_id)复合FK tests(actor,test_id)，并保存recovery-open依据；不对test_id单列全局唯一约束。注册和责任清除锁account后在同tx处理；30天结果清理不能删未核清责任。该形状依赖S05每actor最多1笔的候选数值，本轮五项收口不单独采用该数值；改变上限时须连同Preview、Submit和本表一起重审。 |
+| models.unknown_test_closures | UNIQUE(actor,test_id)且PK(deployment_identity,close_key)，复合FK tests(actor,test_id)，并绑定同一dispatch的external_operation_id、send_permit_id、不可复用sender_instance_id和credential_capability_id/version；保存规范化schema、两类带外材料引用及SHA-256、由实际DB session_user取得的受控操作员主体、closed_at和稳定回执。事实列不可更新，不存原始Secret。关闭与dispatch本地能力撤销、对应actor outstanding清除及审计同tx；原key重放，COMMIT未知仍用原key恢复。 |
 | models.application_operations | PK(project_id,actor,application_id)，规范化输入/preview消费、committed或rejected稳定结果/removed；项目/配置复合FK及候选snapshot FK；no-op也有回执，retained execution与before及结果配置一致。 |
 
 测试登记事务一次写accepted test、preview消费、reservation、actor outstanding及test_dispatch可扫描责任。预算预留后但尚无许可可证明未发而取消；可能发送许可持久化同时消费1单位，并且只有收到该次COMMIT成功回执的进程获得内存SendPermit。读库不能复原发权。消费/permit约束必须同事务，网络不入事务。平台预算数据只计算此scope下受控本地请求，非供应商全账户额度。
 
+unknown关闭不修改test.state和consumed。延迟Observation保持append-only，不能改写unknown_test_closures或恢复outstanding。证据结构约束只能证明字段完整且绑定原test、permit、sender和credential能力版本；材料事实由受控操作员承担，数据库CHECK不能把自填JSON提升为自动证明。
+
+`modelbudget.windows`采用以下DDL形状。实际迁移须使用现存表的精确约束名，并以PostgreSQL约束用例验证：
+
+```sql
+scope_kind text NOT NULL
+  CHECK (scope_kind IN ('actor_model_test', 'project_model_runtime')),
+actor_scope_id text REFERENCES repomesh_access.accounts(id),
+project_scope_id text REFERENCES repomesh_projects.projects(id),
+scope_id text GENERATED ALWAYS AS
+  (COALESCE(actor_scope_id, project_scope_id)) STORED,
+CHECK (
+  (scope_kind = 'actor_model_test' AND actor_scope_id IS NOT NULL AND project_scope_id IS NULL)
+  OR
+  (scope_kind = 'project_model_runtime' AND actor_scope_id IS NULL AND project_scope_id IS NOT NULL)
+),
+start_utc timestamptz NOT NULL,
+end_utc timestamptz NOT NULL,
+CHECK (start_utc = date_trunc('day', start_utc AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'),
+CHECK (end_utc = start_utc + interval '1 day'),
+PRIMARY KEY (scope_kind, scope_id, start_utc)
+```
+
+互斥CHECK使scope_id只能等于所选actor或project外键，不能由正文冒领另一身份。UTC日界CHECK把同一scope同一UTC日的start_utc规范为唯一值；复合主键因此拒绝该日第二行。policy切换继续命中同一窗口，不因policyVersion变化建立第二窗口。
+
 B05项目额度窗口的无历史证明由本地受控账本版本/消费者启用事实产生；缺表/读错/已有消费未知不等于空。未来增加运行消费者时必须在同窗口计数原子写用量，不能另造绕过计数路径。只读GET无写窗口；模型专用应用保留 execution，不重置或增加额度。
+
+所有新增owner列必须引用稳定account身份，并由不可变触发器或等价DDL禁止UPDATE改属。该义务覆盖Provider、profile、来源执行版本、政策绑定和测试固定身份。新表的用例核权不替代持久约束。同owner写先锁account；来源导入按owner ID排序锁账户后才锁catalog。
 
 ## B06
 

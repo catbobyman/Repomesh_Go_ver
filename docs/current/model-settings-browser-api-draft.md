@@ -121,9 +121,13 @@ POST /api/model-test-previews正文`{providerId,providerRevision,modelRowId}`。
 {"previewId":"tp_1","expiresAt":"2026-09-11T12:06:00Z","providerId":"provider_1","providerRevision":"pv_8","modelRowId":"modelrow_1","modelId":"deepseek-chat","secretVersionId":"sv_4","policyRevision":"testpolicy_1","cost":{"basis":"request_count","units":1,"mayCharge":true,"currency":null,"maxEstimatedCharge":null},"requestLimit":{"maxOutputTokens":16,"timeoutSeconds":30},"canSubmit":true,"reasonCodes":[]}
 ```
 
-首批推荐有限请求次数预算，每次测试1单位，明确可能收费；currency/maxEstimatedCharge均null，不是0或免费。金额预算是需要另审可信价格版本和计量的替代，不能同时把次数方案当金额上限。previewId随机、5分钟、绑定actor／固定版本／政策，预览不预留额度。canSubmit=false时reasonCodes为QUOTA_UNAVAILABLE／EGRESS_NOT_ALLOWED／SECRET_UNAVAILABLE／PROFILE_UNAVAILABLE／TEST_HANDLER_UNAVAILABLE／LIMIT_UNSUPPORTED；没有额度、处理器或无法映射输出限制时不能确认。无价格不是次数方案的单独阻止原因。
+首批推荐有限请求次数预算，每次测试1单位，明确可能收费；currency/maxEstimatedCharge均null，不是0或免费。金额预算是需要另审可信价格版本和计量的替代，不能同时把次数方案当金额上限。previewId随机、5分钟、绑定actor／固定版本／政策，预览不预留额度。
 
-POST /api/model-tests带Idempotency-Key UUID testId，正文`{previewId,confirmPotentialCharge:true}`；false拒绝422。当前actor／版本／策略与预览变化409 TEST_PREVIEW_CHANGED，过期409 TEST_PREVIEW_EXPIRED，不静默重取并提交。预算不足409 TEST_BUDGET_UNAVAILABLE；未知503，无免费绕过。202只表示登记测试及持久责任，绝不表示测试通过；同键登记重放200/202取当前状态，但原任务身份与acceptedAt固定。
+预览在同一次当前主体观察中读取未核清测试、额度窗口和处理器登记。三项结果互不替代：queued、running和recovery.open的unknown计入Submit现有候选阻断规则；新测试会命中该规则时，canSubmit=false且reasonCodes含TEST_ALREADY_OUTSTANDING。额度不足或不可用仍单独给QUOTA_UNAVAILABLE。其他reasonCodes为EGRESS_NOT_ALLOWED／SECRET_UNAVAILABLE／PROFILE_UNAVAILABLE／TEST_HANDLER_UNAVAILABLE／LIMIT_UNSUPPORTED。没有匹配处理器登记时给TEST_HANDLER_UNAVAILABLE。处理器登记读取失败时整次返回503 TEST_HANDLER_UNCONFIRMED，不建立Preview记录，不用RESULT_UNCONFIRMED冒充只读观察失败。没有额度、处理器或正确输出限制映射时不能确认。无价格不是次数方案的单独阻止原因。本文现有Submit候选是每actor最多1笔，因此命中时只有一笔阻断记录；该数值仍是未采用的S05候选，改变它时须同时修订Preview和Submit形状。
+
+只有TEST_ALREADY_OUTSTANDING分支可在预览顶层增加`existingTestId`和`links:{operation}`，且二者同时出现。服务端只返回当前actor仍有权读取的阻断记录testId和`/api/model-tests/{testId}`；其他主体、其他原因和不可读原结果均不得返回这些字段。该分支示例为`{"canSubmit":false,"reasonCodes":["TEST_ALREADY_OUTSTANDING"],"existingTestId":"03c4ae03-fcb4-4972-a0c3-7741e3b37947","links":{"operation":"/api/model-tests/03c4ae03-fcb4-4972-a0c3-7741e3b37947"}}`，其余预览字段仍按上方完整形状返回。
+
+POST /api/model-tests带Idempotency-Key UUID testId，正文`{previewId,confirmPotentialCharge:true}`；false拒绝422。服务端先按当前主体读取原testId并用原schema比较确切输入。原键与原输入匹配时返回原回执，优先于preview期限、处理器、未核清测试、额度和其他新建可用性检查；同键异输入仍409 IDEMPOTENCY_CONFLICT。没有原操作时才重查当前actor／版本／策略、处理器、未核清测试和额度。版本或策略变化409 TEST_PREVIEW_CHANGED，过期409 TEST_PREVIEW_EXPIRED，不静默重取并提交。命中现有候选未核项阻断条件时返回409 TEST_ALREADY_OUTSTANDING。若当前actor仍可读阻断记录，错误在通用字段外增加`details:{existingTestId,links:{operation}}`；不可读或属于其他actor时不返回details。该提交竞争定位与Preview顶层定位并存，Preview观察不能消除两者之间的竞态。预算不足409 TEST_BUDGET_UNAVAILABLE。处理器缺失409 TEST_HANDLER_UNAVAILABLE；处理器登记读取失败503 TEST_HANDLER_UNCONFIRMED，不登记测试、不预留额度、不消费预览。其他未知仍用对应503，无免费绕过。202只表示登记测试及持久责任，绝不表示测试通过；同键登记重放200/202取当前状态，但原任务身份与acceptedAt固定。
 
 TestResult（登记响应和GET同形）：
 
@@ -133,7 +137,7 @@ TestResult（登记响应和GET同形）：
 
 state=queued/running/passed/failed/unknown/rejected。queued持久登记但尚无实际调用开始观察；running有实际调用开始依据；passed只该快照的一次成功探测；failed有明确供应商拒绝或已确认响应无效依据；unknown网络／进程断点无法判断外部结果；rejected确定未发出（政策或权限失效）。queued等待候选10分钟，证明尚未进入可能发送且旧发送权失效才能rejected/NOT_STARTED；上游5xx／限流等已取得明确响应的通用失败用PROVIDER_REQUEST_FAILED，网络响应未确认仍unknown，不混为确定失败。result非null时`{code,summary,latencyMs,usage:{inputTokens,outputTokens}|null}`，code=OK／NOT_STARTED／PROVIDER_REQUEST_FAILED／PROVIDER_ACCESS_REJECTED／MODEL_UNAVAILABLE／PROVIDER_RESPONSE_INVALID／REQUEST_TIMEOUT_UNCONFIRMED／POLICY_CHANGED／ACCESS_REVOKED；没有任意供应商响应正文。不能把所有失败归Key错。usage只来自可核实响应，缺失为null。
 
-budget.status=reserved/consumed/released，表示1单位本地次数，可能发送前由预留转已消费；charge.status=not_sent/possible/unknown且currency/amount均null，不声称金额结算。确定未发才能释放；错误或unknown不自动退款／再发。每actor最多1笔未核清测试（也覆盖同快照），存在queued/running或recovery.open的unknown时409 TEST_ALREADY_OUTSTANDING，仅返回本人可读existingTestId。
+budget.status=reserved/consumed/released，表示1单位本地次数，可能发送前由预留转已消费；charge.status=not_sent/possible/unknown且currency/amount均null，不声称金额结算。确定未发才能释放；错误或unknown不自动退款／再发。每actor最多1笔未核清测试仍是未采用的S05候选。无论最终上限为何，预览都用canSubmit=false和TEST_ALREADY_OUTSTANDING镜像当次Submit的阻断结论；新Submit仍在事务内重查并以409拒绝，不能把预览观察当预留或锁。
 
 recovery.state=open/closed_without_result/not_needed；passed/failed/rejected为not_needed，queued/running/未关闭unknown为open，运维关闭unknown为closed_without_result；后者只允许受控运维证明旧发送者已失去调用能力并审计关闭，历史state仍unknown，预算保守已消费，不伪造成通过／失败。canStartNewTest在queued/running/仍open的unknown为false，其余为true仅表示原操作不再阻塞，新测试仍须新预览及收费确认和全部当前门槛。本批无关闭未知的浏览器接口，前端不能自行忽略未知。
 

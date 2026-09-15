@@ -118,7 +118,7 @@ S05不会把保存项目／配置也变成消费。缺少有限运行政策或�
 
 ## 5. S06：GitHub App逐动作规则
 
-2026-09-13定点说明：下述15秒写观察是旧接入候选。B06新建的观察覆盖和时限由[持久化§7.2](backend-first-batch-persistence.md#72-权限观察与统一锁序)提出明确替代（用户与App完整观察、提交前60秒），仍待采用；不扩张B02已采用范围，其余未来动作门槛未在本轮定稿。
+2026-09-13定点说明：下述15秒写观察是旧接入候选。B06新建的观察覆盖和时限由[持久化§7.2](backend-first-batch-persistence.md#72-权限观察与逐路径锁序边界)提出明确替代（用户与App完整观察、提交前60秒），仍待采用；不扩张B02已采用范围，其余未来动作门槛未在本轮定稿。
 
 首批宿主固定github.com，不接任意Host。外部身份、安装仓库和permission来自GitHub当前查询，不来自浏览器回跳id、自报名称或部署期望。读取观察最多60秒、新写重新核实且距提交≤15秒仍为接入r1候选参数，采用状态与认证后续稿统一；本地accessEpoch改变立即使旧观察失效。
 
@@ -192,7 +192,7 @@ profile 目录及 ProjectConfigRevision 继续由 projects 持有。models 写�
 
 ### 8.3 导入事务与恢复
 
-Importer 持有短 READ COMMITTED 事务。先取预置 import 单例排他锁，查询 `(deploymentIdentity, importId)`；已提交先重放／冲突，之前不校验新 owner 是否仍启用。新输入才排序锁 owner account，核当前本地启用与归属，然后取 catalog 排他锁，按 profile ID 排序登记版本、head、默认、审计与稳定回执。所有版本依赖在最终事务内重核，任一失败全回滚。导入不获取 binding/session/project 锁；交互路径不获取 import 单例。
+Importer持有短READ COMMITTED事务。先取预置import单例排他锁，查询`(deploymentIdentity, importId)`；已提交先重放／冲突，之前不校验新owner是否仍启用。新输入才按owner account ID排序锁全部owner，核当前本地启用与归属，然后取catalog排他锁，按profile ID排序登记版本、head、默认、审计与稳定回执。共同owner的account锁串行该owner的导入和交互写。Provider.owner、profile.owner和来源执行版本owner由外键及不可变约束固定，导入不能改属既有身份。所有版本依赖在最终事务内重核，任一失败全回滚。导入不获取binding/session/project/Provider锁；持catalog时不回取owner。交互路径不获取import单例。
 
 回执只保存 importId、schemaVersion、实际登记/复用的版本、当次默认修订和 committedAt。没有可见 pending/rejected 导入记录。预查空不代表拿到槽位，依赖单例与最终唯一键；冲突回读必须用新语句。提交不确定先查原 importId，暂时不存在仍未知；复用原输入与键可重试，禁止自动换键。导入不触发配置应用、测试或 Issue。
 
@@ -206,7 +206,9 @@ Importer 持有短 READ COMMITTED 事务。先取预置 import 单例排他锁�
 
 状态 `B05-SOURCES-r1 / PROPOSED_NOT_ADOPTED`。采用 D05 的有限 request 预算后，schemaVersion=2 才接受本节扩展。其共同事务/操作规则沿 §8，不是修改 schema1 的含义；同 importId 跨 schema 视为异输入。
 
-schema2 顶层保留 schema1 五组，并必填以下数组，可空。executionProfiles 每项增加必填 budgetPolicyRef、timeLimitPolicyRef，引用严格为 `{id,version}`；每项在 v2 均须完整，不接受 null。模板、原两项参数与政策引用共同形成新不可变 execution 版本。相同 id/version 的 v1 记录不得补全；必须新 version。
+schema2顶层保留schemaVersion、importId、environmentTemplates和defaultBindings，并且只有一个权威executionProfiles数组。它不先嵌入或复制schema1的executionProfiles后再增加第二组execution。schema2的每个executionProfiles项包含schema1执行字段，并增加必填budgetPolicyRef和timeLimitPolicyRef；引用严格为`{id,version}`，不接受null。模板、原两项参数与政策引用共同形成新不可变execution版本。相同id/version的v1记录不得补全，必须使用新version。
+
+内部解析使用不含任何execution集合的共享ManifestCommon，再把唯一executionProfiles解析为CompleteExecution集合。ManifestCommon不是wire key。schema1仍由原Manifest解析，保留原字段、规范化输入、回执形状和精确重放；schema2也保留自己的canonical字节。同importId跨schema仍按异输入冲突，不能把旧回执升级为新形状。
 
 | 新组 | 精确字段与约束 |
 | --- | --- |

@@ -1,6 +1,6 @@
 # RepoMesh 当前交接
 
-更新：2026-09-13。本次文档整理基于 `3ad89bd`，该提交合入 B04 验收报告。产品运行结果沿用各报告锁定的源码版本，本次未重跑验收。
+更新：2026-09-14。本次B05/B06五项设计收口基于`43d8c2a`。产品运行结果沿用各报告锁定的源码版本，本次未重跑验收。
 
 开发从[全局阅读指南](AGENT-READING-GUIDE.md)、[计划导航](../plan/README.md)和[现行专题索引](README.md)进入。批次依赖及验收入口统一维护在[施工计划](../plan/IMPLEMENTATION-PLAN.md)。
 
@@ -12,7 +12,7 @@
 | B02 | IN_PROGRESS；本地认证、会话、授权恢复和仓库发现已实现；外部验收 PAUSED_BY_USER | [采用范围](b02-authentication-adoption.md)、[本地记录](../development/2026-09-12-batch-02/README.md)。完整外部验收未通过，历史失败和恢复责任见下节。 |
 | B03 | INTEGRATED_LOCAL_VERIFIED；项目创建、列表、资料编辑、明确增仓、固定配置及原操作恢复 | [主目录集成](../development/2026-09-12-b03-integration-01/README.md)、[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)。非整批业务 VERIFIED。 |
 | B04 | INTEGRATED_LOCAL_VERIFIED；D01—D04、U04.1—U04.4 授权范围已结束 | [采用记录](b04-model-sources-adoption.md)、[验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。模型供应商保存、安全终结、不可变版本、六个 HTTP 端点及部署来源导入已实现。非整批 VERIFIED。 |
-| B05、B06 | 前置设计已复核，实施 TODO | [设计交付](../development/2026-09-13-b04-b06-design-01/README.md)、[复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)。D05—D08、C05、C06、P9 等后续范围仍待采用。 |
+| B05、B06 | 五项定点设计已收口；产品实施 TODO | [本次收口](../development/2026-09-14-b05-b06-design-closeout-01/README.md)、[原设计交付](../development/2026-09-13-b04-b06-design-01/README.md)。测试预览/handler、unknown关闭、逐路径锁序与共同owner account边界、schema2 execution形状和窗口scope约束已固定为后续实现基线；D05—D08的其余候选、数值、C05、C06、P9及产品功能仍未采用或实施。 |
 | B07—B11 | 后续实施 TODO | Issue 查询、管理闭环及真实运行接入未完成。B09 的四项数据兼容问题仅有静态部分覆盖，完整 G1、G2 未完成。 |
 
 B04 验收报告的运行基线为 `621592d`，包含收口后保存校验留页与 vault 不变量修复。报告记录 Go 测试 260 通过、0 失败、2 跳过，前端测试 32 通过；具体跳过原因、S01—S12、浏览器夹具与历史失败以报告为准。这些结果不证明真实供应商 Key、真实模型请求或计费可用。
@@ -41,3 +41,7 @@ LIVE-09、LIVE-10 的既有通过结果保留。second-account-02 的 LIVE-05 �
 2026-09-13，施工计划、设计分工、开发行动指南和 AgentTeams 验证清单迁至 `docs/plan/`。B03、B04 旧任务提示已归档。整理前的累计交接和原始字节见[本次归档](../archive/2026-09-13-plan-organization/README.md)，此前文档演进见[历史总导航](../archive/README.md)。
 
 页面 F01—F15 入口见[页面交接](HANDOFF-PAGE-API-DESIGN.md)，旧后端 B01—B08 专题入口见[后端交接](HANDOFF-BACKEND-DESIGN.md)。这些专题编号与施工计划编号分别解释。历史任务指令、协作名单和运行记录不自动成为新的授权。
+
+## B00-B11 API 与数据库文档入口
+
+新增 [API 与数据库设计目录](../api-database/README.md)，包含 HTML 与同内容 Markdown，覆盖共同规则和 B00 至 B11。B08 复用前序接口与表进行验收设计，B10 的基础执行身份由 B11 复用。章节分别标明实现、采用与候选状态；文档制作不代表 B05-B11 产品实现或业务验收完成。制作结果和复核限制见 [本轮记录](../development/2026-09-15-api-db-catalog-01/README.md)。
