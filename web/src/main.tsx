@@ -11,24 +11,27 @@ import { ModelSettingsPage } from "./ModelSettingsPage";
 import { ProjectSettingsPage } from "./ProjectSettingsPage";
 import { RepositoryHome } from "./RepositoryHome";
 import { destinationForRoute, parseRoute, rememberLoginDestination } from "./routes";
-import type { AppRoute } from "./routes";
 import { AuthFrame } from "./shared";
 import { useSession } from "./session";
+import { WorkspaceApp } from "./workspace/WorkspaceApp";
+import { isWorkspaceDemoPath } from "./workspace/routes";
 import "./style.css";
 
 function App() {
-  const [currentRoute, setRoute] = useState<AppRoute>(() => parseRoute(window.location.pathname));
+  const [path, setPath] = useState(() => window.location.pathname);
   const auth = useSession();
   useEffect(() => {
-    const onPopState = () => setRoute(parseRoute(window.location.pathname));
+    const onPopState = () => setPath(window.location.pathname);
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
   }, []);
-  const navigate = useCallback((path: string) => {
-    window.history.pushState(null, "", path);
-    setRoute(parseRoute(path));
+  const navigate = useCallback((next: string) => {
+    window.history.pushState(null, "", next);
+    setPath(next);
     window.scrollTo(0, 0);
   }, []);
+  if (isWorkspaceDemoPath(path)) return <WorkspaceApp path={path} navigate={navigate} />;
+  const currentRoute = parseRoute(path);
   if (currentRoute.kind === "result") return <AuthResult key={`${currentRoute.id}:${auth.generation}`} id={currentRoute.id} auth={auth} navigate={navigate} />;
   if (currentRoute.kind !== "login" && currentRoute.kind !== "not-found" && auth.state.kind !== "authenticated") {
     rememberLoginDestination(destinationForRoute(currentRoute));

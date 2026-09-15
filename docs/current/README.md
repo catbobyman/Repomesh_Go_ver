@@ -46,6 +46,7 @@
 | [模型用于项目](model-project-apply-design.md) | 固定快照预览、测试观察与原应用恢复。 |
 | [Key 保存页面](model-key-save-design.md) | 显式草稿、保存未知与安全终结候选。 |
 | [最小 Issue 概览](issue-overview-minimal-design.md) | 首批详情 UI 候选，业务与运行观察分开。 |
+| [F07—F15 假数据工作区演示](f07-f15-workspace-browser-demo.md) | 会话／Issue／交付的元素清单、API 映射与 `/demo/workspace` 入口；不是产品实现。 |
 | [原型串联说明](prototype-walkthrough-design.md) | 源片段、生成、路由与历史原稿的边界。 |
 
 ## 持久化、身份与模型内部设计

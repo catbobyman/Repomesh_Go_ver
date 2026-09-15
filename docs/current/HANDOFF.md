@@ -13,7 +13,7 @@
 | B03 | INTEGRATED_LOCAL_VERIFIED；项目创建、列表、资料编辑、明确增仓、固定配置及原操作恢复 | [主目录集成](../development/2026-09-12-b03-integration-01/README.md)、[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)。非整批业务 VERIFIED。 |
 | B04 | INTEGRATED_LOCAL_VERIFIED；D01—D04、U04.1—U04.4 授权范围已结束 | [采用记录](b04-model-sources-adoption.md)、[验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。模型供应商保存、安全终结、不可变版本、六个 HTTP 端点及部署来源导入已实现。非整批 VERIFIED。 |
 | B05、B06 | 五项定点设计已收口；产品实施 TODO | [本次收口](../development/2026-09-14-b05-b06-design-closeout-01/README.md)、[原设计交付](../development/2026-09-13-b04-b06-design-01/README.md)。测试预览/handler、unknown关闭、逐路径锁序与共同owner account边界、schema2 execution形状和窗口scope约束已固定为后续实现基线；D05—D08的其余候选、数值、C05、C06、P9及产品功能仍未采用或实施。 |
-| B07—B11 | 后续实施 TODO | Issue 查询、管理闭环及真实运行接入未完成。B09 的四项数据兼容问题仅有静态部分覆盖，完整 G1、G2 未完成。 |
+| B07—B11 | 后续实施 TODO | Issue 查询、管理闭环及真实运行接入未完成。B09 的四项数据兼容问题仅有静态部分覆盖，完整 G1、G2 未完成。[F07—F15 假数据工作区](f07-f15-workspace-browser-demo.md) 只是 Vite 内存演示，不能当作本批已实现。 |
 
 B04 验收报告的运行基线为 `621592d`，包含收口后保存校验留页与 vault 不变量修复。报告记录 Go 测试 260 通过、0 失败、2 跳过，前端测试 32 通过；具体跳过原因、S01—S12、浏览器夹具与历史失败以报告为准。这些结果不证明真实供应商 Key、真实模型请求或计费可用。
 
