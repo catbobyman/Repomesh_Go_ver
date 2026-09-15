@@ -1,6 +1,6 @@
 # Astra 前置设计分工与交付要求
 
-B04—B06 的[前置设计](../development/2026-09-13-b04-b06-design-01/README.md)已通过[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)。B04 的 D01—D04 随后已采用并实现，状态为 INTEGRATED_LOCAL_VERIFIED，见[采用记录](../current/b04-model-sources-adoption.md)和[验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。B05、B06 实施仍 TODO；B09 四项数据兼容问题仅有静态部分覆盖，完整 G1、G2 未完成。
+B04—B06 的[前置设计](../development/2026-09-13-b04-b06-design-01/README.md)已通过[独立复核](../development/2026-09-13-b04-b06-design-01/REVIEW.md)。B04 的 D01—D04 随后已采用并实现，状态为 INTEGRATED_LOCAL_VERIFIED，见[采用记录](../current/b04-model-sources-adoption.md)和[验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。2026-09-15 用户缩减 B05，独立模型测试整体延期；当前范围以 [B05 设计](../api-database/b05.md) 和 [施工计划](IMPLEMENTATION-PLAN.md) 为准，下文原 B05 分工只保留历史背景。B05、B06 实施仍 TODO；B09 四项数据兼容问题仅有静态部分覆盖，完整 G1、G2 未完成。
 
 记录日期：2026-09-13。用户要求将本次讨论的提前设计安排“记录下来，列入必读和计划”，并明确补充“需要限制工作范围”。本文是后续批次规划、架构、接口声明和实现交接的必读指南；批次编号沿[施工计划](IMPLEMENTATION-PLAN.md)，不使用旧后端交接中同名的 B01—B08 编号。
 

@@ -12,7 +12,7 @@
 | B02 | IN_PROGRESS；本地认证、会话、授权恢复和仓库发现已实现；外部验收 PAUSED_BY_USER | [采用范围](b02-authentication-adoption.md)、[本地记录](../development/2026-09-12-batch-02/README.md)。完整外部验收未通过，历史失败和恢复责任见下节。 |
 | B03 | INTEGRATED_LOCAL_VERIFIED；项目创建、列表、资料编辑、明确增仓、固定配置及原操作恢复 | [主目录集成](../development/2026-09-12-b03-integration-01/README.md)、[最终独立复核](../development/2026-09-12-b03-integration-01/FINAL-INDEPENDENT-REVIEW.md)。非整批业务 VERIFIED。 |
 | B04 | INTEGRATED_LOCAL_VERIFIED；D01—D04、U04.1—U04.4 授权范围已结束 | [采用记录](b04-model-sources-adoption.md)、[验收报告](../development/2026-09-13-b04-acceptance-01/README.md)。模型供应商保存、安全终结、不可变版本、六个 HTTP 端点及部署来源导入已实现。非整批 VERIFIED。 |
-| B05、B06 | 五项定点设计已收口；产品实施 TODO | [本次收口](../development/2026-09-14-b05-b06-design-closeout-01/README.md)、[原设计交付](../development/2026-09-13-b04-b06-design-01/README.md)。测试预览/handler、unknown关闭、逐路径锁序与共同owner account边界、schema2 execution形状和窗口scope约束已固定为后续实现基线；D05—D08的其余候选、数值、C05、C06、P9及产品功能仍未采用或实施。 |
+| B05、B06 | B05 已缩减，B06 产品实施 TODO | B05 当前只保留运行政策、C05/C06 只读与专用模型应用；独立模型测试、handler、SendPermit、unknown 关闭和测试观察整体延期，额度窗口移交 B10。B06 只依赖 B05 固定 execution 政策，不依赖模型测试或额度窗口。历史收口仍保留为演进记录；当前范围见 [B05 设计](../api-database/b05.md)。 |
 | B07—B11 | 后续实施 TODO | Issue 查询、管理闭环及真实运行接入未完成。B09 的四项数据兼容问题仅有静态部分覆盖，完整 G1、G2 未完成。 |
 
 B04 验收报告的运行基线为 `621592d`，包含收口后保存校验留页与 vault 不变量修复。报告记录 Go 测试 260 通过、0 失败、2 跳过，前端测试 32 通过；具体跳过原因、S01—S12、浏览器夹具与历史失败以报告为准。这些结果不证明真实供应商 Key、真实模型请求或计费可用。
@@ -30,7 +30,7 @@ LIVE-09、LIVE-10 的既有通过结果保留。second-account-02 的 LIVE-05 �
 ## 后续实施入口
 
 1. 先核对[施工计划](../plan/IMPLEMENTATION-PLAN.md)中的批次和依赖，再按本次用户授权确定范围。
-2. 进入 B05 前，明确采用 D05、D06、C05、C06，并对齐已实现的 B04 类型与版本语义。来源见[设计决定表](../development/2026-09-13-b04-b06-design-01/DECISIONS.md)和[B05 设计](../development/2026-09-13-b04-b06-design-01/B05.md)。B04 的完成不自动授权 B05 或真实付费请求。
+2. 进入 B05 前，按当前缩减范围重新采用运行政策、专用模型应用与 C05/C06，并对齐已实现的 B04 类型与版本语义。旧设计中的单模型测试不再随 B05 自动采用；临时 `agt llm-preflight` 只是受控运维工具，不是产品验收或真实运行放行。
 3. 进入 B06 前，按[B06 设计](../development/2026-09-13-b04-b06-design-01/B06.md)与[配置绑定专题](issue-configuration-binding-design.md)收口 P9。接收真实 Issue 与待办前落实配置关联。
 4. 运行接入按[执行门槛](execution-integration-gates.md)分阶段推进。Graph 保持后台协调进程内模块，仓内 DAG 复用上游；Skill 工程仍暂缓。
 
@@ -48,4 +48,4 @@ LIVE-09、LIVE-10 的既有通过结果保留。second-account-02 的 LIVE-05 �
 
 ## B05-B11 物理合表入口
 
-[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录 2026-09-15 用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 34 张，B01-B04 的 36 张手册基线表、0007 扫描表 1 张与 0008 决策链 3 张保持不动；手册范围 70 张，全仓含扩展 74 张。合表只改变物理承载，候选、提案、实现与验收状态不变。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json)，制作进度、检查结果与限制见 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md) 和 [主分支同步记录](../development/2026-09-15-table-consolidation-main-sync.md)；该记录不代表数据库行为已验证。
+[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录 2026-09-15 的当前设计：63 条历史候选中 9 条模型测试专用提案延期，54 条活动映射加 3 张必需新表形成 30 张当前目标表；B05 4 张、B10 11 张。B01-B04 的 36 张手册基线表、0007 扫描表 1 张与 0008 决策链 3 张保持不动；手册范围 66 张，全仓含扩展 70 张。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json)；历史制作记录不代表当前延期项已实现或数据库行为已验证。

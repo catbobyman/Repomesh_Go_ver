@@ -2,7 +2,7 @@
 
 页面独占；用户要求六项全部交付，本稿把首批现有契约落到页面状态、动作及恢复路径。本文不改原三类写操作和列表的JSON／错误／幂等协议。F02保持RM-UI-PROJECT-EDIT r1技术呈现范围；公共恢复在r1上作2026-09-12一致性修订RM-FIRST-RECOVERY r2候选，补认证返回会话和Key原保存安全终结的引用。新增设计仍待采用，旧契约已收口的三轮不重开。
 
-2026-09-14 设计收口固定了前端恢复模块归属和模型测试预览的字段投影。该收口属于本轮五项修订授权，不代表采用全部 B05、B06 候选，也不采用 D05、D06 的候选数值。B05、B06 产品实现和运行验收仍未开始。
+2026-09-14 设计收口曾固定前端恢复模块归属和模型测试预览字段。2026-09-15 用户缩减 B05，`model_test` 分支与测试恢复页整体延期；当前只保留 `provider_save`、`model_apply` 和 `issue_create`。历史测试段落不再是当前实施前置。B05、B06 产品实现和运行验收仍未开始。
 
 ## R01 全站呈现规则
 
@@ -14,13 +14,13 @@
 
 ### R01.1 前端恢复模块归属
 
-B05、B06 扩展现有 `web/src/modelRecovery.ts`。该模块共享操作定位、浏览器存储和读取代次检查，不新增第三套恢复框架。`provider_save`、`model_test`、`model_apply` 和 `issue_create` 各自保留结果解析器、业务 reducer、重试资格和页面状态。共用存储只返回已校验的原定位或非秘密输入，不根据一个通用状态决定重发。
+B05、B06 扩展现有 `web/src/modelRecovery.ts`。该模块共享操作定位、浏览器存储和读取代次检查，不新增第三套恢复框架。当前 `provider_save`、`model_apply` 和 `issue_create` 各自保留结果解析器、业务 reducer、重试资格和页面状态；`model_test` 分支延期。共用存储只返回已校验的原定位或非秘密输入，不根据一个通用状态决定重发。
 
 现有 `SaveLocator` 迁移为 `OperationLocator` 的 `provider_save` 分支，并导出 `ProviderSaveLocator` 供保存页面使用。`OperationLocator` 的每个分支都含原 actor、operation kind 和原操作 ID。项目范围操作还含 `projectId`。读取票据同时比较完整 locator、会话 generation 和当前已认证 actor，任一项不同便丢弃响应。
 
 现有 B04 存储键保持兼容。`localStorage` 继续使用 `repomesh.model.save-index.v1`，`sessionStorage` 继续使用 `repomesh.model.save.v1:{actor}:{id}`。后续 operation kind 通过同一存储帮助函数使用各自命名空间，不把正文放入一个跨业务公共值。失去认证、切换 actor 或收到对应受限结果时，客户端清除 `sessionStorage` 中的非秘密输入和当前页面内容，但保留 `localStorage` 中的最小索引。最小索引只含 actor、operation kind、原操作 ID、可选 `projectId` 和记录时间。读取索引必须按当前 actor 过滤并重新向服务端核权。
 
-输入恢复遵守各业务契约。允许精确重试的业务只能复用已解析并冻结的原 body 和原操作 ID。共享模块不能从标题、当前表单、最新 revision 或最小索引重建输入。`provider_save` 发出后已清 Key，replace 保存只能查询或终结原 `saveId`。`model_test` 在可能提交后只查询原 `testId`，不能再次外发。`model_apply` 沿 F04 只核查原应用。`issue_create` 仅在创建契约允许时以原 `creationId` 和确切输入重试。缺少确切输入的操作只查询。
+输入恢复遵守各业务契约。允许精确重试的业务只能复用已解析并冻结的原 body 和原操作 ID。共享模块不能从标题、当前表单、最新 revision 或最小索引重建输入。`provider_save` 发出后已清 Key，replace 保存只能查询或终结原 `saveId`。`model_apply` 只核查原应用；`issue_create` 仅在创建契约允许时以原 `creationId` 和确切输入重试。缺少确切输入的操作只查询。历史 `model_test` 的“可能提交后只查询原 testId”原则仍可供将来恢复设计参考，但当前不实现该分支。
 
 调用者迁移如下：
 
@@ -42,11 +42,13 @@ B05、B06 扩展现有 `web/src/modelRecovery.ts`。该模块共享操作定位�
 | 创建Issue弹窗 | 基本字段/关联控件/反馈沿已采用 | 条件变化、已有会话失效禁止自动替换；失权清对应内容 | 原creationId恢复；明确未提交后才修正为新操作；404仍未知、410不重建 |
 | 最小Issue详情 | 记录保存与运行观察分开；无房间不编造准备中 | Issue本身受限隐藏内容；仅关联会话受限隐藏其名称/入口但保留有权Issue | 业务历史与房间Ready分开；Issue级SSE失效后回读；不加入DAG/交付操作 |
 | 项目设置 | 资料→已存仓→配置；加载禁保存、只读摘要 | 原仓失权不删除，可修有权元数据/配置；新增一项未知整次增量保存被阻止 | revision冲突比对当前与草稿再明确提交；未知留updateId查询，不复用列表重构原范围 |
-| 模型设置 | 保留原Key、显式替换入草稿；未保存禁测/用 | owner/密钥/地址/次数额度未知分别处理，配置保存不证明可调用 | 保存未知查原结果或显式安全终结原saveId；未取得确定回执不能新保存。测试/应用保持各自恢复限制，不重发收费调用或项目应用 |
+| 模型设置 | 保留原 Key、显式替换入草稿；未保存禁用 | owner、密钥与地址未知分别处理，配置保存不证明可调用 | 保存未知查原结果或显式安全终结原 saveId；模型应用只查原 applicationId。模型测试延期 |
 
 仅列表必要分页纳首批，高级筛选／消息全局搜索不扩展。第一批会话以已有业务记录只读查看为主，不把历史Manager样例当真实发送链路完成。
 
-### R02.1 模型测试预览占用与处理器观察
+### R02.1 历史候选：模型测试预览占用与处理器观察（已延期）
+
+本节保留 2026-09-14 的测试恢复设计，当前 B05 不实现、也不把它作为 B06 前置。恢复该能力时须重新对齐 B09 的外发核查模式，不能直接按本节冻结实现。
 
 `TestPreview.reasonCodes` 新增 `TEST_ALREADY_OUTSTANDING`。当 `queued`、`running` 或 `recovery.open` 的 `unknown` 测试命中当前有效的提交阻断条件，而且当前 actor 仍可读取该测试时，预览返回 200、`canSubmit=false`，并同时返回顶层 `existingTestId` 与 `links.operation`。两字段只在该分支成对出现。页面打开原操作，不生成新 `testId`。其他 actor 的测试和当前 actor 已失权的测试都不能通过这两个字段披露。该字段不固定未核测试数量或候选默认值。
 
@@ -64,7 +66,7 @@ B05、B06 扩展现有 `web/src/modelRecovery.ts`。该模块共享操作定位�
 | 项目更新 | [首批§7](first-batch-browser-api-contract.md) PATCH/projects/{projectId}、GET同project/updates/{id} | /projects/{projectId}/updates/{id} | PROJECT_UPDATE_NOT_FOUND仍未知；PROJECT_UPDATE_RESULT_REMOVED不重执行 |
 | Issue创建 | [创建§4—5](issue-page-create-api-contract.md)原请求与查询 | /projects/{projectId}/issue-creations/{id} | CREATION_NOT_FOUND仍未知；CREATION_RESULT_REMOVED不重建 |
 
-各自先生成UUID原键、冻结允许输入，sessionStorage按actor/operationKind/项目/key保存确切非秘密输入；localStorage最小索引不含标题、名称、正文和Key。存储不可用发出前展示可复制浏览器恢复链接。未发送可以取消；已发送“关闭/稍后处理”只停止等待。回读后仅原键原输入才可提供原请求重试。Key保存不重收原秘密重放，但可依[模型专用草案](model-settings-browser-api-draft.md)显式终结同一个saveId：committed显示原保存结果，rejected／closed_without_save才允许重新填写Key并明确新操作；终结响应未知仍查原键或重试同一终结，404不证明未保存。模型测试仍按更严只查询策略处理未知，不能借保存终结流程重新外发测试。其他原输入丢失的写入仅查询。
+各自先生成 UUID 原键、冻结允许输入，sessionStorage 按 actor/operationKind/项目/key 保存确切非秘密输入；localStorage 最小索引不含标题、名称、正文和 Key。存储不可用发出前展示可复制浏览器恢复链接。未发送可以取消；已发送“关闭/稍后处理”只停止等待。回读后仅原键原输入才可提供原请求重试。Key 保存不重收原秘密重放，但可依[模型专用草案](model-settings-browser-api-draft.md)显式终结同一个 saveId：committed 显示原保存结果，rejected／closed_without_save 才允许重新填写 Key 并明确新操作；终结响应未知仍查原键或重试同一终结，404 不证明未保存。当前模型应用沿原 applicationId 查询；其他原输入丢失的写入仅查询。模型测试的只查询策略随该能力一并延期。
 
 统一未知页主动作“查询原结果”，次动作“稍后处理”；复制链接只生成原操作地址。没有“重新创建”“换键重试”按钮。404后仍显示待核，经过任何时长不变失败。410说明“原结果已清理，不能重新执行”，提供返回列表核查现状，不提供原操作重建。
 

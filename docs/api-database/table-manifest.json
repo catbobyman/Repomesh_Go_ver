@@ -2,7 +2,7 @@
   "manifest_version": 1,
   "status": "design_only",
   "updated": "2026-09-15",
-  "scope": "B05-B11 物理合表：63 张旧提案按物理承载合到 34 张（净减 29，约 46%）；B01-B04 手册基线 36 张（35 业务 + 1 系统表）与 0007 扫描表 1 张保持不动；0008 决策链表 3 张按手册外单独分组，不进入这 34 张",
+  "scope": "B05-B11 当前设计：63 条历史候选中 9 条模型测试专用提案延期；54 条活动旧映射合到 27 张目标表，另有 3 张必需新表，当前共 30 张。B05 4 张、B10 11 张；B01-B04 手册基线与 0007/0008 手册外扩展不变。",
   "declaration": {
     "format": "物理表：`schema.table`",
     "rule": "每张目标物理表只在所属 batch 正文声明一次；跨 batch 复用不重复声明；B00-B04 与 B08 不写声明。",
@@ -19,7 +19,9 @@
   "legacy_snapshot": {
     "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
     "note": "合表前的 b05-b11 正文快照；每条旧表的 file/line/text 必须在 git show <ref>:<file> 中逐字命中。",
-    "expected_total": 63
+    "expected_total": 63,
+    "active_total": 54,
+    "deferred_total": 9
   },
   "existing": {
     "source": "internal/database/migrations/0001..0008",
@@ -56,7 +58,7 @@
         "public.decision_embeddings",
         "public.feature_settings"
       ],
-      "note": "手册外决策链表（origin/main 6899665 的 0008 迁移）；单独分组，不计入 B05-B11 设计 34 张"
+      "note": "手册外决策链表（origin/main 6899665 的 0008 迁移）；单独分组，不计入 B05-B11 当前设计 30 张"
     },
     "expected_total": 40,
     "tables": [
@@ -309,11 +311,13 @@
         "b05.md"
       ],
       "legacy_count": 16,
-      "expected_target_count": 9,
-      "status": "designed",
+      "expected_target_count": 4,
+      "status": "scope_reduced_design_only",
       "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b05.md",
-      "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
-      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md"
+      "plan_note": "当前范围以 b05.md 为准；历史设计与复核只作演进记录，9 条模型测试提案延期。",
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md",
+      "active_legacy_count": 7,
+      "deferred_legacy_count": 9
     },
     {
       "id": "b06",
@@ -325,7 +329,9 @@
       "status": "designed",
       "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b06-b07.md",
       "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
-      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md"
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md",
+      "active_legacy_count": 13,
+      "deferred_legacy_count": 0
     },
     {
       "id": "b07",
@@ -337,7 +343,9 @@
       "status": "designed",
       "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b06-b07.md",
       "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
-      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md"
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md",
+      "active_legacy_count": 1,
+      "deferred_legacy_count": 0
     },
     {
       "id": "b08",
@@ -349,7 +357,9 @@
       "status": "designed",
       "plan_source": null,
       "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
-      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md"
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md",
+      "active_legacy_count": 0,
+      "deferred_legacy_count": 0
     },
     {
       "id": "b09",
@@ -361,7 +371,9 @@
       "status": "designed",
       "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b09.md",
       "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
-      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b09.md"
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b09.md",
+      "active_legacy_count": 13,
+      "deferred_legacy_count": 0
     },
     {
       "id": "b10",
@@ -369,11 +381,13 @@
         "b10.md"
       ],
       "legacy_count": 13,
-      "expected_target_count": 10,
+      "expected_target_count": 11,
       "status": "designed",
       "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b10-b11.md",
       "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
-      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b10-b11.md"
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b10-b11.md",
+      "active_legacy_count": 13,
+      "deferred_legacy_count": 0
     },
     {
       "id": "b11",
@@ -385,7 +399,9 @@
       "status": "designed",
       "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b10-b11.md",
       "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
-      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b10-b11.md"
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b10-b11.md",
+      "active_legacy_count": 7,
+      "deferred_legacy_count": 0
     }
   ],
   "legacy_tables": [
@@ -399,103 +415,112 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 355,
         "text": "### modelbudget.windows"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b05",
       "table": "models.previews",
-      "target": "repomesh_models.previews",
-      "carrier": "test/apply 两种有界预览",
+      "target": null,
+      "carrier": "模型测试子系统延期；历史映射保留，不属于当前目标表",
       "source": {
         "file": "docs/api-database/b05.md",
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 373,
         "text": "### models.previews"
-      }
+      },
+      "disposition": "deferred"
     },
     {
       "batch": "b05",
       "table": "models.tests",
-      "target": "repomesh_models.tests",
-      "carrier": "测试聚合根与唯一待办",
+      "target": null,
+      "carrier": "模型测试子系统延期；历史映射保留，不属于当前目标表",
       "source": {
         "file": "docs/api-database/b05.md",
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 388,
         "text": "### models.tests"
-      }
+      },
+      "disposition": "deferred"
     },
     {
       "batch": "b05",
       "table": "modelbudget.test_reservations",
-      "target": "repomesh_models.tests",
-      "carrier": "预留列组；window 复合 FK、amount=1",
+      "target": null,
+      "carrier": "模型测试子系统延期；历史映射保留，不属于当前目标表",
       "source": {
         "file": "docs/api-database/b05.md",
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 402,
         "text": "### modelbudget.test_reservations"
-      }
+      },
+      "disposition": "deferred"
     },
     {
       "batch": "b05",
       "table": "models.test_dispatch",
-      "target": "repomesh_models.tests",
-      "carrier": "领取/许可/发送/撤销列组",
+      "target": null,
+      "carrier": "模型测试子系统延期；历史映射保留，不属于当前目标表",
       "source": {
         "file": "docs/api-database/b05.md",
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 416,
         "text": "### models.test_dispatch"
-      }
+      },
+      "disposition": "deferred"
     },
     {
       "batch": "b05",
       "table": "models.test_observations",
-      "target": "repomesh_models.test_observations",
-      "carrier": "1:N 不可变观察证据",
+      "target": null,
+      "carrier": "模型测试子系统延期；历史映射保留，不属于当前目标表",
       "source": {
         "file": "docs/api-database/b05.md",
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 431,
         "text": "### models.test_observations"
-      }
+      },
+      "disposition": "deferred"
     },
     {
       "batch": "b05",
       "table": "models.test_handler_leases",
-      "target": "repomesh_models.test_handler_instances",
-      "carrier": "实例登记与租约观察",
+      "target": null,
+      "carrier": "模型测试子系统延期；历史映射保留，不属于当前目标表",
       "source": {
         "file": "docs/api-database/b05.md",
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 443,
         "text": "### models.test_handler_leases"
-      }
+      },
+      "disposition": "deferred"
     },
     {
       "batch": "b05",
       "table": "models.actor_outstanding_tests",
-      "target": "repomesh_models.tests",
-      "carrier": "is_outstanding 生成列与 actor 条件索引",
+      "target": null,
+      "carrier": "模型测试子系统延期；历史映射保留，不属于当前目标表",
       "source": {
         "file": "docs/api-database/b05.md",
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 454,
         "text": "### models.actor_outstanding_tests"
-      }
+      },
+      "disposition": "deferred"
     },
     {
       "batch": "b05",
       "table": "models.unknown_test_closures",
-      "target": "repomesh_models.tests",
-      "carrier": "关闭列组与全局 close 键",
+      "target": null,
+      "carrier": "模型测试子系统延期；历史映射保留，不属于当前目标表",
       "source": {
         "file": "docs/api-database/b05.md",
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 466,
         "text": "### models.unknown_test_closures"
-      }
+      },
+      "disposition": "deferred"
     },
     {
       "batch": "b05",
@@ -507,7 +532,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 483,
         "text": "### models.application_operations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b05",
@@ -519,7 +545,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 502,
         "text": "| `budget_policies` | 主键 `(id,version)`；`scopeKind` 为 `actor_model_test` 或 `project_model_runtime`；`unit=request`；`period=utc_day`；`limit` 为正整数；`maxUnresolved` 为正整数；`enabled` 布尔。 |"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b05",
@@ -531,7 +558,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 503,
         "text": "| `time_limit_policies` | 主键 `(id,version)`；`modelRequestTimeoutSeconds` 与 `workerAttemptLimitSeconds` 必须明写，无默认。 |"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b05",
@@ -543,19 +571,21 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 504,
         "text": "| `egress_policies` | 主键 `(id,version)`；`approvedBaseUrls` 非空、无重复；`allowedPort=443`；`allowPrivateAddresses=false`；`followRedirects=false`。 |"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b05",
       "table": "test_bindings",
-      "target": "repomesh_sources.policy_bindings",
-      "carrier": "binding_kind=test",
+      "target": null,
+      "carrier": "模型测试子系统延期；历史映射保留，不属于当前目标表",
       "source": {
         "file": "docs/api-database/b05.md",
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 505,
         "text": "| `test_bindings` | 主键 `ownerId`；三个确切政策引用；预算 scope 必须是 `actor_model_test`。 |"
-      }
+      },
+      "disposition": "deferred"
     },
     {
       "batch": "b05",
@@ -567,7 +597,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 515,
         "text": "| `request_policy_versions`、`time_policy_versions` | 主键 `(id,version)`；参数检查按来源 §9；不可变，不以 ID 覆盖旧版本。 |"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b05",
@@ -579,7 +610,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 515,
         "text": "| `request_policy_versions`、`time_policy_versions` | 主键 `(id,version)`；参数检查按来源 §9；不可变，不以 ID 覆盖旧版本。 |"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -591,7 +623,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 241,
         "text": "### repomesh_issues.conversations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -603,7 +636,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 258,
         "text": "### repomesh_issues.issues"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -615,7 +649,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 279,
         "text": "### repomesh_issues.creation_operations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -627,7 +662,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 295,
         "text": "### repomesh_issues.changesets"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -639,7 +675,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 307,
         "text": "### repomesh_issues.issue_repository_scope"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -651,7 +688,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 319,
         "text": "### repomesh_issues.issue_content_scope 与 repomesh_issues.conversation_content_scope"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -663,7 +701,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 319,
         "text": "### repomesh_issues.issue_content_scope 与 repomesh_issues.conversation_content_scope"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -675,7 +714,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 330,
         "text": "### repomesh_issues.page_sources 与 repomesh_issues.conversation_cards"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -687,7 +727,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 330,
         "text": "### repomesh_issues.page_sources 与 repomesh_issues.conversation_cards"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -699,7 +740,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 341,
         "text": "### repomesh_issues.continuation_work"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -711,7 +753,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 356,
         "text": "### repomesh_issues.issue_event_streams 与 repomesh_issues.issue_events"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -723,7 +766,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 356,
         "text": "### repomesh_issues.issue_event_streams 与 repomesh_issues.issue_events"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b06",
@@ -735,7 +779,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 367,
         "text": "### repomesh_issues.project_issue_counters"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b07",
@@ -747,7 +792,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 186,
         "text": "单张逻辑表 `repomesh_issues.issue_room_links` 未采用、未实现，写入方是后台协调进程，读取方是 B07。它同时保存确定关联与最后观察状态，不为只读页新增观察历史表。上游房间标识按不透明引用保存，不含凭据或地址。"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -759,7 +805,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 209,
         "text": "### 3.1 message_submissions"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -771,7 +818,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 229,
         "text": "### 3.2 conversation_messages"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -783,7 +831,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 250,
         "text": "### 3.3 conversation_message_counters"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -795,7 +844,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 263,
         "text": "### 3.4 message_processing_entries"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -807,7 +857,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 280,
         "text": "### 3.5 logical_work_requests"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -819,7 +870,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 302,
         "text": "### 3.6 clarifications"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -831,7 +883,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 322,
         "text": "### 3.7 clarification_answers"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -843,7 +896,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 337,
         "text": "### 3.8 target_resolutions"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -855,7 +909,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 356,
         "text": "### 3.9 control_operations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -867,7 +922,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 372,
         "text": "### 3.10 manager_sessions"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -879,7 +935,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 394,
         "text": "### 3.11 manager_call_authorizations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -891,7 +948,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 417,
         "text": "### 3.12 message_deliveries"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b09",
@@ -903,7 +961,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 442,
         "text": "### 3.13 manager_calls"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -915,7 +974,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 218,
         "text": "### 4.1 rounds"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -927,7 +987,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 238,
         "text": "### 4.2 repository_issues"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -939,7 +1000,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 257,
         "text": "### 4.3 plan_revisions"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -951,7 +1013,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 275,
         "text": "### 4.4 round_plan_pointers"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -963,7 +1026,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 290,
         "text": "### 4.5 execution_tasks"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -975,7 +1039,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 310,
         "text": "### 4.6 attempts"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -987,7 +1052,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 346,
         "text": "### 4.7 worker_leases"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -999,7 +1065,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 361,
         "text": "### 4.8 resource_reservations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -1011,7 +1078,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 380,
         "text": "### 4.9 dispatch_operations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -1023,7 +1091,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 398,
         "text": "### 4.10 host_operations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -1035,7 +1104,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 416,
         "text": "### 4.11 attempt_observations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -1047,7 +1117,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 434,
         "text": "### 4.12 attempt_artifacts"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b10",
@@ -1059,7 +1130,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 450,
         "text": "### 4.13 write_capability_revocations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b11",
@@ -1071,7 +1143,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 186,
         "text": "### 3.1 round_transitions"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b11",
@@ -1083,7 +1156,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 216,
         "text": "### 3.2 target_applications"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b11",
@@ -1095,7 +1169,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 244,
         "text": "### 3.3 cross_repo_edges"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b11",
@@ -1107,7 +1182,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 262,
         "text": "### 3.4 round_candidate_refs"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b11",
@@ -1119,7 +1195,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 278,
         "text": "### 3.5 round_combinations"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b11",
@@ -1131,7 +1208,8 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 294,
         "text": "### 3.6 result_admissions"
-      }
+      },
+      "disposition": "active"
     },
     {
       "batch": "b11",
@@ -1143,63 +1221,11 @@
         "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
         "line": 314,
         "text": "### 3.7 stop_decisions"
-      }
+      },
+      "disposition": "active"
     }
   ],
   "target_tables": [
-    {
-      "table": "repomesh_modelbudget.windows",
-      "batch": "b05",
-      "chapter": "b05.md",
-      "origin": "legacy_merge",
-      "carries": [
-        "budget_window"
-      ],
-      "note": "UTC 日窗口、计数与只降上限"
-    },
-    {
-      "table": "repomesh_models.previews",
-      "batch": "b05",
-      "chapter": "b05.md",
-      "origin": "legacy_merge",
-      "carries": [
-        "bounded_preview"
-      ],
-      "note": "test/apply 两种预览"
-    },
-    {
-      "table": "repomesh_models.tests",
-      "batch": "b05",
-      "chapter": "b05.md",
-      "origin": "legacy_merge",
-      "carries": [
-        "test_aggregate",
-        "dispatch_permit",
-        "outstanding_responsibility",
-        "unknown_closure"
-      ],
-      "note": "测试聚合根、预留、派发与 unknown 关闭列组"
-    },
-    {
-      "table": "repomesh_models.test_observations",
-      "batch": "b05",
-      "chapter": "b05.md",
-      "origin": "legacy_merge",
-      "carries": [
-        "append_only_evidence"
-      ],
-      "note": "1:N 不可变观察证据"
-    },
-    {
-      "table": "repomesh_models.test_handler_instances",
-      "batch": "b05",
-      "chapter": "b05.md",
-      "origin": "legacy_merge",
-      "carries": [
-        "handler_instance"
-      ],
-      "note": "处理器实例登记与租约观察"
-    },
     {
       "table": "repomesh_models.application_operations",
       "batch": "b05",
@@ -1218,17 +1244,17 @@
       "carries": [
         "policy_version"
       ],
-      "note": "budget/time/egress 统一版本权威"
+      "note": "budget/time/egress 统一不可变版本权威；仅保留 project_model_runtime 预算范围"
     },
     {
       "table": "repomesh_sources.policy_bindings",
       "batch": "b05",
       "chapter": "b05.md",
-      "origin": "legacy_merge",
+      "origin": "new",
       "carries": [
         "policy_binding"
       ],
-      "note": "test/execution 两条明确绑定分支"
+      "note": "execution 版本的预算、时限和出站政策补充；模型测试 test binding 延期"
     },
     {
       "table": "repomesh_sources.policy_imports",
@@ -1381,6 +1407,16 @@
         "manager_call"
       ],
       "note": "投递与模型调用两类执行记录"
+    },
+    {
+      "table": "repomesh_modelbudget.windows",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "project_runtime_budget_window"
+      ],
+      "note": "B05 移交的项目运行 UTC 日额度窗口；由首个真实运行消费者实施"
     },
     {
       "table": "repomesh_execution.rounds",
@@ -1546,12 +1582,15 @@
     }
   ],
   "totals": {
-    "target_total": 34,
-    "manual_scope_total": 70,
-    "repo_scope_total": 74,
-    "note": "手册范围 70 = 手册基线 36 + 设计 34；全仓含扩展 74 = 36 + 1 扫描 + 3 决策链 + 34 设计；旧表映射仍为 63 张。"
+    "historical_legacy_total": 63,
+    "active_legacy_total": 54,
+    "deferred_legacy_total": 9,
+    "target_total": 30,
+    "manual_scope_total": 66,
+    "repo_scope_total": 70,
+    "note": "手册范围 66 = 手册基线 36 + 当前设计 30；全仓含扩展 70 = 36 + 1 扫描 + 3 决策链 + 30。历史 63 条候选中 9 条模型测试提案延期，54 条仍活动。"
   },
-  "status_note": "用户已批准 B05-B11 物理合表设计（63 张提案合到 34 张）；B01-B04 现有 36 张手册基线表、既有逻辑/API 与 B05-B11 候选、提案、实现、验收状态全部不变。清单与校验只做静态文档检查，不执行迁移，也不证明任何数据库行为已经验证。",
+  "status_note": "用户已缩减 B05：模型测试专用设计延期，额度窗口移交 B10。当前清单保留 63 条历史来源以审计去向，但只把 disposition=active 的 54 条纳入当前目标；30 张目标表均为设计，不代表实现或数据库行为验证。",
   "review_documents": [
     "docs/development/2026-09-15-table-consolidation-01/analysis/review-business-plan.md",
     "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md",

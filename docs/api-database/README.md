@@ -12,7 +12,7 @@
 | [B02](./b02.md) | 已有实现。认证、会话、仓库发现和秘密基础；外部验收仍暂停 |
 | [B03](./b03.md) | 已有实现。项目管理、多仓关系、固定配置与原操作回执 |
 | [B04](./b04.md) | 已有实现。配置来源与秘密保存，保留当前接口和持久化 |
-| [B05](./b05.md) | 模型测试、预览、应用、预算与 unknown 核查 |
+| [B05](./b05.md) | 运行政策、只读摘要与专用模型应用；独立模型测试延期 |
 | [B06](./b06.md) | Issue 原子创建、固定配置绑定、回执与持久待办 |
 | [B07](./b07.md) | Issue 列表和详情、会话只读、房间观察、SSE 与恢复页面 |
 | [B08](./b08.md) | 管理闭环验收与配套发布检查，复用前序 API 和表 |
@@ -22,9 +22,9 @@
 
 ## B05-B11 物理合表与表清单
 
-用户已授权 B05-B11 的物理合表设计。原有 63 张候选或提案表按同一业务事实、写入者与生命周期合到 34 张：B05 9 张、B06 6 张、B07 1 张、B08 0 张、B09 6 张、B10 10 张、B11 2 张，净减 29 张，约 46%。合表只改变物理承载，已采用的逻辑身份、唯一性、作用域、事务、恢复和清理语义不变；B05-B11 的候选、提案、未实施与验收状态也不因合表升级。B10 的 `business_plan_versions` 显式承载原目录漏登的业务计划版本实体，与执行层技术 `plan_revisions` 分离；B10 实施时给 B06 新 `issues` 增补 `current_business_plan_version_id`、`business_plan_pointer_revision`、`next_business_plan_version_index` 三列，不增加 B06 表数。B05 的 `policy_imports` 承接 schema2 导入回执；B10 的 `change_set_versions` 显式承载 candidate 与 combination 两个子型。规则和逐表映射见 [B05-B11 物理合表专题](../current/b05-b11-storage-consolidation.md)。
+原物理合表基线记录了 B05-B11 的 63 张历史候选。2026-09-15 用户决定缩减 B05：9 条模型测试专用提案延期，54 条活动旧映射承载于 27 张合并目标表，再加 `policy_bindings`、`policy_imports` 与 `business_plan_versions` 三张必需新表，当前设计共 30 张：B05 4 张、B06 6 张、B07 1 张、B08 0 张、B09 6 张、B10 11 张、B11 2 张。`repomesh_modelbudget.windows` 移交 B10，独立模型测试不再是 B06 前置。规则和逐表去向见 [B05-B11 物理合表专题](../current/b05-b11-storage-consolidation.md)。
 
-表数按源码和清单分开计数。手册 B01-B04 基线 36 张，来自 `0001` 至 `0006` 迁移，其中 35 张业务表加 1 张系统表 `public.repomesh_schema_migrations`；`0007_scan_catalog.sql` 有 1 张手册外扫描表 `repomesh_scan.repositories`，`0008_decision_chain.sql` 有 3 张手册外决策链表 `public.decision_chain_nodes`、`public.decision_embeddings`、`public.feature_settings`，两者各自成组，都不计入 B05-B11 的 34 张。加上设计 34 张，手册范围合计 70 张，全仓含扩展合计 74 张。机器可校验清单是 [table-manifest.json](./table-manifest.json)，每张目标物理表只在所属批次正文用独立一行声明：
+表数按源码和清单分开计数。手册 B01-B04 基线 36 张，来自 `0001` 至 `0006` 迁移，其中 35 张业务表加 1 张系统表 `public.repomesh_schema_migrations`；`0007_scan_catalog.sql` 有 1 张手册外扫描表 `repomesh_scan.repositories`，`0008_decision_chain.sql` 有 3 张手册外决策链表 `public.decision_chain_nodes`、`public.decision_embeddings`、`public.feature_settings`。加上当前设计 30 张，手册范围合计 66 张，全仓含扩展合计 70 张。机器可校验清单是 [table-manifest.json](./table-manifest.json)，每张目标物理表只在所属批次正文用独立一行声明：
 
 ```text
 物理表：`repomesh_issues.issues`

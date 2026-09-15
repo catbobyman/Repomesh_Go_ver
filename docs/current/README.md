@@ -10,7 +10,7 @@
 | --- | --- |
 | [Agent 全局阅读指南](AGENT-READING-GUIDE.md) | 首次接手的阅读顺序、产品全貌、架构边界、实现与证据核对，以及按任务深入的入口。 |
 | [B04 验收报告](../development/2026-09-13-b04-acceptance-01/README.md) | 已合入 `main` 的 D01—D04／U04.1—U04.4 验收；`INTEGRATED_LOCAL_VERIFIED`，非整批 VERIFIED。 |
-| [B05/B06 五项设计收口](../development/2026-09-14-b05-b06-design-closeout-01/README.md) | 固定测试预览与handler、unknown关闭、逐路径锁序与共同owner account边界、schema2 execution及窗口scope设计；产品未实施，运行未验收，其余候选未采用。 |
+| [B05/B06 五项设计收口](../development/2026-09-14-b05-b06-design-closeout-01/README.md) | 历史收口证据；其中模型测试、handler、unknown 关闭和测试窗口已由 2026-09-15 B05 缩减决定延期，当前范围见 API/数据库 B05。 |
 | [B04 收口 01](../development/2026-09-13-b04-closeout-01/README.md)、[独立复核](../development/2026-09-13-b04-closeout-01/FINAL-INDEPENDENT-REVIEW.md) | B04 INTEGRATED_LOCAL_VERIFIED：夹具浏览器、B03 回归、r2 包；非整批 VERIFIED。 |
 | [B04 采用记录](b04-model-sources-adoption.md) | 已采用 D01—D04 与 U04.1—U04.4。不采用 D05—D08。 |
 | [B04—B06 设计交接](../development/2026-09-13-b04-b06-handoff-01/HANDOFF.md)、[设计阶段历史 Prompt](../development/2026-09-13-b04-b06-handoff-01/NEXT-TASK-PROMPT.md) | 设计交接仍有效；B04 收口后 B05／B06 仍待各自采用。 |
@@ -35,7 +35,7 @@
 | [首批浏览器契约](first-batch-browser-api-contract.md) | 已采用的项目、列表、配置引用及原操作恢复。 |
 | [Issue 创建契约](issue-page-create-api-contract.md) | 已采用创建、详情、rooms、SSE；新增绑定候选另列。 |
 | [认证与仓库发现候选](authentication-browser-api-draft.md) | 登录／重连、Destination 和查询恢复的唯一字段源，B02 子集已采用。 |
-| [模型浏览器候选](model-settings-browser-api-draft.md) | 保存／安全终结、单模型测试、专用应用的唯一候选字段。 |
+| [模型浏览器候选](model-settings-browser-api-draft.md) | 保存／安全终结的历史候选；单模型测试延期。当前专用模型应用字段以 [API/数据库 B05](../api-database/b05.md) 为准。 |
 | [首批页面恢复](first-batch-recovery-design.md) | 错误、未知、权限、原操作与只读会话的候选安排。 |
 | [会话与独立 Issue](conversation-issue-separation-design.md) | 当前页面关系、采用视觉及创建入口。 |
 | [项目配置](project-configuration-design.md) | 接入、增仓、授权变化、F02 表单。 |
@@ -106,4 +106,4 @@
 
 ## B05-B11 物理合表
 
-[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 34 张，B01-B04 的 36 张手册基线表、0007 扫描表与 0008 决策链 3 张保持不动；手册范围 70 张，全仓含扩展 74 张。合表只改变物理承载，已采用逻辑契约、各候选与验收状态不变；相关专题顶部的替代说明只把 B05 与物理承载、锁序指向该文。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json) 和 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md)，上游同步见 [主分支同步记录](../development/2026-09-15-table-consolidation-main-sync.md)。
+[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录当前范围：63 条历史候选中 9 条模型测试专用提案延期，54 条活动映射加 3 张必需新表形成 30 张当前目标表；B05 4 张、B10 11 张。B01-B04 的 36 张手册基线表、0007 扫描表与 0008 决策链 3 张保持不动；手册范围 66 张，全仓含扩展 70 张。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json)；历史合表制作和主分支同步记录只保留当时证据，不覆盖本次范围决定。
