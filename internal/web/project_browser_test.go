@@ -177,7 +177,7 @@ func startProjectBrowserServerWithOptions(t *testing.T, assets string, options b
 	server := httptest.NewUnstartedServer(nil)
 	state.server = server
 	origin := "https://" + server.Listener.Addr().String()
-	product := handlerConfigured(assetsFS, Auth{Service: authService, Origin: origin}, Projects{Service: projectService}, Models{Service: modelService}, Scan{}, Decision{})
+	product := handlerConfigured(assetsFS, Auth{Service: authService, Origin: origin}, Projects{Service: projectService}, Models{Service: modelService}, Scan{}, Decision{}, Skills{})
 	server.Config.Handler = state.wrapProduct(product)
 	server.StartTLS()
 	t.Cleanup(func() {
@@ -1389,7 +1389,7 @@ func TestPostgresProjectHTTPContract(t *testing.T) {
 	server.auth.SetModelSaveDestinationResolver(modelService.ResolveDestination)
 	restarted := httptest.NewUnstartedServer(nil)
 	restartedOrigin := "https://" + restarted.Listener.Addr().String()
-	restarted.Config.Handler = handlerConfigured(os.DirFS(assets), Auth{Service: server.auth, Origin: restartedOrigin}, Projects{Service: projectService}, Models{Service: modelService}, Scan{}, Decision{})
+	restarted.Config.Handler = handlerConfigured(os.DirFS(assets), Auth{Service: server.auth, Origin: restartedOrigin}, Projects{Service: projectService}, Models{Service: modelService}, Scan{}, Decision{}, Skills{})
 	restarted.StartTLS()
 	defer restarted.Close()
 	restartedClient := restarted.Client()
