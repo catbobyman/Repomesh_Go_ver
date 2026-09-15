@@ -426,7 +426,7 @@ func TestPostgresModelSaveLostResponseAndRestart(t *testing.T) {
 	server.auth.SetModelSaveDestinationResolver(modelService.ResolveDestination)
 	restarted := httptest.NewUnstartedServer(nil)
 	restartedOrigin := "https://" + restarted.Listener.Addr().String()
-	restarted.Config.Handler = server.wrapProduct(handlerConfigured(os.DirFS(assets), Auth{Service: server.auth, Origin: restartedOrigin}, Projects{Service: projectService}, Models{Service: modelService}))
+	restarted.Config.Handler = server.wrapProduct(handlerConfigured(os.DirFS(assets), Auth{Service: server.auth, Origin: restartedOrigin}, Projects{Service: projectService}, Models{Service: modelService}, Scan{}))
 	restarted.StartTLS()
 	t.Cleanup(restarted.Close)
 	restartedJar, _ := cookiejar.New(nil)
