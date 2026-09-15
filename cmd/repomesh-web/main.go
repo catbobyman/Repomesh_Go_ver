@@ -139,13 +139,16 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 			},
 			OnScopeDecided: func(r *http.Request, d scan.ScopeDecision) {
 				// Fail-open (方案清单 F3): a record failure must never fail
-				// the user's scope submission.
+				// the user's scope submission. The log carries the payload
+				// so a lost record can be backfilled by hand.
 				actor := ""
 				if principal, err := runtime.Service.AuthenticateProjectRequest(
 					r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), true); err == nil {
 					actor = principal.ActorID()
 				}
-				err := decisionService.Record(r.Context(), decisionchain.Event{
+				// WithoutCancel: a client disconnecting right after submit
+				// must not orphan the audit record.
+				err := decisionService.Record(context.WithoutCancel(r.Context()), decisionchain.Event{
 					Requirement:    d.Requirement,
 					Actor:          actor,
 					IdempotencyKey: d.IdempotencyKey,
@@ -153,7 +156,8 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 					Accepted:       d.Accepted,
 				})
 				if err != nil {
-					fmt.Fprintln(stderr, "decision chain record failed:", err)
+					fmt.Fprintf(stderr, "decision chain record failed: %v (requirement=%q ids=%v key=%s actor=%q)\n",
+						err, d.Requirement, d.RepositoryIDs, d.IdempotencyKey, actor)
 				}
 			},
 		}}

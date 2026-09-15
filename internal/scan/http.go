@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"log/slog"
 	"net/http"
 	"strings"
 	"sync"
@@ -395,7 +396,7 @@ func (h *HTTP) handleScopeSubmit(w http.ResponseWriter, r *http.Request) {
 		DecidedAt:     nowRFC3339(),
 	}
 	if h.OnScopeDecided != nil {
-		h.OnScopeDecided(r, ScopeDecision{
+		h.fireScopeDecision(r, ScopeDecision{
 			Requirement:    body.Requirement,
 			IdempotencyKey: body.IdempotencyKey,
 			RepositoryIDs:  body.RepositoryIDs,
@@ -411,6 +412,20 @@ func (h *HTTP) handleScopeSubmit(w http.ResponseWriter, r *http.Request) {
 	h.scopeReceipts[body.IdempotencyKey] = receipt
 	h.mu.Unlock()
 	writeJSON(w, http.StatusOK, receipt)
+}
+
+// fireScopeDecision invokes the seam with panic isolation (F3 fail-open):
+// a consumer bug must not fail the user's scope submission — the panic is
+// logged and the submission proceeds (the receipt still caches).
+func (h *HTTP) fireScopeDecision(r *http.Request, d ScopeDecision) {
+	defer func() {
+		if rec := recover(); rec != nil {
+			slog.Error("scope decision seam panicked",
+				"panic", rec, "idempotencyKey", d.IdempotencyKey,
+				"repositoryIds", d.RepositoryIDs)
+		}
+	}()
+	h.OnScopeDecided(r, d)
 }
 
 // handleAssistGet / handleAssistPut implement D-9.

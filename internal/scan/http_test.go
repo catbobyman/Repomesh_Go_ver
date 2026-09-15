@@ -102,3 +102,18 @@ func TestScopeSubmitFiresDecisionSeamOncePerKey(t *testing.T) {
 		t.Fatalf("nil seam status = %d: %s", recorder.Code, recorder.Body.String())
 	}
 }
+
+// A panicking consumer must not fail the submission (F3 fail-open): the
+// panic is contained, the receipt still caches, the caller sees 200.
+func TestScopeSubmitSurvivesAPanickingSeam(t *testing.T) {
+	store, _ := scopeFixture()
+	handler := &HTTP{Store: store, OnScopeDecided: func(r *http.Request, d ScopeDecision) {
+		panic("decision store exploded")
+	}}
+	recorder := httptest.NewRecorder()
+	handler.handleScopeSubmit(recorder, httptest.NewRequest("POST", "/api/scope",
+		strings.NewReader(`{"requirement":"x","repositoryIds":["t"],"idempotencyKey":"k9"}`)))
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200: %s", recorder.Code, recorder.Body.String())
+	}
+}
