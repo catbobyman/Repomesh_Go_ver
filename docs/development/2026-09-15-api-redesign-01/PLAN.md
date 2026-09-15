@@ -6,7 +6,7 @@
 
 1. `docs/api-database/` 不存在；`docs/current/`、`docs/plan/`、`docs/adr/` 与根目录文档没有指向该目录的链接。
 2. `docs/README.md`、`docs/current/README.md`、`docs/current/HANDOFF.md`、`AGENTS.md` 指向 HTML 方案与新 API 文档。
-3. `docs/current/api-design.md` 存在，且 [verify_api_doc.py](./scripts/verify_api_doc.py) 通过：方案 44 张表全部映射到资源或标为内部表；正文每个端点的顶层资源出现在映射表；每张表小节写全方案字段；21 份 ADR 全部被引用；相关文档本地链接可解析。
+3. `docs/current/api-design.md` 存在，且 [verify_api_doc.py](./scripts/verify_api_doc.py) 通过：方案 44 张表全部映射到资源或标为内部表；正文每个端点的顶层资源出现在映射表；每张表小节写全方案字段；23 份 ADR 全部被引用；相关文档本地链接可解析。
 4. `git diff --check` 无空白问题。
 
 ## 执行流程

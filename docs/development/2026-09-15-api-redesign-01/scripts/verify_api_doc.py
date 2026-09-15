@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[4]
 DB_PLAN = ROOT / "docs" / "RepoMesh_Go版数据库重构方案.html"
 API_DOC = ROOT / "docs" / "current" / "api-design.md"
 API_PREFIX = "/api/v1"
-ADR_COUNT = 21
+ADR_COUNT = 23
 MAPPING_HEADING = "## 附录 A：表与资源映射"
 LINK_CHECKED = [
     ROOT / "AGENTS.md",

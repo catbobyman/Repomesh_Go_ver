@@ -1,6 +1,6 @@
 # RepoMesh API 设计（基于 Go 版数据库重构方案）
 
-状态：设计。更新日期：2026-09-15。来源：[Go 版数据库重构方案](../RepoMesh_Go版数据库重构方案.html)的 44 张目标表、[ADR 索引](../adr/README.md)与 ADR-0001 至 ADR-0021、[领域语言](../../CONTEXT.md)、已采用的[创建契约](issue-page-create-api-contract.md)、[首批浏览器契约](first-batch-browser-api-contract.md)和[消息契约](conversation-message-clarification-api-contract.md)；制作与校验记录见[本轮记录](../development/2026-09-15-api-redesign-01/README.md)。除附录 C 标“已实现”的端点外，本文端点均未实现。
+状态：设计。更新日期：2026-09-15。来源：[Go 版数据库重构方案](../RepoMesh_Go版数据库重构方案.html)的 44 张目标表、[ADR 索引](../adr/README.md)与 ADR-0001 至 ADR-0023、[B11 重规划协议](../plan/B11-REPLAN-PROTOCOL.md)、[领域语言](../../CONTEXT.md)、已采用的[创建契约](issue-page-create-api-contract.md)、[首批浏览器契约](first-batch-browser-api-contract.md)和[消息契约](conversation-message-clarification-api-contract.md)；制作与校验记录见[本轮记录](../development/2026-09-15-api-redesign-01/README.md)。除附录 C 标“已实现”的端点外，本文端点均未实现。
 
 ## 1. 范围与阅读方式
 
@@ -41,6 +41,7 @@ Agent 不直接调用本 HTTP API。Agent 侧请求经 ADR-0011 所述受控 MCP
 | `成员` | 同组织的登录用户，且对路径所属项目可读。 |
 | `组织管理员` | `users.org_role` 为组织管理员（附录 D）。 |
 | `项目管理员` | ADR-0005 §1 与 ADR-0003 §1.8 需要的项目级角色。方案没有项目成员或项目角色表，本文暂以 `组织管理员` 执行，见附录 E 写作中发现第 1 条。 |
+| `授权人` | 请求所属项目编制的 `agent_teams.human_grants` 中列出的用户；只用于评审批复（4.5，ADR-0022）。 |
 | `后台` | 后台协调进程通过同一用例写入，含代 Agent 的调用。本文列出这些路径以固定资源形状；Web 不向浏览器会话开放它们，HTTP 层的实际调用方见附录 E 写作中发现第 4 条。 |
 
 无权与不存在同样返回 404 `NOT_FOUND`（创建契约 §6）。错误正文不回显无权对象的名称或 ID。
@@ -74,14 +75,14 @@ Agent 不直接调用本 HTTP API。Agent 侧请求经 ADR-0011 所述受控 MCP
 | 403 | `FORBIDDEN` | 对象可见但当前权限不允许该动作，例如成员调用组织管理员端点。 |
 | 404 | `NOT_FOUND` | 对象不存在或当前无权可见，两者同样返回。 |
 | 409 | `IDEMPOTENCY_CONFLICT` | 同 `Idempotency-Key` 不同输入；`handoffs.branch_validation_key` 同键不同任务或载荷。 |
-| 409 | `VERSION_CONFLICT` | `expectedVersion` 与 `tasks.version` 或 `change_sets.version` 不符。 |
+| 409 | `VERSION_CONFLICT` | `expectedVersion` 与 `tasks.version` 或 `change_sets.version` 不符；新建计划版本的 `baseVersion` 与最新 `plans.plan_version` 不符（4.3）。 |
 | 409 | `INVALID_TRANSITION` | 状态动作不在允许迁移内；循环上限已到（ADR-0007）；占位冲突（ADR-0017）。 |
 | 409 | `CURSOR_EXPIRED` | 分页游标过期或所绑定范围已变化，从第一页重新读取。 |
 | 413 | `REQUEST_TOO_LARGE` | 请求体超过 256 KiB。 |
 | 415 | `UNSUPPORTED_MEDIA_TYPE` | 请求媒体类型不是 JSON。 |
 | 422 | `VALIDATION_FAILED` | 字段缺失、类型或长度不符、未知字段、未列出的 query 键、`limit` 越界、游标格式非法、唯一列冲突。 |
 | 503 | `RESULT_UNCONFIRMED` | 外部结果或提交结果未知，客户端先按原键核查（ADR-0016）。 |
-| 503 | `FEATURE_DISABLED` | 决策链开关关闭时调用 `decision-chains` 端点（ADR-0021）。 |
+| 503 | `FEATURE_DISABLED` | 决策链开关关闭时调用 `decision-chains` 端点（ADR-0023）。 |
 
 唯一列冲突（`users.username`、`agents.singleton_key`、`repositories.url`、`projects.repository_id`、`credentials.key`、`skills.name`、`skill_approvals.version_id`、`delivery_policies.project_id`、`decision_embeddings.node_id`、`mcp_server_policies.server_name`）返回 422 `VALIDATION_FAILED`，`fieldErrors[].code` 为 `DUPLICATE`；PUT 覆盖同键行不算冲突，`skill_approvals.version_id` 的重复发起按 8.5 处理。`handoffs.branch_validation_key` 同键按 2.5 返回 409 `IDEMPOTENCY_CONFLICT`，不在此列。固定状态码表中没有单独的唯一冲突码，见附录 E 写作中发现第 12 条。
 
@@ -95,7 +96,7 @@ Agent 不直接调用本 HTTP API。Agent 侧请求经 ADR-0011 所述受控 MCP
 
 `handoffs.branch_validation_key` 唯一，作自然幂等键：同键同任务同载荷返回 200 与已有行；同键不同任务或不同载荷返回 409 `IDEMPOTENCY_CONFLICT`。
 
-乐观锁只有 `tasks.version` 与 `change_sets.version`。这两类资源的 PATCH 与状态动作请求体带 `expectedVersion`，与当前值不符返回 409 `VERSION_CONFLICT`；成功后 `version` 加一。这沿用首批契约 §7 中 `expectedProjectRevision` 的“请求体携带期望版本”做法。其他资源没有版本列，PATCH 按最后写入生效。
+乐观锁只有 `tasks.version` 与 `change_sets.version`。这两类资源的 PATCH 与状态动作请求体带 `expectedVersion`，与当前值不符返回 409 `VERSION_CONFLICT`；成功后 `version` 加一。这沿用首批契约 §7 中 `expectedProjectRevision` 的“请求体携带期望版本”做法。`plans` 没有版本列，新建版本以请求体 `baseVersion` 比对最新 `plan_version`，不符同样返回 409 `VERSION_CONFLICT`（4.3）。其他资源没有版本列，PATCH 按最后写入生效。
 
 ### 2.6 分页与过滤
 
@@ -348,9 +349,10 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | 方法与路径 | 用途 | 幂等 | 权限 |
 | --- | --- | --- | --- |
 | `GET /api/v1/projects/{projectId}/plans` | 列表，按 `plan_version` 排列 | 天然 | 成员 |
-| `POST /api/v1/projects/{projectId}/plans` | 新建版本：`requirementText`、`engineeringSpec`、`contracts`、`taskDag`、`executionBatches`、`createdByAgentId`（可省略） | 键（无落点） | 后台（代 Manager） |
+| `POST /api/v1/projects/{projectId}/plans` | 新建版本：`baseVersion`、`requirementText`、`engineeringSpec`、`contracts`、`taskDag`、`executionBatches`、`createdByAgentId`（可省略） | 键（无落点） | 后台（代 Manager） |
 | `GET /api/v1/plans/{planId}` | 读取 | 天然 | 成员 |
 | `POST /api/v1/plans/{planId}/revisions` | 追加一条修订记录到 `revisions`，不改已发布内容 | 键（无落点） | 后台（代 Manager） |
+| `POST /api/v1/plans/{planId}/apply` | 应用版本：按 v(n-1) 到 v(n) 的差异迁移任务，未变任务保持，修改或删除的任务置 `superseded`，新增任务创建；同事务写 `events` 与一条 `decision_chain_nodes`（`status=adjusted`） | 键（无落点） | 后台（代 Leader） |
 
 **字段**
 
@@ -371,7 +373,10 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 **规则**
 
 - 已存在版本不原地改写；修改目标、范围或约束产生新行（ADR-0003 §1.1）。ADR-0015 限额内推进下一轮属于执行进展，不新建 `plans` 行。
-- ADR-0003 要求提出、获准、应用、生效四个事实分开。提出即 `POST .../plans`；获准经 `review_requests`（`objectType=plan`，4.5）；应用由后台协调进程执行；生效事实在方案中没有列，`plans` 无 `status`，`tasks` 无当前生效计划指针，见附录 E 第 5 条。
+- 新版本是完整目标状态快照（B11 重规划协议 §2 步骤 5）。`POST /api/v1/projects/{projectId}/plans` 建 v(n+1) 时请求体带 `baseVersion`（上一版 `plan_version`），不符返回 409 `VERSION_CONFLICT`；`executionBatches` 在建版本时做 DAG 拓扑校验，不满足依赖返回 422 `VALIDATION_FAILED`。
+- `apply` 按 v(n-1) 到 v(n) 的差异迁移任务：未变任务保持，修改或删除的任务置 `superseded`（5.1），新增任务创建；同事务写 `events` 与一条 `decision_chain_nodes`（`status=adjusted`，B11 重规划协议 §2 双轴挂钩；该表无 `status` 列，见附录 E 写作中发现第 24 条）。
+- `apply` 前是否需要人工批准由 `agent_teams.execution_mode` 决定；需要时先建 `review_requests(objectType=plan)`，通过后才允许 `apply`（B11 重规划协议 §2 审批闸位）。
+- ADR-0003 要求提出、获准、应用、生效四个事实分开。提出即 `POST .../plans`；获准经 `review_requests`（`objectType=plan`，4.5）；应用即 `POST /api/v1/plans/{planId}/apply`；生效事实在方案中没有列，`plans` 无 `status`，`tasks` 无当前生效计划指针，见附录 E 第 5 条。
 - ADR-0003 §3.1：首期不提供直接编辑图节点与连线的页面 API，`taskDag` 只能整份随新版本提交。
 
 ### 4.4 编制 `agent_teams`
@@ -426,7 +431,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `GET /api/v1/review-requests` | 列表；过滤 `status`、`objectType`、`projectId` | 天然 | 成员 |
 | `GET /api/v1/review-requests/{requestId}` | 读取 | 天然 | 成员 |
 | `POST /api/v1/review-requests` | 发起：`projectId`、`objectType`、`objectId`、`requestContent`、`requestedByAgentId`（可省略） | 键（无落点） | 后台（代 Agent） |
-| `POST /api/v1/review-requests/{requestId}/decision` | 批复：`decision` 取 `approve` 或 `reject`，`note` | 键（无落点） | 项目管理员或计划发起人（ADR-0003 §1.8） |
+| `POST /api/v1/review-requests/{requestId}/decision` | 批复：`decision` 取 `approve` 或 `reject`，`note` | 键（无落点） | 授权人；漂移时组织管理员兜底（ADR-0022） |
 
 **字段**
 
@@ -446,7 +451,11 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 **规则**
 
 - `decision` 只允许 `pending` 到 `approved` 或 `rejected`，其余 409 `INVALID_TRANSITION`。拒绝保留请求与原因（ADR-0003 §1.5）。
-- 批准不等于生效：`objectType=plan` 批准后进入“已获准，待应用”，应用与读回由后台协调进程执行（ADR-0003 §1.4、ADR-0006 §3）。
+- 人工对检查点的决议只能经 `POST /api/v1/review-requests/{requestId}/decision` 写入，同事务写 `decided_by`、`decision_note`、`decided_at` 并把 `status` 置为终态；这是唯一落库入口（ADR-0022 决策 1）。
+- 政策漂移兜底（ADR-0022 决策 2）：`pending` 请求本身就是“开单时卡点启用过”的事实，决议时不按当前 `agent_teams.execution_mode`、`required_checkpoints` 复查。决议权限分层：请求所属项目编制的 `agent_teams.human_grants` 中的授权人可决；编制已改为无人工卡点或授权人为空时，组织管理员可兜底清偿；其他账号 403 `FORBIDDEN`。
+- 聊天批复的定位（ADR-0022 决策 1）：本文选择“不构成决议，仅是沟通”，房间消息不会改变本表。若将来改为把聊天批准适配成一次正式调用，决议记录必须带来源标注（`decision_note` 前缀 `chat:<messageId>`，提案，附录 D）；两种定位只能选一种。
+- 存量漂移单的批量清偿也逐条走同一端点，每条留下 `decided_by`、`decision_note`、`decided_at`（ADR-0022 决策 4）。
+- 批准不等于生效：`objectType=plan` 批准后进入“已获准，待应用”，应用经 `POST /api/v1/plans/{planId}/apply`（4.3），读回由后台协调进程执行（ADR-0003 §1.4、ADR-0006 §3）。
 - ADR-0004 的缺失规则解释也走此表，`objectType=interpretation`（提案）；解释与验收通过分开。
 - 人工门禁与环境阻塞、资源等待分开表达（ADR-0006 §2、CONTEXT 人工门禁）：环境阻塞体现在 `tasks.status=blocked`，不产生本表行。
 - 当前阶段统一 YOLO（ADR-0006 §2）。YOLO 档的自动许可也写一行本表：`status=approved`、`decided_by` 为空、`decision_note` 为 `auto:yolo`（提案），使 ADR-0003 §1.2 的许可事实可追溯。见附录 E 写作中发现第 7 条。
@@ -532,8 +541,9 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | 非终态 | `paused` | `pause` | 只停新派工，不代表在途已停；已交付变更不撤回（CONTEXT 暂停）。 |
 | `paused` | 推导 | `resume` | 无 `assignee_agent_id` 回到 `open`；有 `reserved_at` 且当前派单非终态回到 `in_progress`；当前派单终态回到 `submitted`，其中 `attempt_state` 为 `failed` 或 `blocked` 时回到 `blocked`。方案没有暂停前状态列，见附录 E 写作中发现第 2 条。 |
 | 非终态 | `cancelled` | `cancel` | 终态。 |
+| 非终态 | `superseded` | 后台：`POST /api/v1/plans/{planId}/apply` 写 | 终态；被新计划版本修改或删除的任务（B11 重规划协议 §2 步骤 5）。投影闸门封死：`task_assignments` 的 `result` 对其返回 409 `INVALID_TRANSITION`。 |
 
-`done`、`cancelled` 为终态，任何动作返回 409 `INVALID_TRANSITION`。上表之外的迁移同样返回 409。
+`done`、`cancelled`、`superseded` 为终态，任何动作返回 409 `INVALID_TRANSITION`。上表之外的迁移同样返回 409。
 
 **规则**
 
@@ -635,7 +645,8 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 - `POST .../assignments` 在同一短事务内完成 `reserve` 的三列写入（ADR-0017）；任务已由其他 Worker 占位时 409 `INVALID_TRANSITION`。
 - 循环上限（ADR-0007 D3、D4）：`phase=fix` 最多 3 轮，`phase=diagnose` 最多 2 轮，`phase=recover` 最多 2 次；连续两轮 `attempt_reason` 相同视为同一失败，结束循环。超限由后台协调进程拒绝新派单并返回 409 `INVALID_TRANSITION`。
-- 迟到结果（ADR-0001、ADR-0007 D7、ADR-0015）：`result` 只改本行；只有 `generation` 最大的一行能改变 `tasks.status`。`attempt_state` 已是终态时再次 `result` 返回 409 `INVALID_TRANSITION`，旧结果不被覆盖。
+- 迟到结果（ADR-0001、ADR-0007 D7、ADR-0015）：`result` 只改本行；只有 `generation` 最大的一行能改变 `tasks.status`。`attempt_state` 已是终态时再次 `result` 返回 409 `INVALID_TRANSITION`，旧结果不被覆盖；任务已 `superseded` 时同样 409（投影闸门，5.1）。
+- `attempt_state=blocked` 的结果同事务写一条 `decision_chain_nodes`（`status=blocked`），不建独立反馈表（B11 重规划协议 §4；该表无 `status` 列，见附录 E 写作中发现第 24 条）。
 - 一轮尝试一行；重派新建行，不改旧行（CONTEXT Attempt）。
 
 **示例**：`POST /api/v1/tasks/{taskId}/assignments` 的 201 响应。
@@ -1677,8 +1688,8 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 **规则**
 
-- 写入方只有服务端：第一期生产者是范围圈定确认（ADR-0021）。写路径不调用 LLM。
-- 开关关闭时，`decision-chains` 全部端点返回 503 `FEATURE_DISABLED`，不落新节点，数据保留（ADR-0021）。
+- 写入方只有服务端：第一期生产者是范围圈定确认（ADR-0023）；`plans apply` 写 `adjusted` 节点，`task_assignments result` 的 `blocked` 结果写 `blocked` 节点（B11 重规划协议，4.3、5.3）。写路径不调用 LLM。
+- 开关关闭时，`decision-chains` 全部端点返回 503 `FEATURE_DISABLED`，不落新节点，数据保留（ADR-0023）。
 - 开关依赖 `feature_settings` 表，该表不在方案 44 张内，落点待定，见附录 E 第 10 条。现有 `PUT /api/settings/decision-chain` 的去向见附录 C。
 
 ### 9.12 决策向量 `decision_embeddings`
@@ -1689,7 +1700,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 | 方法与路径 | 用途 | 幂等 | 权限 |
 | --- | --- | --- | --- |
-| `GET /api/v1/decision-chains/semantic-search` | 语义检索：`queryText`、`model`、`topK`、`minSimilarity`；按 `model` 过滤（ADR-0021） | 天然 | 成员 |
+| `GET /api/v1/decision-chains/semantic-search` | 语义检索：`queryText`、`model`、`topK`、`minSimilarity`；按 `model` 过滤（ADR-0023） | 天然 | 成员 |
 | `POST /api/v1/decision-chains/embeddings/refresh` | 异步刷新缺失或过期向量（201） | 键（无落点） | 组织管理员 |
 
 **字段**
@@ -1698,16 +1709,17 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | --- | --- | --- | --- |
 | `id` | `id` | 读 | UUID。 |
 | `node_id` | `nodeId` | 读 | 对应决策节点，唯一。 |
-| `embedding` | 不输出 | 不暴露 | 向量本体只在服务端比较；检索响应返回 `similarity`。 |
-| `model` | `model` | 读 | 向量模型；检索一律按 `model` 过滤，防止换模型后混库（ADR-0021）。 |
+| `embedding` | 不输出 | 不暴露 | 向量本体只在服务端比较；检索响应返回 `similarity`。方案写 JSON；ADR-0021 与 ADR-0023 采用 `vector(1024)` 加 HNSW 余弦索引，JSON 作无扩展环境的兜底双写；维度绑定嵌入模型，换模型需新迁移与全量重嵌（附录 E 第 17 条）。 |
+| `model` | `model` | 读 | 向量模型；检索一律按 `model` 过滤，防止换模型后混库（ADR-0023）。 |
 
 不暴露：`embedding`。
 
 **规则**
 
 - 检索响应为 `{"items":[{"node":{...},"similarity":0.87}]}`，`node` 为 9.11 的节点快照；`topK` 默认 10，最大 50；`minSimilarity` 取 0 到 1。
-- 查询向量在读路径计算；写路径不调用 LLM，向量只经 `refresh` 异步沉淀（ADR-0021）。
-- 方案写有 `node_id → decision_chain_nodes` 逻辑关联；是否建物理外键按 ADR-0021。孤儿向量由 `refresh` 幂等覆盖。开关关闭时两个端点同样返回 503 `FEATURE_DISABLED`。
+- 排序、截断与门槛在数据库内执行（`ORDER BY embedding <=> :query LIMIT :k`）；`pg_extension` 无 `vector` 时回落 JSON 余弦，结果排序一致，日志标明降级（ADR-0021）。
+- 查询向量在读路径计算；写路径不调用 LLM，向量只经 `refresh` 异步沉淀（ADR-0023）。
+- 方案写有 `node_id → decision_chain_nodes` 逻辑关联；是否建物理外键按 ADR-0023。孤儿向量由 `refresh` 幂等覆盖。开关关闭时两个端点同样返回 503 `FEATURE_DISABLED`。
 
 ### 9.13 降级策略 `mcp_server_policies`
 
@@ -1750,10 +1762,10 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `credentials` | `/api/v1/credentials`、`/api/v1/credentials/{key}` | Web；`value_encrypted` 只由服务端加密写入。 |
 | `projects` | `/api/v1/projects`、`/api/v1/projects/{projectId}` | Web。 |
 | `repositories` | `/api/v1/repositories`、`/api/v1/repositories/{repositoryId}`、`/api/v1/repositories/{repositoryId}/profile` | Web（登记、修改）；后台写画像与轮询列。 |
-| `plans` | `/api/v1/projects/{projectId}/plans`、`/api/v1/plans/{planId}`、`/api/v1/plans/{planId}/revisions` | 后台（代 Manager）；后台写 `execution_plan_id`。 |
+| `plans` | `/api/v1/projects/{projectId}/plans`、`/api/v1/plans/{planId}`、`/api/v1/plans/{planId}/revisions`、`/api/v1/plans/{planId}/apply` | 后台（代 Manager、Leader）；后台写 `execution_plan_id`；`apply` 迁移 `tasks` 并写 `decision_chain_nodes`。 |
 | `agent_teams` | `/api/v1/projects/{projectId}/agent-teams`、`/api/v1/agent-teams/{teamId}`、`/api/v1/agent-teams/{teamId}/runtime` | Web（建立、修改、runtime 请求）；后台写 `room_id`、`runtime_status` 结果态。 |
 | `review_requests` | `/api/v1/review-requests`、`/api/v1/review-requests/{requestId}`、`/api/v1/review-requests/{requestId}/decision` | 后台发起，Web 批复。 |
-| `tasks` | `/api/v1/projects/{projectId}/tasks`、`/api/v1/tasks/{taskId}`、`/api/v1/tasks/{taskId}/subtasks`、`/api/v1/tasks/{taskId}/reserve`、`/api/v1/tasks/{taskId}/release`、`/api/v1/tasks/{taskId}/pause`、`/api/v1/tasks/{taskId}/resume`、`/api/v1/tasks/{taskId}/cancel`、`/api/v1/tasks/{taskId}/complete` | Web 与后台；状态由动作端点与后台写。 |
+| `tasks` | `/api/v1/projects/{projectId}/tasks`、`/api/v1/tasks/{taskId}`、`/api/v1/tasks/{taskId}/subtasks`、`/api/v1/tasks/{taskId}/reserve`、`/api/v1/tasks/{taskId}/release`、`/api/v1/tasks/{taskId}/pause`、`/api/v1/tasks/{taskId}/resume`、`/api/v1/tasks/{taskId}/cancel`、`/api/v1/tasks/{taskId}/complete` | Web 与后台；状态由动作端点与后台写，`plans apply` 置 `superseded`。 |
 | `plan_steps` | `/api/v1/plans/{planId}/steps`、`/api/v1/plan-steps/{stepId}` | 后台（代 Manager）；浏览器只读。 |
 | `task_assignments` | `/api/v1/tasks/{taskId}/assignments`、`/api/v1/task-assignments/{assignmentId}`、`/api/v1/task-assignments/{assignmentId}/result` | 后台；`dispatch_ref` 由后台写。 |
 | `handoffs` | `/api/v1/tasks/{taskId}/handoffs`、`/api/v1/handoffs/{handoffId}`、`/api/v1/handoffs/{handoffId}/status` | 后台（代 Manager、`db-test-team`）。 |
@@ -1785,7 +1797,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `recovery_cases` | `/api/v1/recovery-cases`、`/api/v1/recovery-cases/{caseId}`、`/api/v1/recovery-cases/{caseId}/close` | Web 与后台。 |
 | `recovery_decisions` | `/api/v1/recovery-cases/{caseId}/decisions` | Web 与后台。 |
 | `recovery_operations` | `/api/v1/recovery-cases/{caseId}/operations` | 内部写入，只读端点；后台执行后写。 |
-| `decision_chain_nodes` | `/api/v1/decision-chains`、`/api/v1/decision-chains/{nodeId}`、`/api/v1/settings/decision-chain` | 内部写入，只读端点；开关端点落点待定（附录 E 第 10 条）。 |
+| `decision_chain_nodes` | `/api/v1/decision-chains`、`/api/v1/decision-chains/{nodeId}`、`/api/v1/settings/decision-chain` | 内部写入，只读端点；范围圈定确认、`plans apply`、`blocked` 结果写入（9.11）；开关端点落点待定（附录 E 第 10 条）。 |
 | `decision_embeddings` | `/api/v1/decision-chains/semantic-search`、`/api/v1/decision-chains/embeddings/refresh` | 后台经 `refresh` 写。 |
 | `mcp_server_policies` | `/api/v1/mcp-server-policies`、`/api/v1/mcp-server-policies/{serverName}` | Web（PUT）。 |
 
@@ -1813,7 +1825,9 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | [ADR-0018](../adr/0018-provision-instance-after-first-draft.md) 项目先保存、按需准备实例 | 项目创建不触发准备；`runtime start` 与首条消息异步准备；201 不证明就绪或接收。 | 首条消息时 `room_id` 必填（写作中发现第 8 条）。 |
 | [ADR-0019](../adr/0019-conversation-issue-separation.md) 会话与独立 Issue 分离 | 未落实。Issue 暂由顶层 `tasks` 承接，会话无实体，Issue SSE 暂由 `events/stream` 承接。 | 无会话实体（附录 E 第 3 条）；无独立 Issue 与仓库事项（附录 E 第 4 条）。 |
 | [ADR-0020](../adr/0020-python-repository-analysis-plugin.md) 建项前 Python 仓库分析 | `POST /api/v1/repositories/{repositoryId}/profile` 是可选分析，不扩仓、不建计划、不触发实例。 | 分析作业表无（附录 E 第 15 条）。 |
-| [ADR-0021](../adr/0021-decision-chain-native-module-and-pgvector.md) 决策链原生模块与 pgvector | `decision-chains` 读端点；`semantic-search` 按 `model` 过滤；写路径不调 LLM；`refresh` 异步；开关关闭 503 `FEATURE_DISABLED`。 | `feature_settings` 不在 44 张内（附录 E 第 10 条）；未入 ADR 索引（附录 E 第 16 条）。 |
+| [ADR-0021](../adr/0021-pgvector-rag-storage-plugin.md) pgvector RAG 存储插件 | `semantic-search` 的排序、截断与门槛在数据库内执行；无 `vector` 扩展时回落 JSON 余弦并标明降级；`embedding` 维度绑定嵌入模型，换模型需新迁移与全量重嵌（9.12）。 | 方案 `decision_embeddings.embedding` 类型写为 JSON，与 ADR-0021 的 `vector(1024)` 不一致（附录 E 第 17 条）；与 ADR-0020 的时序说明（附录 E 第 16 条）。 |
+| [ADR-0022](../adr/0022-human-checkpoint-resolution-governance.md) 人工检查点决议治理 | `decision` 端点是唯一落库入口，同事务写 `decided_by`、`decision_note`、`decided_at` 与终态；`pending` 不按当前政策复查，授权人可决、漂移时组织管理员兜底、其他账号 403；聊天批复定位为沟通，不改本表；存量清偿逐条走同一端点（4.5）。 | `review_requests` 没有决议来源列与漂移标记列；监管策略入口（三档）在方案里只有 `agent_teams.execution_mode`，页面归属不在本文范围。 |
+| [ADR-0023](../adr/0023-decision-chain-native-module-and-pgvector.md) 决策链原生模块与 pgvector | `decision-chains` 读端点；`semantic-search` 按 `model` 过滤；写路径不调 LLM；`refresh` 异步；开关关闭 503 `FEATURE_DISABLED`。 | `feature_settings` 不在 44 张内（附录 E 第 10 条）；`similar` 与 `semantic-search` 的关系待决（附录 E 第 16 条）。 |
 
 ## 附录 C：现有端点的去向
 
@@ -1894,8 +1908,8 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `agent_teams.runtime_status` | `stopped`、`start_requested`、`preparing`、`ready`、`stop_requested`、`failed`、`unknown` | 请求态由 `runtime` 动作写，结果态由后台写。 |
 | `review_requests.object_type` | `task`、`agent_team`、`skill_release`、`plan`、`interpretation` | 前三个是方案三值的令牌；`plan`、`interpretation` 为本文增加。 |
 | `review_requests.status` | `pending`、`approved`、`rejected` | 方案：待审、通过、驳回。 |
-| `review_requests.decision_note` 自动许可值 | `auto:yolo` | YOLO 档自动许可写入的批复意见，`decided_by` 为空（4.5）。 |
-| `tasks.status` | `open`、`planned`、`reserved`、`in_progress`、`submitted`、`handed_off`、`done`、`blocked`、`paused`、`cancelled` | 迁移表见 5.1；终态 `done`、`cancelled`。 |
+| `review_requests.decision_note` 来源标注 | `auto:yolo`、`chat:<messageId>` | `auto:yolo` 为 YOLO 档自动许可，`decided_by` 为空；`chat:<messageId>` 只在将来把聊天批准适配为正式调用时使用，本文当前选择聊天不构成决议（4.5，ADR-0022）。 |
+| `tasks.status` | `open`、`planned`、`reserved`、`in_progress`、`submitted`、`handed_off`、`done`、`blocked`、`paused`、`cancelled`、`superseded` | 迁移表见 5.1；终态 `done`、`cancelled`、`superseded`。`superseded` 由 `plans apply` 写，投影闸门封死，`task_assignments` 的 `result` 对其返回 409 `INVALID_TRANSITION`。 |
 | `plan_steps.status` | `pending`、`ready`、`in_progress`、`done`、`blocked`、`skipped` | `ready` 表示依赖已满足。 |
 | `task_assignments.phase` | `initial`、`fix`、`diagnose`、`recover` | 决定 ADR-0007 D3 上限的计数口径。 |
 | `task_assignments.attempt_state` | `pending`、`running`、`succeeded`、`failed`、`blocked`、`cancelled`、`superseded` | 后五个为终态。 |
@@ -1933,26 +1947,28 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 按影响排序编号。每条写现象、出处、本文的处理、需要谁裁定。
 
-1. **角色命名倒置。** 现象：方案 `agents.role` 的 leader 为总、manager 为仓库；CONTEXT 与 ADR-0006 相反，Manager 是项目统一入口，Leader 是仓库负责人。出处：方案 `agents`、`agent_teams.leader_agent_id`、`agent_teams.manager_agent_id`；CONTEXT 项目负责人、仓库负责人；ADR-0006 §1。本文的处理：按方案值写，字段说明标注差异。需要谁裁定：用户裁定后同步 CONTEXT 或方案。
+1. **角色命名倒置。** 现象：方案 `agents.role` 的 leader 为总、manager 为仓库；CONTEXT 与 ADR-0006 相反，Manager 是项目统一入口，Leader 是仓库负责人。出处：方案 `agents`、`agent_teams.leader_agent_id`、`agent_teams.manager_agent_id`；CONTEXT 项目负责人、仓库负责人；ADR-0006 §1。本文的处理：按方案值写，字段说明标注差异。B11 重规划协议使用 TM（每仓一个 Team Manager）与 Leader（全组织裁决者），与方案一致；不一致的一方是 CONTEXT.md 与 ADR-0006 的用词。需要谁裁定：用户裁定后同步 CONTEXT 或方案。
 2. **一项目一仓库。** 现象：`projects.repository_id` 必填唯一；CONTEXT 多仓库项目、ADR-0002 J2、现有 `project_repositories` 与创建契约 §3 的 `repositoryIds` 都是多仓；方案 `agent_teams.repository_id` 可空（项目级编制）与 `change_sets.repository_ids` JSON 又隐含多仓。出处：方案 `projects`、`agent_teams`、`change_sets`。本文的处理：按方案，`POST /api/v1/projects` 只收单个 `repositoryId`；跨仓表达只剩 `change_sets.repository_ids`。需要谁裁定：用户。
 3. **无会话实体。** 现象：`messages.room_id` 是字符串；ADR-0019 与消息契约要求 conversation 资源、`replyTo`、澄清。出处：方案 `messages`；ADR-0019；消息契约 §1 至 §4。本文的处理：消息按 `roomId` 过滤，会话列表、澄清端点无落点，附录 C 标注。需要谁裁定：用户与后端设计。
 4. **无独立 Issue 实体。** 现象：顶层 `tasks` 承接 Issue；ADR-0019 的 Issue 列表、详情、房间导航需要在 task 上表达；仓库事项（Repository Issue）无落点。出处：方案 `tasks`；ADR-0019；CONTEXT 需求事项、仓库事项。本文的处理：`parentTaskId` 为空的过滤即 Issue 列表；`rooms` 端点无落点。需要谁裁定：用户。
-5. **计划生效指针缺失。** 现象：ADR-0003 要求提出、获准、应用、生效四个事实分开；`plans` 无 `status`，`tasks` 无当前生效计划列；`review_requests.object_type` 方案列举无 `plan`。出处：方案 `plans`、`tasks`、`review_requests`；ADR-0003 §1.1、§1.4；CONTEXT 计划生效。本文的处理：获准经 `review_requests(objectType=plan)`（本文增加值）；生效事实不在任何端点表达。需要谁裁定：用户与方案作者。
+5. **计划生效指针缺失。** 现象：ADR-0003 要求提出、获准、应用、生效四个事实分开；`plans` 无 `status`，`tasks` 无当前生效计划列；`review_requests.object_type` 方案列举无 `plan`；B11 重规划协议的计划状态 `active`、`deprecated`、`superseded` 在方案 `plans` 也没有列。出处：方案 `plans`、`tasks`、`review_requests`；ADR-0003 §1.1、§1.4；CONTEXT 计划生效；B11 重规划协议 §2 状态机。本文的处理：获准经 `review_requests(objectType=plan)`（本文增加值）；应用经 `POST /api/v1/plans/{planId}/apply`；生效与计划状态不在任何端点表达。需要谁裁定：用户与方案作者。
 6. **Candidate、Delivery Combination、result admission 缺失。** 现象：ADR-0008 的收录、接受、入选、验证通过、可开 PR 五个事实与 ADR-0015 的结果采纳在方案中只剩 `change_sets.repository_ids` 每仓一份条目。出处：方案 `change_sets`；ADR-0008 记录关系；ADR-0015；CONTEXT 候选结果、交付组合。本文的处理：条目含 `deliveryStatus`（附录 D），不声称覆盖五个事实。需要谁裁定：用户与方案作者。
 7. **Skill 7 张表与 ADR-0009 暂缓冲突。** 现象：ADR-0009 要求恢复前不冻结表、API 与状态枚举；方案新增 7 张表。ADR-0009 H1、H11 要求 Issue 引用确定版本，方案改为 Skill 绑 Agent（`agent_skill_bindings`），不绑 Issue。出处：方案 ⑥；ADR-0009 静态证据节、H1、H11。本文的处理：第 8 节按方案给出设计并标为非采用记录，ADR 更新前不得实施。需要谁裁定：用户补充 ADR-0009 的替代关系，并裁定绑定粒度。
 8. **登录方式。** 现象：方案为本地密码登录；现有 B02 GitHub OAuth 登录、connections、bindings、attempts、discovery 4 表无落点；ADR-0002 有效权限交集需要安装范围数据。出处：方案 `users`、`credentials`；B02 采用记录；首批契约 §2、§3。本文的处理：`POST /api/v1/sessions` 用户名密码；GitHub 相关端点在附录 C 标待裁定。需要谁裁定：用户。
 9. **模型供应商、来源、密钥版本 20 张表无落点。** 现象：现有 `repomesh_models.*`、`repomesh_sources.*`、`repomesh_secrets.*` 在方案中没有对应表；`llm_usage.provider`、`model` 只是字符串；`credentials.value_encrypted` 的密钥管理未定义。出处：方案 `credentials`、`llm_usage`；现有迁移 `0001` 至 `0008`。本文的处理：模型端点在附录 C 标待决，`credentials` 不定义轮换。需要谁裁定：用户与方案作者。
-10. **`feature_settings` 不在 44 张内。** 现象：ADR-0021 的决策链开关与现有 scope-assist 开关依赖 `public.feature_settings`。出处：ADR-0021 决策 5；现有 `PUT /api/settings/decision-chain`。本文的处理：列出 `GET /api/v1/settings/decision-chain`、`PUT /api/v1/settings/decision-chain`，落点待定。需要谁裁定：方案作者补表或用户改用其他落点。
+10. **`feature_settings` 不在 44 张内。** 现象：ADR-0023 的决策链开关与现有 scope-assist 开关依赖 `public.feature_settings`。出处：ADR-0023 决策 5；现有 `PUT /api/settings/decision-chain`。本文的处理：列出 `GET /api/v1/settings/decision-chain`、`PUT /api/v1/settings/decision-chain`，落点待定。需要谁裁定：方案作者补表或用户改用其他落点。
 11. **原操作回执表无落点，仅 4 张表有 `idempotency_key`。** 现象：现有 `creation_operations`、`update_operations`、`save_operations` 无对应表；创建契约 §5 与首批契约 §6 的原操作查询、410 占位规则无法落地；其余 40 张表的创建重放保护缺失。出处：方案 `agents`、`agent_teams`、`tasks`、`change_sets`；ADR-0016 持续授权补充。本文的处理：要求全部创建与动作 POST 带头；只对 4 表声明重放语义。需要谁裁定：方案作者补表或用户接受 Redis 等外部落点（方案把 `idempotency_records` 迁出到 Redis）。
 12. **状态枚举大多未给值。** 现象：附录 D 全是提案。出处：方案各 `status` 列。本文的处理：正文引用附录 D，不写成已采用。需要谁裁定：用户逐表确认。
 13. **Agent 调用凭证。** 现象：`agents` 无令牌字段；MCP 入口协议未冻结。出处：方案 `agents`；ADR-0006 §3；ADR-0011；执行门槛 G2。本文的处理：Agent 不调用 HTTP，后台专用端点见 2.2。需要谁裁定：用户与后端设计。
 14. **现有 40 张表到 44 张目标表没有迁移映射。** 现象：方案的“原表”名（`local_human_accounts`、`agent_principals` 等）不是本仓库的表名。出处：方案各表“由哪些表来”；现有迁移 `0001` 至 `0008`。本文的处理：不定义迁移。需要谁裁定：方案作者。
 15. **建项前分析作业无作业表。** 现象：现有 `scan-jobs`、`scope` 三条对应 ADR-0020 的建项前分析，方案没有作业表与结果表。出处：ADR-0020；方案 `repositories.profiled_at`。本文的处理：只保留 `POST /api/v1/repositories/{repositoryId}/profile`，作业状态经 `events` 观察。需要谁裁定：用户。
-16. **ADR-0021 尚未收录进 ADR 索引。** 现象：`docs/adr/README.md` 目录止于 0020；ADR-0021 与 ADR-0020 关于 Python 路线的关系未写清；现有 `GET /api/decision-chains/similar` 与 `semantic-search` 的关系暂定。出处：ADR 索引；ADR-0021 关联行。本文的处理：按 ADR-0021 正文写，`similar` 暂并入 `semantic-search`。需要谁裁定：用户更新索引。
+16. **决策链检索端点关系与 ADR 时序说明待决。** 现象：ADR 索引已收录 0021 至 0023；仍待决的是现有 `GET /api/decision-chains/similar` 与 `semantic-search` 的关系，以及 ADR-0021 与 ADR-0020“向量库不作首期依赖”的时序说明。出处：ADR 索引 0020、0021、0023 行；ADR-0021 回滚与实现边界。本文的处理：`similar` 暂并入 `semantic-search`（附录 C）；检索规则按 ADR-0021 写（9.12）。需要谁裁定：用户。
+17. **`decision_embeddings.embedding` 类型不一致。** 现象：方案写为 JSON；ADR-0021 与 ADR-0023 采用 `vector(1024)` 加 HNSW 余弦索引，JSON 只作无扩展环境的兜底双写；维度绑定嵌入模型。出处：方案 `decision_embeddings`；ADR-0021 决策与理由；ADR-0023 决策 4。本文的处理：字段说明按 ADR 写，`embedding` 不暴露；检索按数据库内排序与降级规则写（9.12）。需要谁裁定：方案作者更新列类型。
+18. **`feat/replan-mainline` 分支的任务表与本文未核对。** 现象：施工计划登记 `feat/replan-mainline` 分支的迁移 0009 建 `public.tasks`、`public.task_assignments`，并要求不另起第二套任务表。出处：施工计划；B11 重规划协议 §4 待建表。本文的处理：5.1、5.3 按方案字段写，与该分支的列是否一致未核对（分支未合入 main）。需要谁裁定：合入前由用户或方案作者核对列差异。
 
 ### 写作中发现
 
-以下问题在成稿时发现，上面 16 条未覆盖。编号被正文引用。
+以下问题在成稿时发现，上面 18 条未覆盖。编号被正文引用。
 
 1. **项目管理员与计划审批人资格无落点。** 方案没有项目成员或项目角色表；ADR-0005 §1、ADR-0003 §1.8 需要项目管理员与获授审批权限的人。本文暂以 `users.org_role` 组织管理员代替。需要方案作者补表或用户接受组织级权限。
 2. **`tasks` 没有暂停前状态列。** `resume` 的目标状态只能由 `assignee_agent_id`、`reserved_at` 与当前派单 `attempt_state` 推导（5.1）；从 `planned` 暂停后恢复会回到 `open`。需要方案作者决定是否补列。
@@ -1960,7 +1976,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 4. **后台专用端点的 HTTP 调用方未定义。** 2.2 规定后台协调进程不经 HTTP、Agent 经 MCP；多个端点的调用方又是“后台协调进程代 Agent”或“Manager 工具”。本文把它们标为 `后台`，Web 不向浏览器开放。需要用户决定是否引入内部服务凭证。
 5. **多张表无 `organization_id`。** `repositories`、`skills` 及其 6 张从表、`credentials`、`alert_rules`、`alert_events`、`trace_sessions`、`trace_events`、`log_entries`、`recovery_cases` 及 2 张从表、`decision_chain_nodes`、`decision_embeddings`、`mcp_server_policies`、`llm_usage` 没有租户列；`plan_steps`、`handoffs`、`context_*`、`scm_*`、`delivery_policies` 只能经父表关联。本文把无法关联的表按平台级处理。需要用户裁定租户隔离范围。
 6. **四张幂等表没有输入摘要列。** “同键异输入 409”只能比较已存行的对应列；无法保存创建契约 §3 的规范化摘要与 `schemaVersion`。需要方案作者决定是否补列。
-7. **YOLO 自动许可的记录主体。** `review_requests.decided_by` 指向 `users`，ADR-0006 §2 当前阶段的自动许可没有用户主体。本文已用空 `decided_by` 与 `decision_note=auto:yolo` 表达（4.5），待确认。
+7. **YOLO 自动许可的记录主体。** `review_requests.decided_by` 指向 `users`，ADR-0006 §2 当前阶段的自动许可没有用户主体。本文已用空 `decided_by` 与 `decision_note=auto:yolo` 表达（4.5），待确认。ADR-0022 要求所有决议落本表，自动许可行与此一致。
 8. **`messages.room_id`、`subject` 必填。** ADR-0018 规定首条消息提交后才异步准备房间，此时 `room_id` 不存在；消息契约 §2 只有 `content` 一个字段。本文照方案要求两者必填。需要方案作者决定改为可空。
 9. **一人一会话。** 会话表 1:1 并入 `users`，第二个浏览器登录使第一个失效。需要用户确认可接受。
 10. **`skill_approvals.version_id` 唯一。** 驳回后同一版本不能再次发起审核，需新建版本。需要用户确认。
@@ -1977,3 +1993,4 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 21. **`agent_teams` 没有 `resource_ref`。** ADR-0012 的上游 Project 引用需要编制级落点，方案中 `resource_ref` 列只属于 `agents`。本文把成员级引用放在 `agents.resource_ref`，派单级放在 `task_assignments.dispatch_ref`；编制级引用无落点。需要方案作者或用户裁定。
 22. **`GET /api/repositories/url-type` 无对应端点。** 本文建议并入 `POST /api/v1/repositories` 的校验。需要用户确认。
 23. **`events` 无 `project_id`，`tasks`、`messages` 无时间列。** 项目级订阅只能按 `taskId` 或 `correlationId` 逐个建立；`tasks`、`messages` 列表只能按 `id` 排，无法做时间线。建议方案补列。
+24. **`decision_chain_nodes` 无 `status` 列。** B11 重规划协议要求 BLOCKED 上报与重规划分别落 `status=blocked`、`status=adjusted` 节点（4.3、5.3）；方案该表只有 `action`、`rationale`、`context_ref`。本文沿用协议用词，落点待方案作者补列或改用 `action`。

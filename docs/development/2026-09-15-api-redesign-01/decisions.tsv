@@ -14,3 +14,5 @@ ts	phase	decision	why	evidence	result
 2026-09-15T13:14:18Z	subtract	删除 23 个文件时没有在 docs/archive 留副本，归档 README 只记录最后版本所在的 main 提交 f0b0e68	旧目录 14005 行且 HTML 由脚本生成，git 历史已是完整副本	docs/archive/2026-09-15-api-database-catalog/README.md	已写明来源提交
 2026-09-15T13:14:18Z	subtract	把校验脚本的‘现行文档不得出现 api-database/’放宽为只拦 Markdown 链接	HANDOFF、索引与新文档需要在正文里提到已删目录的名字来解释去向	commit 82faa5c 中 verify_api_doc.py 的 check_no_live_reference	完成判据第 1 条按此口径
 2026-09-15T13:14:18Z	audit	补正日志证据：第 2 行迁移文件为 0001_schema_migrations.sql 至 0008_decision_chain.sql；第 5 行对应提交 82faa5c；第 10 行的写作规格已复制为本目录 api-spec.md；复核 59 条的逐条裁定写入 review-triage.md	决策日志复核指出多处 evidence 不能从仓库打开	docs/development/2026-09-15-api-redesign-01/api-spec.md, review-triage.md	已补
+2026-09-15T13:34:02Z	sync	用户重申 HTML 为新数据库设计；核对该文件与 origin/main 字节一致，但 main 多出 ADR 0021、0022、决策链改号 0023 与 B11 重规划协议，于是变基并同步文档	文档引用的 ADR-0021 已指向另一份 ADR，不同步就是错引	git diff --stat f0b0e68 origin/main -- docs	校验脚本按 23 份 ADR 通过，失败 0
+2026-09-15T13:34:02Z	sync	新增唯一端点 POST /api/v1/plans/{planId}/apply，并让 tasks.status 增加 superseded；聊天批复按 ADR-0022 二选一选择‘不构成决议’	B11 协议要求完整快照 apply 与 SUPERSEDED 迁移；聊天适配协议被 ADR-0022 明确留给消息专题	docs/current/api-design.md §4.3、§4.5、§5.1	记入附录 E 待用户确认
