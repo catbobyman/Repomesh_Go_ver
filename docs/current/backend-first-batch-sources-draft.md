@@ -5,7 +5,7 @@ design_revision: RM-FIRST-SOURCES-r1
 implementation: not-started
 ---
 
-> **物理承载替代说明（2026-09-15）：** B04 已实现的来源与模型表保持不变；B05 起的政策、绑定与导入承载及锁序以 [B05-B11 物理合表](b05-b11-storage-consolidation.md)为准，本文候选状态和逻辑语义不变。
+> **物理承载替代说明（2026-09-15 更新）：** 本文的逻辑契约与候选状态不变。物理表承载自 2026-09-15 起以 [Go 版数据库重构方案](../RepoMesh_Go版数据库重构方案.html) 的 44 张目标表为准，对应接口见 [API 设计](api-design.md)；此前的 B05-B11 物理合表已归档到 [历史目录](../archive/2026-09-15-api-database-catalog/README.md)。
 
 # 首批真实配置与秘密来源 · 完整待审方案
 

@@ -61,6 +61,7 @@ validation/               历史实验、脚本与证据
 | 修改配套发布 | [build.ps1](scripts/build.ps1)、[版本信息](internal/buildinfo/version.go)、[开发说明](docs/current/development-scaffold.md) |
 | 设计或实现具体业务页面 | [原型导航](docs/prototypes/README.md)、[页面与接口交接](docs/current/HANDOFF-PAGE-API-DESIGN.md)、[页面专题](docs/current/conversation-issue-separation-design.md) |
 | 实现浏览器接口 | [Issue 创建契约](docs/current/issue-page-create-api-contract.md)、[首批浏览器契约](docs/current/first-batch-browser-api-contract.md) |
+| 查数据库方案或设计新接口 | [Go 版数据库重构方案](docs/RepoMesh_Go版数据库重构方案.html)、[API 设计](docs/current/api-design.md)，改动后运行 `docs/development/2026-09-15-api-redesign-01/scripts/verify_api_doc.py` |
 | 实现持久化与后台用例 | [后端交接](docs/current/HANDOFF-BACKEND-DESIGN.md)、[首批持久化设计](docs/current/backend-first-batch-persistence.md)、[后端专项](docs/current/draft-conversation-backend-design.md) |
 | 调查或适配 AgentTeams | [上游说明](third_party/README.md)、[来源记录](third_party/agentteams-source.json)，再读所涉上游目录及其适用的 AGENTS.md |
 | 判断 AgentTeams 能力是否经过实测 | [骨架阶段证据索引](docs/current/scaffold-agentteams-evidence.md)，再追溯对应轮次报告、evidence 和 scripts；后续新增结论从当前交接查找 |

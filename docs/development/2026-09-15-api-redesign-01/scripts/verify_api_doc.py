@@ -153,8 +153,8 @@ def check_no_live_reference() -> None:
     for f in files:
         if not f.exists():
             continue
-        if "api-database/" in f.read_text(encoding="utf-8"):
-            fail(f"现行文档仍引用已删除目录：{f.relative_to(ROOT)}")
+        if re.search(r"\]\([^)]*api-database/", f.read_text(encoding="utf-8")):
+            fail(f"现行文档仍链接已删除目录：{f.relative_to(ROOT)}")
     if (ROOT / "docs" / "api-database").exists():
         fail("docs/api-database 目录仍然存在")
 

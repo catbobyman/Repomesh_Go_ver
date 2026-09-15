@@ -42,10 +42,8 @@ LIVE-09、LIVE-10 的既有通过结果保留。second-account-02 的 LIVE-05 �
 
 页面 F01—F15 入口见[页面交接](HANDOFF-PAGE-API-DESIGN.md)，旧后端 B01—B08 专题入口见[后端交接](HANDOFF-BACKEND-DESIGN.md)。这些专题编号与施工计划编号分别解释。历史任务指令、协作名单和运行记录不自动成为新的授权。
 
-## B00-B11 API 与数据库文档入口
+## 数据库方案与 API 设计入口
 
-新增 [API 与数据库设计目录](../api-database/README.md)，包含 HTML 与同内容 Markdown，覆盖共同规则和 B00 至 B11。B08 复用前序接口与表进行验收设计，B10 的基础执行身份由 B11 复用。章节分别标明实现、采用与候选状态；文档制作不代表 B05-B11 产品实现或业务验收完成。制作结果和复核限制见 [本轮记录](../development/2026-09-15-api-db-catalog-01/README.md)。
+2026-09-15 起，正式数据库方案是 [Go 版数据库重构方案](../RepoMesh_Go版数据库重构方案.html)：7 个功能方向 44 张目标表，含 Skill 体系 7 张新表与运行账本 13 张。对应接口见 [API 设计](api-design.md)，按同样 7 个方向组织，并给出每张表到资源的映射、状态机、幂等与错误约定，以及与现有已实现端点的对应关系。两者都是设计：目标表尚无迁移文件，现有 `0001` 至 `0008` 迁移的 40 张表到目标表的迁移映射未定义；新 API 中除“已实现”标记的端点外都未实现。
 
-## B05-B11 物理合表入口
-
-[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录 2026-09-15 用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 34 张，B01-B04 的 36 张手册基线表、0007 扫描表 1 张与 0008 决策链 3 张保持不动；手册范围 70 张，全仓含扩展 74 张。合表只改变物理承载，候选、提案、实现与验收状态不变。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json)，制作进度、检查结果与限制见 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md) 和 [主分支同步记录](../development/2026-09-15-table-consolidation-main-sync.md)；该记录不代表数据库行为已验证。
+原 `docs/api-database/` 目录（B00-B11 批次视角、63→34 合表）已删除，B05-B11 物理合表专题一并归档，说明见 [归档记录](../archive/2026-09-15-api-database-catalog/README.md)。本轮改动、校验脚本与限制见 [制作记录](../development/2026-09-15-api-redesign-01/README.md)。

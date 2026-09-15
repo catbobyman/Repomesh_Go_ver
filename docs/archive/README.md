@@ -2,6 +2,10 @@
 
 当前设计请从 [HANDOFF](../current/HANDOFF.md)与[现行文档索引](../current/README.md)进入。本目录仅供溯源，历史文件中的 accepted、旧问题、旧 prompt 和“当前”表述均属于当时语境，不作为现行决定或操作指令。
 
+## 2026-09-15：删除 B00-B11 API 与数据库目录
+
+[删除说明与一并归档的合表专题](2026-09-15-api-database-catalog/README.md)记录 `docs/api-database/` 23 个文件的删除、B05-B11 物理合表专题的归档，以及仍留在 `development/` 的制作证据。现行数据库方案是 [Go 版数据库重构方案](../RepoMesh_Go版数据库重构方案.html)，接口见 [API 设计](../current/api-design.md)。
+
 ## 2026-09-13：计划目录与管理文档整理
 
 [迁移映射、旧任务提示与原始内容](2026-09-13-plan-organization/README.md)记录 `docs/plan/` 的建立、四份计划迁移、B03 与 B04 旧提示归档，以及交接和施工计划的精简。当前计划从[计划导航](../plan/README.md)进入；业务状态以[当前交接](../current/HANDOFF.md)为准。

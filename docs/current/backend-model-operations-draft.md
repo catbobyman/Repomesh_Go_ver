@@ -6,7 +6,7 @@ review_revision: R01-2026-09-12-candidate
 implementation: not-started
 ---
 
-> **物理承载替代说明（2026-09-15）：** 本文 B05 的存储承载与锁序由 [B05-B11 物理合表](b05-b11-storage-consolidation.md)统一；B05 的候选状态、字段和 API 契约不变，B01-B04 已实现表与逻辑契约继续以原采用记录为准。
+> **物理承载替代说明（2026-09-15 更新）：** 本文的逻辑契约与候选状态不变。物理表承载自 2026-09-15 起以 [Go 版数据库重构方案](../RepoMesh_Go版数据库重构方案.html) 的 44 张目标表为准，对应接口见 [API 设计](api-design.md)；此前的 B05-B11 物理合表已归档到 [历史目录](../archive/2026-09-15-api-database-catalog/README.md)。
 
 # 首批模型保存、测试与专用应用 · 内部完整待审稿
 

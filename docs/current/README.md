@@ -100,10 +100,11 @@
 | [09-12 审查](../reviews/2026-09-12-design-readiness/README.md) · [修订检查](../reviews/2026-09-12-design-fixes/README.md) | 历史证据及限定检查，不代表真实业务通过。 |
 | [计划目录整理与旧任务提示](../archive/2026-09-13-plan-organization/README.md) · [全部历史](../archive/README.md) | 已过期 B03、B04 提示，整理前交接、计划、迁移映射与原始字节；更早归档从历史总导航进入。 |
 
-## 按批次查看 API 与数据库设计
+## 数据库方案与 API 设计
 
-[B00-B11 API 与数据库目录](../api-database/README.md) 提供 [HTML 手册](../api-database/index.html) 和对应 Markdown，集中列出接口、字段、关系、事务、恢复与设计理由。已实现、已采用设计、既有候选和本次提案分别标记。既有专题与采用记录继续决定采用范围，新目录不改变产品或验收状态。
+| 文档 | 用途与范围 |
+| --- | --- |
+| [Go 版数据库重构方案](../RepoMesh_Go版数据库重构方案.html) | 正式数据库方案：7 个功能方向 44 张目标表，每张表的字段、来源与关联。目标表尚无迁移文件。 |
+| [API 设计](api-design.md) | 按同样 7 个方向组织的 HTTP 接口设计：通用约定、逐资源端点与字段、状态机、表与资源映射、与现有端点的对应、待决事项。除标注“已实现”的端点外均未实现。 |
 
-## B05-B11 物理合表
-
-[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 34 张，B01-B04 的 36 张手册基线表、0007 扫描表与 0008 决策链 3 张保持不动；手册范围 70 张，全仓含扩展 74 张。合表只改变物理承载，已采用逻辑契约、各候选与验收状态不变；相关专题顶部的替代说明只把 B05 与物理承载、锁序指向该文。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json) 和 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md)，上游同步见 [主分支同步记录](../development/2026-09-15-table-consolidation-main-sync.md)。
+原 `docs/api-database/` 目录与 B05-B11 物理合表专题已于 2026-09-15 删除或归档，见 [归档记录](../archive/2026-09-15-api-database-catalog/README.md)。

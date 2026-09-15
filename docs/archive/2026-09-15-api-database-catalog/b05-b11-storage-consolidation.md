@@ -1,8 +1,10 @@
-# B05-B11 物理合表与表清单
+# B05-B11 物理合表与表清单（已归档）
+
+> **归档说明（2026-09-15）：** 本文描述的 63→34 合表方案及其依赖的 `docs/api-database/` 目录已被 [Go 版数据库重构方案](../../RepoMesh_Go版数据库重构方案.html)（44 张目标表）替代，对应接口见 [API 设计](../../current/api-design.md)。下文保留归档时原貌，其中指向 `docs/api-database/` 的链接目标已随目录一并删除，改为纯文本；`docs/development/` 中的制作证据仍在原处。
 
 更新：2026-09-15。用户已批准把 B05-B11 的 63 张候选或提案表按物理承载合到 34 张，净减 29 张，约 46%。本文是合表的长期入口，记录范围、批次、旧表映射、声明格式、计数口径和校验命令。
 
-**状态：design_only。** 合表只改变物理承载。B01-B04 的现有表和已采用逻辑契约不变，B05-B11 的功能候选、提案、未实施与验收状态也不因合表或文档生成而改变。清单和校验是静态设计事实，不是数据库行为验证；清单冻结状态以 [table-manifest.json](../api-database/table-manifest.json) 的 `status` 字段为准。
+**状态：design_only。** 合表只改变物理承载。B01-B04 的现有表和已采用逻辑契约不变，B05-B11 的功能候选、提案、未实施与验收状态也不因合表或文档生成而改变。清单和校验是静态设计事实，不是数据库行为验证；清单冻结状态以 `table-manifest.json`（已删除） 的 `status` 字段为准。
 
 ## 范围与计数
 
@@ -86,7 +88,7 @@ B10/B11 的旧 20 张提案先合到 11 张承载，再补 1 张业务计划版�
 
 ### 业务计划版本与执行层计划修订
 
-- `repomesh_execution.business_plan_versions` 是业务 Plan Version：保存业务目标、范围、验收依据、政策引用和循环上限，以及许可、激活和当前生效摘要。B10 的单轮执行首次需要，B11 跨轮复用。最终设计见 [b10.md](../api-database/b10.md)；设计决策与复核过程见 [business-plan-versions.md](../development/2026-09-15-table-consolidation-01/analysis/business-plan-versions.md) 和 [review-business-plan.md](../development/2026-09-15-table-consolidation-01/analysis/review-business-plan.md)，以最终正文为准。
+- `repomesh_execution.business_plan_versions` 是业务 Plan Version：保存业务目标、范围、验收依据、政策引用和循环上限，以及许可、激活和当前生效摘要。B10 的单轮执行首次需要，B11 跨轮复用。最终设计见 `b10.md`（已删除）；设计决策与复核过程见 [business-plan-versions.md](../../development/2026-09-15-table-consolidation-01/analysis/business-plan-versions.md) 和 [review-business-plan.md](../../development/2026-09-15-table-consolidation-01/analysis/review-business-plan.md)，以最终正文为准。
 - `repomesh_execution.plan_revisions` 是执行层的技术安排：一轮内每个仓库的上游绑定、任务集合和当前指针。两者身份、写入者和生命周期不同，不互相改名，也不合并成一张表。
 - 许可决定与逐目标绑定不新增物理表：`execution_records` 增加 `business_plan_decision` 与 `business_plan_target` 两个明确子型，执行观察仍归计划应用组。
 - B06 的 `repomesh_issues.issues` 在 B10 实施时增补 3 列：`current_business_plan_version_id`、`business_plan_pointer_revision`、`next_business_plan_version_index`。它们不改变 B06 的 6 张表计数，首次建 Issue 时业务指针为空。
@@ -94,7 +96,7 @@ B10/B11 的旧 20 张提案先合到 11 张承载，再补 1 张业务计划版�
 
 ## 声明与机器清单
 
-完整的 63 条映射、批次归属和快照来源在 [table-manifest.json](../api-database/table-manifest.json)。每张目标物理表只在所属批次正文声明一次，独立一行：
+完整的 63 条映射、批次归属和快照来源在 `table-manifest.json`（已删除）。每张目标物理表只在所属批次正文声明一次，独立一行：
 
 ```text
 物理表：`repomesh_issues.issues`
@@ -122,4 +124,4 @@ python3 docs/api-database/verify_design.py --baseline docs/development/2026-09-1
 - 不改产品代码、SQL 迁移、已实现表或历史证据。
 - 不把 B05-B11 的候选、提案或未实施状态升级为已采用或已实现。
 - 静态清单与生成检查不执行迁移，不证明并发、恢复或任何数据库行为已经验证。
-- 合表设计与逐条裁决副本见 [本轮证据](../development/2026-09-15-table-consolidation-01/README.md)。
+- 合表设计与逐条裁决副本见 [本轮证据](../../development/2026-09-15-table-consolidation-01/README.md)。

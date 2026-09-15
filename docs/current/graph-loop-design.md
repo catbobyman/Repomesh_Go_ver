@@ -1,6 +1,6 @@
 # Graph／Loop：复用上游 DAG 与 RepoMesh 协调
 
-> **物理承载替代说明（2026-09-15）：** 已采用的 Graph 复用方向与职责边界不变；B10/B11 的轮次、计划、操作与证据表承载和锁序以 [B05-B11 物理合表](b05-b11-storage-consolidation.md)为准。
+> **物理承载替代说明（2026-09-15 更新）：** 本文的逻辑契约与候选状态不变。物理表承载自 2026-09-15 起以 [Go 版数据库重构方案](../RepoMesh_Go版数据库重构方案.html) 的 44 张目标表为准，对应接口见 [API 设计](api-design.md)；此前的 B05-B11 物理合表已归档到 [历史目录](../archive/2026-09-15-api-database-catalog/README.md)。
 
 更新：2026-09-10，补充新版上游验证事实。本文是 Graph／Loop 的现行专题。用户已采用“按最新版本复用 AgentTeams 原生 DAG，不重写全部能力”，并要求清理、更新相关文档。职责调整记录在 [ADR-0014](../adr/0014-in-process-graph-plugin.md)／[ADR-0015](../adr/0015-round-scoped-upstream-dags.md) 的 09-09 补充；[ADR-0007](../adr/0007-graph-loop-plugin.md) 的流程与循环规则继续有效。
 

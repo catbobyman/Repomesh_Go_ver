@@ -44,8 +44,8 @@
 
 采用状态按具体章节和后续替代关系判断。计划完成、设计通过复核、代码已实现和运行验收通过分别记录；目录整理不改变业务决定。
 
-## API 与数据库设计阅读目录
+## 数据库方案与 API 设计
 
-[api-database/](./api-database/README.md) 长期保存按 B00 至 B11 组织的 API、数据库字段、事务、恢复和设计理由，提供同内容的 [HTML 手册](./api-database/index.html)。已采用条目引用 current/ 中的专题与采用记录，不另立采用权威。本次新增提案在采用前由该目录维护，采用后同步专题及采用记录并说明替代关系。HTML 由 Markdown 生成，不单独编辑。
+[RepoMesh_Go版数据库重构方案.html](./RepoMesh_Go版数据库重构方案.html) 是正式数据库方案，按 7 个功能方向定义 44 张目标表。[API 设计](./current/api-design.md) 按同样的方向定义 HTTP 接口，并维护表与资源的映射。修改任一方时同步另一方，并运行 `python3 docs/development/2026-09-15-api-redesign-01/scripts/verify_api_doc.py` 核对映射、ADR 引用和链接。
 
-逐次制作和复核证据仍放 development/，本轮见 [制作记录](./development/2026-09-15-api-db-catalog-01/README.md)。
+原 `docs/api-database/` 目录已于 2026-09-15 删除，说明与一并归档的专题见 [归档记录](./archive/2026-09-15-api-database-catalog/README.md)；此前的制作证据仍在 `development/` 原处。

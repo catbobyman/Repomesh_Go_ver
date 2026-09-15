@@ -1,6 +1,6 @@
 # ChangeSet 逻辑结构说明
 
-> **物理承载替代说明（2026-09-15）：** 本文三层结构仍是逻辑说明，不是物理表冻结；物理承载（含 `repomesh_execution.change_set_versions` 的 candidate/combination 子型）与锁序以 [B05-B11 物理合表](b05-b11-storage-consolidation.md)为准。
+> **物理承载替代说明（2026-09-15 更新）：** 本文的逻辑契约与候选状态不变。物理表承载自 2026-09-15 起以 [Go 版数据库重构方案](../RepoMesh_Go版数据库重构方案.html) 的 44 张目标表为准，对应接口见 [API 设计](api-design.md)；此前的 B05-B11 物理合表已归档到 [历史目录](../archive/2026-09-15-api-database-catalog/README.md)。
 
 依据：[已确认设计](changeset-design.md)及 [ADR-0008](../adr/0008-changeset-attribution-and-history.md)。下面解释这些规则可以怎样组织成可查询的记录；分组、字段名、修订号表示及示例是逻辑结构建议，不是已冻结的数据库表、JSON Schema 或现有接口。
 
