@@ -3,6 +3,8 @@ package decisionchain
 import (
 	"context"
 	"errors"
+	"fmt"
+	"sync"
 	"testing"
 	"time"
 
@@ -127,5 +129,119 @@ func TestPostgresFeatureSettings(t *testing.T) {
 	}
 	if err := store.SetFeature(ctx, "decision_chain", true, "xiaochen", time.Now()); err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestPostgresEmbeddingAndRecall(t *testing.T) {
+	pool := testdb.Open(t)
+	store := NewPostgresStore(pool)
+	ctx := context.Background()
+
+	node, err := store.Record(ctx, nodeWrite{
+		EventID: "evt-emb-1", RequirementText: "向量检索用需求",
+		RequirementKey: RequirementKey("向量检索用需求"),
+		Step:           StepConfirmation, Status: StatusConfirmed, ActorID: "u1",
+		Action: "范围圈定确认", Rationale: "r", ContextRef: map[string]any{},
+		AffectedRepositories: []string{"repo-vec"}, Source: SourceEvent,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pending, err := store.PendingEmbeddings(ctx, "m1", 10)
+	if err != nil || len(pending) != 1 || pending[0].ID != node.ID {
+		t.Fatalf("pending before embed: %d hits, err %v", len(pending), err)
+	}
+
+	vec := make([]float32, 1024)
+	vec[0] = 1
+	if err := store.UpsertEmbedding(ctx, node.ID, "m1", vec, time.Now()); err != nil {
+		t.Fatalf("upsert embedding: %v", err)
+	}
+	if pending, _ = store.PendingEmbeddings(ctx, "m1", 10); len(pending) != 0 {
+		t.Fatalf("pending after embed with current model: %d", len(pending))
+	}
+	// Model mismatch re-surfaces the node for re-embedding (F5).
+	if pending, _ = store.PendingEmbeddings(ctx, "m2", 10); len(pending) != 1 {
+		t.Fatal("model mismatch must resurface the node")
+	}
+
+	hits, err := store.SemanticCandidates(ctx, "m1", vec, 5)
+	if err != nil || len(hits) != 1 || hits[0].Node.ID != node.ID {
+		t.Fatalf("semantic candidates: %d hits, err %v", len(hits), err)
+	}
+	if hits[0].Score < 0.999 {
+		t.Fatalf("identical vector score = %f, want ~1", hits[0].Score)
+	}
+	if hits, _ = store.SemanticCandidates(ctx, "m2", vec, 5); len(hits) != 0 {
+		t.Fatal("model filter must hide other-model vectors")
+	}
+
+	structural, err := store.StructuralCandidates(ctx, []string{"repo-vec"}, 5)
+	if err != nil || len(structural) != 1 || structural[0].ID != node.ID {
+		t.Fatalf("structural candidates: %d hits, err %v", len(structural), err)
+	}
+	if structural, _ = store.StructuralCandidates(ctx, []string{"no-such-repo"}, 5); len(structural) != 0 {
+		t.Fatal("unmatched repository must not hit")
+	}
+
+	// Re-embed: same row replaced in place, not duplicated.
+	vec2 := make([]float32, 1024)
+	vec2[1] = 1
+	if err := store.UpsertEmbedding(ctx, node.ID, "m1", vec2, time.Now()); err != nil {
+		t.Fatal(err)
+	}
+	hits, err = store.SemanticCandidates(ctx, "m1", vec2, 5)
+	if err != nil || len(hits) != 1 || hits[0].Score < 0.999 {
+		t.Fatalf("re-embed should replace in place: %d hits, err %v", len(hits), err)
+	}
+}
+
+func TestPostgresConcurrentConfirmationsGetDistinctVersions(t *testing.T) {
+	pool := testdb.Open(t)
+	store := NewPostgresStore(pool)
+	ctx := context.Background()
+
+	const writers = 8
+	key := RequirementKey("并发圈定需求")
+	var wg sync.WaitGroup
+	versions := make(chan int, writers)
+	errs := make(chan error, writers)
+	for i := 0; i < writers; i++ {
+		wg.Add(1)
+		go func(i int) {
+			defer wg.Done()
+			node, err := store.Record(ctx, nodeWrite{
+				EventID: fmt.Sprintf("evt-c-%d", i), RequirementText: key,
+				RequirementKey: key, Step: StepConfirmation, Status: StatusConfirmed,
+				ActorID: "u", Action: "范围圈定确认", Rationale: "并发",
+				ContextRef: map[string]any{}, AffectedRepositories: []string{},
+				Source: SourceEvent,
+			})
+			if err != nil {
+				errs <- err
+				return
+			}
+			versions <- node.Version
+		}(i)
+	}
+	wg.Wait()
+	close(errs)
+	if err := <-errs; err != nil {
+		t.Fatalf("concurrent record failed: %v", err)
+	}
+	close(versions)
+	seen := map[int]bool{}
+	for v := range versions {
+		if v < 1 {
+			t.Fatalf("bad version %d", v)
+		}
+		if seen[v] {
+			t.Fatalf("duplicate version %d", v)
+		}
+		seen[v] = true
+	}
+	if len(seen) != writers {
+		t.Fatalf("got %d distinct versions, want %d", len(seen), writers)
 	}
 }

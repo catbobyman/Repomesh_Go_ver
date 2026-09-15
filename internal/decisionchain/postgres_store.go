@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -23,21 +22,25 @@ type PostgresStore struct {
 // NewPostgresStore builds the store (composition root only).
 func NewPostgresStore(pool *pgxpool.Pool) *PostgresStore { return &PostgresStore{pool: pool} }
 
-const nodeColumns = `id, event_id, requirement_text, requirement_key,
-  COALESCE(project_id::text, ''), COALESCE(parent_node_id::text, ''),
-  step, version, status, actor_type, actor_id, action, rationale,
-  context_ref, affected_repositories, source, created_at`
+// nodeColumns selects the node columns through the alias n: the JOIN queries
+// against decision_embeddings share the id column name, and unqualified
+// columns are ambiguous there (审查 C1).
+const nodeColumns = `n.id, n.event_id, n.requirement_text, n.requirement_key,
+  COALESCE(n.project_id::text, ''), COALESCE(n.parent_node_id::text, ''),
+  n.step, n.version, n.status, n.actor_type, n.actor_id, n.action, n.rationale,
+  n.context_ref, n.affected_repositories, n.source, n.created_at`
 
-func scanNode(row pgx.Row) (DecisionNode, error) {
+func scanNode(row pgx.Row, extra ...any) (DecisionNode, error) {
 	var (
-		n                     DecisionNode
-		eventID               *string
-		contextRef, repos     []byte
+		n                 DecisionNode
+		eventID           *string
+		contextRef, repos []byte
 	)
-	if err := row.Scan(&n.ID, &eventID, &n.RequirementText, &n.RequirementKey,
+	dest := []any{&n.ID, &eventID, &n.RequirementText, &n.RequirementKey,
 		&n.ProjectID, &n.ParentNodeID, &n.Step, &n.Version, &n.Status,
 		&n.ActorType, &n.ActorID, &n.Action, &n.Rationale,
-		&contextRef, &repos, &n.Source, &n.CreatedAt); err != nil {
+		&contextRef, &repos, &n.Source, &n.CreatedAt}
+	if err := row.Scan(append(dest, extra...)...); err != nil {
 		return DecisionNode{}, err
 	}
 	if eventID != nil {
@@ -58,15 +61,12 @@ func scanNode(row pgx.Row) (DecisionNode, error) {
 	return n, nil
 }
 
-// Record inserts one node; idempotent by event_id, versioned per
-// (requirement_key, step) with a single retry against the unique index (F9).
+// Record inserts one node; idempotent by event_id. Version assignment is
+// serialized per (requirement_key, step) by a transaction-scoped advisory
+// lock, so the partial unique index stays a pure backstop (F9 修正：重试
+// 换加锁，重试在并发下不保证成功，加锁才是根因解).
 func (p *PostgresStore) Record(ctx context.Context, w nodeWrite) (DecisionNode, error) {
-	node, err := p.recordOnce(ctx, w)
-	if isUniqueViolation(err) {
-		// Concurrent confirmation of the same requirement: re-read max(version).
-		node, err = p.recordOnce(ctx, w)
-	}
-	return node, err
+	return p.recordOnce(ctx, w)
 }
 
 func (p *PostgresStore) recordOnce(ctx context.Context, w nodeWrite) (DecisionNode, error) {
@@ -75,6 +75,13 @@ func (p *PostgresStore) recordOnce(ctx context.Context, w nodeWrite) (DecisionNo
 		return DecisionNode{}, err
 	}
 	defer tx.Rollback(ctx)
+
+	// Serialize same-chain writers so max+1 cannot race.
+	if _, err := tx.Exec(ctx,
+		`SELECT pg_advisory_xact_lock(hashtextextended($1, 0))`,
+		w.RequirementKey+":"+string(w.Step)); err != nil {
+		return DecisionNode{}, err
+	}
 
 	var version int
 	if err := tx.QueryRow(ctx,
@@ -129,20 +136,20 @@ func (p *PostgresStore) recordOnce(ctx context.Context, w nodeWrite) (DecisionNo
 
 func (p *PostgresStore) byEventID(ctx context.Context, tx pgx.Tx, eventID string) (DecisionNode, error) {
 	row := tx.QueryRow(ctx,
-		`SELECT `+nodeColumns+` FROM public.decision_chain_nodes WHERE event_id = $1 LIMIT 1`, eventID)
+		`SELECT `+nodeColumns+` FROM public.decision_chain_nodes n WHERE n.event_id = $1 LIMIT 1`, eventID)
 	return scanNode(row)
 }
 
 func (p *PostgresStore) byID(ctx context.Context, tx pgx.Tx, id string) (DecisionNode, error) {
 	row := tx.QueryRow(ctx,
-		`SELECT `+nodeColumns+` FROM public.decision_chain_nodes WHERE id = $1`, id)
+		`SELECT `+nodeColumns+` FROM public.decision_chain_nodes n WHERE n.id = $1`, id)
 	return scanNode(row)
 }
 
 // Get reads one node by id; pgx.ErrNoRows when absent.
 func (p *PostgresStore) Get(ctx context.Context, id string) (*DecisionNode, error) {
 	row := p.pool.QueryRow(ctx,
-		`SELECT `+nodeColumns+` FROM public.decision_chain_nodes WHERE id = $1`, id)
+		`SELECT `+nodeColumns+` FROM public.decision_chain_nodes n WHERE n.id = $1`, id)
 	node, err := scanNode(row)
 	if err != nil {
 		return nil, err
@@ -178,9 +185,9 @@ func (p *PostgresStore) List(ctx context.Context, f Filter) ([]DecisionNode, err
 		limit = 200
 	}
 	args = append(args, limit, f.Offset)
-	rows, err := p.pool.Query(ctx, `SELECT `+nodeColumns+` FROM public.decision_chain_nodes
+	rows, err := p.pool.Query(ctx, `SELECT `+nodeColumns+` FROM public.decision_chain_nodes n
 		WHERE `+strings.Join(where, " AND ")+`
-		ORDER BY created_at DESC LIMIT $`+strconv.Itoa(len(args)-1)+` OFFSET $`+strconv.Itoa(len(args)),
+		ORDER BY n.created_at DESC, n.id DESC LIMIT $`+strconv.Itoa(len(args)-1)+` OFFSET $`+strconv.Itoa(len(args)),
 		args...)
 	if err != nil {
 		return nil, err
@@ -200,6 +207,9 @@ func (p *PostgresStore) List(ctx context.Context, f Filter) ([]DecisionNode, err
 // PendingEmbeddings returns nodes whose embedding row is missing or was made
 // with a different model (F5 model-mix guard).
 func (p *PostgresStore) PendingEmbeddings(ctx context.Context, model string, limit int) ([]DecisionNode, error) {
+	if limit <= 0 {
+		return nil, nil
+	}
 	rows, err := p.pool.Query(ctx, `SELECT `+nodeColumns+`
 		FROM public.decision_chain_nodes n
 		LEFT JOIN public.decision_embeddings e ON e.node_id = n.id
@@ -237,18 +247,16 @@ func (p *PostgresStore) UpsertEmbedding(ctx context.Context, nodeID, model strin
 		  embedding_vec = EXCLUDED.embedding_vec,
 		  embedded_at = EXCLUDED.embedded_at`,
 		nodeID, encoded, model, formatVector(vec), embeddedAt)
-	if err != nil {
-		return err
-	}
-	if tag.RowsAffected() == 0 {
-		return pgx.ErrNoRows
-	}
-	return nil
+	_ = tag
+	return err
 }
 
 // SemanticCandidates orders current-model embeddings by cosine distance to
 // the query vector (pgvector HNSW path); score = 1 - distance.
 func (p *PostgresStore) SemanticCandidates(ctx context.Context, model string, query []float32, limit int) ([]ScoredNode, error) {
+	if limit <= 0 {
+		return nil, nil
+	}
 	rows, err := p.pool.Query(ctx, `SELECT `+nodeColumns+`,
 		  1 - (e.embedding_vec OPERATOR(public.<=>) $2::public.vector) AS score
 		FROM public.decision_chain_nodes n
@@ -269,9 +277,9 @@ func (p *PostgresStore) StructuralCandidates(ctx context.Context, names []string
 		return nil, nil
 	}
 	rows, err := p.pool.Query(ctx, `SELECT `+nodeColumns+`
-		FROM public.decision_chain_nodes
-		WHERE affected_repositories ?| $1::text[]
-		ORDER BY created_at DESC
+		FROM public.decision_chain_nodes n
+		WHERE n.affected_repositories ?| $1::text[]
+		ORDER BY n.created_at DESC
 		LIMIT $2`, names, limit)
 	if err != nil {
 		return nil, err
@@ -309,47 +317,20 @@ func (p *PostgresStore) SetFeature(ctx context.Context, feature string, enabled 
 		  updated_by = EXCLUDED.updated_by,
 		  updated_at = EXCLUDED.updated_at`,
 		feature, enabled, updatedBy, at)
-	if err != nil {
-		return err
-	}
-	if tag.RowsAffected() == 0 {
-		return pgx.ErrNoRows
-	}
-	return nil
+	_ = tag
+	return err
 }
 
 func collectScored(rows pgx.Rows) ([]ScoredNode, error) {
 	defer rows.Close()
 	hits := []ScoredNode{}
 	for rows.Next() {
-		var (
-			n                 DecisionNode
-			eventID           *string
-			contextRef, repos []byte
-			score             float64
-		)
-		if err := rows.Scan(&n.ID, &eventID, &n.RequirementText, &n.RequirementKey,
-			&n.ProjectID, &n.ParentNodeID, &n.Step, &n.Version, &n.Status,
-			&n.ActorType, &n.ActorID, &n.Action, &n.Rationale,
-			&contextRef, &repos, &n.Source, &n.CreatedAt, &score); err != nil {
+		var score float64
+		node, err := scanNode(rows, &score)
+		if err != nil {
 			return nil, err
 		}
-		if eventID != nil {
-			n.EventID = *eventID
-		}
-		n.ContextRef = map[string]any{}
-		if len(contextRef) > 0 {
-			if err := json.Unmarshal(contextRef, &n.ContextRef); err != nil {
-				return nil, fmt.Errorf("decode context_ref: %w", err)
-			}
-		}
-		n.AffectedRepositories = []string{}
-		if len(repos) > 0 {
-			if err := json.Unmarshal(repos, &n.AffectedRepositories); err != nil {
-				return nil, fmt.Errorf("decode affected_repositories: %w", err)
-			}
-		}
-		hits = append(hits, ScoredNode{Node: n, Score: score})
+		hits = append(hits, ScoredNode{Node: node, Score: score})
 	}
 	return hits, rows.Err()
 }
@@ -368,9 +349,4 @@ func formatVector(vec []float32) string {
 		buf = strconv.AppendFloat(buf, float64(v), 'g', -1, 32)
 	}
 	return string(append(buf, ']'))
-}
-
-func isUniqueViolation(err error) bool {
-	var pgErr *pgconn.PgError
-	return errors.As(err, &pgErr) && pgErr.Code == "23505"
 }

@@ -9,6 +9,7 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -91,7 +92,7 @@ type DecisionNode struct {
 	RequirementText      string         `json:"requirementText"`
 	RequirementKey       string         `json:"requirementKey"`
 	ProjectID            string         `json:"projectId"`
-	ParentNodeID         string         `json:"parentNodeID"`
+	ParentNodeID         string         `json:"parentNodeId"`
 	Step                 DecisionStep   `json:"step"`
 	Version              int            `json:"version"`
 	Status               DecisionStatus `json:"status"`
@@ -157,11 +158,19 @@ func New(cfg Config, pool *pgxpool.Pool) *Service {
 	return &Service{pool: pool, cfg: cfg, store: NewPostgresStore(pool)}
 }
 
+// ErrDisabled is returned by Record while the feature toggle is off. The
+// producer's fail-open policy (F3) treats it as a no-op with a log line.
+var ErrDisabled = errors.New("decisionchain: feature toggle is off")
+
 // Record persists one producer event as a decision node. Idempotent by
 // Event.IdempotencyKey: a redelivery returns the already-stored node without
 // writing again. A record failure must never fail the producer's own flow
-// (F3 fail-open is the caller's policy; this method only reports).
+// (F3 fail-open is the caller's policy; this method only reports). Gated by
+// the feature toggle: off = ErrDisabled, nothing is written (D12).
 func (s *Service) Record(ctx context.Context, e Event) error {
+	if !s.Enabled() {
+		return ErrDisabled
+	}
 	normalized := NormalizeRequirement(e.Requirement)
 	if normalized == "" {
 		return fmt.Errorf("decisionchain: requirement text is required")
@@ -207,9 +216,12 @@ func (s *Service) Record(ctx context.Context, e Event) error {
 }
 
 // Enabled reports the feature toggle (feature_settings row 'decision_chain',
-// missing row counts as on; read errors fail open the same way).
+// missing row counts as on; read errors fail open the same way). Bounded by
+// a short internal timeout so toggle reads cannot hang a request.
 func (s *Service) Enabled() bool {
-	on, err := s.store.FeatureEnabled(context.Background(), "decision_chain")
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+	on, err := s.store.FeatureEnabled(ctx, "decision_chain")
 	if err != nil {
 		return true
 	}
@@ -221,6 +233,7 @@ func (s *Service) Enabled() bool {
 // GET /api/decision-chains/similar, GET /api/decision-chains/semantic-search,
 // POST /api/decision-chains/embeddings/refresh,
 // GET|PUT /api/settings/decision-chain.
+// P4 implementation; body is a stub until then.
 func (s *Service) RegisterRoutes(mux *http.ServeMux) {}
 
 func truncate(text string, max int) string {

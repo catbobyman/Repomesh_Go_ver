@@ -7,6 +7,8 @@
 -- 本仓库连接默认 search_path = pg_catalog（internal/database.Open 的约定，
 -- 强制 schema 全限定名）。下面 SET LOCAL 只在本迁移事务内生效，让扩展对象
 -- 落到 public、HNSW 算子类可解析；业务 SQL 一律 public. 全限定。
+-- 注意：SET LOCAL 持续到 Migrate 事务结束——后续迁移（0009+）若依赖
+-- pg_catalog 优先解析，必须自行 SET LOCAL 或全限定。
 
 SET LOCAL search_path = public, pg_catalog;
 
