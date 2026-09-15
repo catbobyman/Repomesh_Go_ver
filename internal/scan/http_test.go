@@ -63,3 +63,42 @@ func TestScopeAssistSeededFromServiceConfigAtRegistration(t *testing.T) {
 		t.Fatalf("status = %d, want 200 after the runtime override", recorder.Code)
 	}
 }
+
+// The seam fires once per idempotency key: a replay returns the cached
+// receipt without re-notifying, and a nil seam keeps the v1 behavior.
+func TestScopeSubmitFiresDecisionSeamOncePerKey(t *testing.T) {
+	store, _ := scopeFixture()
+	var decisions []ScopeDecision
+	handler := &HTTP{Store: store, OnScopeDecided: func(r *http.Request, d ScopeDecision) {
+		decisions = append(decisions, d)
+	}}
+	body := `{"requirement":"add a billing export","repositoryIds":["t","c"],"idempotencyKey":"k1"}`
+
+	recorder := httptest.NewRecorder()
+	handler.handleScopeSubmit(recorder, httptest.NewRequest("POST", "/api/scope", strings.NewReader(body)))
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status = %d: %s", recorder.Code, recorder.Body.String())
+	}
+	if len(decisions) != 1 || decisions[0].Requirement != "add a billing export" ||
+		decisions[0].IdempotencyKey != "k1" || !decisions[0].Accepted ||
+		len(decisions[0].RepositoryIDs) != 2 {
+		t.Fatalf("decisions = %+v", decisions)
+	}
+
+	recorder = httptest.NewRecorder()
+	handler.handleScopeSubmit(recorder, httptest.NewRequest("POST", "/api/scope", strings.NewReader(body)))
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("replay status = %d: %s", recorder.Code, recorder.Body.String())
+	}
+	if len(decisions) != 1 {
+		t.Fatalf("replay fired the seam again (%d notifications)", len(decisions))
+	}
+
+	plain := &HTTP{Store: store}
+	recorder = httptest.NewRecorder()
+	plain.handleScopeSubmit(recorder, httptest.NewRequest("POST", "/api/scope",
+		strings.NewReader(`{"repositoryIds":["t"],"idempotencyKey":"k2"}`)))
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("nil seam status = %d: %s", recorder.Code, recorder.Body.String())
+	}
+}
