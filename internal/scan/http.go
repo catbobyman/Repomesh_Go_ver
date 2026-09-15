@@ -68,8 +68,16 @@ func (h *HTTP) SetAssistEnabled(enabled bool) { h.assist.Store(enabled) }
 // AssistEnabled reports the switch state.
 func (h *HTTP) AssistEnabled() bool { return h.assist.Load() }
 
-// RegisterRoutes mounts the scan block's endpoints.
+// RegisterRoutes mounts the scan block's endpoints. It also seeds the assist
+// switch from the service config: the env-provided boot default lives on
+// Service, the runtime override on the atomic. Registration happens before
+// any request can arrive, and every construction style (the composite
+// literal in main.go bypasses NewHTTP) routes through here, so this is the
+// one place the default cannot be skipped.
 func (h *HTTP) RegisterRoutes(mux *http.ServeMux) {
+	if h.Service != nil {
+		h.assist.Store(h.Service.cfg.ScopeAssistEnabled)
+	}
 	mux.HandleFunc("GET /api/repositories", h.handleRepositoryList)
 	mux.HandleFunc("GET /api/repositories/url-type", h.handleURLType)
 	mux.HandleFunc("POST /api/repositories", h.guarded(h.handleRepositoryCreate))
