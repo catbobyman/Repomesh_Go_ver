@@ -2,14 +2,17 @@
 // docs/历史决策终版设计-Go蓝图与可开可关-2026-09-15.md, D9-D14). It stores
 // decision nodes (scope confirmations first), embeds them for semantic
 // recall with a structural fallback, and exposes read + toggle APIs.
-//
-// This file is the frozen contract skeleton of 方案清单 §8: signatures the
-// host wiring (track B) compiles against. Implementation lands task by task.
 package decisionchain
 
 import (
 	"context"
+	"crypto/rand"
+	"crypto/sha256"
+	"encoding/hex"
+	"fmt"
 	"net/http"
+	"strings"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -37,26 +40,181 @@ type Config struct {
 	ResolveName func(ctx context.Context, id string) (name string, ok bool)
 }
 
+// DecisionStep is the five-step chain, ordered as the Python contract.
+type DecisionStep string
+
+const (
+	StepClassification DecisionStep = "classification"
+	StepConfirmation   DecisionStep = "confirmation"
+	StepIntegration    DecisionStep = "integration"
+	StepTask           DecisionStep = "task"
+	StepPR             DecisionStep = "pr"
+)
+
+// Valid reports whether the step is one of the five chain steps.
+func (s DecisionStep) Valid() bool {
+	switch s {
+	case StepClassification, StepConfirmation, StepIntegration, StepTask, StepPR:
+		return true
+	}
+	return false
+}
+
+// DecisionStatus enumerates the Python contract's full status set. Phase 1
+// only writes confirmed/rejected (scope accept/reject).
+type DecisionStatus string
+
+const (
+	StatusProposed         DecisionStatus = "proposed"
+	StatusAdjusted         DecisionStatus = "adjusted"
+	StatusConfirmed        DecisionStatus = "confirmed"
+	StatusRejected         DecisionStatus = "rejected"
+	StatusChangesRequested DecisionStatus = "changes_requested"
+	StatusBlocked          DecisionStatus = "blocked"
+	StatusSuperseded       DecisionStatus = "superseded"
+	StatusMerged           DecisionStatus = "merged"
+	StatusClosed           DecisionStatus = "closed"
+)
+
+// NodeSource tells a live event from a manual backfill.
+type NodeSource string
+
+const (
+	SourceEvent    NodeSource = "event"
+	SourceBackfill NodeSource = "backfill"
+)
+
+// DecisionNode is the read shape: one decision sheet.
+type DecisionNode struct {
+	ID                   string         `json:"id"`
+	EventID              string         `json:"eventId"`
+	RequirementText      string         `json:"requirementText"`
+	RequirementKey       string         `json:"requirementKey"`
+	ProjectID            string         `json:"projectId"`
+	ParentNodeID         string         `json:"parentNodeID"`
+	Step                 DecisionStep   `json:"step"`
+	Version              int            `json:"version"`
+	Status               DecisionStatus `json:"status"`
+	ActorType            string         `json:"actorType"`
+	ActorID              string         `json:"actorId"`
+	Action               string         `json:"action"`
+	Rationale            string         `json:"rationale"`
+	ContextRef           map[string]any `json:"contextRef"`
+	AffectedRepositories []string       `json:"affectedRepositories"`
+	Source               NodeSource     `json:"source"`
+	CreatedAt            time.Time      `json:"createdAt"`
+}
+
+// NormalizeRequirement makes the retrieval key stable against accidental
+// whitespace differences (F1): trim edges, collapse internal runs of any
+// unicode whitespace to one space. Case is preserved on purpose — changing
+// it would silently rewrite the requirement.
+func NormalizeRequirement(text string) string {
+	return strings.Join(strings.Fields(text), " ")
+}
+
+// RequirementKey hashes the normalized text into the retrieval/version key
+// (sha256, first 32 hex chars).
+func RequirementKey(normalized string) string {
+	sum := sha256.Sum256([]byte(normalized))
+	return hex.EncodeToString(sum[:])[:32]
+}
+
+// NewUUIDv4 returns a random RFC 4122 version-4 UUID string.
+func NewUUIDv4() string {
+	var raw [16]byte
+	if _, err := rand.Read(raw[:]); err != nil {
+		panic("decisionchain: entropy unavailable: " + err.Error())
+	}
+	raw[6] = (raw[6] & 0x0f) | 0x40
+	raw[8] = (raw[8] & 0x3f) | 0x80
+	dst := make([]byte, 36)
+	hex.Encode(dst[0:8], raw[0:4])
+	dst[8] = '-'
+	hex.Encode(dst[9:13], raw[4:6])
+	dst[13] = '-'
+	hex.Encode(dst[14:18], raw[6:8])
+	dst[18] = '-'
+	hex.Encode(dst[19:23], raw[8:10])
+	dst[23] = '-'
+	hex.Encode(dst[24:36], raw[10:16])
+	return string(dst)
+}
+
 // Service assembles the decision chain module on the shared connection pool.
 // The zero-value is unusable; build it with New.
 type Service struct {
-	pool *pgxpool.Pool
-	cfg  Config
+	pool  *pgxpool.Pool
+	cfg   Config
+	store Store
 }
 
 // New wires the module onto the shared pool (composition root only).
 func New(cfg Config, pool *pgxpool.Pool) *Service {
-	return &Service{pool: pool, cfg: cfg}
+	if cfg.EmbeddingModel == "" {
+		cfg.EmbeddingModel = "bge-m3"
+	}
+	return &Service{pool: pool, cfg: cfg, store: NewPostgresStore(pool)}
 }
 
 // Record persists one producer event as a decision node. Idempotent by
-// Event.IdempotencyKey; a record failure must never fail the producer's own
-// flow (F3 fail-open is the caller's policy, this method only reports).
-func (s *Service) Record(ctx context.Context, e Event) error { return nil }
+// Event.IdempotencyKey: a redelivery returns the already-stored node without
+// writing again. A record failure must never fail the producer's own flow
+// (F3 fail-open is the caller's policy; this method only reports).
+func (s *Service) Record(ctx context.Context, e Event) error {
+	normalized := NormalizeRequirement(e.Requirement)
+	if normalized == "" {
+		return fmt.Errorf("decisionchain: requirement text is required")
+	}
+	if e.IdempotencyKey == "" {
+		return fmt.Errorf("decisionchain: idempotency key is required")
+	}
+	names := make([]string, 0, len(e.RepositoryIDs))
+	for _, id := range e.RepositoryIDs {
+		if id == "" {
+			continue
+		}
+		if s.cfg.ResolveName != nil {
+			if name, ok := s.cfg.ResolveName(ctx, id); ok && name != "" {
+				names = append(names, name)
+				continue
+			}
+		}
+		names = append(names, id)
+	}
+	status := StatusConfirmed
+	if !e.Accepted {
+		status = StatusRejected
+	}
+	actor := e.Actor
+	if actor == "" {
+		actor = "unknown"
+	}
+	_, err := s.store.Record(ctx, nodeWrite{
+		EventID:              e.IdempotencyKey,
+		RequirementText:      normalized,
+		RequirementKey:       RequirementKey(normalized),
+		Step:                 StepConfirmation,
+		Status:               status,
+		ActorID:              actor,
+		Action:               "范围圈定确认",
+		Rationale:            truncate(normalized, 200),
+		ContextRef:           map[string]any{"sourceIds": e.RepositoryIDs},
+		AffectedRepositories: names,
+		Source:               SourceEvent,
+	})
+	return err
+}
 
 // Enabled reports the feature toggle (feature_settings row 'decision_chain',
-// missing row counts as on).
-func (s *Service) Enabled() bool { return true }
+// missing row counts as on; read errors fail open the same way).
+func (s *Service) Enabled() bool {
+	on, err := s.store.FeatureEnabled(context.Background(), "decision_chain")
+	if err != nil {
+		return true
+	}
+	return on
+}
 
 // RegisterRoutes mounts the 5 decision endpoints and the 2 toggle endpoints:
 // GET /api/decision-chains, GET /api/decision-chains/{id},
@@ -64,3 +222,11 @@ func (s *Service) Enabled() bool { return true }
 // POST /api/decision-chains/embeddings/refresh,
 // GET|PUT /api/settings/decision-chain.
 func (s *Service) RegisterRoutes(mux *http.ServeMux) {}
+
+func truncate(text string, max int) string {
+	runes := []rune(text)
+	if len(runes) <= max {
+		return text
+	}
+	return string(runes[:max]) + "…"
+}
