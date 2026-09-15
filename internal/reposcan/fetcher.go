@@ -8,8 +8,8 @@ import (
 
 // TreeEntry is one line of a repository file tree.
 type TreeEntry struct {
-	Path  string
-	IsDir bool
+	Path  string `json:"path"`
+	IsDir bool   `json:"is_dir"`
 }
 
 // RepoInfo is one repository as listed from a group/org. Skippable reports

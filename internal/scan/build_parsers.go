@@ -161,38 +161,79 @@ func parsePomDependency(node pomNode, managed bool) BuildDep {
 // package.json
 // ---------------------------------------------------------------------------
 
+// parsePackageJSON reads name identity plus the three dependency sections,
+// preserving the manifest's key order — Python's json.loads kept insertion
+// order and the card's dep sequence is compared against the golden fixtures.
 func parsePackageJSON(content string) BuildFileResult {
-	var data map[string]any
-	if err := json.Unmarshal([]byte(content), &data); err != nil {
+	decoder := json.NewDecoder(strings.NewReader(content))
+	decoder.UseNumber()
+
+	token, err := decoder.Token()
+	if err != nil {
+		return buildFileResultEmpty
+	}
+	if delim, ok := token.(json.Delim); !ok || delim != '{' {
 		return buildFileResultEmpty
 	}
 
-	identity := ""
-	if name, ok := data["name"].(string); ok && strings.TrimSpace(name) != "" {
-		identity = name
-	}
-
-	result := BuildFileResult{Identity: identity}
+	result := BuildFileResult{}
 	seen := map[string]bool{}
-	for _, section := range []string{"dependencies", "devDependencies", "peerDependencies"} {
-		block, ok := data[section].(map[string]any)
-		if !ok {
-			continue
+	for decoder.More() {
+		keyToken, err := decoder.Token()
+		if err != nil {
+			return buildFileResultEmpty
 		}
-		for name := range block {
-			key := strings.ToLower(name)
-			if seen[key] {
-				continue
+		key, _ := keyToken.(string)
+		switch key {
+		case "name":
+			var name string
+			if err := decoder.Decode(&name); err == nil && strings.TrimSpace(name) != "" {
+				result.Identity = name
 			}
-			seen[key] = true
-			version := ""
-			if value, ok := block[name].(string); ok {
-				version = value
+		case "dependencies", "devDependencies", "peerDependencies":
+			if err := decodePackageSection(decoder, &result, seen); err != nil {
+				return buildFileResultEmpty
 			}
-			result.Deps = append(result.Deps, BuildDep{Name: name, Version: version})
+		default:
+			var skip json.RawMessage
+			if err := decoder.Decode(&skip); err != nil {
+				return buildFileResultEmpty
+			}
 		}
 	}
 	return result
+}
+
+func decodePackageSection(decoder *json.Decoder, result *BuildFileResult, seen map[string]bool) error {
+	token, err := decoder.Token()
+	if err != nil {
+		return err
+	}
+	if delim, ok := token.(json.Delim); !ok || delim != '{' {
+		return nil // a non-object section contributes nothing
+	}
+	for decoder.More() {
+		keyToken, err := decoder.Token()
+		if err != nil {
+			return err
+		}
+		name, _ := keyToken.(string)
+		var version json.RawMessage
+		if err := decoder.Decode(&version); err != nil {
+			return err
+		}
+		key := strings.ToLower(name)
+		if seen[key] {
+			continue
+		}
+		seen[key] = true
+		text := strings.TrimSpace(string(version))
+		result.Deps = append(result.Deps, BuildDep{Name: name, Version: strings.Trim(text, `"'`)})
+	}
+	if _, err := decoder.Token(); err != nil {
+		return err
+	}
+	return nil
 }
 
 // ---------------------------------------------------------------------------
