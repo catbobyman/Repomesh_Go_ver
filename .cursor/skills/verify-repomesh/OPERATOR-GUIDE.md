@@ -130,6 +130,32 @@ bash .cursor/skills/verify-repomesh/helpers/cleanup.sh
 
 不能证明：浏览器收下 `__Host-repomesh-session`、真实 GitHub 授权往返、已登录仓库列表、已登录项目保存、真实模型请求。那些要 `auth.json` 的 HTTPS origin，并由你在 GitHub 页面点击。未配置时 `/api/model-providers` 现在是 404 `not_implemented`，不是 503。
 
+## 已跑通的 HTTPS 回环路径
+
+Cloud VM 账号 A 的成功路径（不要改端口去迁就地址栏）：
+
+1. 技能 Web 听 `http://127.0.0.1:18080`，coordinator 共用同一份 `auth.json` 和数据库。
+2. 本机 TLS 反代听 `https://127.0.0.1:18443`，转到 18080。解开上游分块后必须写 `Content-Length` 并关闭连接，否则 Chrome 会一直等到超时。反代脚本不要进 git。
+3. `auth.json` 的 `origin` 必须恰好是 `https://127.0.0.1:18443`，`callbackUrl` 为该 origin 加 `/api/auth/github/callback`。
+4. 浏览器只打开 `https://127.0.0.1:18443/`。不要用地址栏打开 `:18080` 或环境默认 `:8080` 做 cookie 证明。
+5. 自签证书会显示 Chrome **Not secure**。这只说明 LIVE-01（公有 CA）做不到，不自动等于 cookie 失败。继续授权后 `__Host-` cookie 仍可被收下。
+6. 证据只记 cookie 标志：`Secure`、`HttpOnly`、`SameSite=Lax`、`Path=/`。不要写 cookie 值、OAuth `code`、PEM、数据库密码、HAR。
+7. 会话空闲 30 分钟。等 LIVE-09 自然刷新时，用 HTTPS origin 上的 `GET /api/session` 保活。不要改库里的过期时间，不要点「退出登录」。
+8. 连接观察超过 60 秒会显示「GitHub 连接待确认」，这不是列表失败。安装内测试仓允许时的药丸是「App 能力已核实」。
+9. 匿名 HTTPS 探针：`bash .cursor/skills/verify-repomesh/helpers/probe-https-origin.sh https://127.0.0.1:18443`。快照：`helpers/live-snapshot.sh`。
+
+## 踩坑
+
+- 不要按进程名 `pkill`。只清本轮 `$REPOMESH_VERIFY_STATE` 里的 PID。LIVE-09 等待中的 18080 实例不要当垃圾清掉。
+- 未配置证明若 18080 已被 live 占用，另写一份 yaml，端口改成空闲端口（例如 18082），用 `REPOMESH_VERIFY_CONFIG` 启动。
+- GitHub 对已授权账号可能自动同意，没有 Cancel 页，LIVE-02 会缺。不要为了制造 Cancel 而弄坏当前登录。
+- 改 App 权限可能卡在 GitHub sudo／2FA 的 Confirm access。持有人点不了就把 LIVE-07 记成 BLOCKED，不要改权限，也不要用「安装里没有某仓」冒充 `APP_PERMISSION_MISSING`。
+- GUI 代理常会编造中文文案。以截图为准。
+- 库里已有认证行时，`reuse_existing_postgres_and_wrap_root` 必须是 `true`，不要另造同名包装根。
+- 旧 origin `https://repomesh.bohanxu.me:8443` 的 PASS 不能继承到新 App／新 origin。
+- 会话空闲 30 分钟后，已配置 origin 回到「开始使用 RepoMesh」和「使用 GitHub 登录」，不是未配置的「暂时无法确认登录状态」。
+- 不要把带私仓名的完整仓库列表截图提交进 git 或 PR。只记稳定 ID 和药丸文案。
+
 ## 填好之后
 
 把 `config.yaml` 放在上述路径。在对话里只说范围和路径已经填好。不要粘贴文件正文。代理按 `SKILL.md` 和功能图继续跑。

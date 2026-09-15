@@ -11,7 +11,7 @@
 - 下表「本轮」列里，账号 A 可做的 LIVE 项都是 `PASS`、`BLOCKED`、`DEFERRED_BY_USER` 或 `WAITING`。
 - 每个 `PASS` 都有本目录证据，且证据与 `helpers/live-snapshot.sh` 的最近快照一致。
 - `LIVE-09` 等到真实刷新窗口，不改库里的过期时间。
-- `LIVE-10` 在 `LIVE-09` 之后做。在此之前不要点「退出登录」。
+- `LIVE-10` 在 `LIVE-09` 之后做。
 - 本轮不把 B02、B03、B04 标成整批 `VERIFIED`。
 
 ## 状态词
@@ -44,7 +44,7 @@
 
 ## 下一项
 
-**LIVE-09。** 基线已封存在 `snapshots/pre-live-09.json`：epoch 6，revision `c909b3e9-fe5b-432c-af62-78bf4810baae`，`access_expires_at` `2026-09-15T01:26:40Z`，coordinator 约在到期前 30 秒领取刷新。期间禁止登录、重连、改安装权限、改库到期时间。会话保活只打 `GET /api/session`。窗口过后再拍快照：epoch 增一、revision 更换、connected/idle。然后做 LIVE-10。
+本轮账号 A 可做的 LIVE 项已收口（PASS / BLOCKED / DEFERRED_BY_USER）。不要把 B02 标成整批 `VERIFIED`。独立复核仍未做。
 
 ## B02.6 本轮 LIVE
 
@@ -57,8 +57,8 @@
 | 5 | LIVE-08 | `PASS` | 同源 `limit=5` 游标三页共 15 项、无重复，末页 `coverage=partial` / `APP_INSTALLATION_SCOPE`，fixture 在第 3 页且 `appCapability=allowed`。工作区「部分发现」，默认 50 项时下一页不可用。YAML 未填安装外仓 ID，没有点名缺席样本；未把覆盖写成 complete。USER-READ 仍延期。见 evidence/live-08-pagination.jsonl。 |
 | 6 | LIVE-07 | `BLOCKED` | 17:48 UTC 打开专用 App 设置页，GitHub sudo/2FA Confirm access。持有人无法在此完成二次验证。未改权限。不能用安装缺席行代替 `APP_PERMISSION_MISSING`。见 evidence/live-07-blocked.md。 |
 | 7 | LIVE-02 | `BLOCKED` | GitHub 对已授权账号自动同意，没有 Cancel 页。不在当前已登录工作区伪造取消。 |
-| 8 | LIVE-09 | `WAITING` | 未做 LIVE-07 恢复重连；基线即当前 epoch 6 连接。等到 `2026-09-15T01:26:10Z` 自然窗口。禁止改库。 |
-| 9 | LIVE-10 | `WAITING` | LIVE-09 之后才注销。18:06 UTC 已在窄窗口看到仍登录的工作区（catmem、「部分发现」），随后恢复 1820×1100。注销 204、session 401、列表清空仍未做。 |
+| 8 | LIVE-09 | `PASS` | 01:28 UTC `snapshots/after-live-09.json`：epoch 6→7，revision `c909b3e9…`→`bb7d66a9-152c-42cb-8016-08e112fbe1cf`，connected/idle，`access_expires_at` 前进到 `2026-09-15T09:27:21Z`，`credential_committed_at` `2026-09-15T01:27:21Z`。login/reconnect 计数仍为 5 与 1。未改库到期时间。等待期浏览器会话已在 18:40 POST logout 204 撤销，token 仍自然刷新。见 evidence/live-09.md。 |
+| 9 | LIVE-10 | `PASS` | 刷新证明之后新登录 `66522553-…` 仅用于 `重新发现`（发现 epoch 8、15 条、fixture 在）。01:32:58 POST `/api/auth/logout` 204。随后 HTTPS `GET /api/session` 401 `AUTHENTICATION_REQUIRED`。generation 6 撤销。桌面与窄窗口均为「开始使用 RepoMesh」/「使用 GitHub 登录」，列表消失。`/projects` 同壳。见 evidence/live-10-logout.md、snapshots/after-live-10.json。 |
 | — | LIVE-05 | `DEFERRED_BY_USER` | 不开账号 B。 |
 | — | LIVE-08-USER-READ | `DEFERRED_BY_USER` | 不开账号 B。 |
 
