@@ -6,7 +6,7 @@
 
 本文按方案的 7 个功能方向定义 RepoMesh Web 进程的浏览器 HTTP 接口，并维护 44 张表到资源的映射。每张表一个资源小节，顺序固定：一句话职责、端点表、字段表、状态机或关键规则、示例。示例只给 `tasks`、`task_assignments`、`change_sets`、`review_requests`、`messages`、`skill_approvals`、`events` 七个资源。
 
-端点表的列是方法与路径、用途、幂等、权限。幂等列的取值：`天然` 指 GET、PUT、DELETE 重复执行结果相同；`键` 指要求 `Idempotency-Key` 且该表有 `idempotency_key` 列；`键（无落点）` 指要求 `Idempotency-Key` 但方案没有存放位置，重放保护待决（附录 E 第 11 条）；`自然键` 指以业务唯一列判重；`版本` 指请求体带 `expectedVersion`。权限列的取值见 2.2。
+端点表的列是方法与路径、用途、幂等、权限。幂等列的取值：`天然` 指 GET、PUT、DELETE、PATCH 重复执行结果相同，PATCH 按字段覆盖；`键` 指要求 `Idempotency-Key` 且该表有 `idempotency_key` 列；`键（无落点）` 指要求 `Idempotency-Key` 但方案没有存放位置，重放保护待决（附录 E 第 11 条）；`自然键` 指以业务唯一列判重；`版本` 指请求体带 `expectedVersion`。权限列的取值见 2.2。
 
 字段表的列是方案字段、JSON 字段、读写、说明。第一列是方案的 snake_case 列名。读写列的取值：`读` 表示只出现在响应中，由服务端写；`读写` 表示创建与 PATCH 均可提供；`创建时写` 表示只在创建请求中提供；`动作写` 表示由状态动作端点改变；`不暴露` 表示不进入任何响应。
 
@@ -20,9 +20,9 @@
 
 - 前缀 `/api/v1`。现有 `/api/...` 端点的去向见附录 C。探针 `GET /healthz`、`GET /readyz` 不带前缀，保持现状；它们只表示进程存活，不表示业务就绪。
 - 资源名用 kebab-case 复数，例如 `task-assignments`、`review-requests`。路径参数用 `{camelCase}`，例如 `{taskId}`。
-- 列表与创建挂在父资源下，例如 `GET /api/v1/projects/{projectId}/tasks`；读取、修改与状态动作用顶层路径，例如 `GET /api/v1/tasks/{taskId}`。
-- 状态动作用 POST，路径为资源路径后接动作名，例如 `POST /api/v1/tasks/{taskId}/pause`；请求体只带该动作需要的字段。
-- 附录 A 的端点列包含全部顶层路径段；正文出现的每个端点，其顶层路径段都能在附录 A 找到。
+- 有父资源的列表与创建挂在父资源下，例如 `GET /api/v1/projects/{projectId}/tasks`；`users`、`agents`、`skills`、`review-requests`、`messages`、`repositories`、`alert-rules`、`recovery-cases`、`mcp-server-policies` 等无父资源的挂顶层。读取、修改与状态动作用顶层路径，例如 `GET /api/v1/tasks/{taskId}`。
+- 状态动作用 POST，路径为资源路径后接动作名，例如 `POST /api/v1/tasks/{taskId}/pause`；请求体只带该动作需要的字段。没有迁移表的状态列（`projects.status`、`agents.status`、`plan_steps.status`）由 PATCH 修改。
+- 附录 A 的端点列包含全部顶层路径段；除探针外，正文出现的每个端点，其顶层路径段都能在附录 A 找到。
 
 ### 2.2 身份、租户与权限
 
@@ -36,7 +36,7 @@ Agent 不直接调用本 HTTP API。Agent 侧请求经 ADR-0011 所述受控 MCP
 
 | 取值 | 含义 |
 | --- | --- |
-| `公开` | 无会话即可调用，只有 `POST /api/v1/sessions`。 |
+| `公开` | 无会话即可调用：`POST /api/v1/sessions` 与两个探针。 |
 | `本人` | 会话用户操作自己的 `users` 行。 |
 | `成员` | 同组织的登录用户，且对路径所属项目可读。 |
 | `组织管理员` | `users.org_role` 为组织管理员（附录 D）。 |
@@ -55,7 +55,7 @@ Agent 不直接调用本 HTTP API。Agent 侧请求经 ADR-0011 所述受控 MCP
 - JSON 字段用 camelCase；字段表给出与方案 snake_case 列的对应。
 - 时间为 RFC3339 UTC 字符串，例如 `2026-09-15T09:30:00Z`。ID 为 UUID 字符串。
 - 格式错误、重复 JSON 属性名、非法 Unicode 编码返回 400 `INVALID_JSON`；合法 JSON 的未知字段、非法长度、重复集合成员返回 422 `VALIDATION_FAILED`（首批契约 §1）。
-- 创建型 POST 成功返回 201，带 `Location` 头与资源快照。状态动作 POST 成功返回 200 与资源快照；其中会触发外部动作的动作端点返回 201，见 2.7。PATCH、PUT 成功返回 200 与资源快照。DELETE 成功返回 204。
+- 创建型 POST 成功返回 201，带 `Location` 头与资源快照。状态动作 POST 成功返回 200 与资源快照；其中会触发外部动作的动作端点返回 201，见 2.7。PATCH 成功返回 200 与资源快照。PUT 首次建行返回 201，其后 200（适用 `credentials`、`delivery-policy`、`mcp-server-policies`）。DELETE 成功返回 204；软删除的 DELETE 返回 200 与快照（只有 `agent-skill-bindings`）。
 - 列表响应形状为 `{"items":[...],"nextCursor":"..."}`，末页 `nextCursor` 为 `null`。
 
 ### 2.4 错误
@@ -83,7 +83,7 @@ Agent 不直接调用本 HTTP API。Agent 侧请求经 ADR-0011 所述受控 MCP
 | 503 | `RESULT_UNCONFIRMED` | 外部结果或提交结果未知，客户端先按原键核查（ADR-0016）。 |
 | 503 | `FEATURE_DISABLED` | 决策链开关关闭时调用 `decision-chains` 端点（ADR-0021）。 |
 
-唯一列冲突（`users.username`、`agents.singleton_key`、`repositories.url`、`skills.name`、`mcp_server_policies.server_name`）返回 422 `VALIDATION_FAILED`，`fieldErrors[].code` 为 `DUPLICATE`。固定状态码表中没有单独的唯一冲突码，见附录 E 写作中发现第 12 条。
+唯一列冲突（`users.username`、`agents.singleton_key`、`repositories.url`、`projects.repository_id`、`credentials.key`、`skills.name`、`skill_approvals.version_id`、`delivery_policies.project_id`、`decision_embeddings.node_id`、`mcp_server_policies.server_name`）返回 422 `VALIDATION_FAILED`，`fieldErrors[].code` 为 `DUPLICATE`；PUT 覆盖同键行不算冲突，`skill_approvals.version_id` 的重复发起按 8.5 处理。`handoffs.branch_validation_key` 同键按 2.5 返回 409 `IDEMPOTENCY_CONFLICT`，不在此列。固定状态码表中没有单独的唯一冲突码，见附录 E 写作中发现第 12 条。
 
 ### 2.5 幂等与乐观锁
 
@@ -102,7 +102,7 @@ Agent 不直接调用本 HTTP API。Agent 侧请求经 ADR-0011 所述受控 MCP
 - 列表端点接受 `cursor` 与 `limit`。`limit` 默认 50，最大 100，超出 1 到 100 返回 422 `VALIDATION_FAILED`。
 - `cursor` 不透明，绑定会话主体、资源范围、过滤条件与排序；格式非法返回 422 `VALIDATION_FAILED`，过期或范围变化返回 409 `CURSOR_EXPIRED`。
 - 响应为 `items` 与 `nextCursor`。`nextCursor` 为 `null` 才表示遍历结束；允许 `items` 为空且 `nextCursor` 非空。
-- 排序固定：有 `created_at`、`fired_at`、`logged_at`、`recorded_at`、`run_at`、`read_at`、`observed_at`、`bound_at` 之一的表按该列升序再按 `id`；其他表按 `id` 升序。不提供排序参数。
+- 默认排序：有 `created_at`、`fired_at`、`logged_at`、`recorded_at`、`run_at`、`read_at`、`observed_at`、`bound_at` 之一的表按该列升序再按 `id`；其他表按 `id` 升序；资源小节可声明自己的排序列（`plans` 按 `plan_version`、`plan_steps` 按 `step_no`、`task_assignments` 按 `generation`）。不提供排序参数。
 - 过滤参数逐资源列出。未列出的 query 键返回 422 `VALIDATION_FAILED`。
 - `from`、`to` 为 RFC3339 UTC，含 `from`，不含 `to`。`q` 为大小写不敏感的子串匹配，最多 200 个 Unicode 标量，不解析通配符（首批契约 §8）。
 - 每页重新核当前权限，跨页不持有数据库快照。
@@ -113,7 +113,7 @@ Agent 不直接调用本 HTTP API。Agent 侧请求经 ADR-0011 所述受控 MCP
 
 每次可见的业务状态变化在同一事务写一行 `events`（`channel=state`），`aggregate_type`、`aggregate_id`、`aggregate_version` 指向变化的资源。审计记录写 `channel=audit`，后台运行记录写 `channel=run`。写入方只有服务端。
 
-SSE 的唯一端点是 `GET /api/v1/events/stream`，媒体类型 `text/event-stream`。query 至少一个过滤：`aggregateType` 与 `aggregateId` 成对、`taskId`、`projectId`、`correlationId`；没有过滤返回 422 `VALIDATION_FAILED`。数据源是 `events` 表 `channel=state`。事件帧的 `id` 为 `events.id`，`event` 名为 `events.event_type`，`data` 为 `{aggregateType, aggregateId, aggregateVersion, occurredAt}`，不带完整载荷。客户端收到后重新 GET 资源（创建契约 §8 的“失效通知 + REST 快照”）。
+SSE 的唯一端点是 `GET /api/v1/events/stream`，媒体类型 `text/event-stream`。query 至少一个过滤：`aggregateType` 与 `aggregateId` 成对、`taskId`、`correlationId`；没有过滤返回 422 `VALIDATION_FAILED`。`events` 无 `project_id` 列，不提供 `projectId` 过滤，见附录 E 写作中发现第 23 条。数据源是 `events` 表 `channel=state`。事件帧的 `id` 为 `events.id`，`event` 名为 `events.event_type`，`data` 为 `{aggregateType, aggregateId, aggregateVersion, occurredAt}`，不带完整载荷。客户端收到后重新 GET 资源（创建契约 §8 的“失效通知 + REST 快照”）。
 
 ```text
 id: 0d0b8b1e-4a2f-4c7e-8d0a-6a1f2b3c4d5e
@@ -122,13 +122,13 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 ```
 
-连接建立后先发 `resync_required`（`data` 为 `{}`），客户端重取快照。支持 `Last-Event-ID`：服务端从该 `events.id` 对应的 `recorded_at` 之后继续发送；该事件不在可重放窗口内时再次发送 `resync_required`。可重放窗口默认 24 小时，注释心跳 15 秒；两者是可调整运行参数。24 小时指 SSE 重放窗口，不是 `events` 行的删除策略，方案没有定义清理。不承诺补发或 exactly-once（ADR-0010）。每次发送前核当前权限，失权即关闭连接。
+连接建立后先发 `resync_required`（`data` 为 `{}`），客户端重取快照。支持 `Last-Event-ID`：服务端从该 `events.id` 对应的 `recorded_at` 之后继续发送；该事件不在可重放窗口内时再次发送 `resync_required`。可重放窗口默认 24 小时，注释心跳 15 秒；两者是可调整运行参数。24 小时指 SSE 重放窗口，不是 `events` 行的删除策略，方案没有定义清理。不承诺补发，也不承诺只投递一次（ADR-0010）。每次发送前核当前权限，失权即关闭连接。
 
 ### 2.8 状态枚举的来源
 
 方案把多数状态列写成“字符串”，没有给值。本文按三类处理：
 
-1. 方案给出英文值的列，直接采用：`agents.role`（`leader`、`manager`、`worker`、`db-test-team`）、`credentials.kind`（`platform-kv`、`github-app`）、`messages.sender_type`（`agent`、`human`）、`events.channel`（`state`、`audit`、`outbox`、`run`）。
+1. 方案给出英文值的列，直接采用：`agents.role`（`leader`、`manager`、`worker`、`db-test-team`）、`credentials.kind`（`platform-kv`、`github-app`）、`messages.sender_type`（`agent`、`human`）、`events.channel`（`state`、`audit`、`outbox`、`run`）、`skill_test_questions.provided_by`（`manager`、`leader`、`human`）、`skill_approvals.subject_role`（`worker`、`manager`、`leader`）、`skill_approvals.reviewer_kind`（`manager`、`leader`、`human`）。
 2. 方案给出中文描述的列，本文给英文令牌，标为提案：例如 `users.org_role`、`review_requests.status`、`skill_test_questions.kind`、`recovery_cases.status`、`alert_events.status`（方案“触发/认领/处理中/关闭”，本文 `fired`、`claimed`、`handling`、`closed`）、`skill_versions.status`（方案“草稿/评估中/已发布/废弃”，本文 `draft`、`evaluating`、`published`、`deprecated`）。
 3. 方案没有描述的列，本文给值并给迁移规则，标为提案：例如 `tasks.status`、`change_sets.status`、`agent_teams.runtime_status`。
 
@@ -176,7 +176,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `GET /api/v1/users` | 组织内用户列表；过滤 `active`、`orgRole` | 天然 | 成员 |
 | `POST /api/v1/users` | 建立用户：`username`、`displayName`、`password`、`orgRole`、`active` | 键（无落点） | 组织管理员 |
 | `GET /api/v1/users/{userId}` | 读取用户 | 天然 | 成员 |
-| `PATCH /api/v1/users/{userId}` | 修改 `displayName`、`orgRole`、`active` | 天然 | 组织管理员；`displayName` 也允许本人 |
+| `PATCH /api/v1/users/{userId}` | 修改 `displayName`、`orgRole`、`active` | 天然 | 组织管理员（`displayName` 限本人） |
 | `POST /api/v1/users/{userId}/password` | 改密：`newPassword`；本人须带 `currentPassword`，组织管理员为他人重置不带 | 键（无落点） | 本人或组织管理员 |
 
 **字段**
@@ -198,7 +198,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 **规则**
 
 - 会话表 1:1 并入 `users`，一个用户同时只有一个有效会话；再次登录覆盖 `session_token_hash`，旧 Cookie 失效。见附录 E 写作中发现第 9 条。
-- `GET /api/v1/sessions/current` 的响应形状沿用首批契约 §2：`user` 含 `id`、`displayName`、`orgRole`；`csrfToken` 绑定当前会话，不持久化到 URL。
+- `GET /api/v1/sessions/current` 不再沿用首批契约 §2 的 `githubConnection`，改为本地账号形状：`user{id, username, displayName, orgRole}` 与 `csrfToken`；`csrfToken` 绑定当前会话，不持久化到 URL。
 - `PATCH` 不允许把最后一名组织管理员降级或停用，返回 409 `INVALID_TRANSITION`。
 - 密码规则：最少 12 个 Unicode 标量，最多 256 个；不返回哈希算法名。
 
@@ -331,7 +331,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `profiled_at` | `profiledAt` | 读 | 画像时间，后台写。 |
 | `poll_last_at` | `pollLastAt` | 读 | 上次轮询，后台轮询写。 |
 | `poll_next_at` | `pollNextAt` | 读 | 下次轮询，后台轮询写。 |
-| `poll_failures` | `pollFailures` | 读 | 连续失败次数，后台轮询写。 |
+| `poll_failures` | `pollFailures` | 读 | 连续失败次数，创建时为 `0`，后台轮询写。 |
 
 **规则**
 
@@ -348,7 +348,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | 方法与路径 | 用途 | 幂等 | 权限 |
 | --- | --- | --- | --- |
 | `GET /api/v1/projects/{projectId}/plans` | 列表，按 `plan_version` 排列 | 天然 | 成员 |
-| `POST /api/v1/projects/{projectId}/plans` | 新建版本：`requirementText`、`engineeringSpec`、`contracts`、`taskDag`、`executionBatches`、`createdByAgentId` | 键（无落点） | 后台（代 Manager） |
+| `POST /api/v1/projects/{projectId}/plans` | 新建版本：`requirementText`、`engineeringSpec`、`contracts`、`taskDag`、`executionBatches`、`createdByAgentId`（可省略） | 键（无落点） | 后台（代 Manager） |
 | `GET /api/v1/plans/{planId}` | 读取 | 天然 | 成员 |
 | `POST /api/v1/plans/{planId}/revisions` | 追加一条修订记录到 `revisions`，不改已发布内容 | 键（无落点） | 后台（代 Manager） |
 
@@ -366,7 +366,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `execution_batches` | `executionBatches` | 创建时写 | 执行批次，JSON；循环上限落点之一（ADR-0007 D3）。 |
 | `revisions` | `revisions` | 读 | 修订史，JSON 数组；`POST .../revisions` 追加 `{summary, reason, revisedBy, revisedAt}`。 |
 | `execution_plan_id` | `executionPlanId` | 读 | 对应执行计划；44 张表中没有目标表，见附录 E 写作中发现第 3 条。 |
-| `created_by_agent_id` | `createdByAgentId` | 创建时写 | 规划者。 |
+| `created_by_agent_id` | `createdByAgentId` | 创建时写 | 规划者，可空。 |
 
 **规则**
 
@@ -385,7 +385,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `GET /api/v1/projects/{projectId}/agent-teams` | 列表 | 天然 | 成员 |
 | `POST /api/v1/projects/{projectId}/agent-teams` | 建立编制：`repositoryId`、`leaderAgentId`、`managerAgentId`、`workerAgentIds`、`teamName`、`executionMode`、`requiredCheckpoints`、`humanGrants` | 键 | 项目管理员 |
 | `GET /api/v1/agent-teams/{teamId}` | 读取 | 天然 | 成员 |
-| `PATCH /api/v1/agent-teams/{teamId}` | 修改 `workerAgentIds`、`executionMode`、`requiredCheckpoints`、`humanGrants` | 天然 | 项目管理员（ADR-0005 §1） |
+| `PATCH /api/v1/agent-teams/{teamId}` | 修改 `workerAgentIds`、`teamName`、`executionMode`、`requiredCheckpoints`、`humanGrants` | 天然 | 项目管理员（验证小组开关与成员配置，ADR-0005 §1）；其余改动暂用组织管理员 |
 | `POST /api/v1/agent-teams/{teamId}/runtime` | `action` 取 `start` 或 `stop`，写 `runtime_status`，异步（201） | 键（无落点） | 项目管理员 |
 
 **字段**
@@ -398,7 +398,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `leader_agent_id` | `leaderAgentId` | 创建时写 | 总 Leader（方案命名，附录 E 第 1 条）。 |
 | `manager_agent_id` | `managerAgentId` | 创建时写 | 仓库 Manager（方案命名，附录 E 第 1 条）。 |
 | `worker_agent_ids` | `workerAgentIds` | 读写 | Worker 名单，UUID 数组。 |
-| `team_name` | `teamName` | 读写 | 执行面编制名。 |
+| `team_name` | `teamName` | 读写 | 执行面编制名，可空。 |
 | `room_id` | `roomId` | 读 | 协作房间，后台准备后写。 |
 | `execution_mode` | `executionMode` | 读写 | 自动化档位，见附录 D（ADR-0003 §1.2、ADR-0006 §2）。 |
 | `required_checkpoints` | `requiredCheckpoints` | 读写 | 必要检查点，JSON。 |
@@ -408,8 +408,9 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 **规则**
 
-- 编制改动需项目管理员（ADR-0005 §1），普通执行 Agent 不改项目级设置。
-- `runtime start` 只登记请求；实例按 ADR-0018 在首条消息或建项提交后异步准备，`runtime_status` 由后台写回。`stop` 不代表在途已停（ADR-0013）。
+- ADR-0005 §1 只要求验证小组开关与成员配置由项目管理员操作；其余编制改动的授权来源方案未定义，暂用组织管理员。普通执行 Agent 不改项目级设置。
+- `runtime start` 只登记请求；实例按 ADR-0018 在首条消息或建项提交后异步准备，`runtime_status` 由后台写回。
+- `runtime stop` 只登记请求，不代表在途已停；停止事实由后台写回 `runtime_status`（ADR-0013）。
 - `execution_mode` 当前阶段只允许 `yolo`（ADR-0006 §2）；`approval` 在附录 D 保留值，服务端拒绝写入并返回 422。
 - ADR-0012 的上游 Project 引用：方案把 `resource_ref` 放在 `agents`，本表没有该列。本文把实例与 team 引用放在成员的 `agents.resource_ref`，把每次派单对应的上游 `project_id` 放在 `task_assignments.dispatch_ref`，键名见附录 D。编制级引用无落点，见附录 E 写作中发现第 21 条。
 - `repository_id` 可空的项目级编制与 `projects` 一项目一仓库并存，见附录 E 第 2 条。
@@ -424,7 +425,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | --- | --- | --- | --- |
 | `GET /api/v1/review-requests` | 列表；过滤 `status`、`objectType`、`projectId` | 天然 | 成员 |
 | `GET /api/v1/review-requests/{requestId}` | 读取 | 天然 | 成员 |
-| `POST /api/v1/review-requests` | 发起：`projectId`、`objectType`、`objectId`、`requestContent`、`requestedByAgentId` | 键（无落点） | 后台（代 Agent） |
+| `POST /api/v1/review-requests` | 发起：`projectId`、`objectType`、`objectId`、`requestContent`、`requestedByAgentId`（可省略） | 键（无落点） | 后台（代 Agent） |
 | `POST /api/v1/review-requests/{requestId}/decision` | 批复：`decision` 取 `approve` 或 `reject`，`note` | 键（无落点） | 项目管理员或计划发起人（ADR-0003 §1.8） |
 
 **字段**
@@ -437,9 +438,9 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `object_id` | `objectId` | 创建时写 | 评审对象 ID。 |
 | `request_content` | `requestContent` | 创建时写 | 请求内容快照，JSON。 |
 | `status` | `status` | 动作写 | 见附录 D。 |
-| `requested_by_agent_id` | `requestedByAgentId` | 创建时写 | 发起评审的 Agent。 |
-| `decided_by` | `decidedBy` | 读 | 服务端取会话用户，请求体不接受（ADR-0003 §1.6）。 |
-| `decision_note` | `decisionNote` | 动作写 | 批复意见。 |
+| `requested_by_agent_id` | `requestedByAgentId` | 创建时写 | 发起评审的 Agent，可空。 |
+| `decided_by` | `decidedBy` | 读 | 服务端取会话用户，请求体不接受（ADR-0003 §1.6）；自动许可时为空。 |
+| `decision_note` | `decisionNote` | 动作写 | 批复意见；自动许可时为 `auto:yolo`（附录 D）。 |
 | `decided_at` | `decidedAt` | 读 | 批复时间。 |
 
 **规则**
@@ -448,7 +449,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 - 批准不等于生效：`objectType=plan` 批准后进入“已获准，待应用”，应用与读回由后台协调进程执行（ADR-0003 §1.4、ADR-0006 §3）。
 - ADR-0004 的缺失规则解释也走此表，`objectType=interpretation`（提案）；解释与验收通过分开。
 - 人工门禁与环境阻塞、资源等待分开表达（ADR-0006 §2、CONTEXT 人工门禁）：环境阻塞体现在 `tasks.status=blocked`，不产生本表行。
-- 当前阶段统一 YOLO（ADR-0006 §2），自动许可不经过本表；`decided_by` 指向 `users`，自动许可的记录主体无落点，见附录 E 写作中发现第 7 条。
+- 当前阶段统一 YOLO（ADR-0006 §2）。YOLO 档的自动许可也写一行本表：`status=approved`、`decided_by` 为空、`decision_note` 为 `auto:yolo`（提案），使 ADR-0003 §1.2 的许可事实可追溯。见附录 E 写作中发现第 7 条。
 
 **示例**：`GET /api/v1/review-requests/{requestId}` 已批复的快照。
 
@@ -521,15 +522,15 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | 当前状态 | 目标状态 | 触发 | 说明 |
 | --- | --- | --- | --- |
 | `open` | `planned` | 后台：`plans` 行建立且 `plan_steps` 覆盖该任务 | 顶层任务进入已规划。 |
-| `open`、`planned`、`submitted`、`handed_off`、`blocked` | `reserved` | `reserve` | 目标 Worker 已有活跃任务（另一 `tasks` 行 `assignee_agent_id` 等于它且状态为 `reserved` 或 `in_progress`）时 409 `INVALID_TRANSITION`（ADR-0001、ADR-0017）。 |
+| `open`、`planned`、`submitted`、`blocked` | `reserved` | `reserve` | 目标 Worker 已有活跃任务（另一 `tasks` 行 `assignee_agent_id` 等于它且状态为 `reserved` 或 `in_progress`）时 409 `INVALID_TRANSITION`（ADR-0001、ADR-0017）。 |
 | `reserved` | `in_progress` | 后台：派单写回 `dispatch_ref` | 环境准备在事务外，启动前再次核验（ADR-0017）。 |
-| `reserved`、`in_progress` | `open` | `release` | `in_progress` 且当前派单 `attempt_state` 非终态时 409 `INVALID_TRANSITION`；未知状态不释放资源（ADR-0017、执行门槛 G4）。 |
+| `reserved`、`in_progress`、`blocked` | `open` | `release` | `in_progress` 且当前派单 `attempt_state` 非终态时 409 `INVALID_TRANSITION`；未知状态不释放资源（ADR-0017、执行门槛 G4）。 |
 | `in_progress` | `submitted` | 后台：当前派单 `attempt_state=succeeded` | 提交不等于验收（CONTEXT Candidate）。 |
 | `in_progress` | `blocked` | 后台：当前派单 `attempt_state` 为 `failed` 或 `blocked` | 环境阻塞与人工门禁分开（ADR-0006 §2）。 |
 | `submitted` | `handed_off` | `POST /api/v1/tasks/{taskId}/handoffs` 成功 | 交给数据库测试团队。 |
-| `planned`、`submitted`、`handed_off` | `done` | `complete` | 子任务完成不自动完成父任务；父任务由 Manager 另行 `complete`（ADR-0001）。 |
+| `planned`、`submitted`、`handed_off` | `done` | `complete` | 子任务完成不自动完成父任务；父任务由 Manager 另行 `complete`（ADR-0001）。`in_progress` 与 `blocked` 不能直接完成，先 `release` 或等待派单终态。 |
 | 非终态 | `paused` | `pause` | 只停新派工，不代表在途已停；已交付变更不撤回（CONTEXT 暂停）。 |
-| `paused` | 推导 | `resume` | 无 `assignee_agent_id` 回到 `open`；有 `reserved_at` 且当前派单非终态回到 `in_progress`；当前派单终态回到 `submitted`。方案没有暂停前状态列，见附录 E 写作中发现第 2 条。 |
+| `paused` | 推导 | `resume` | 无 `assignee_agent_id` 回到 `open`；有 `reserved_at` 且当前派单非终态回到 `in_progress`；当前派单终态回到 `submitted`，其中 `attempt_state` 为 `failed` 或 `blocked` 时回到 `blocked`。方案没有暂停前状态列，见附录 E 写作中发现第 2 条。 |
 | 非终态 | `cancelled` | `cancel` | 终态。 |
 
 `done`、`cancelled` 为终态，任何动作返回 409 `INVALID_TRANSITION`。上表之外的迁移同样返回 409。
@@ -578,7 +579,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `GET /api/v1/plans/{planId}/steps` | 列表，按 `step_no` 排列 | 天然 | 成员 |
 | `POST /api/v1/plans/{planId}/steps` | 新建步骤：`stepNo`、`content`、`assigneeRole`、`dependsOn` | 键（无落点） | 后台（代 Manager） |
 | `GET /api/v1/plan-steps/{stepId}` | 读取 | 天然 | 成员 |
-| `PATCH /api/v1/plan-steps/{stepId}` | 修改 `status`、`output`、`dependsOn` | 天然 | 后台（代 Manager） |
+| `PATCH /api/v1/plan-steps/{stepId}` | 修改 `status`、`output` | 天然 | 后台（代 Manager） |
 
 **字段**
 
@@ -586,17 +587,17 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | --- | --- | --- | --- |
 | `id` | `id` | 读 | UUID。 |
 | `plan_id` | `planId` | 读 | 路径参数。 |
-| `step_no` | `stepNo` | 创建时写 | 步骤序号，同计划内唯一。 |
+| `step_no` | `stepNo` | 创建时写 | 步骤序号；同计划内唯一为本文约束（提案）。 |
 | `content` | `content` | 创建时写 | 步骤内容。 |
 | `assignee_role` | `assigneeRole` | 创建时写 | 负责角色，取 `agents.role` 的值。 |
-| `depends_on` | `dependsOn` | 读写 | 依赖步骤 ID 数组；Graph 结果只读观察（ADR-0014、ADR-0015）。 |
+| `depends_on` | `dependsOn` | 创建时写 | 依赖步骤 ID 数组。 |
 | `status` | `status` | 读写 | 见附录 D。 |
 | `output` | `output` | 读写 | 产出物，JSON。 |
 
 **规则**
 
-- ADR-0003 §3.1：首期不提供直接编辑图节点连线的页面 API。本节的 `POST` 与 `PATCH` 只供后台协调进程与 Manager 工具，浏览器只读。
-- `dependsOn` 出现环时返回 422 `VALIDATION_FAILED`。仓内 DAG 复用上游，本表只是读回结果（ADR-0014、ADR-0015）；换图协议未选（执行门槛 G5）。
+- 依赖关系是上游 DAG 的读回（ADR-0014、ADR-0015），`dependsOn` 只在创建时写；本文不提供改连线的端点（ADR-0003 §3.1）。本节的 `POST` 与 `PATCH` 只供后台协调进程与 Manager 工具，浏览器只读。
+- `dependsOn` 出现环时返回 422 `VALIDATION_FAILED`。换图协议未选（执行门槛 G5）。
 
 ### 5.3 派单 `task_assignments`
 
@@ -622,7 +623,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `worker_agent_id` | `workerAgentId` | 创建时写 | 接单 Worker；同时写入 `tasks.assignee_agent_id`。 |
 | `phase` | `phase` | 创建时写 | 派单阶段，见附录 D；决定循环上限的计数口径（ADR-0007 D3）。 |
 | `safety_envelope` | `safetyEnvelope` | 创建时写 | 安全边界，JSON。 |
-| `generation` | `generation` | 读 | 第几轮尝试，服务端取同任务同 `phase` 的最大值加一。 |
+| `generation` | `generation` | 读 | 第几轮尝试；服务端取同任务同 `phase` 的最大值加一，按 `phase` 分组计数为本文提案。 |
 | `attempt_state` | `attemptState` | 动作写 | 尝试结果，见附录 D。 |
 | `attempt_reason` | `attemptReason` | 动作写 | 失败原因。 |
 | `previous_attempt_id` | `previousAttemptId` | 读 | 服务端自动指向同任务上一轮。 |
@@ -682,7 +683,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `task_id` | `taskId` | 读 | 路径参数。 |
 | `branch_validation_key` | `branchValidationKey` | 创建时写 | 分支验证键，唯一；自然幂等键（2.5）。 |
 | `payload` | `payload` | 创建时写 | 交接材料，JSON。 |
-| `evidence` | `evidence` | 动作写 | 验证证据，JSON 数组；`status` 动作只追加，不删除。 |
+| `evidence` | `evidence` | 动作写 | 验证证据，JSON 数组，创建时为 `[]`；`status` 动作只追加，不删除。 |
 | `status` | `status` | 动作写 | 交接状态，见附录 D。 |
 | `created_at` | `createdAt` | 读 | 创建时间。 |
 
@@ -704,7 +705,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | 方法与路径 | 用途 | 幂等 | 权限 |
 | --- | --- | --- | --- |
 | `GET /api/v1/messages` | 列表；必填过滤之一：`roomId`、`taskId`、`projectId`；可选 `correlationId` | 天然 | 成员 |
-| `POST /api/v1/messages` | 人发消息：`projectId`、`roomId`、`taskId`、`recipientAgentId`、`kind`、`subject`、`body`、`correlationId`；`sender_type=human`，`sender_user_id` 取会话；异步投递（201） | 键（无落点） | 成员 |
+| `POST /api/v1/messages` | 保存人发的消息：字段清单见字段表 | 键（无落点） | 成员 |
 | `GET /api/v1/messages/{messageId}` | 读取 | 天然 | 成员 |
 
 **字段**
@@ -728,6 +729,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 **规则**
 
+- 浏览器创建的消息 `sender_type=human`，`sender_user_id` 取会话用户；保存成功返回 201 与消息快照，投递异步（2.7）。
 - 保存成功不等于 Manager 已接收（ADR-0018）；`status` 由后台按实际投递结果写回，`saved` 只表示已落库。
 - 首条会话消息持久提交后由后台异步准备或恢复实例与房间（ADR-0018）；消息端点不等待准备完成。
 - 实时更新走 `GET /api/v1/events/stream` 过滤 `aggregateType=message`；消息端点没有自己的 SSE。
@@ -876,7 +878,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `POST /api/v1/tasks/{taskId}/change-sets` | 建立主变更集：`repositoryIds`、`branch`、`payload`；顶层任务正式提交时已同事务建立，此处重放复用（ADR-0008） | 键 | 后台（代 Manager）或成员 |
 | `GET /api/v1/change-sets/{changeSetId}` | 读取 | 天然 | 成员 |
 | `PATCH /api/v1/change-sets/{changeSetId}` | 修改 `repositoryIds` 条目、`branch`、`payload`；需 `expectedVersion` | 版本 | 后台（代 Manager） |
-| `POST /api/v1/change-sets/{changeSetId}/deliver` | 交付：`expectedVersion`；生成 `scm_commands`（建分支、开 draft PR），异步（201） | 键（无落点）、版本 | 后台（代 Manager） |
+| `POST /api/v1/change-sets/{changeSetId}/deliver` | 交付：`expectedVersion`；首次生成 `scm_commands`（建分支、开 draft PR），再次生成推送分支、更新 PR 命令；异步（201） | 键（无落点）、版本 | 后台（代 Manager） |
 | `POST /api/v1/change-sets/{changeSetId}/conflict` | 记录冲突：`expectedVersion`、`conflictKind`、`conflictStatus`、`conflictDetail` | 键（无落点）、版本 | 后台 |
 | `POST /api/v1/change-sets/{changeSetId}/archive` | 归档：`expectedVersion`；`status` 置 `archived` 终态 | 键（无落点）、版本 | 成员 |
 
@@ -886,7 +888,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | --- | --- | --- | --- |
 | `id` | `id` | 读 | UUID。 |
 | `organization_id` | `organizationId` | 读 | 由会话解析。 |
-| `task_id` | `taskId` | 读 | 来源任务，路径参数。 |
+| `task_id` | `taskId` | 读 | 来源任务，路径参数；方案可空，本文只经 `/tasks/{taskId}` 创建，无任务的变更集不在本文范围。 |
 | `repository_ids` | `repositoryIds` | 读写 | 涉及仓库，JSON 数组，每仓一份 `{repositoryId, commitSha, prNumber, deliveryStatus}`，键名见附录 D。 |
 | `status` | `status` | 动作写 | 状态机，见附录 D；含 `archived` 终态。 |
 | `pr_url` | `prUrl` | 读 | PR 链接，后台按 `scm_commands.result` 写；多仓时只放一个，见附录 E 写作中发现第 19 条。 |
@@ -903,10 +905,12 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | 当前状态 | 目标状态 | 触发 |
 | --- | --- | --- |
 | `open` | `delivering` | `deliver`；每个 `repositoryIds` 条目生成 `create_branch` 与 `open_draft_pr` 两条 `scm_commands`。 |
+| `delivered` | `delivering` | 再次 `deliver`；每个条目生成 `push_branch` 与 `update_pr` 两条 `scm_commands`。 |
 | `delivering` | `delivered` | 后台：全部命令 `succeeded`，`pr_url` 与各条目 `prNumber` 写回。 |
-| `delivering` | `open` | 后台：任一命令 `failed` 且不重试。 |
+| `delivering` | `open` 或 `delivered` | 后台：任一命令 `failed` 且不重试。任一 `repositoryIds` 条目的 `deliveryStatus` 已是 `draft_pr_opened` 时回到 `delivered`，否则回到 `open`。 |
 | `open`、`delivering`、`delivered` | `conflicted` | `conflict` 且 `conflictStatus` 为 `detected` 或 `fix_task_created`。 |
 | `conflicted` | `open` | `conflict` 且 `conflictStatus` 为 `resolved`。 |
+| `conflicted` | `conflicted` | `conflict` 且 `conflictStatus` 为 `abandoned`；`status` 保持 `conflicted`，之后只能 `archive`。 |
 | 任意非终态 | `archived` | `archive`；终态。 |
 
 **规则**
@@ -1082,8 +1086,8 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `engine_version` | `engineVersion` | 读 | 引擎版本，后台写。 |
 | `status` | `status` | 读 | 见附录 D。 |
 | `failure_code` | `failureCode` | 读 | 失败码。 |
-| `cleanup_pending` | `cleanupPending` | 动作写 | 待清理标记；`cleanup` 置 `true`，后台清理完成后写 `status=cleaned_up`。 |
-| `results` | `results` | 读 | 验证结果，JSON。 |
+| `cleanup_pending` | `cleanupPending` | 动作写 | 待清理标记，创建时为 `false`；`cleanup` 置 `true`，后台清理完成后写 `status=cleaned_up`。 |
+| `results` | `results` | 读 | 验证结果，JSON；创建时为 `{}`，后台写。 |
 
 **规则**
 
@@ -1092,7 +1096,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 ## 8. Skill 体系（7 张表）
 
-状态说明：ADR-0009 把 Skill 工程整体暂缓，并要求恢复前不冻结表与 API。2026-09-15 采用的数据库方案新增 7 张 Skill 表，本节据此给出接口设计。ADR-0009 的替代关系尚未写入 ADR，见附录 E 第 7 条；在 ADR 更新前本节端点不得实施。
+状态说明：方案 ⑥ 新增 7 张表，本节据此给出接口设计。ADR-0009 要求恢复前不冻结表、API 与状态枚举，因此本节全部内容（路径、字段、枚举）都是随方案给出的设计，不是采用记录，ADR-0009 更新前不得实施。ADR-0009 H1、H11 要求 Issue 引用确定版本，方案改为绑 Agent（`agent_skill_bindings`），差异记入附录 E 第 7 条。
 
 方向职责：出题、AB 评估、盲选、逐级审核、绑定、沉淀（方案 ⑥）。Skill 绑 Agent 不绑 Issue（方案 `agent_skill_bindings`）。
 
@@ -1143,7 +1147,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | --- | --- | --- | --- |
 | `id` | `id` | 读 | UUID。 |
 | `skill_id` | `skillId` | 读 | 路径参数。 |
-| `version` | `version` | 创建时写 | 版本号字符串，同技能内唯一。 |
+| `version` | `version` | 创建时写 | 版本号字符串；同技能内唯一为本文约束（提案）。 |
 | `status` | `status` | 动作写 | 方案描述“草稿/评估中/已发布/废弃”，本文令牌 `draft`、`evaluating`、`published`、`deprecated`（附录 D）。 |
 | `content` | `content` | 创建时写 | SKILL.md 全文。 |
 | `content_hash` | `contentHash` | 读 | 内容指纹，服务端按 SHA-256 计算。 |
@@ -1151,8 +1155,8 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 **规则**
 
-- 迁移：`start_evaluation` 使 `draft` 到 `evaluating`；`deprecate` 使 `published` 或 `evaluating` 到 `deprecated`；`published` 只由 `POST /api/v1/skill-approvals/{approvalId}/decision` 通过后写入。其余 409 `INVALID_TRANSITION`。
-- 已发布版本内容不改；改内容新建版本（ADR-0009 H10）。
+- 迁移：`start_evaluation` 使 `draft` 到 `evaluating`；`deprecate` 使 `draft`、`evaluating` 或 `published` 到 `deprecated`；`published` 只由 `POST /api/v1/skill-approvals/{approvalId}/decision` 通过后写入；审批驳回时服务端把版本从 `evaluating` 置 `deprecated`，这是方案 4 个状态值下的处理，驳回结论保存在 `skill_approvals.conclusion`。其余 409 `INVALID_TRANSITION`。
+- 已发布版本内容不改，改内容新建版本；ADR-0009 H10 的项目默认与在途 Issue 沿用原版在方案中无落点。
 
 ### 8.3 测试题 `skill_test_questions`
 
@@ -1174,7 +1178,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `kind` | `kind` | 创建时写 | 题型 `success`、`business_failure`、`missing_precondition`，见附录 D（ADR-0009 H6）。 |
 | `question` | `question` | 创建时写 | 题面。 |
 | `expected` | `expected` | 创建时写 | 标准答案或预期，JSON。 |
-| `provided_by` | `providedBy` | 创建时写 | 出题方 `manager`、`leader`、`human`，见附录 D。 |
+| `provided_by` | `providedBy` | 创建时写 | 出题方，方案值 `manager`、`leader`、`human`。 |
 | `created_at` | `createdAt` | 读 | 创建时间。 |
 
 **规则**
@@ -1202,7 +1206,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `question_id` | `questionId` | 读 | 用哪道题；由 `questionIds` 展开。 |
 | `arm` | `arm` | 读 | `with`、`without`，见附录 D。 |
 | `blinded_label` | `blindedLabel` | 读 | 盲选标签，服务端随机生成；判定前响应不返回 `arm`。 |
-| `answer` | `answer` | 读 | 作答内容，JSON，后台写。 |
+| `answer` | `answer` | 读 | 作答内容，JSON；创建时为 `{}`，作答落库后由后台覆盖。 |
 | `judged_by` | `judgedBy` | 动作写 | 服务端写操作者字符串（2.2）。 |
 | `result` | `result` | 动作写 | 单题结论，见附录 D。 |
 | `run_at` | `runAt` | 读 | 运行时间。 |
@@ -1236,14 +1240,14 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `review_status` | `reviewStatus` | 动作写 | 见附录 D。 |
 | `reviewed_at` | `reviewedAt` | 读 | 审核时间。 |
 | `review_note` | `reviewNote` | 动作写 | 审核意见。 |
-| `recused` | `recused` | 读 | 审核方是否回避；审核方等于版本 `created_by` 时为 `true`，`reviewer_kind` 上移一级。 |
+| `recused` | `recused` | 读 | 审核方是否回避。服务端把 `skill_versions.created_by` 解析成 `user:` 或 `agent:` 身份，与审核方身份（`reviewer_user_id`，或按 `reviewer_kind` 推导出的上级 Agent ID）比较；相同时为 `true`，`reviewer_kind` 上移一级。 |
 | `conclusion` | `conclusion` | 动作写 | 最终结论，见附录 D。 |
 | `decided_at` | `decidedAt` | 读 | 定论时间。 |
 
 **规则**
 
 - `version_id` 唯一：重复 `POST .../approval` 在 `pending` 时返回 200 与已有行；已定论时 409 `INVALID_TRANSITION`。驳回后同一版本不能再次发起，需新建版本，见附录 E 写作中发现第 10 条。
-- `decision` 只允许 `pending` 到 `approved` 或 `rejected`。`approved` 且 `conclusion=publish` 时服务端把 `skill_versions.status` 从 `evaluating` 置 `published`；版本不在 `evaluating` 时 409。
+- `decision` 只允许 `pending` 到 `approved` 或 `rejected`。`approved` 且 `conclusion=publish` 时服务端把 `skill_versions.status` 从 `evaluating` 置 `published`；`rejected` 时服务端把版本置 `deprecated`，这是方案 4 个状态值下的处理，结论保存在 `conclusion`（8.2）；版本不在 `evaluating` 时 409。
 - 审核异步，不阻塞任何任务（方案；ADR-0009 H2）。
 - 角色名沿用方案的 leader 为总、manager 为仓库，见附录 E 第 1 条。
 
@@ -1352,7 +1356,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `organization_id` | `organizationId` | 读 | 组织，可空。 |
 | `task_id` | `taskId` | 读 | 任务，可空。 |
 | `run_id` | `runId` | 读 | 运行，可空。 |
-| `correlation_id` | `correlationId` | 读 | 关联链；写操作的 `Idempotency-Key` 作为首个事件的关联链。 |
+| `correlation_id` | `correlationId` | 读 | 关联链，必填，索引；写操作的 `Idempotency-Key` 作为首个事件的关联链。无 `Idempotency-Key` 的后台写入用触发它的上游事件 `correlation_id`，没有则新建。 |
 | `causation_id` | `causationId` | 读 | 起因事件。 |
 | `aggregate_type` | `aggregateType` | 读 | 聚合对象类型，取资源名单数，见附录 D。 |
 | `aggregate_id` | `aggregateId` | 读 | 聚合对象。 |
@@ -1591,7 +1595,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 **规则**
 
-- 迁移：立案为 `opened`；首条 `recovery_decisions` 写入后 `decided`；后台开始执行 `recovery_operations` 后 `executing`；`close` 到 `closed`。`close` 时存在未完成操作返回 409 `INVALID_TRANSITION`。
+- 迁移：立案为 `opened`；首条 `recovery_decisions` 写入后 `decided`；后台开始执行 `recovery_operations` 后 `executing`；`close` 到 `closed`。`close` 时存在未完成操作返回 409 `INVALID_TRANSITION`。后台在操作失败或超时时写 `recovery_operations.result` 为 `{"outcome":"failed"}` 或 `{"outcome":"timeout"}`，写入后允许 `close`。
 - ADR-0014 与 ADR-0016：上游不可用或观察陈旧先核查再决定；未知状态不得释放 Worker 或容量（执行门槛 G4、ADR-0017）。
 
 ### 9.9 恢复决定 `recovery_decisions`
@@ -1637,12 +1641,12 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `case_id` | `caseId` | 读 | 路径参数。 |
 | `operation` | `operation` | 读 | 操作类型，字符串。 |
 | `params` | `params` | 读 | 参数，JSON。 |
-| `result` | `result` | 读 | 结果，JSON，可空表示未知或未完成。 |
+| `result` | `result` | 读 | 结果，JSON，可空表示未知或未完成；失败或超时由后台写 `{"outcome":"failed"}` 或 `{"outcome":"timeout"}`（附录 D）。 |
 | `executed_at` | `executedAt` | 读 | 执行时间。 |
 
 **规则**
 
-- 只读；后台执行后写入。`result` 为空的操作不视为成功，也不视为失败（ADR-0016）。
+- 只读；后台执行后写入。`result` 为空的操作不视为成功，也不视为失败（ADR-0016）。失败或超时时后台写 `result` 为 `{"outcome":"failed"}` 或 `{"outcome":"timeout"}`，案件随后允许 `close`（9.8）。
 
 ### 9.11 决策链 `decision_chain_nodes`
 
@@ -1703,7 +1707,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 - 检索响应为 `{"items":[{"node":{...},"similarity":0.87}]}`，`node` 为 9.11 的节点快照；`topK` 默认 10，最大 50；`minSimilarity` 取 0 到 1。
 - 查询向量在读路径计算；写路径不调用 LLM，向量只经 `refresh` 异步沉淀（ADR-0021）。
-- 与 `decision_chain_nodes` 之间无外键（ADR-0021）；孤儿向量由 `refresh` 幂等覆盖。开关关闭时两个端点同样返回 503 `FEATURE_DISABLED`。
+- 方案写有 `node_id → decision_chain_nodes` 逻辑关联；是否建物理外键按 ADR-0021。孤儿向量由 `refresh` 幂等覆盖。开关关闭时两个端点同样返回 503 `FEATURE_DISABLED`。
 
 ### 9.13 降级策略 `mcp_server_policies`
 
@@ -1791,13 +1795,13 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | --- | --- | --- |
 | [ADR-0001](../adr/0001-agentteams-issue-concurrency-and-isolation.md) 团队、Issue 并行与隔离 | `tasks.assignee_agent_id` 落实单 Worker 单活跃任务，`reserve` 冲突 409；Attempt 对应 `task_assignments` 一行；子任务完成不自动完成父任务；`pause` 只停新派工。 | 无。 |
 | [ADR-0002](../adr/0002-github-app-authorization-and-draft-pr-delivery.md) GitHub App 授权与 draft PR | `credentials.kind=github-app`；`deliver` 只生成 draft PR 命令，合并由人；`human_grants` 与 `delivery_policies.policy` 不扩大 Git 权限。 | 有效权限交集需要的安装范围与用户授权数据无表（附录 E 第 8 条）；多仓项目（附录 E 第 2 条）。 |
-| [ADR-0003](../adr/0003-plan-change-authorization-and-activation.md) 计划许可、应用与生效 | `plans` 每次变化新行、`plan_version` 递增（§1.1）；获准经 `review_requests(objectType=plan)`；`decided_by` 服务端取会话（§1.6）；`plan-steps` 写端点不对浏览器开放（§3.1）；`execution_mode` 两档（§1.2）。 | 生效指针（附录 E 第 5 条）；YOLO 自动许可的记录主体（写作中发现第 7 条）；审批人资格数据（写作中发现第 1 条）。 |
+| [ADR-0003](../adr/0003-plan-change-authorization-and-activation.md) 计划许可、应用与生效 | `plans` 每次变化新行、`plan_version` 递增（§1.1）；获准经 `review_requests(objectType=plan)`；`decided_by` 服务端取会话（§1.6）；`plan-steps` 写端点不对浏览器开放（§3.1）；`execution_mode` 两档（§1.2）。 | 生效指针（附录 E 第 5 条）；YOLO 自动许可以空 `decided_by` 表达，待确认（写作中发现第 7 条）；审批人资格数据（写作中发现第 1 条）。 |
 | [ADR-0004](../adr/0004-acceptance-rule-clarification.md) 缺失业务规则的解释 | `review_requests.object_type=interpretation`（提案）；解释与验收通过分开，验证结果在 `validation_snapshots`。 | 方案 `object_type` 列举无此值（附录 E 第 5 条）。 |
-| [ADR-0005](../adr/0005-optional-project-verification-group.md) 可选项目验证小组 | `agent_teams` 修改需项目管理员（§1）；`validation_snapshots` 初判与复核分别记录（§3）；`db-test-team` 角色承担数据库验证。 | 项目管理员无落点（写作中发现第 1 条）；验证小组开关无列。 |
+| [ADR-0005](../adr/0005-optional-project-verification-group.md) 可选项目验证小组 | `agent_teams` 的验证小组开关与成员配置需项目管理员（§1）；`validation_snapshots` 初判与复核分别记录（§3）；`db-test-team` 角色承担数据库验证。 | 项目管理员无落点（写作中发现第 1 条）；验证小组开关无列；其余编制改动的授权来源方案未定义（4.4）。 |
 | [ADR-0006](../adr/0006-manager-entry-modes-and-skill-driven-execution.md) Manager 入口、模式与 Skill 分工 | `execution_mode` 当前只允许 `yolo`（§2）；人工门禁走 `review_requests`，环境阻塞用 `tasks.blocked`（§2）；Agent 决定工具经 MCP 进入后台，不经 HTTP（§3）。 | 角色命名倒置（附录 E 第 1 条）；MCP Schema 未冻结（附录 E 第 13 条）。 |
 | [ADR-0007](../adr/0007-graph-loop-plugin.md) Graph／Loop 行为 | 循环上限在 `task_assignments.generation` 与 `phase`、`plans.execution_batches` 体现：修复 3 轮、诊断 2 轮、环境恢复 2 次、连续两轮同一失败结束（D3、D4）；超限由后台拒绝新派单并返回 409 `INVALID_TRANSITION`；迟到结果不覆盖（D7）；`validation_snapshots.status` 补 `undetermined`、`blocked`（D2）。 | 计数口径依赖 `phase` 提案值。 |
 | [ADR-0008](../adr/0008-changeset-attribution-and-history.md) ChangeSet 归属与历史 | 顶层任务正式提交时同事务建立允许暂空的主 `change_sets`；重放复用；`archived` 终态；首期无嵌套。 | Candidate、Delivery Combination 五个事实无独立列（附录 E 第 6 条）。 |
-| [ADR-0009](../adr/0009-skill-engineering-deferred.md) Skill 工程延后 | 第 8 节端点在 ADR 更新前不得实施；H2、H6、H9、H10、H12 在规则中引用。 | 替代关系未写入 ADR（附录 E 第 7 条）；H3 归属无列。 |
+| [ADR-0009](../adr/0009-skill-engineering-deferred.md) Skill 工程延后 | 第 8 节内容是随方案给出的设计，不是采用记录，ADR 更新前不得实施；H2、H6、H9、H12 在规则中引用。 | 替代关系未写入 ADR（附录 E 第 7 条）；H1、H11 的 Issue 引用确定版本改为绑 Agent（附录 E 第 7 条）；H3 归属与 H10 项目默认无列。 |
 | [ADR-0010](../adr/0010-technology-stack-and-modular-monolith.md) 技术栈与模块化单体 | PostgreSQL 单库；`events(channel=outbox)` 作持久队列；SSE 不承诺补发。 | 无。 |
 | [ADR-0011](../adr/0011-agentteams-controlled-integration.md) AgentTeams 受控接入 | Agent 请求经受控 MCP 入口进入后台协调进程；`mcp_server_policies` 约束出站，不代替凭据与存储约束。 | Agent 调用凭证（附录 E 第 13 条）。 |
 | [ADR-0012](../adr/0012-issue-scoped-upstream-projects.md) Issue 仓库委派与上游 Project | 上游 Project 引用放在 `agents.resource_ref` 与 `task_assignments.dispatch_ref` JSON，须含实例、team、`project_id`（键名见附录 D）。 | 编制级引用无列（写作中发现第 21 条）。 |
@@ -1807,7 +1811,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | [ADR-0016](../adr/0016-transactional-background-work.md) 业务与待办同事务 | 业务行与 `events(channel=outbox)` 同事务；未知结果 503 `RESULT_UNCONFIRMED`；`scm-commands retry` 先核查。 | 仅 4 张表有 `idempotency_key`（附录 E 第 11 条）；无输入摘要列（写作中发现第 6 条）。 |
 | [ADR-0017](../adr/0017-atomic-attempt-resource-reservation.md) Attempt 与资源统一预留 | `reserve` 短事务写 `assignee_agent_id`、`reserved_at`、`status`；`assignments` 同事务；未知状态 `release` 返回 409。 | 容量与额度无列。 |
 | [ADR-0018](../adr/0018-provision-instance-after-first-draft.md) 项目先保存、按需准备实例 | 项目创建不触发准备；`runtime start` 与首条消息异步准备；201 不证明就绪或接收。 | 首条消息时 `room_id` 必填（写作中发现第 8 条）。 |
-| [ADR-0019](../adr/0019-conversation-issue-separation.md) 会话与独立 Issue 分离 | Issue 由顶层 `tasks` 承接；Issue SSE 由 `events/stream` 承接。 | 无会话实体（附录 E 第 3 条）；无独立 Issue 与仓库事项（附录 E 第 4 条）。 |
+| [ADR-0019](../adr/0019-conversation-issue-separation.md) 会话与独立 Issue 分离 | 未落实。Issue 暂由顶层 `tasks` 承接，会话无实体，Issue SSE 暂由 `events/stream` 承接。 | 无会话实体（附录 E 第 3 条）；无独立 Issue 与仓库事项（附录 E 第 4 条）。 |
 | [ADR-0020](../adr/0020-python-repository-analysis-plugin.md) 建项前 Python 仓库分析 | `POST /api/v1/repositories/{repositoryId}/profile` 是可选分析，不扩仓、不建计划、不触发实例。 | 分析作业表无（附录 E 第 15 条）。 |
 | [ADR-0021](../adr/0021-decision-chain-native-module-and-pgvector.md) 决策链原生模块与 pgvector | `decision-chains` 读端点；`semantic-search` 按 `model` 过滤；写路径不调 LLM；`refresh` 异步；开关关闭 503 `FEATURE_DISABLED`。 | `feature_settings` 不在 44 张内（附录 E 第 10 条）；未入 ADR 索引（附录 E 第 16 条）。 |
 
@@ -1874,7 +1878,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 
 ## 附录 D：本文提案的枚举值
 
-方案已给出的值不在此重复：`agents.role`、`credentials.kind`、`messages.sender_type`、`events.channel`、`skill_approvals.subject_role`、`skill_approvals.reviewer_kind`（2.8 第 1 类）。下表全部为提案，采用前不能写成已定。
+方案已给出的值不在此重复：`agents.role`、`credentials.kind`、`messages.sender_type`、`events.channel`、`skill_test_questions.provided_by`、`skill_approvals.subject_role`、`skill_approvals.reviewer_kind`（2.8 第 1 类）。下表全部为提案，采用前不能写成已定。
 
 | 列或结构 | 提案值 | 说明 |
 | --- | --- | --- |
@@ -1890,6 +1894,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `agent_teams.runtime_status` | `stopped`、`start_requested`、`preparing`、`ready`、`stop_requested`、`failed`、`unknown` | 请求态由 `runtime` 动作写，结果态由后台写。 |
 | `review_requests.object_type` | `task`、`agent_team`、`skill_release`、`plan`、`interpretation` | 前三个是方案三值的令牌；`plan`、`interpretation` 为本文增加。 |
 | `review_requests.status` | `pending`、`approved`、`rejected` | 方案：待审、通过、驳回。 |
+| `review_requests.decision_note` 自动许可值 | `auto:yolo` | YOLO 档自动许可写入的批复意见，`decided_by` 为空（4.5）。 |
 | `tasks.status` | `open`、`planned`、`reserved`、`in_progress`、`submitted`、`handed_off`、`done`、`blocked`、`paused`、`cancelled` | 迁移表见 5.1；终态 `done`、`cancelled`。 |
 | `plan_steps.status` | `pending`、`ready`、`in_progress`、`done`、`blocked`、`skipped` | `ready` 表示依赖已满足。 |
 | `task_assignments.phase` | `initial`、`fix`、`diagnose`、`recover` | 决定 ADR-0007 D3 上限的计数口径。 |
@@ -1909,7 +1914,6 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `validation_snapshots.status` | `passed`、`failed`、`undetermined`、`blocked` | 前两个来自方案；后两个对应 ADR-0007 D2 的暂无法判定与环境阻塞。 |
 | `database_branch_validations.status` | `requested`、`provisioning`、`running`、`passed`、`failed`、`cleaned_up` | `cleaned_up` 在 `cleanup_pending` 处理完成后写。 |
 | `skill_test_questions.kind` | `success`、`business_failure`、`missing_precondition` | 方案：成功、业务失败、前提缺失。 |
-| `skill_test_questions.provided_by` | `manager`、`leader`、`human` | 方案给出。 |
 | `skill_evaluation_runs.arm` | `with`、`without` | 方案：带、不带 Skill。 |
 | `skill_evaluation_runs.result` | `pending`、`pass`、`fail`、`undetermined` | 单题结论。 |
 | `skill_approvals.review_status` | `pending`、`approved`、`rejected` | 审核状态。 |
@@ -1923,6 +1927,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 | `log_entries.level` | `debug`、`info`、`warn`、`error` | 日志级别。 |
 | `recovery_cases.severity` | `low`、`medium`、`high`、`critical` | 严重程度。 |
 | `recovery_cases.status` | `opened`、`decided`、`executing`、`closed` | 方案：立案、决策、执行、关闭。 |
+| `recovery_operations.result.outcome` | `failed`、`timeout` | 后台在操作失败或超时时写入；写入后案件允许 `close`（9.8）。 |
 
 ## 附录 E：方案与 ADR、术语的冲突及待决事项
 
@@ -1934,7 +1939,7 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 4. **无独立 Issue 实体。** 现象：顶层 `tasks` 承接 Issue；ADR-0019 的 Issue 列表、详情、房间导航需要在 task 上表达；仓库事项（Repository Issue）无落点。出处：方案 `tasks`；ADR-0019；CONTEXT 需求事项、仓库事项。本文的处理：`parentTaskId` 为空的过滤即 Issue 列表；`rooms` 端点无落点。需要谁裁定：用户。
 5. **计划生效指针缺失。** 现象：ADR-0003 要求提出、获准、应用、生效四个事实分开；`plans` 无 `status`，`tasks` 无当前生效计划列；`review_requests.object_type` 方案列举无 `plan`。出处：方案 `plans`、`tasks`、`review_requests`；ADR-0003 §1.1、§1.4；CONTEXT 计划生效。本文的处理：获准经 `review_requests(objectType=plan)`（本文增加值）；生效事实不在任何端点表达。需要谁裁定：用户与方案作者。
 6. **Candidate、Delivery Combination、result admission 缺失。** 现象：ADR-0008 的收录、接受、入选、验证通过、可开 PR 五个事实与 ADR-0015 的结果采纳在方案中只剩 `change_sets.repository_ids` 每仓一份条目。出处：方案 `change_sets`；ADR-0008 记录关系；ADR-0015；CONTEXT 候选结果、交付组合。本文的处理：条目含 `deliveryStatus`（附录 D），不声称覆盖五个事实。需要谁裁定：用户与方案作者。
-7. **Skill 7 张表与 ADR-0009 暂缓冲突。** 现象：ADR-0009 要求恢复前不冻结表和 API；方案新增 7 张表。出处：方案 ⑥；ADR-0009 静态证据节。本文的处理：第 8 节给出设计，ADR 更新前不得实施。需要谁裁定：用户补充 ADR-0009 的替代关系。
+7. **Skill 7 张表与 ADR-0009 暂缓冲突。** 现象：ADR-0009 要求恢复前不冻结表、API 与状态枚举；方案新增 7 张表。ADR-0009 H1、H11 要求 Issue 引用确定版本，方案改为 Skill 绑 Agent（`agent_skill_bindings`），不绑 Issue。出处：方案 ⑥；ADR-0009 静态证据节、H1、H11。本文的处理：第 8 节按方案给出设计并标为非采用记录，ADR 更新前不得实施。需要谁裁定：用户补充 ADR-0009 的替代关系，并裁定绑定粒度。
 8. **登录方式。** 现象：方案为本地密码登录；现有 B02 GitHub OAuth 登录、connections、bindings、attempts、discovery 4 表无落点；ADR-0002 有效权限交集需要安装范围数据。出处：方案 `users`、`credentials`；B02 采用记录；首批契约 §2、§3。本文的处理：`POST /api/v1/sessions` 用户名密码；GitHub 相关端点在附录 C 标待裁定。需要谁裁定：用户。
 9. **模型供应商、来源、密钥版本 20 张表无落点。** 现象：现有 `repomesh_models.*`、`repomesh_sources.*`、`repomesh_secrets.*` 在方案中没有对应表；`llm_usage.provider`、`model` 只是字符串；`credentials.value_encrypted` 的密钥管理未定义。出处：方案 `credentials`、`llm_usage`；现有迁移 `0001` 至 `0008`。本文的处理：模型端点在附录 C 标待决，`credentials` 不定义轮换。需要谁裁定：用户与方案作者。
 10. **`feature_settings` 不在 44 张内。** 现象：ADR-0021 的决策链开关与现有 scope-assist 开关依赖 `public.feature_settings`。出处：ADR-0021 决策 5；现有 `PUT /api/settings/decision-chain`。本文的处理：列出 `GET /api/v1/settings/decision-chain`、`PUT /api/v1/settings/decision-chain`，落点待定。需要谁裁定：方案作者补表或用户改用其他落点。
@@ -1955,11 +1960,11 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 4. **后台专用端点的 HTTP 调用方未定义。** 2.2 规定后台协调进程不经 HTTP、Agent 经 MCP；多个端点的调用方又是“后台协调进程代 Agent”或“Manager 工具”。本文把它们标为 `后台`，Web 不向浏览器开放。需要用户决定是否引入内部服务凭证。
 5. **多张表无 `organization_id`。** `repositories`、`skills` 及其 6 张从表、`credentials`、`alert_rules`、`alert_events`、`trace_sessions`、`trace_events`、`log_entries`、`recovery_cases` 及 2 张从表、`decision_chain_nodes`、`decision_embeddings`、`mcp_server_policies`、`llm_usage` 没有租户列；`plan_steps`、`handoffs`、`context_*`、`scm_*`、`delivery_policies` 只能经父表关联。本文把无法关联的表按平台级处理。需要用户裁定租户隔离范围。
 6. **四张幂等表没有输入摘要列。** “同键异输入 409”只能比较已存行的对应列；无法保存创建契约 §3 的规范化摘要与 `schemaVersion`。需要方案作者决定是否补列。
-7. **YOLO 自动许可无记录主体。** `review_requests.decided_by` 指向 `users`，ADR-0006 §2 当前阶段的自动许可无法写入本表。本文让自动许可不经过本表。需要用户决定是否记录自动许可。
+7. **YOLO 自动许可的记录主体。** `review_requests.decided_by` 指向 `users`，ADR-0006 §2 当前阶段的自动许可没有用户主体。本文已用空 `decided_by` 与 `decision_note=auto:yolo` 表达（4.5），待确认。
 8. **`messages.room_id`、`subject` 必填。** ADR-0018 规定首条消息提交后才异步准备房间，此时 `room_id` 不存在；消息契约 §2 只有 `content` 一个字段。本文照方案要求两者必填。需要方案作者决定改为可空。
 9. **一人一会话。** 会话表 1:1 并入 `users`，第二个浏览器登录使第一个失效。需要用户确认可接受。
 10. **`skill_approvals.version_id` 唯一。** 驳回后同一版本不能再次发起审核，需新建版本。需要用户确认。
-11. **`database_branch_validations` 必填列在创建时未知。** `provider_branch_ref`、`engine_version` 必填，但在后台建分支前没有值。本文由服务端写空字符串占位。需要方案作者改为可空。
+11. **`database_branch_validations` 必填列在创建时未知。** `provider_branch_ref`、`engine_version` 必填，但在后台建分支前没有值，本文由服务端写空字符串占位；`results`、`cleanup_pending` 同为必填，本文以 `{}`、`false` 为创建初值。需要方案作者改为可空或确认初值。
 12. **唯一列冲突无专用错误码。** 固定状态码表没有唯一冲突码，本文用 422 `VALIDATION_FAILED` 与 `fieldErrors[].code=DUPLICATE`。需要用户确认。
 13. **登录端点不要求 `Idempotency-Key`。** 通用约定要求所有创建型 POST 带头，本文把 `POST /api/v1/sessions` 排除。需要用户确认。
 14. **组织与首个管理员的引导无落点。** 方案把 `bootstrap_operations` 迁出到内存，没有建立组织的端点或表。需要用户决定引导方式。
@@ -1971,3 +1976,4 @@ data: {"aggregateType":"task","aggregateId":"6f1d4c0e-2b7a-4a7e-9c1e-1c2f3a4b5d6
 20. **任务动作没有原因字段。** `pause`、`cancel` 的原因没有列，本文不接受 `reason`。需要用户决定是否写入 `events.payload`。
 21. **`agent_teams` 没有 `resource_ref`。** ADR-0012 的上游 Project 引用需要编制级落点，方案中 `resource_ref` 列只属于 `agents`。本文把成员级引用放在 `agents.resource_ref`，派单级放在 `task_assignments.dispatch_ref`；编制级引用无落点。需要方案作者或用户裁定。
 22. **`GET /api/repositories/url-type` 无对应端点。** 本文建议并入 `POST /api/v1/repositories` 的校验。需要用户确认。
+23. **`events` 无 `project_id`，`tasks`、`messages` 无时间列。** 项目级订阅只能按 `taskId` 或 `correlationId` 逐个建立；`tasks`、`messages` 列表只能按 `id` 排，无法做时间线。建议方案补列。
