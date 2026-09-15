@@ -21,9 +21,23 @@ DAG：`GET /api/v1/projects/{id}/workflow` 的 `nodes` / `edges` / `next`。`nex
 
 密钥、管理员口令只放在 `$HOME/.config/agentteams-live/`，不要提交。安装日志 `/tmp/agentteams-install.log` 也不要提交。
 
+## Docker 出网（Higress → LLM）
+
+Cloud 嵌套 Docker 上，`iptables-legacy` 的 FORWARD 默认 **DROP**，而 Docker 把 `agentteams-net` 的放行写在 `iptables-nft` 里。结果是：宿主机能访问 `api.deepseek.com`，`agentteams-controller` / Manager 容器 SYN 出不去，Higress `/v1/chat/completions` 变成 503/超时，Manager 收得到 Matrix 消息但回不了 LLM。
+
+安装后如果容器 `curl https://api.deepseek.com/v1/models` 超时，先跑：
+
+```bash
+bash tests/agentteams-live-rooms/fix-docker-egress.sh
+```
+
+桥名不是默认 `br-8b0a57af09b5` 时设 `AGENTTEAMS_DOCKER_BRIDGE`。规则只覆盖 `172.18.0.0/16`，不提交、也不改产品网络栈。
+
 ## 本机这次跑通的事实
 
-Embedded 安装：`agentteams-controller` + `agentteams-manager`（deepseek-chat / qwenpaw）。Element http://127.0.0.1:18088 ，Matrix 网关 http://127.0.0.1:18080 。
+Embedded 安装：`agentteams-controller` + `agentteams-manager`（`openai-compat` → Higress → DeepSeek `deepseek-chat`，实际 completions 返回 `deepseek-flash`）。Element http://127.0.0.1:18088 ，Matrix 网关 http://127.0.0.1:18080 。
+
+修好 Docker FORWARD 之后，Admin 在 `Manager: default` 里发中文探活，`@manager` 用 LLM 回复了自我介绍、安装欢迎语，以及对「收到请只回复：DeepSeek 通道已通。」的原句确认。密钥只在本机 `~/.config/agentteams-live/` 与安装 env，不进 Git。
 
 已创建 `live-demo` 团队（leader=`live-lead`，worker=`live-dev`）。Admin 加入的房间包括：
 
@@ -33,7 +47,7 @@ Embedded 安装：`agentteams-controller` + `agentteams-manager`（deepseek-chat
 - `Worker: live-lead` → `worker_room` + Controller `team_leader` → AT 文档 Leader Room
 - `Worker: live-dev` → `worker_room` → Worker 个人房间
 
-Project `live-dag-1` 经 `agt project create` / `replan` 写入 DAG：`n2` 在 `workflow.next`（候选就绪，不是派工）。Worker 容器随后因 MinIO mirror 失败退出，不影响已创建的 Matrix 房间与 Controller workflow。
+Project `live-dag-1` 经 `agt project create` / `replan` 写入 DAG：`n2` 在 `workflow.next`（候选就绪，不是派工）。Worker 曾因 MinIO 不可达退出；修好桥接 FORWARD 并重启 `live-lead` / `live-dev` 后容器保持 Up。
 
 映射页：http://127.0.0.1:18089/
 
