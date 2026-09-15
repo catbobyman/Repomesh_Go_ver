@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ClarificationSnapshot, ConversationSnapshot, Message } from "./types";
 
 const graphLabel: Record<string, string> = {
@@ -28,7 +28,12 @@ export function ConversationView({
 }) {
   const [input, setInput] = useState("");
   const [reply, setReply] = useState(false);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const issue = conversation.linkedIssues[0] ?? null;
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (el !== null) el.scrollTop = el.scrollHeight;
+  }, [messages]);
   const submit = async () => {
     const content = input.trim();
     if (content.length === 0) return;
@@ -49,7 +54,7 @@ export function ConversationView({
         </div>
         <button onClick={onCreateIssue}>＋ 建立新的 Issue</button>
       </header>
-      <div className="ws-body">
+      <div className="ws-body" ref={bodyRef}>
         {issue !== null && (
           <nav className="ws-dock" aria-label="悬浮快捷入口">
             <button onClick={() => onOpenIssue(issue.id)}>#{issue.number} Issue 详情</button>
