@@ -336,6 +336,9 @@ def annotate_workflows(
         annotated["needsRoleAssignment"] = [n["id"] for n in nodes if n.get("needsRoleAssignment")]
         annotated["roleSpecNotes"] = spec.get("notes") if apply_spec and spec.get("notes") else None
         out.append(annotated)
+    featured = spec.get("projectId")
+    if featured:
+        out.sort(key=lambda graph: 0 if graph.get("projectId") == featured else 1)
     return out
 
 
