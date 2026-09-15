@@ -135,7 +135,7 @@ go run ./cmd/repomesh-coordinator
 npm --prefix web run dev
 ```
 
-打开 [Vite 开发页面](http://127.0.0.1:5173)。Vite 未配置 API 代理；认证集成使用 Go 同源服务提供的构建资源。
+打开 [Vite 开发页面](http://127.0.0.1:5173)。Vite 未配置产品 API 代理；认证集成使用 Go 同源服务提供的构建资源。F07—F15 会话／Issue／交付的假数据演示在 [http://127.0.0.1:5173/demo/workspace](http://127.0.0.1:5173/demo/workspace)，由 Vite 中间件提供内存 `/api`，说明见 [演示基线](docs/current/f07-f15-workspace-browser-demo.md)。该演示不是产品实现。
 
 按改动影响选择检查；完整工程检查为：
 

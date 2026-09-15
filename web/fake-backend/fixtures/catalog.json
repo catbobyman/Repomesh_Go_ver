@@ -1,0 +1,52 @@
+{
+  "observedAt": "2026-09-15T12:00:00Z",
+  "agentTeamsCommit": "517caff",
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/api/issues/iss_1/rooms",
+      "fixture": "rooms/iss_1.json"
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues/iss_2/rooms",
+      "fixture": "rooms/iss_2.json"
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues/iss_3/rooms",
+      "fixture": "rooms/iss_3.json"
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues/iss_1/rooms/rm_main_iss_1",
+      "fixture": "rooms/snapshots/rm_main_iss_1.json"
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues/iss_1/rooms/rm_leader_iss_1_service",
+      "fixture": "rooms/snapshots/rm_leader_iss_1_service.json"
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues/iss_1/rooms/rm_leader_iss_1_admin",
+      "fixture": "rooms/snapshots/rm_leader_iss_1_admin.json"
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues/iss_2/rooms/rm_leader_iss_2_service",
+      "fixture": "rooms/snapshots/rm_leader_iss_2_service.json",
+      "note": "列表 canEnter=false；GET 必须 403 ROOM_NOT_ENTERABLE，不得返回本夹具正文"
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues/iss_1/plan-graph",
+      "fixture": "plan-graph/iss_1.json"
+    },
+    {
+      "method": "GET",
+      "path": "/api/issues/iss_2/plan-graph",
+      "fixture": "plan-graph/iss_2.json"
+    }
+  ]
+}

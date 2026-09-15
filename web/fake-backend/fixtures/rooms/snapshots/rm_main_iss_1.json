@@ -1,0 +1,45 @@
+{
+  "issueId": "iss_1",
+  "roomId": "rm_main_iss_1",
+  "roomRole": "main",
+  "readOnly": false,
+  "displayName": "讨论订单查询体验 · Manager 主房间",
+  "conversationId": "conv_1",
+  "availability": "ready",
+  "canEnter": true,
+  "observedAt": "2026-09-15T12:00:00Z",
+  "upstream": {
+    "roomKind": "task_room",
+    "lifecycle": "ephemeral",
+    "createdBy": "teamharness",
+    "schemaVersion": 1
+  },
+  "participants": [
+    { "role": "user", "displayName": "林悦" },
+    { "role": "manager", "displayName": "Manager" }
+  ],
+  "messages": [
+    {
+      "id": "rmsg_main_1",
+      "sequence": "1",
+      "author": { "role": "user", "displayName": "林悦" },
+      "content": "一起讨论支付筛选和订单导出。",
+      "createdAt": "2026-09-10T00:05:00Z",
+      "kind": "text"
+    },
+    {
+      "id": "rmsg_main_2",
+      "sequence": "2",
+      "author": { "role": "manager", "displayName": "Manager" },
+      "content": "这两个目标可以分别建立 Issue。主房间承接讨论，不代替各仓 Leader 协作记录。",
+      "createdAt": "2026-09-10T00:06:00Z",
+      "kind": "text"
+    }
+  ],
+  "composer": { "enabled": true, "target": "manager" },
+  "environment": null,
+  "navigation": {
+    "issueId": "iss_1",
+    "conversationId": "conv_1"
+  }
+}

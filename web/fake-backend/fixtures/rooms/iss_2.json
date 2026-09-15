@@ -1,0 +1,25 @@
+{
+  "issueId": "iss_2",
+  "main": {
+    "conversationId": "conv_1",
+    "availability": "preparing",
+    "reason": "NOT_READY",
+    "roomId": "rm_main_iss_2",
+    "canEnter": false,
+    "observedAt": "2026-09-15T12:00:00Z"
+  },
+  "leaders": [
+    {
+      "repositoryIssueId": "ri_iss_2_1",
+      "repositoryId": "repo_service",
+      "displayName": "repomesh/order-service",
+      "conversationId": null,
+      "availability": "preparing",
+      "reason": "NOT_READY",
+      "roomId": "rm_leader_iss_2_service",
+      "canEnter": false,
+      "observedAt": "2026-09-15T12:00:00Z",
+      "readOnly": true
+    }
+  ]
+}

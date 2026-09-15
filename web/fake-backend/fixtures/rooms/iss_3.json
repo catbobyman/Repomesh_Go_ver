@@ -1,0 +1,37 @@
+{
+  "issueId": "iss_3",
+  "main": {
+    "conversationId": "conv_2",
+    "availability": "unknown",
+    "reason": "OBSERVATION_STALE",
+    "roomId": null,
+    "canEnter": false,
+    "observedAt": "2026-09-15T12:00:00Z"
+  },
+  "leaders": [
+    {
+      "repositoryIssueId": "ri_iss_3_1",
+      "repositoryId": "repo_service",
+      "displayName": "repomesh/order-service",
+      "conversationId": null,
+      "availability": "unavailable",
+      "reason": "NOT_ASSOCIATED",
+      "roomId": null,
+      "canEnter": false,
+      "observedAt": "2026-09-15T12:00:00Z",
+      "readOnly": true
+    },
+    {
+      "repositoryIssueId": "ri_iss_3_2",
+      "repositoryId": "repo_admin",
+      "displayName": "repomesh/admin-console",
+      "conversationId": null,
+      "availability": "unavailable",
+      "reason": "NOT_ASSOCIATED",
+      "roomId": null,
+      "canEnter": false,
+      "observedAt": "2026-09-15T12:00:00Z",
+      "readOnly": true
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "issueId": "iss_1",
+  "roomId": "rm_leader_iss_1_service",
+  "roomRole": "leader",
+  "readOnly": true,
+  "displayName": "order-service · Leader 协作",
+  "conversationId": null,
+  "availability": "ready",
+  "canEnter": true,
+  "observedAt": "2026-09-15T12:00:00Z",
+  "repositoryId": "repo_service",
+  "repositoryIssueId": "ri_iss_1_1",
+  "upstream": {
+    "roomKind": "team_room",
+    "lifecycle": "persistent",
+    "createdBy": "agentteams",
+    "schemaVersion": 1
+  },
+  "participants": [
+    { "role": "leader", "displayName": "Leader" },
+    { "role": "worker", "displayName": "Worker" }
+  ],
+  "messages": [
+    {
+      "id": "rmsg_svc_1",
+      "sequence": "1",
+      "author": { "role": "leader", "displayName": "Leader" },
+      "content": "已收到 Manager 的仓库委派：支付状态筛选。本仓负责业务能力与接口约定，按当前有效计划执行。",
+      "createdAt": "2026-09-15T09:01:00Z",
+      "kind": "text"
+    },
+    {
+      "id": "rmsg_svc_2",
+      "sequence": "2",
+      "author": { "role": "worker", "displayName": "Worker" },
+      "content": "正在完善字段校验与接口用例。历史数据兼容检查已列入本轮自测。",
+      "createdAt": "2026-09-15T09:04:00Z",
+      "kind": "text"
+    },
+    {
+      "id": "rmsg_svc_3",
+      "sequence": "3",
+      "author": { "role": "leader", "displayName": "Leader" },
+      "content": "收到。提交候选后进行本仓初审，再交由独立验证。成员自测不等于整项需求通过。",
+      "createdAt": "2026-09-15T09:08:00Z",
+      "kind": "text"
+    }
+  ],
+  "composer": { "enabled": false, "target": "none" },
+  "environment": {
+    "repositoryDisplayName": "repomesh/order-service",
+    "changeSetId": "cs_1",
+    "attemptLabel": "Attempt 1 · 执行中",
+    "workDirNote": "Worker 独立 clone"
+  },
+  "navigation": {
+    "issueId": "iss_1",
+    "conversationId": "conv_1"
+  }
+}

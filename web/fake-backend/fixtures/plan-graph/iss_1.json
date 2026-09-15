@@ -1,0 +1,213 @@
+{
+  "issueId": "iss_1",
+  "planVersion": "v1",
+  "round": 1,
+  "readOnly": true,
+  "observedAt": "2026-09-15T12:00:00Z",
+  "upstreamProjects": [
+    {
+      "projectId": "tp-service",
+      "repositoryId": "repo_service",
+      "teamId": "team-order-service",
+      "native": {
+        "status": "active",
+        "planType": "dag",
+        "tasks": [
+          {
+            "taskId": "svc-01",
+            "title": "接口约定",
+            "assignedTo": "@leader-service",
+            "dependsOn": [],
+            "status": "completed"
+          },
+          {
+            "taskId": "svc-02",
+            "title": "列表筛选实现",
+            "assignedTo": "@worker-service",
+            "dependsOn": ["svc-01"],
+            "status": "in_progress"
+          },
+          {
+            "taskId": "svc-03",
+            "title": "导出兼容检查",
+            "assignedTo": "@worker-service",
+            "dependsOn": ["svc-02"],
+            "status": "planned"
+          }
+        ]
+      },
+      "workflow": {
+        "nodes": [
+          { "id": "svc-01", "name": "接口约定", "status": "completed", "assignee": "@leader-service" },
+          { "id": "svc-02", "name": "列表筛选实现", "status": "in-progress", "assignee": "@worker-service" },
+          { "id": "svc-03", "name": "导出兼容检查", "status": "pending", "assignee": "@worker-service" }
+        ],
+        "edges": [
+          { "source": "svc-01", "target": "svc-02", "conditional": false },
+          { "source": "svc-02", "target": "svc-03", "conditional": false }
+        ],
+        "next": [],
+        "interrupts": [],
+        "values": {
+          "projectId": "tp-service",
+          "status": "active",
+          "planType": "dag",
+          "taskCount": { "completed": 1, "in-progress": 1, "pending": 1 }
+        }
+      }
+    },
+    {
+      "projectId": "tp-admin",
+      "repositoryId": "repo_admin",
+      "teamId": "team-admin-console",
+      "native": {
+        "status": "active",
+        "planType": "dag",
+        "tasks": [
+          {
+            "taskId": "ui-01",
+            "title": "筛选控件",
+            "assignedTo": "@worker-admin",
+            "dependsOn": [],
+            "status": "assigned"
+          },
+          {
+            "taskId": "ui-02",
+            "title": "权限提示",
+            "assignedTo": "@worker-admin",
+            "dependsOn": ["ui-01"],
+            "status": "planned"
+          }
+        ]
+      },
+      "workflow": {
+        "nodes": [
+          { "id": "ui-01", "name": "筛选控件", "status": "delegated", "assignee": "@worker-admin" },
+          { "id": "ui-02", "name": "权限提示", "status": "pending", "assignee": "@worker-admin" }
+        ],
+        "edges": [
+          { "source": "ui-01", "target": "ui-02", "conditional": false }
+        ],
+        "next": ["ui-01"],
+        "interrupts": [],
+        "values": {
+          "projectId": "tp-admin",
+          "status": "active",
+          "planType": "dag",
+          "taskCount": { "delegated": 1, "pending": 1 }
+        }
+      }
+    }
+  ],
+  "businessOverlay": {
+    "readyIsNotDispatch": true,
+    "crossRepoEdges": [
+      { "from": { "projectId": "tp-service", "taskId": "svc-01" }, "to": { "projectId": "tp-admin", "taskId": "ui-01" } }
+    ],
+    "blockingReasons": {
+      "ui-01": ["cross_repo_predecessor_unmet", "attempt_not_reserved"]
+    },
+    "dispatchState": {
+      "svc-01": "completed",
+      "svc-02": "attempt_active",
+      "svc-03": "not_dispatched",
+      "ui-01": "not_dispatched",
+      "ui-02": "not_dispatched"
+    }
+  },
+  "nodes": [
+    {
+      "id": "svc-01",
+      "kind": "upstream_task",
+      "title": "接口约定",
+      "owner": "order-service",
+      "repositoryId": "repo_service",
+      "nativeStatus": "completed",
+      "workflowStatus": "completed",
+      "inNext": false,
+      "dispatchState": "completed",
+      "detail": "native completed。Controller 压缩态 completed。结果已可供后续仓内任务使用。"
+    },
+    {
+      "id": "svc-02",
+      "kind": "upstream_task",
+      "title": "列表筛选实现",
+      "owner": "order-service",
+      "repositoryId": "repo_service",
+      "nativeStatus": "in_progress",
+      "workflowStatus": "in-progress",
+      "inNext": false,
+      "dispatchState": "attempt_active",
+      "detail": "native in_progress（ack_task 之后）。in_progress 不会进入 ready_nodes。"
+    },
+    {
+      "id": "svc-03",
+      "kind": "upstream_task",
+      "title": "导出兼容检查",
+      "owner": "order-service",
+      "repositoryId": "repo_service",
+      "nativeStatus": "planned",
+      "workflowStatus": "pending",
+      "inNext": false,
+      "dispatchState": "not_dispatched",
+      "detail": "依赖 svc-02 尚未 completed，故不在 workflow.next。"
+    },
+    {
+      "id": "ui-01",
+      "kind": "upstream_task",
+      "title": "筛选控件",
+      "owner": "admin-console",
+      "repositoryId": "repo_admin",
+      "nativeStatus": "assigned",
+      "workflowStatus": "delegated",
+      "inNext": true,
+      "dispatchState": "not_dispatched",
+      "detail": "仓内 depends_on 已满足，故出现在 workflow.next。assigned 仍可出现在 ready_nodes，这不是新的派工。RepoMesh overlay：跨仓前驱未完成，attempt 未占用。"
+    },
+    {
+      "id": "ui-02",
+      "kind": "upstream_task",
+      "title": "权限提示",
+      "owner": "admin-console",
+      "repositoryId": "repo_admin",
+      "nativeStatus": "planned",
+      "workflowStatus": "pending",
+      "inNext": false,
+      "dispatchState": "not_dispatched",
+      "detail": "等待 ui-01 completed。"
+    },
+    {
+      "id": "overlay-combination",
+      "kind": "coordination",
+      "title": "选定固定组合",
+      "owner": "Manager",
+      "repositoryId": null,
+      "nativeStatus": null,
+      "workflowStatus": null,
+      "inNext": false,
+      "dispatchState": "not_applicable",
+      "detail": "RepoMesh 业务协调，不映射为上游 task.status。等待两仓候选后再选定组合。"
+    },
+    {
+      "id": "overlay-verify",
+      "kind": "verification",
+      "title": "独立验证",
+      "owner": "验证活动",
+      "repositoryId": null,
+      "nativeStatus": null,
+      "workflowStatus": null,
+      "inNext": false,
+      "dispatchState": "not_applicable",
+      "detail": "尚未形成可验证的固定组合。验证状态不写入 AgentTeams native status。"
+    }
+  ],
+  "edges": [
+    { "from": "svc-01", "to": "svc-02" },
+    { "from": "svc-02", "to": "svc-03" },
+    { "from": "ui-01", "to": "ui-02" },
+    { "from": "svc-01", "to": "ui-01" },
+    { "from": "svc-02", "to": "overlay-combination" },
+    { "from": "ui-01", "to": "overlay-combination" },
+    { "from": "overlay-combination", "to": "overlay-verify" }
+  ]
+}
