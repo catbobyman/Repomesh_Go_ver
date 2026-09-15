@@ -67,6 +67,7 @@ coverage/
 !/docs/archive/README.md
 !/docs/archive/2026-09-12-development-preparation/
 !/docs/archive/2026-09-13-plan-organization/
+!/docs/archive/2026-09-15-api-database-catalog/
 
 # Verification-skill proof artifacts. Helpers write here and cleanup must keep them.
 /.cursor/skills/verify-repomesh/evidence/*
