@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"log/slog"
 	"net/http"
 	"strings"
 	"sync"
@@ -36,6 +37,12 @@ type HTTP struct {
 	// Origin/CSRF). Nil means writes pass unauthenticated — tests only.
 	Authenticate func(r *http.Request) error
 
+	// OnScopeDecided is the 历史决策 producer seam (方案清单 §3 写路径①):
+	// fired once per accepted submission with the raw request, so the
+	// composition root can resolve the actor from the session. Nil keeps
+	// the v1 behavior (nothing persisted).
+	OnScopeDecided func(r *http.Request, decision ScopeDecision)
+
 	assist atomic.Bool
 	mu     sync.Mutex
 	// scopeReceipts is the in-process idempotency cache for scope
@@ -48,6 +55,16 @@ type scopeReceipt struct {
 	Confirmed     bool     `json:"confirmed"`
 	RepositoryIDs []string `json:"repositoryIds"`
 	DecidedAt     string   `json:"decidedAt"`
+}
+
+// ScopeDecision is one accepted scope submission on its way to the 历史决策
+// store. The adapter stays identity-agnostic: it hands over the raw request
+// and the composition root resolves the actor from the session.
+type ScopeDecision struct {
+	Requirement    string   // raw text; the decision chain normalizes it
+	IdempotencyKey string   // stored as event_id, deduped on the far side
+	RepositoryIDs  []string // as submitted; names resolved by the chain
+	Accepted       bool
 }
 
 // NewHTTP assembles the HTTP adapter.
@@ -68,8 +85,16 @@ func (h *HTTP) SetAssistEnabled(enabled bool) { h.assist.Store(enabled) }
 // AssistEnabled reports the switch state.
 func (h *HTTP) AssistEnabled() bool { return h.assist.Load() }
 
-// RegisterRoutes mounts the scan block's endpoints.
+// RegisterRoutes mounts the scan block's endpoints. It also seeds the assist
+// switch from the service config: the env-provided boot default lives on
+// Service, the runtime override on the atomic. Registration happens before
+// any request can arrive, and every construction style (the composite
+// literal in main.go bypasses NewHTTP) routes through here, so this is the
+// one place the default cannot be skipped.
 func (h *HTTP) RegisterRoutes(mux *http.ServeMux) {
+	if h.Service != nil {
+		h.assist.Store(h.Service.cfg.ScopeAssistEnabled)
+	}
 	mux.HandleFunc("GET /api/repositories", h.handleRepositoryList)
 	mux.HandleFunc("GET /api/repositories/url-type", h.handleURLType)
 	mux.HandleFunc("POST /api/repositories", h.guarded(h.handleRepositoryCreate))
@@ -322,10 +347,12 @@ func (h *HTTP) handleScopeCheck(w http.ResponseWriter, r *http.Request) {
 }
 
 // handleScopeSubmit implements D-8: the submission boundary. Valid ids are
-// confirmed; the persistence of the confirmed scope lands with the Issue
-// creation integration (the accept callback is the seam).
+// confirmed; the durable home of a confirmed scope is the 历史决策 store,
+// reached through OnScopeDecided. A replay of the same idempotency key
+// returns the original receipt without re-firing the seam.
 func (h *HTTP) handleScopeSubmit(w http.ResponseWriter, r *http.Request) {
 	var body struct {
+		Requirement    string   `json:"requirement"`
 		RepositoryIDs  []string `json:"repositoryIds"`
 		IdempotencyKey string   `json:"idempotencyKey"`
 	}
@@ -349,8 +376,8 @@ func (h *HTTP) handleScopeSubmit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	err := SubmitScope(r.Context(), h.Store, body.RepositoryIDs, func(confirmed []string) error {
-		// v1: the confirmed scope is consumed by the caller (issue creation
-		// integration owns the durable home). Audited by the web layer.
+		// The accept callback owns nothing anymore: persistence flows
+		// through OnScopeDecided below.
 		return nil
 	})
 	var unknown *UnknownRepositoriesError
@@ -363,11 +390,42 @@ func (h *HTTP) handleScopeSubmit(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	writeJSON(w, http.StatusOK, map[string]any{
-		"confirmed":     true,
-		"repositoryIds": body.RepositoryIDs,
-		"decidedAt":     nowRFC3339(),
-	})
+	receipt = scopeReceipt{
+		Confirmed:     true,
+		RepositoryIDs: body.RepositoryIDs,
+		DecidedAt:     nowRFC3339(),
+	}
+	if h.OnScopeDecided != nil {
+		h.fireScopeDecision(r, ScopeDecision{
+			Requirement:    body.Requirement,
+			IdempotencyKey: body.IdempotencyKey,
+			RepositoryIDs:  body.RepositoryIDs,
+			Accepted:       true,
+		})
+	}
+	h.mu.Lock()
+	// The composite literal in main.go bypasses NewHTTP, so the cache map
+	// may be nil on the production path — reads tolerate that, writes don't.
+	if h.scopeReceipts == nil {
+		h.scopeReceipts = map[string]scopeReceipt{}
+	}
+	h.scopeReceipts[body.IdempotencyKey] = receipt
+	h.mu.Unlock()
+	writeJSON(w, http.StatusOK, receipt)
+}
+
+// fireScopeDecision invokes the seam with panic isolation (F3 fail-open):
+// a consumer bug must not fail the user's scope submission — the panic is
+// logged and the submission proceeds (the receipt still caches).
+func (h *HTTP) fireScopeDecision(r *http.Request, d ScopeDecision) {
+	defer func() {
+		if rec := recover(); rec != nil {
+			slog.Error("scope decision seam panicked",
+				"panic", rec, "idempotencyKey", d.IdempotencyKey,
+				"repositoryIds", d.RepositoryIDs)
+		}
+	}()
+	h.OnScopeDecided(r, d)
 }
 
 // handleAssistGet / handleAssistPut implement D-9.

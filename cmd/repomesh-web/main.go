@@ -16,6 +16,7 @@ import (
 	"repomesh.local/repomesh/internal/access"
 	"repomesh.local/repomesh/internal/buildinfo"
 	"repomesh.local/repomesh/internal/database"
+	"repomesh.local/repomesh/internal/decisionchain"
 	"repomesh.local/repomesh/internal/models"
 	"repomesh.local/repomesh/internal/projects"
 	"repomesh.local/repomesh/internal/reposcan"
@@ -64,6 +65,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	var projectAPI web.Projects
 	var modelAPI web.Models
 	var scanAPI web.Scan
+	var decisionAPI web.Decision
 	var certFile, keyFile string
 	if *authConfig != "" {
 		startup, cancel := context.WithTimeout(ctx, 30*time.Second)
@@ -94,6 +96,42 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		for _, channel := range scan.DefaultChannels() {
 			scanService.RegisterChannel(channel)
 		}
+		// 历史决策 module (design: 历史决策终版设计, D9-D14): scope
+		// confirmations become decision nodes. Embedding config presence
+		// toggles semantic recall; without it recall degrades to structural.
+		decisionService := decisionchain.New(decisionchain.Config{
+			EmbeddingBaseURL: os.Getenv("REPOMESH_EMBEDDING_BASE_URL"),
+			EmbeddingAPIKey:  os.Getenv("REPOMESH_EMBEDDING_API_KEY"),
+			EmbeddingModel:   os.Getenv("REPOMESH_EMBEDDING_MODEL"),
+			ResolveName: func(ctx context.Context, id string) (string, bool) {
+				card, err := scanCatalog.Get(ctx, id)
+				if err != nil || card == nil {
+					return "", false
+				}
+				return card.Name, true
+			},
+		}, runtime.Pool())
+		// Same guard convention as the scan block: reads stay open, writes
+		// require Origin + session + CSRF.
+		decisionService.Authenticate = func(r *http.Request) error {
+			if r.Method == http.MethodGet {
+				return nil
+			}
+			if runtime.Deployment.Origin == "" || r.Header.Get("Origin") != runtime.Deployment.Origin {
+				return errors.New("origin rejected")
+			}
+			_, err := runtime.Service.AuthenticateProjectRequest(
+				r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), true)
+			return err
+		}
+		decisionService.ActorName = func(r *http.Request) string {
+			if principal, err := runtime.Service.AuthenticateProjectRequest(
+				r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), false); err == nil {
+				return principal.ActorID()
+			}
+			return ""
+		}
+		decisionAPI = web.Decision{API: decisionService}
 		fetcher := &reposcan.Router{
 			GitHub: &reposcan.GitHubFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITHUB_TOKEN")},
 			GitLab: &reposcan.GitLabFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITLAB_TOKEN")},
@@ -119,9 +157,35 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 					r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), true)
 				return err
 			},
+			OnScopeDecided: func(r *http.Request, d scan.ScopeDecision) {
+				// Fail-open (方案清单 F3): a record failure must never fail
+				// the user's scope submission. The log carries the payload
+				// so a lost record can be backfilled by hand.
+				actor := ""
+				if principal, err := runtime.Service.AuthenticateProjectRequest(
+					r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), true); err == nil {
+					actor = principal.ActorID()
+				}
+				// WithoutCancel: a client disconnecting right after submit
+				// must not orphan the audit record.
+				err := decisionService.Record(context.WithoutCancel(r.Context()), decisionchain.Event{
+					Requirement:    d.Requirement,
+					Actor:          actor,
+					IdempotencyKey: d.IdempotencyKey,
+					RepositoryIDs:  d.RepositoryIDs,
+					Accepted:       d.Accepted,
+				})
+				if errors.Is(err, decisionchain.ErrDisabled) {
+					return // toggle off: silent no-op (D12), nothing to audit
+				}
+				if err != nil {
+					fmt.Fprintf(stderr, "decision chain record failed: %v (requirement=%q ids=%v key=%s actor=%q)\n",
+						err, d.Requirement, d.RepositoryIDs, d.IdempotencyKey, actor)
+				}
+			},
 		}}
 	}
-	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, modelAPI, scanAPI, certFile, keyFile); err != nil {
+	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, modelAPI, scanAPI, decisionAPI, certFile, keyFile); err != nil {
 		fmt.Fprintln(stderr, "web stopped:", err)
 		return 1
 	}

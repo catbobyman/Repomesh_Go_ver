@@ -1,6 +1,7 @@
 package scan
 
 import (
+	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
@@ -17,5 +18,102 @@ func TestScanJobCreateRejectsUnknownFields(t *testing.T) {
 	}
 	if body := recorder.Body.String(); !strings.Contains(body, "githubToken") {
 		t.Fatalf("the offending field must be named: %s", body)
+	}
+}
+
+type suggesterFunc func(requirement string, limit int) ([]Suggestion, error)
+
+func (f suggesterFunc) Suggest(requirement string, limit int) ([]Suggestion, error) {
+	return f(requirement, limit)
+}
+
+// Production assembles the adapter with a composite literal (main.go), so
+// NewHTTP cannot be relied on: route registration itself must seed the boot
+// default from the service config, and a later PUT must still override it.
+func TestScopeAssistSeededFromServiceConfigAtRegistration(t *testing.T) {
+	suggest := suggesterFunc(func(requirement string, limit int) ([]Suggestion, error) {
+		return []Suggestion{{RepositoryID: "r1"}}, nil
+	})
+	newRequest := func() *http.Request {
+		return httptest.NewRequest("POST", "/api/scope/suggestions",
+			strings.NewReader(`{"requirement":"add a billing export"}`))
+	}
+
+	on := &HTTP{Service: &Service{cfg: Config{ScopeAssistEnabled: true}}, Suggester: suggest}
+	on.RegisterRoutes(http.NewServeMux())
+	recorder := httptest.NewRecorder()
+	on.handleScopeSuggestions(recorder, newRequest())
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200 with the config default on and no PUT: %s",
+			recorder.Code, recorder.Body.String())
+	}
+
+	off := &HTTP{Service: &Service{}, Suggester: suggest}
+	off.RegisterRoutes(http.NewServeMux())
+	recorder = httptest.NewRecorder()
+	off.handleScopeSuggestions(recorder, newRequest())
+	if recorder.Code != http.StatusServiceUnavailable {
+		t.Fatalf("status = %d, want 503 with the config default off", recorder.Code)
+	}
+
+	off.SetAssistEnabled(true)
+	recorder = httptest.NewRecorder()
+	off.handleScopeSuggestions(recorder, newRequest())
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200 after the runtime override", recorder.Code)
+	}
+}
+
+// The seam fires once per idempotency key: a replay returns the cached
+// receipt without re-notifying, and a nil seam keeps the v1 behavior.
+func TestScopeSubmitFiresDecisionSeamOncePerKey(t *testing.T) {
+	store, _ := scopeFixture()
+	var decisions []ScopeDecision
+	handler := &HTTP{Store: store, OnScopeDecided: func(r *http.Request, d ScopeDecision) {
+		decisions = append(decisions, d)
+	}}
+	body := `{"requirement":"add a billing export","repositoryIds":["t","c"],"idempotencyKey":"k1"}`
+
+	recorder := httptest.NewRecorder()
+	handler.handleScopeSubmit(recorder, httptest.NewRequest("POST", "/api/scope", strings.NewReader(body)))
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status = %d: %s", recorder.Code, recorder.Body.String())
+	}
+	if len(decisions) != 1 || decisions[0].Requirement != "add a billing export" ||
+		decisions[0].IdempotencyKey != "k1" || !decisions[0].Accepted ||
+		len(decisions[0].RepositoryIDs) != 2 {
+		t.Fatalf("decisions = %+v", decisions)
+	}
+
+	recorder = httptest.NewRecorder()
+	handler.handleScopeSubmit(recorder, httptest.NewRequest("POST", "/api/scope", strings.NewReader(body)))
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("replay status = %d: %s", recorder.Code, recorder.Body.String())
+	}
+	if len(decisions) != 1 {
+		t.Fatalf("replay fired the seam again (%d notifications)", len(decisions))
+	}
+
+	plain := &HTTP{Store: store}
+	recorder = httptest.NewRecorder()
+	plain.handleScopeSubmit(recorder, httptest.NewRequest("POST", "/api/scope",
+		strings.NewReader(`{"repositoryIds":["t"],"idempotencyKey":"k2"}`)))
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("nil seam status = %d: %s", recorder.Code, recorder.Body.String())
+	}
+}
+
+// A panicking consumer must not fail the submission (F3 fail-open): the
+// panic is contained, the receipt still caches, the caller sees 200.
+func TestScopeSubmitSurvivesAPanickingSeam(t *testing.T) {
+	store, _ := scopeFixture()
+	handler := &HTTP{Store: store, OnScopeDecided: func(r *http.Request, d ScopeDecision) {
+		panic("decision store exploded")
+	}}
+	recorder := httptest.NewRecorder()
+	handler.handleScopeSubmit(recorder, httptest.NewRequest("POST", "/api/scope",
+		strings.NewReader(`{"requirement":"x","repositoryIds":["t"],"idempotencyKey":"k9"}`)))
+	if recorder.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200: %s", recorder.Code, recorder.Body.String())
 	}
 }

@@ -66,9 +66,9 @@ func TestPostgresProductMigrationUpgrade(t *testing.T) {
 		t.Fatal(err)
 	}
 	defer current.Close()
-	assertState(t, current, SchemaState{Current: 1, Target: 6, Pending: 5})
+	assertState(t, current, SchemaState{Current: 1, Target: 8, Pending: 7})
 	state, err := current.Migrate(testContext(t))
-	if err != nil || state != (SchemaState{Current: 6, Target: 6, Pending: 0}) {
+	if err != nil || state != (SchemaState{Current: 8, Target: 8, Pending: 0}) {
 		t.Fatal(state, err)
 	}
 	var tables int
