@@ -65,6 +65,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	var projectAPI web.Projects
 	var modelAPI web.Models
 	var scanAPI web.Scan
+	var decisionAPI web.Decision
 	var certFile, keyFile string
 	if *authConfig != "" {
 		startup, cancel := context.WithTimeout(ctx, 30*time.Second)
@@ -110,6 +111,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 				return card.Name, true
 			},
 		}, runtime.Pool())
+		decisionAPI = web.Decision{API: decisionService}
 		fetcher := &reposcan.Router{
 			GitHub: &reposcan.GitHubFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITHUB_TOKEN")},
 			GitLab: &reposcan.GitLabFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITLAB_TOKEN")},
@@ -156,7 +158,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 			},
 		}}
 	}
-	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, modelAPI, scanAPI, certFile, keyFile); err != nil {
+	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, modelAPI, scanAPI, decisionAPI, certFile, keyFile); err != nil {
 		fmt.Fprintln(stderr, "web stopped:", err)
 		return 1
 	}
