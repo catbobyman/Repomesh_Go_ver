@@ -142,13 +142,18 @@ func (h *HTTP) handleURLType(w http.ResponseWriter, r *http.Request) {
 // handleScanJobCreate implements D-3: guard the target, then start a
 // background scan job.
 func (h *HTTP) handleScanJobCreate(w http.ResponseWriter, r *http.Request) {
+	// Unknown fields are rejected (extra="forbid" semantics): a browser
+	// sending a personal token must get a 422 naming the field, not a
+	// silently ignored field and a mysteriously empty result.
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
 	var body struct {
 		Kind       string `json:"kind"`
 		URL        string `json:"url"`
 		MaxWorkers int    `json:"maxWorkers"`
 	}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		writeError(w, http.StatusBadRequest, "invalid JSON body")
+	if err := decoder.Decode(&body); err != nil {
+		writeError(w, http.StatusBadRequest, "invalid JSON body: "+err.Error())
 		return
 	}
 	kind := strings.ToLower(strings.TrimSpace(body.Kind))
