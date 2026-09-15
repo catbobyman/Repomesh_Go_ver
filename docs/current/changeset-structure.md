@@ -1,5 +1,7 @@
 # ChangeSet 逻辑结构说明
 
+> **物理承载替代说明（2026-09-15）：** 本文三层结构仍是逻辑说明，不是物理表冻结；物理承载（含 `repomesh_execution.change_set_versions` 的 candidate/combination 子型）与锁序以 [B05-B11 物理合表](b05-b11-storage-consolidation.md)为准。
+
 依据：[已确认设计](changeset-design.md)及 [ADR-0008](../adr/0008-changeset-attribution-and-history.md)。下面解释这些规则可以怎样组织成可查询的记录；分组、字段名、修订号表示及示例是逻辑结构建议，不是已冻结的数据库表、JSON Schema 或现有接口。
 
 ## 三层结构

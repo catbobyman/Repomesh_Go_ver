@@ -5,6 +5,8 @@ design_revision: RM-FIRST-SOURCES-r1
 implementation: not-started
 ---
 
+> **物理承载替代说明（2026-09-15）：** B04 已实现的来源与模型表保持不变；B05 起的政策、绑定与导入承载及锁序以 [B05-B11 物理合表](b05-b11-storage-consolidation.md)为准，本文候选状态和逻辑语义不变。
+
 # 首批真实配置与秘密来源 · 完整待审方案
 
 2026-09-12 B02 采用补充。用户已回复“确认，继续”，采用范围以 [B02 采用记录](b02-authentication-adoption.md)为准。本文对应认证及必要秘密子集的“待采用”描述保留原提案历史，已由该记录替代；模型、预算、运行和其他未列明部分仍待采用。实现与验收进度见 [B02 记录](../development/2026-09-12-batch-02/README.md)。

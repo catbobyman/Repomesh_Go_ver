@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import html
+import json
 import os
 import re
 import shutil
@@ -72,6 +73,7 @@ def make_stage() -> Path:
     shutil.copy(HERE / "render.py", api / "render.py")
     shutil.copytree(HERE / "templates", api / "templates")
     shutil.copy(HERE / "README.md", api / "README.md")
+    shutil.copy(HERE / "table-manifest.json", api / "table-manifest.json")
     for name in CHAPTERS:
         source = HERE / name
         text = source.read_text(encoding="utf-8") if source.is_file() else fixture(name)
@@ -120,7 +122,26 @@ def case_render_and_check() -> None:
     for index in range(12):
         check(f'href="#doc-b{index:02d}">B{index:02d}</a>' in page, f"导航缺少大写批次标签 B{index:02d}")
     check('<a href="#doc-foundations">foundations</a>' in page, "导航缺少 foundations 入口")
-    check(stats(page)["Markdown 章节"] == 13, f"章节数应为 13，实际 {stats(page)}")
+    manifest = json.loads((api / "table-manifest.json").read_text(encoding="utf-8"))
+    manual = manifest["existing"]["manual_baseline"]["expected_count"]
+    scan = manifest["existing"]["scan"]["expected_count"]
+    design = len(manifest["target_tables"])
+    page_stats = stats(page)
+    check(page_stats["Markdown 章节"] == 13, f"章节数应为 13，实际 {page_stats}")
+    check(page_stats["已有数据库表（手册基线）"] == manual, f"手册基线应 {manual}，实际 {page_stats}")
+    check(page_stats["扫描表（手册外）"] == scan, f"扫描表应 {scan}，实际 {page_stats}")
+    check(page_stats["B05-B11 设计表"] == design, f"设计表应 {design}，实际 {page_stats}")
+    check(
+        page_stats["手册范围合计"] == manual + design,
+        f"手册范围应 {manual + design}，实际 {page_stats}",
+    )
+    check(
+        page_stats["全仓含扫描合计"] == manual + scan + design,
+        f"全仓应 {manual + scan + design}，实际 {page_stats}",
+    )
+    check("说明表格" in page_stats, f"缺少说明表格统计: {page_stats}")
+    check("表格" not in page_stats, f"仍使用旧统计标签: {page_stats}")
+    check("接口与数据卡" not in page_stats, f"仍把文档卡片当接口数: {page_stats}")
     source = (api / "b00.md").read_text(encoding="utf-8").splitlines()[0]
     heading = source[2:].strip() if source.startswith("# ") else "B00"
     plain = html.unescape(re.sub(r"<[^>]+>", "", page))
@@ -264,9 +285,83 @@ def case_counts_follow_content() -> None:
     page = render(api)
     after = stats(page)
     check(before["Markdown 章节"] == after["Markdown 章节"] == 13, "章节数应固定为 13")
-    check(after["设计专题"] == before["设计专题"] + 1, "新增 H2 后分组计数没有跟着变")
-    check(after["接口与数据卡"] == before["接口与数据卡"] + 1, "新增 H3 后卡片计数没有跟着变")
+    check(after["设计专题（说明）"] == before["设计专题（说明）"] + 1, "新增 H2 后分组计数没有跟着变")
+    check(
+        after["文档卡片（说明）"] == before["文档卡片（说明）"] + 1,
+        "新增 H3 后卡片计数没有跟着变",
+    )
     check("追加分组" in page and "追加卡片" in page, "新分组和新卡片没有进目录")
+
+
+def case_stale_manifest() -> None:
+    api = make_stage()
+    render(api)
+    manifest = api / "table-manifest.json"
+    data = json.loads(manifest.read_text(encoding="utf-8"))
+    data["target_tables"][0]["note"] = "改动一行，让已生成的摘要失效"
+    manifest.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    result = run(api, "--check")
+    check(result.returncode != 0, "--check 未发现 manifest 改动")
+    check("已陈旧" in result.stderr, f"缺少陈旧提示: {result.stderr.strip()}")
+
+
+def case_missing_manifest_is_fatal() -> None:
+    api = make_stage()
+    render(api)
+    before = sha256(api / "index.html")
+    (api / "table-manifest.json").unlink()
+    result = run(api, "--check")
+    check(result.returncode != 0, "--check 在缺 manifest 时仍然通过")
+    check(
+        "table-manifest.json" in result.stderr,
+        f"缺少 manifest 提示不准确: {result.stderr.strip()}",
+    )
+    result = run(api)
+    check(result.returncode != 0, "缺 manifest 时 render 仍然写文件")
+    check(sha256(api / "index.html") == before, "缺 manifest 时 index.html 被改写")
+
+
+def case_design_counts_follow_manifest() -> None:
+    api = make_stage()
+    manifest = api / "table-manifest.json"
+    data = json.loads(manifest.read_text(encoding="utf-8"))
+    manual = data["existing"]["manual_baseline"]["expected_count"]
+    scan = data["existing"]["scan"]["expected_count"]
+    base = len(data["target_tables"])
+    removed = data["target_tables"].pop()
+    for batch in data["batches"]:
+        if batch["id"] == removed["batch"]:
+            batch["expected_target_count"] -= 1
+    manifest.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    page = render(api)
+    page_stats = stats(page)
+    check(
+        page_stats["B05-B11 设计表"] == base - 1,
+        f"设计表统计没有跟随 manifest: {page_stats}",
+    )
+    check(
+        page_stats["手册范围合计"] == manual + base - 1,
+        f"手册范围统计没有跟随 manifest: {page_stats}",
+    )
+    check(
+        page_stats["全仓含扫描合计"] == manual + scan + base - 1,
+        f"全仓统计没有跟随 manifest: {page_stats}",
+    )
+    result = run(api, "--check")
+    check(result.returncode == 0, f"按 manifest 重生成后 --check 应通过: {result.stderr.strip()}")
+
+
+def case_visible_table_declaration() -> None:
+    api = make_stage()
+    with (api / "b07.md").open("a", encoding="utf-8") as handle:
+        handle.write(
+            "\n## 声明卡片\n\n### 房间关联表\n\n物理表：`repomesh_issues.issue_room_links`\n"
+        )
+    page = render(api)
+    text = html.unescape(re.sub(r"<[^>]+>", "", page))
+    check("物理表：repomesh_issues.issue_room_links" in text, "可见物理表声明没有进入 HTML")
+    result = run(api, "--check")
+    check(result.returncode == 0, f"带声明行的页面 --check 应通过: {result.stderr.strip()}")
 
 
 def case_text_anchors_and_escaping() -> None:
@@ -347,6 +442,10 @@ CASES = (
     ("missing-source-is-fatal", case_missing_source_is_fatal),
     ("stale-source", case_stale_source),
     ("stale-template", case_stale_template),
+    ("stale-manifest", case_stale_manifest),
+    ("missing-manifest-is-fatal", case_missing_manifest_is_fatal),
+    ("design-counts-follow-manifest", case_design_counts_follow_manifest),
+    ("visible-table-declaration", case_visible_table_declaration),
     ("stale-generator-code", case_stale_generator_code),
     ("stale-html-tamper", case_stale_html_tamper),
     ("extra-markdown", case_extra_markdown),

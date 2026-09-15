@@ -45,3 +45,7 @@ LIVE-09、LIVE-10 的既有通过结果保留。second-account-02 的 LIVE-05 �
 ## B00-B11 API 与数据库文档入口
 
 新增 [API 与数据库设计目录](../api-database/README.md)，包含 HTML 与同内容 Markdown，覆盖共同规则和 B00 至 B11。B08 复用前序接口与表进行验收设计，B10 的基础执行身份由 B11 复用。章节分别标明实现、采用与候选状态；文档制作不代表 B05-B11 产品实现或业务验收完成。制作结果和复核限制见 [本轮记录](../development/2026-09-15-api-db-catalog-01/README.md)。
+
+## B05-B11 物理合表入口
+
+[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录 2026-09-15 用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 33 张，B01-B04 的 36 张手册基线表与 0007 扫描表 1 张保持不动。合表只改变物理承载，候选、提案、实现与验收状态不变。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json)，制作进度、检查结果与限制见 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md)；该记录不代表数据库行为已验证。

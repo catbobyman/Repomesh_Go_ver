@@ -4,6 +4,8 @@ date: 2026-09-12
 implementation: not_started
 ---
 
+> **物理承载替代说明（2026-09-15）：** 本文 P9 的候选状态与逻辑字段不变；相关物理表按 [B05-B11 物理合表](b05-b11-storage-consolidation.md)的批次承载，锁序与表清单以新专题为准。
+
 # Issue 配置绑定：创建与后续接续
 
 本文是设计就绪审查 R04 的**推荐修订，待采用**，不是新增已确认决定，也不表示数据库、消息或运行接入已实现。当前采用的浏览器字段、错误与项目配置固定规则仍以[首批浏览器契约](first-batch-browser-api-contract.md)、[Issue 创建契约](issue-page-create-api-contract.md)和[首批持久化协议](backend-first-batch-persistence.md)为准。本稿补充的内部字段与流程在采用后才能成为实现依据；不直接增加 HTTP 或 MCP 字段。

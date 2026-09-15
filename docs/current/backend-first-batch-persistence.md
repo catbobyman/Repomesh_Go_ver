@@ -3,6 +3,8 @@ status: accepted
 date: 2026-09-10
 ---
 
+> **物理承载替代说明（2026-09-15）：** 本文已采用的逻辑记录与 B01-B04 物理表继续有效；B05-B11 的物理承载、表数与锁序改由 [B05-B11 物理合表](b05-b11-storage-consolidation.md)统一，候选与验收状态不变。
+
 # 首批后端持久化与恢复协议
 
 本文由后端维护，细化 B02—B04；共享业务语义对应 RM-B01-04 r2，双方第2／3轮已ACK，原文见[本轮日志](../archive/2026-09-12-development-preparation/docs/current/design-communication-backend-2026-09-10.md)。accepted仅指本批内部设计采用，不表示B01—B04全部闭合或实现通过。浏览器字段与 HTTP 错误只以[创建契约](issue-page-create-api-contract.md)及页面负责的项目接口为准。本文字段是内部逻辑存储设计，不是迁移文件、Go 类型或另一套 REST Schema。仅覆盖项目保存、手动建项、列表与详情；当前已实现[数据库连接和迁移基础](database-development.md)，尚无本文业务表或运行实现，本文业务验收均待执行。

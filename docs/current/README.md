@@ -103,3 +103,7 @@
 ## 按批次查看 API 与数据库设计
 
 [B00-B11 API 与数据库目录](../api-database/README.md) 提供 [HTML 手册](../api-database/index.html) 和对应 Markdown，集中列出接口、字段、关系、事务、恢复与设计理由。已实现、已采用设计、既有候选和本次提案分别标记。既有专题与采用记录继续决定采用范围，新目录不改变产品或验收状态。
+
+## B05-B11 物理合表
+
+[B05-B11 物理合表与表清单](b05-b11-storage-consolidation.md) 记录用户批准的物理合表：B05-B11 的 63 张候选或提案表合到 33 张，B01-B04 的 36 张手册基线表与 0007 扫描表保持不动。合表只改变物理承载，已采用逻辑契约、各候选与验收状态不变；相关专题顶部的替代说明只把 B05 与物理承载、锁序指向该文。机器清单与静态校验见 [table-manifest.json](../api-database/table-manifest.json) 和 [本轮制作记录](../development/2026-09-15-table-consolidation-01/README.md)。

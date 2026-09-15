@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import html
+import json
 import re
 import sys
 from dataclasses import dataclass, field
@@ -24,6 +25,7 @@ from urllib.parse import unquote
 HERE = Path(__file__).resolve().parent
 TEMPLATE_DIR = HERE / "templates"
 INDEX_PATH = HERE / "index.html"
+MANIFEST_PATH = HERE / "table-manifest.json"
 
 SOURCES = (
     "foundations.md",
@@ -650,32 +652,72 @@ def load_sources() -> Tuple[Dict[str, str], List[str]]:
     return texts, problems
 
 
+def load_manifest() -> Tuple[Optional[dict], str, List[str]]:
+    """读取机器可读表清单；缺失或损坏时不给首页生成猜测数字。"""
+    if not MANIFEST_PATH.is_file():
+        return None, "", [f"缺少来源文件: {MANIFEST_PATH.name}"]
+    text = MANIFEST_PATH.read_text(encoding="utf-8")
+    try:
+        data = json.loads(text)
+    except json.JSONDecodeError as error:
+        return None, text, [f"表清单不是合法 JSON: {error}"]
+    if not isinstance(data, dict):
+        return None, text, ["表清单顶层必须是对象"]
+    for key in ("existing", "batches", "target_tables"):
+        if key not in data:
+            return None, text, [f"表清单缺少字段: {key}"]
+    return data, text, []
+
+
 def write_index(page: str) -> None:
     """固定 LF 写出，产物字节不随检出平台的换行转换变化。"""
     with INDEX_PATH.open("w", encoding="utf-8", newline="\n") as handle:
         handle.write(page)
 
 
-def source_digest(texts: Dict[str, str], templates: Dict[str, str]) -> str:
+def source_digest(texts: Dict[str, str], templates: Dict[str, str], manifest: str) -> str:
     digest = hashlib.sha256()
     digest.update((GENERATOR + "\n").encode("utf-8"))
     for name in SOURCES:
         digest.update(name.encode("utf-8") + b"\0" + texts[name].encode("utf-8") + b"\0")
     for name in sorted(templates):
         digest.update(name.encode("utf-8") + b"\0" + templates[name].encode("utf-8") + b"\0")
+    digest.update(b"table-manifest.json\0" + manifest.encode("utf-8") + b"\0")
     return digest.hexdigest()
 
 
 def render_all(
-    texts: Dict[str, str], templates: Dict[str, str], problems: List[str], notes: List[str]
+    texts: Dict[str, str],
+    templates: Dict[str, str],
+    manifest: dict,
+    manifest_text: str,
+    problems: List[str],
+    notes: List[str],
 ) -> Build:
     docs = [build_doc(name, texts[name], problems, notes) for name in SOURCES]
     ctx = Ctx(docs={doc.key: doc for doc in docs}, problems=problems, notes=notes, links=[])
     body = "\n".join(render_doc(doc, ctx) for doc in docs)
+    existing = manifest.get("existing") or {}
+    manual = (existing.get("manual_baseline") or {})
+    scan = (existing.get("scan") or {})
+    manual_count = manual.get("expected_count", 0)
+    business_count = manual.get("business_count", 0)
+    scan_count = scan.get("expected_count", 0)
+    design_count = len(manifest.get("target_tables") or [])
+    batch_counts = "、".join(
+        f"{batch.get('id', '').upper()} {batch.get('expected_target_count', 0)}"
+        for batch in manifest.get("batches") or []
+        if isinstance(batch, dict)
+    )
     stats = [
+        (manual_count, "已有数据库表（手册基线）"),
+        (scan_count, "扫描表（手册外）"),
+        (design_count, "B05-B11 设计表"),
+        (manual_count + design_count, "手册范围合计"),
+        (manual_count + scan_count + design_count, "全仓含扫描合计"),
         (len(docs), "Markdown 章节"),
-        (sum(len(doc.groups) for doc in docs), "设计专题"),
-        (sum(len(group.cards) for doc in docs for group in doc.groups), "接口与数据卡"),
+        (sum(len(doc.groups) for doc in docs), "设计专题（说明）"),
+        (sum(len(group.cards) for doc in docs for group in doc.groups), "文档卡片（说明）"),
         (
             sum(count_tables(doc.blocks) for doc in docs)
             + sum(count_tables(group.blocks) for doc in docs for group in doc.groups)
@@ -685,7 +727,7 @@ def render_all(
                 for group in doc.groups
                 for card in group.cards
             ),
-            "表格",
+            "说明表格",
         ),
         (len({path for _, path in ctx.links}), "本地来源链接（去重）"),
     ]
@@ -694,11 +736,16 @@ def render_all(
         "SUBTITLE": (
             "按 B00 至 B11 批次整理 API、数据库关系、采用状态与设计理由。"
             f"内容来自 docs/api-database 下的 {len(docs)} 个 Markdown 章节，"
-            "目录和计数按内容计算。"
+            "目录和文档计数按内容计算。"
+            f"数据库统计来自迁移与 table-manifest.json：手册基线 {manual_count} 张"
+            f"（业务 {business_count} + 系统表 1）、扫描表 {scan_count} 张（手册外）、"
+            f"B05-B11 设计表 {design_count} 张（{batch_counts}）；"
+            f"手册范围合计 {manual_count + design_count}，全仓含扫描 {manual_count + scan_count + design_count}。"
+            "设计专题、文档卡片、说明表格等数字是文档统计，不是 API 数或已实现表数。"
         ),
         "GENERATOR": GENERATOR,
         "DIGEST_META": DIGEST_META,
-        "DIGEST": source_digest(texts, templates),
+        "DIGEST": source_digest(texts, templates, manifest_text),
         "STYLE": templates["style.css"],
         "SCRIPT": templates["app.js"],
         "STATS": render_stats(stats),
@@ -794,11 +841,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     notes: List[str] = []
     texts, missing = load_sources()
     problems.extend(missing)
-    if missing:
+    manifest, manifest_text, manifest_problems = load_manifest()
+    problems.extend(manifest_problems)
+    if missing or manifest_problems:
         report(problems, notes)
         return 1
 
-    build = render_all(texts, load_templates(), problems, notes)
+    build = render_all(texts, load_templates(), manifest, manifest_text, problems, notes)
     if args.check:
         check_artifact(build, build.html, problems)
         report(problems, notes)

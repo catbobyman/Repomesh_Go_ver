@@ -1,0 +1,1532 @@
+{
+  "manifest_version": 1,
+  "status": "design_only",
+  "updated": "2026-09-15",
+  "scope": "B05-B11 物理合表：63 张旧提案按物理承载合到 34 张（净减 29，约 46%）；B01-B04 手册基线 36 张（35 业务 + 1 系统表）与 0007 扫描表 1 张保持不动",
+  "declaration": {
+    "format": "物理表：`schema.table`",
+    "rule": "每张目标物理表只在所属 batch 正文声明一次；跨 batch 复用不重复声明；B00-B04 与 B08 不写声明。",
+    "chapters": [
+      "b05.md",
+      "b06.md",
+      "b07.md",
+      "b08.md",
+      "b09.md",
+      "b10.md",
+      "b11.md"
+    ]
+  },
+  "legacy_snapshot": {
+    "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+    "note": "合表前的 b05-b11 正文快照；每条旧表的 file/line/text 必须在 git show <ref>:<file> 中逐字命中。",
+    "expected_total": 63
+  },
+  "existing": {
+    "source": "internal/database/migrations/0001..0007",
+    "manual_baseline": {
+      "migrations": [
+        "0001_schema_migrations.sql",
+        "0002_auth_secrets.sql",
+        "0003_authentication.sql",
+        "0004_projects.sql",
+        "0005_models.sql",
+        "0006_complete_save_vault.sql"
+      ],
+      "expected_count": 36,
+      "business_count": 35,
+      "system_table": "public.repomesh_schema_migrations"
+    },
+    "scan": {
+      "migrations": [
+        "0007_scan_catalog.sql"
+      ],
+      "expected_count": 1,
+      "tables": [
+        "repomesh_scan.repositories"
+      ],
+      "note": "手册外扫描表；全仓统计含此表"
+    },
+    "expected_total": 37,
+    "tables": [
+      {
+        "table": "public.repomesh_schema_migrations",
+        "migration": "0001_schema_migrations.sql",
+        "line": 1,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_secrets.root_keys",
+        "migration": "0002_auth_secrets.sql",
+        "line": 3,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_secrets.versions",
+        "migration": "0002_auth_secrets.sql",
+        "line": 15,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_secrets.availability",
+        "migration": "0002_auth_secrets.sql",
+        "line": 33,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_secrets.self_check",
+        "migration": "0002_auth_secrets.sql",
+        "line": 40,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_access.accounts",
+        "migration": "0003_authentication.sql",
+        "line": 3,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_access.bindings",
+        "migration": "0003_authentication.sql",
+        "line": 10,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_access.sessions",
+        "migration": "0003_authentication.sql",
+        "line": 18,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_access.connections",
+        "migration": "0003_authentication.sql",
+        "line": 30,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_access.attempts",
+        "migration": "0003_authentication.sql",
+        "line": 44,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_access.discovery_batches",
+        "migration": "0003_authentication.sql",
+        "line": 70,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_access.discovered_repositories",
+        "migration": "0003_authentication.sql",
+        "line": 89,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_access.discovery_cursors",
+        "migration": "0003_authentication.sql",
+        "line": 99,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_access.app_credentials",
+        "migration": "0003_authentication.sql",
+        "line": 107,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.catalog",
+        "migration": "0004_projects.sql",
+        "line": 7,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.profiles",
+        "migration": "0004_projects.sql",
+        "line": 12,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.profile_versions",
+        "migration": "0004_projects.sql",
+        "line": 23,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.defaults",
+        "migration": "0004_projects.sql",
+        "line": 50,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.projects",
+        "migration": "0004_projects.sql",
+        "line": 59,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.repositories",
+        "migration": "0004_projects.sql",
+        "line": 73,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.project_repositories",
+        "migration": "0004_projects.sql",
+        "line": 82,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.configuration_revisions",
+        "migration": "0004_projects.sql",
+        "line": 90,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.creation_operations",
+        "migration": "0004_projects.sql",
+        "line": 121,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.update_operations",
+        "migration": "0004_projects.sql",
+        "line": 135,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_projects.cursors",
+        "migration": "0004_projects.sql",
+        "line": 149,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_sources.deployment",
+        "migration": "0005_models.sql",
+        "line": 18,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_sources.import_serialization",
+        "migration": "0005_models.sql",
+        "line": 24,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_sources.imports",
+        "migration": "0005_models.sql",
+        "line": 29,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_sources.environment_templates",
+        "migration": "0005_models.sql",
+        "line": 39,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_sources.execution_versions",
+        "migration": "0005_models.sql",
+        "line": 50,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_models.providers",
+        "migration": "0005_models.sql",
+        "line": 69,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_models.provider_revisions",
+        "migration": "0005_models.sql",
+        "line": 78,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_models.model_rows",
+        "migration": "0005_models.sql",
+        "line": 103,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_models.model_snapshots",
+        "migration": "0005_models.sql",
+        "line": 114,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_models.profile_links",
+        "migration": "0005_models.sql",
+        "line": 130,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_models.save_operations",
+        "migration": "0005_models.sql",
+        "line": 147,
+        "group": "manual_baseline"
+      },
+      {
+        "table": "repomesh_scan.repositories",
+        "migration": "0007_scan_catalog.sql",
+        "line": 9,
+        "group": "scan"
+      }
+    ]
+  },
+  "batches": [
+    {
+      "id": "b05",
+      "chapters": [
+        "b05.md"
+      ],
+      "legacy_count": 16,
+      "expected_target_count": 9,
+      "status": "designed",
+      "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b05.md",
+      "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md"
+    },
+    {
+      "id": "b06",
+      "chapters": [
+        "b06.md"
+      ],
+      "legacy_count": 13,
+      "expected_target_count": 6,
+      "status": "designed",
+      "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b06-b07.md",
+      "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md"
+    },
+    {
+      "id": "b07",
+      "chapters": [
+        "b07.md"
+      ],
+      "legacy_count": 1,
+      "expected_target_count": 1,
+      "status": "designed",
+      "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b06-b07.md",
+      "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md"
+    },
+    {
+      "id": "b08",
+      "chapters": [
+        "b08.md"
+      ],
+      "legacy_count": 0,
+      "expected_target_count": 0,
+      "status": "designed",
+      "plan_source": null,
+      "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md"
+    },
+    {
+      "id": "b09",
+      "chapters": [
+        "b09.md"
+      ],
+      "legacy_count": 13,
+      "expected_target_count": 6,
+      "status": "designed",
+      "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b09.md",
+      "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b09.md"
+    },
+    {
+      "id": "b10",
+      "chapters": [
+        "b10.md"
+      ],
+      "legacy_count": 13,
+      "expected_target_count": 10,
+      "status": "designed",
+      "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b10-b11.md",
+      "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b10-b11.md"
+    },
+    {
+      "id": "b11",
+      "chapters": [
+        "b11.md"
+      ],
+      "legacy_count": 7,
+      "expected_target_count": 2,
+      "status": "designed",
+      "plan_source": "docs/development/2026-09-15-table-consolidation-01/analysis/astra-b10-b11.md",
+      "plan_note": "设计裁决与旧表映射以本文件为准；章节正文承载最终设计。",
+      "plan_review": "docs/development/2026-09-15-table-consolidation-01/analysis/review-b10-b11.md"
+    }
+  ],
+  "legacy_tables": [
+    {
+      "batch": "b05",
+      "table": "modelbudget.windows",
+      "target": "repomesh_modelbudget.windows",
+      "carrier": "独立共享请求窗口",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 355,
+        "text": "### modelbudget.windows"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "models.previews",
+      "target": "repomesh_models.previews",
+      "carrier": "test/apply 两种有界预览",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 373,
+        "text": "### models.previews"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "models.tests",
+      "target": "repomesh_models.tests",
+      "carrier": "测试聚合根与唯一待办",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 388,
+        "text": "### models.tests"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "modelbudget.test_reservations",
+      "target": "repomesh_models.tests",
+      "carrier": "预留列组；window 复合 FK、amount=1",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 402,
+        "text": "### modelbudget.test_reservations"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "models.test_dispatch",
+      "target": "repomesh_models.tests",
+      "carrier": "领取/许可/发送/撤销列组",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 416,
+        "text": "### models.test_dispatch"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "models.test_observations",
+      "target": "repomesh_models.test_observations",
+      "carrier": "1:N 不可变观察证据",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 431,
+        "text": "### models.test_observations"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "models.test_handler_leases",
+      "target": "repomesh_models.test_handler_instances",
+      "carrier": "实例登记与租约观察",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 443,
+        "text": "### models.test_handler_leases"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "models.actor_outstanding_tests",
+      "target": "repomesh_models.tests",
+      "carrier": "is_outstanding 生成列与 actor 条件索引",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 454,
+        "text": "### models.actor_outstanding_tests"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "models.unknown_test_closures",
+      "target": "repomesh_models.tests",
+      "carrier": "关闭列组与全局 close 键",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 466,
+        "text": "### models.unknown_test_closures"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "models.application_operations",
+      "target": "repomesh_models.application_operations",
+      "carrier": "独立应用操作与确定拒绝",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 483,
+        "text": "### models.application_operations"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "budget_policies",
+      "target": "repomesh_sources.policy_versions",
+      "carrier": "policy_kind=budget",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 502,
+        "text": "| `budget_policies` | 主键 `(id,version)`；`scopeKind` 为 `actor_model_test` 或 `project_model_runtime`；`unit=request`；`period=utc_day`；`limit` 为正整数；`maxUnresolved` 为正整数；`enabled` 布尔。 |"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "time_limit_policies",
+      "target": "repomesh_sources.policy_versions",
+      "carrier": "policy_kind=time",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 503,
+        "text": "| `time_limit_policies` | 主键 `(id,version)`；`modelRequestTimeoutSeconds` 与 `workerAttemptLimitSeconds` 必须明写，无默认。 |"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "egress_policies",
+      "target": "repomesh_sources.policy_versions",
+      "carrier": "policy_kind=egress",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 504,
+        "text": "| `egress_policies` | 主键 `(id,version)`；`approvedBaseUrls` 非空、无重复；`allowedPort=443`；`allowPrivateAddresses=false`；`followRedirects=false`。 |"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "test_bindings",
+      "target": "repomesh_sources.policy_bindings",
+      "carrier": "binding_kind=test",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 505,
+        "text": "| `test_bindings` | 主键 `ownerId`；三个确切政策引用；预算 scope 必须是 `actor_model_test`。 |"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "request_policy_versions",
+      "target": "repomesh_sources.policy_versions",
+      "carrier": "项目侧预算政策引用合并",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 515,
+        "text": "| `request_policy_versions`、`time_policy_versions` | 主键 `(id,version)`；参数检查按来源 §9；不可变，不以 ID 覆盖旧版本。 |"
+      }
+    },
+    {
+      "batch": "b05",
+      "table": "time_policy_versions",
+      "target": "repomesh_sources.policy_versions",
+      "carrier": "项目侧时限政策引用合并",
+      "source": {
+        "file": "docs/api-database/b05.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 515,
+        "text": "| `request_policy_versions`、`time_policy_versions` | 主键 `(id,version)`；参数检查按来源 §9；不可变，不以 ID 覆盖旧版本。 |"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.conversations",
+      "target": "repomesh_issues.conversations",
+      "carrier": "独立会话身份",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 241,
+        "text": "### repomesh_issues.conversations"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.issues",
+      "target": "repomesh_issues.issues",
+      "carrier": "Issue 身份与正文",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 258,
+        "text": "### repomesh_issues.issues"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.creation_operations",
+      "target": "repomesh_issues.issues",
+      "carrier": "creation 字段组",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 279,
+        "text": "### repomesh_issues.creation_operations"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.changesets",
+      "target": "repomesh_issues.changesets",
+      "carrier": "主 ChangeSet 独立身份",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 295,
+        "text": "### repomesh_issues.changesets"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.issue_repository_scope",
+      "target": "repomesh_issues.repository_scopes",
+      "carrier": "Issue 工作行 is_work=true",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 307,
+        "text": "### repomesh_issues.issue_repository_scope"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.issue_content_scope",
+      "target": "repomesh_issues.repository_scopes",
+      "carrier": "Issue 内容行",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 319,
+        "text": "### repomesh_issues.issue_content_scope 与 repomesh_issues.conversation_content_scope"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.conversation_content_scope",
+      "target": "repomesh_issues.repository_scopes",
+      "carrier": "Conversation 内容行",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 319,
+        "text": "### repomesh_issues.issue_content_scope 与 repomesh_issues.conversation_content_scope"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.page_sources",
+      "target": "repomesh_issues.issues",
+      "carrier": "page_source 字段组",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 330,
+        "text": "### repomesh_issues.page_sources 与 repomesh_issues.conversation_cards"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.conversation_cards",
+      "target": "repomesh_issues.issues",
+      "carrier": "card 字段组",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 330,
+        "text": "### repomesh_issues.page_sources 与 repomesh_issues.conversation_cards"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.continuation_work",
+      "target": "repomesh_issues.issues",
+      "carrier": "continuation 字段组",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 341,
+        "text": "### repomesh_issues.continuation_work"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.issue_event_streams",
+      "target": "repomesh_issues.issues",
+      "carrier": "event 字段组",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 356,
+        "text": "### repomesh_issues.issue_event_streams 与 repomesh_issues.issue_events"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.issue_events",
+      "target": "repomesh_issues.issue_events",
+      "carrier": "逐事件主键",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 356,
+        "text": "### repomesh_issues.issue_event_streams 与 repomesh_issues.issue_events"
+      }
+    },
+    {
+      "batch": "b06",
+      "table": "repomesh_issues.project_issue_counters",
+      "target": "repomesh_issues.project_issue_counters",
+      "carrier": "项目锁下单调分配",
+      "source": {
+        "file": "docs/api-database/b06.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 367,
+        "text": "### repomesh_issues.project_issue_counters"
+      }
+    },
+    {
+      "batch": "b07",
+      "table": "repomesh_issues.issue_room_links",
+      "target": "repomesh_issues.issue_room_links",
+      "carrier": "main/leader 关联与最新观察",
+      "source": {
+        "file": "docs/api-database/b07.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 186,
+        "text": "单张逻辑表 `repomesh_issues.issue_room_links` 未采用、未实现，写入方是后台协调进程，读取方是 B07。它同时保存确定关联与最后观察状态，不为只读页新增观察历史表。上游房间标识按不透明引用保存，不含凭据或地址。"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "message_submissions",
+      "target": "repomesh_messaging.conversation_messages",
+      "carrier": "用户提交字段组",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 209,
+        "text": "### 3.1 message_submissions"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "conversation_messages",
+      "target": "repomesh_messaging.conversation_messages",
+      "carrier": "消息身份与序号",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 229,
+        "text": "### 3.2 conversation_messages"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "conversation_message_counters",
+      "target": "repomesh_issues.conversations",
+      "carrier": "last_message_sequence 字段组（跨批复用 B06）",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 250,
+        "text": "### 3.3 conversation_message_counters"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "message_processing_entries",
+      "target": "repomesh_messaging.message_processing_entries",
+      "carrier": "处理入口与领取",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 263,
+        "text": "### 3.4 message_processing_entries"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "logical_work_requests",
+      "target": "repomesh_messaging.message_processing_entries",
+      "carrier": "根入口字段组",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 280,
+        "text": "### 3.5 logical_work_requests"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "clarifications",
+      "target": "repomesh_messaging.clarifications",
+      "carrier": "问题状态",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 302,
+        "text": "### 3.6 clarifications"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "clarification_answers",
+      "target": "repomesh_messaging.clarifications",
+      "carrier": "唯一答案字段组",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 322,
+        "text": "### 3.7 clarification_answers"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "target_resolutions",
+      "target": "repomesh_messaging.control_operations",
+      "carrier": "decide_message_target 成功行",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 337,
+        "text": "### 3.8 target_resolutions"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "control_operations",
+      "target": "repomesh_messaging.control_operations",
+      "carrier": "command_slot_id 稳定槽位",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 356,
+        "text": "### 3.9 control_operations"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "manager_sessions",
+      "target": "repomesh_messaging.manager_sessions",
+      "carrier": "Manager 会话代次与绑定",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 372,
+        "text": "### 3.10 manager_sessions"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "manager_call_authorizations",
+      "target": "repomesh_messaging.message_processing_entries",
+      "carrier": "当前授权字段组",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 394,
+        "text": "### 3.11 manager_call_authorizations"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "message_deliveries",
+      "target": "repomesh_messaging.manager_executions",
+      "carrier": "kind=message_delivery",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 417,
+        "text": "### 3.12 message_deliveries"
+      }
+    },
+    {
+      "batch": "b09",
+      "table": "manager_calls",
+      "target": "repomesh_messaging.manager_executions",
+      "carrier": "kind=model_call",
+      "source": {
+        "file": "docs/api-database/b09.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 442,
+        "text": "### 3.13 manager_calls"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "rounds",
+      "target": "repomesh_execution.rounds",
+      "carrier": "轮次身份与摘要",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 218,
+        "text": "### 4.1 rounds"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "repository_issues",
+      "target": "repomesh_execution.repository_issues",
+      "carrier": "同 Issue 同仓事项身份",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 238,
+        "text": "### 4.2 repository_issues"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "plan_revisions",
+      "target": "repomesh_execution.plan_revisions",
+      "carrier": "不可变计划列组",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 257,
+        "text": "### 4.3 plan_revisions"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "round_plan_pointers",
+      "target": "repomesh_execution.plan_revisions",
+      "carrier": "is_current/pointer_revision 与 rounds.plan_set_revision",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 275,
+        "text": "### 4.4 round_plan_pointers"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "execution_tasks",
+      "target": "repomesh_execution.execution_tasks",
+      "carrier": "本地任务与上游映射",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 290,
+        "text": "### 4.5 execution_tasks"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "attempts",
+      "target": "repomesh_execution.attempts",
+      "carrier": "一次执行尝试",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 310,
+        "text": "### 4.6 attempts"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "worker_leases",
+      "target": "repomesh_execution.resource_reservations",
+      "carrier": "resource_kind=worker",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 346,
+        "text": "### 4.7 worker_leases"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "resource_reservations",
+      "target": "repomesh_execution.resource_reservations",
+      "carrier": "其余资源子型",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 361,
+        "text": "### 4.8 resource_reservations"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "dispatch_operations",
+      "target": "repomesh_execution.execution_operations",
+      "carrier": "target=upstream",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 380,
+        "text": "### 4.9 dispatch_operations"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "host_operations",
+      "target": "repomesh_execution.execution_operations",
+      "carrier": "target=host",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 398,
+        "text": "### 4.10 host_operations"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "attempt_observations",
+      "target": "repomesh_execution.execution_records",
+      "carrier": "record_kind=observation",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 416,
+        "text": "### 4.11 attempt_observations"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "attempt_artifacts",
+      "target": "repomesh_execution.execution_records",
+      "carrier": "record_kind=artifact/retention",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 434,
+        "text": "### 4.12 attempt_artifacts"
+      }
+    },
+    {
+      "batch": "b10",
+      "table": "write_capability_revocations",
+      "target": "repomesh_execution.execution_records",
+      "carrier": "record_kind=write_revocation",
+      "source": {
+        "file": "docs/api-database/b10.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 450,
+        "text": "### 4.13 write_capability_revocations"
+      }
+    },
+    {
+      "batch": "b11",
+      "table": "round_transitions",
+      "target": "repomesh_execution.execution_records",
+      "carrier": "record_kind=round_transition 与 rounds 摘要",
+      "source": {
+        "file": "docs/api-database/b11.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 186,
+        "text": "### 3.1 round_transitions"
+      }
+    },
+    {
+      "batch": "b11",
+      "table": "target_applications",
+      "target": "repomesh_execution.plan_revisions",
+      "carrier": "application/recovery 列组",
+      "source": {
+        "file": "docs/api-database/b11.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 216,
+        "text": "### 3.2 target_applications"
+      }
+    },
+    {
+      "batch": "b11",
+      "table": "cross_repo_edges",
+      "target": "repomesh_execution.cross_repo_edges",
+      "carrier": "跨仓依赖与逐边证据",
+      "source": {
+        "file": "docs/api-database/b11.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 244,
+        "text": "### 3.3 cross_repo_edges"
+      }
+    },
+    {
+      "batch": "b11",
+      "table": "round_candidate_refs",
+      "target": "repomesh_execution.change_set_versions",
+      "carrier": "candidate 子型与 execution_records 初审",
+      "source": {
+        "file": "docs/api-database/b11.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 262,
+        "text": "### 3.4 round_candidate_refs"
+      }
+    },
+    {
+      "batch": "b11",
+      "table": "round_combinations",
+      "target": "repomesh_execution.change_set_versions",
+      "carrier": "combination 子型与有界成员快照",
+      "source": {
+        "file": "docs/api-database/b11.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 278,
+        "text": "### 3.5 round_combinations"
+      }
+    },
+    {
+      "batch": "b11",
+      "table": "result_admissions",
+      "target": "repomesh_execution.result_admissions",
+      "carrier": "唯一最终裁决",
+      "source": {
+        "file": "docs/api-database/b11.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 294,
+        "text": "### 3.6 result_admissions"
+      }
+    },
+    {
+      "batch": "b11",
+      "table": "stop_decisions",
+      "target": "repomesh_execution.execution_records",
+      "carrier": "record_kind=stop_decision 与 rounds 摘要",
+      "source": {
+        "file": "docs/api-database/b11.md",
+        "ref": "19cac6ef4337cf7d7cef937d3517e5a6236dfc6c",
+        "line": 314,
+        "text": "### 3.7 stop_decisions"
+      }
+    }
+  ],
+  "target_tables": [
+    {
+      "table": "repomesh_modelbudget.windows",
+      "batch": "b05",
+      "chapter": "b05.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "budget_window"
+      ],
+      "note": "UTC 日窗口、计数与只降上限"
+    },
+    {
+      "table": "repomesh_models.previews",
+      "batch": "b05",
+      "chapter": "b05.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "bounded_preview"
+      ],
+      "note": "test/apply 两种预览"
+    },
+    {
+      "table": "repomesh_models.tests",
+      "batch": "b05",
+      "chapter": "b05.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "test_aggregate",
+        "dispatch_permit",
+        "outstanding_responsibility",
+        "unknown_closure"
+      ],
+      "note": "测试聚合根、预留、派发与 unknown 关闭列组"
+    },
+    {
+      "table": "repomesh_models.test_observations",
+      "batch": "b05",
+      "chapter": "b05.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "append_only_evidence"
+      ],
+      "note": "1:N 不可变观察证据"
+    },
+    {
+      "table": "repomesh_models.test_handler_instances",
+      "batch": "b05",
+      "chapter": "b05.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "handler_instance"
+      ],
+      "note": "处理器实例登记与租约观察"
+    },
+    {
+      "table": "repomesh_models.application_operations",
+      "batch": "b05",
+      "chapter": "b05.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "application_operation"
+      ],
+      "note": "应用原操作与回执"
+    },
+    {
+      "table": "repomesh_sources.policy_versions",
+      "batch": "b05",
+      "chapter": "b05.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "policy_version"
+      ],
+      "note": "budget/time/egress 统一版本权威"
+    },
+    {
+      "table": "repomesh_sources.policy_bindings",
+      "batch": "b05",
+      "chapter": "b05.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "policy_binding"
+      ],
+      "note": "test/execution 两条明确绑定分支"
+    },
+    {
+      "table": "repomesh_sources.policy_imports",
+      "batch": "b05",
+      "chapter": "b05.md",
+      "origin": "new",
+      "carries": [
+        "schema2_import_receipt"
+      ],
+      "note": "schema2 导入原操作；不改旧 repomesh_sources.imports 的 schema_version=1"
+    },
+    {
+      "table": "repomesh_issues.conversations",
+      "batch": "b06",
+      "chapter": "b06.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "conversation",
+        "message_counter"
+      ],
+      "note": "会话身份与 last_message_sequence 字段组"
+    },
+    {
+      "table": "repomesh_issues.issues",
+      "batch": "b06",
+      "chapter": "b06.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "issue",
+        "creation_operation_fields",
+        "page_source_fields",
+        "card_fields",
+        "continuation_fields",
+        "event_stream_fields"
+      ],
+      "note": "Issue 身份与 1:1 操作/来源/待办/流计数列组"
+    },
+    {
+      "table": "repomesh_issues.changesets",
+      "batch": "b06",
+      "chapter": "b06.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "change_set"
+      ],
+      "note": "主 ChangeSet 独立身份"
+    },
+    {
+      "table": "repomesh_issues.repository_scopes",
+      "batch": "b06",
+      "chapter": "b06.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "repository_scope"
+      ],
+      "note": "Issue 工作行与内容行的受约束集合"
+    },
+    {
+      "table": "repomesh_issues.issue_events",
+      "batch": "b06",
+      "chapter": "b06.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "event"
+      ],
+      "note": "逐事件主键与同流序号"
+    },
+    {
+      "table": "repomesh_issues.project_issue_counters",
+      "batch": "b06",
+      "chapter": "b06.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "issue_counter"
+      ],
+      "note": "项目锁下单调分配"
+    },
+    {
+      "table": "repomesh_issues.issue_room_links",
+      "batch": "b07",
+      "chapter": "b07.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "room_link"
+      ],
+      "note": "main/leader 关联与最新观察"
+    },
+    {
+      "table": "repomesh_messaging.conversation_messages",
+      "batch": "b09",
+      "chapter": "b09.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "message",
+        "submission_fields"
+      ],
+      "note": "消息事实与用户提交字段组"
+    },
+    {
+      "table": "repomesh_messaging.message_processing_entries",
+      "batch": "b09",
+      "chapter": "b09.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "processing_entry",
+        "logical_request_fields",
+        "authorization_fields"
+      ],
+      "note": "处理入口、根请求与当前授权"
+    },
+    {
+      "table": "repomesh_messaging.clarifications",
+      "batch": "b09",
+      "chapter": "b09.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "clarification",
+        "answer_fields"
+      ],
+      "note": "问题与唯一答案"
+    },
+    {
+      "table": "repomesh_messaging.control_operations",
+      "batch": "b09",
+      "chapter": "b09.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "control_operation",
+        "target_resolution_fields"
+      ],
+      "note": "控制槽位与目标解释"
+    },
+    {
+      "table": "repomesh_messaging.manager_sessions",
+      "batch": "b09",
+      "chapter": "b09.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "manager_session"
+      ],
+      "note": "Manager 会话代次与运行绑定"
+    },
+    {
+      "table": "repomesh_messaging.manager_executions",
+      "batch": "b09",
+      "chapter": "b09.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "message_delivery",
+        "manager_call"
+      ],
+      "note": "投递与模型调用两类执行记录"
+    },
+    {
+      "table": "repomesh_execution.rounds",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "round",
+        "round_summary_fields"
+      ],
+      "note": "轮次身份与最新摘要"
+    },
+    {
+      "table": "repomesh_execution.repository_issues",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "repository_issue"
+      ],
+      "note": "同 Issue 同仓稳定事项"
+    },
+    {
+      "table": "repomesh_execution.plan_revisions",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "plan_revision",
+        "pointer_fields",
+        "application_recovery_fields"
+      ],
+      "note": "不可变修订、当前指针与应用/恢复列组"
+    },
+    {
+      "table": "repomesh_execution.execution_tasks",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "execution_task"
+      ],
+      "note": "计划内本地任务"
+    },
+    {
+      "table": "repomesh_execution.attempts",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "attempt"
+      ],
+      "note": "执行尝试与停止/回收"
+    },
+    {
+      "table": "repomesh_execution.resource_reservations",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "resource_reservation",
+        "worker_lease"
+      ],
+      "note": "资源排他与 Worker 占用"
+    },
+    {
+      "table": "repomesh_execution.execution_operations",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "dispatch_operation",
+        "host_operation"
+      ],
+      "note": "上游与宿主两类稳定操作回执"
+    },
+    {
+      "table": "repomesh_execution.execution_records",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "attempt_observation",
+        "artifact_retention",
+        "write_revocation",
+        "round_transition",
+        "stop_decision"
+      ],
+      "note": "追加观察、产物、撤销、转换与停止记录"
+    },
+    {
+      "table": "repomesh_execution.change_set_versions",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "candidate_version",
+        "combination_version"
+      ],
+      "note": "candidate/combination 明确子型；B10 首次单轮候选即需要"
+    },
+    {
+      "table": "repomesh_execution.cross_repo_edges",
+      "batch": "b11",
+      "chapter": "b11.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "cross_repo_edge"
+      ],
+      "note": "跨仓依赖与逐边证据"
+    },
+    {
+      "table": "repomesh_execution.result_admissions",
+      "batch": "b11",
+      "chapter": "b11.md",
+      "origin": "legacy_merge",
+      "carries": [
+        "result_admission"
+      ],
+      "note": "唯一最终裁决"
+    },
+    {
+      "table": "repomesh_execution.business_plan_versions",
+      "batch": "b10",
+      "chapter": "b10.md",
+      "origin": "new_required_dependency",
+      "carries": [
+        "business_plan_version"
+      ],
+      "note": "业务 Plan Version：由 Issue 计划用例/可信协调器写，执行层只读，B11 跨轮复用。与执行层技术 plan_revisions 分离；许可/激活决定与逐目标绑定落在 execution_records 的 business_plan_decision / business_plan_target 子型，不新增物理表；B10 实施时给 B06 新 issues 增补 current_business_plan_version_id、business_plan_pointer_revision、next_business_plan_version_index 三列，不增加表数",
+      "design_ref": "docs/development/2026-09-15-table-consolidation-01/analysis/business-plan-versions.md",
+      "source": "原 B10/B11 引用而未建模的已采用业务 Plan Version：ADR-0003、ADR-0015、Graph 第 5 节"
+    }
+  ],
+  "required_content": [
+    {
+      "role": "schema2_import_receipt",
+      "batch": "b05",
+      "target": "repomesh_sources.policy_imports",
+      "status": "declared",
+      "note": "旧 imports 保持 schema_version=1；schema2 回执独立存储"
+    },
+    {
+      "role": "candidate_version",
+      "batch": "b10",
+      "target": "repomesh_execution.change_set_versions",
+      "status": "declared",
+      "note": "candidate 子型保存正式候选身份与初审历史"
+    },
+    {
+      "role": "combination_version",
+      "batch": "b10",
+      "target": "repomesh_execution.change_set_versions",
+      "status": "declared",
+      "note": "combination 子型保存每轮每仓固定组合；废弃 round_combinations"
+    },
+    {
+      "role": "business_plan_version",
+      "batch": "b10",
+      "target": "repomesh_execution.business_plan_versions",
+      "status": "declared",
+      "note": "业务计划版本实体；必须在清单与正文中显式登记，避免隐藏依赖"
+    }
+  ],
+  "totals": {
+    "target_total": 34,
+    "manual_scope_total": 70,
+    "repo_scope_total": 71,
+    "note": "手册范围 70 = 手册基线 36 + 设计 34；全仓含扫描 71 = 36 + 1 + 34；旧表映射仍为 63 张。"
+  },
+  "status_note": "用户已批准 B05-B11 物理合表设计（63 张提案合到 34 张）；B01-B04 现有 36 张手册基线表、既有逻辑/API 与 B05-B11 候选、提案、实现、验收状态全部不变。清单与校验只做静态文档检查，不执行迁移，也不证明任何数据库行为已经验证。",
+  "review_documents": [
+    "docs/development/2026-09-15-table-consolidation-01/analysis/review-business-plan.md",
+    "docs/development/2026-09-15-table-consolidation-01/analysis/review-b05-b08.md",
+    "docs/development/2026-09-15-table-consolidation-01/analysis/review-b09.md",
+    "docs/development/2026-09-15-table-consolidation-01/analysis/review-b10-b11.md"
+  ],
+  "review_note": "独立复核文档；review-business-plan.md 是第 34 张业务计划版本表的最终优先级依据。"
+}

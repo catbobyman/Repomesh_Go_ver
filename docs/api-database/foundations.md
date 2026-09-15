@@ -20,6 +20,24 @@ Markdown 是本目录的内容源，HTML 由它生成。两种格式表达同一
 
 来源为 [当前交接](../current/HANDOFF.md)、[施工计划](../plan/IMPLEMENTATION-PLAN.md)、[B04 采用范围](../current/b04-model-sources-adoption.md) 和 [B05/B06 收口](../development/2026-09-14-b05-b06-design-closeout-01/README.md)。
 
+### 物理合表与表清单
+
+用户已授权 B05-B11 的物理合表设计：63 张候选或提案表按同一业务事实、写入者与生命周期合到 34 张，净减 29 张。合表只改变物理承载，已采用的逻辑身份、唯一性、作用域、事务、恢复和清理语义不变；B01-B04 的 36 张手册基线表（35 张业务表加 1 张系统表 `public.repomesh_schema_migrations`）和 0007 迁移的扫描表 `repomesh_scan.repositories` 都不动。候选、提案、未实施和验收状态不因合表升级。业务计划版本、schema2 导入回执和 candidate／combination 版本在清单中分别显式登记，不靠隐藏依赖或合并枚举承载。业务计划版本 `business_plan_versions` 与执行层技术 `plan_revisions` 分开；B10 实施时在 B06 新 `issues` 上增补 `current_business_plan_version_id`、`business_plan_pointer_revision`、`next_business_plan_version_index` 三列，不改变 B06 表数。
+
+机器可校验清单是 [table-manifest.json](./table-manifest.json)，合表规则与批次划分见 [B05-B11 物理合表专题](../current/b05-b11-storage-consolidation.md)。每张目标物理表只在所属批次的正文声明一次，写成独立一行：
+
+```text
+物理表：`repomesh_issues.issues`
+```
+
+跨批次复用不重复声明，B00-B04 与 B08 不写声明。计数分列：手册基线 36 张加设计 34 张是手册范围 70 张；再计入 0007 扫描表 1 张，全仓 71 张。HTML 首页的“设计专题”“文档卡片”“说明表格”只是文档统计，不是 API 数或已实现表数。
+
+```bash
+python3 docs/api-database/verify_design.py
+```
+
+该校验读取迁移源码、表清单和合表前正文快照，检查旧表覆盖、目标存在、去重、批次归属与正文声明。它只做静态文档检查，不执行迁移，也不证明数据库行为已经验证。
+
 ## 批次与唯一数据归属
 
 | 批次 | 用户可见结果或验收目标 | 数据设计职责 |
