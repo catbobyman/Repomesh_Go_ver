@@ -64,16 +64,20 @@ const (
 // stored card instead of re-fetching and re-parsing. TestCommands/TestPaths
 // are operator-owned; a re-scan refresh never overwrites them.
 type RepositoryCard struct {
-	ID           string     `json:"id"`
-	Name         string     `json:"name"`
-	URL          string     `json:"url"`
-	Description  string     `json:"description"`
-	Topics       []string   `json:"topics"`
-	Languages    []string   `json:"languages"`
-	AutoCard     *AutoCard  `json:"autoCard"`
-	ScanStatus   ScanStatus `json:"scanStatus"`
-	Fingerprint  string     `json:"fingerprint"`
-	ProfiledAt   string     `json:"profiledAt"` // RFC3339 UTC
-	TestCommands []string   `json:"testCommands"`
-	TestPaths    []string   `json:"testPaths"`
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	URL         string    `json:"url"`
+	Description string    `json:"description"`
+	Topics      []string  `json:"topics"`
+	Languages   []string  `json:"languages"`
+	AutoCard    *AutoCard `json:"autoCard"`
+	// ObservedCalls is mechanism 6 (runtime observation), imported one-shot
+	// from the APM topology — never written by the channel scan, never
+	// wiped by a scan refresh.
+	ObservedCalls []ObservedCall `json:"observedCalls,omitempty"`
+	ScanStatus    ScanStatus     `json:"scanStatus"`
+	Fingerprint   string         `json:"fingerprint"`
+	ProfiledAt    string         `json:"profiledAt"` // RFC3339 UTC
+	TestCommands  []string       `json:"testCommands"`
+	TestPaths     []string       `json:"testPaths"`
 }

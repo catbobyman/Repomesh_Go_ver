@@ -203,3 +203,17 @@ func TestWriteFailureCountedNotRaised(t *testing.T) {
 		t.Fatalf("counts = %+v, want one failure isolated", counts)
 	}
 }
+
+// ReplaceObservedCalls implements CatalogStore for the in-memory fake.
+func (s *memoryStore) ReplaceObservedCalls(_ context.Context, id string, calls []ObservedCall) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	for name, row := range s.rows {
+		if row.ID == id {
+			row.ObservedCalls = calls
+			s.rows[name] = row
+			return nil
+		}
+	}
+	return nil
+}

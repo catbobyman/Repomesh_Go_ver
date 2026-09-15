@@ -71,6 +71,27 @@ func TestPostgresCatalogRoundTrip(t *testing.T) {
 		t.Fatal("second refresh did not replace the card whole")
 	}
 
+	// Observed block: lands on the row, survives a card refresh (a scan
+	// refresh must never wipe runtime evidence), missing id reports cleanly.
+	if err := store.ReplaceObservedCalls(ctx, card.ID, []ObservedCall{
+		{Target: "payment", Calls: 120},
+	}); err != nil {
+		t.Fatal(err)
+	}
+	if err := store.UpdateAutoCard(ctx, card.ID, AutoCard{Deps: []string{"v3"}}, nil, "sha-3"); err != nil {
+		t.Fatal(err)
+	}
+	stored, _ = store.Get(ctx, card.ID)
+	if stored == nil || len(stored.ObservedCalls) != 1 || stored.ObservedCalls[0].Target != "payment" {
+		t.Fatalf("observed block lost across refresh: %+v", stored)
+	}
+	if stored.AutoCard.Deps[0] != "v3" {
+		t.Fatalf("card refresh overwrote by the observed import: %+v", stored.AutoCard)
+	}
+	if err := store.ReplaceObservedCalls(ctx, "no-such-id", nil); !errors.Is(err, pgx.ErrNoRows) {
+		t.Fatalf("missing-id observed replace = %v, want ErrNoRows", err)
+	}
+
 	// By-name lookup and missing id.
 	byName, err := store.GetByName(ctx, card.Name)
 	if err != nil || byName == nil || byName.ID != card.ID {

@@ -29,6 +29,10 @@ type CatalogStore interface {
 	// (re-scan refresh) and bumps its profile time. Operator-owned fields
 	// (description, topics, test commands/paths) must survive untouched.
 	UpdateAutoCard(ctx context.Context, id string, card AutoCard, languages []string, fingerprint string) error
+	// ReplaceObservedCalls whole-replaces the runtime-observed call block of
+	// an existing row (mechanism 6 import). Idempotent; observed data
+	// survives scan refreshes the same way operator fields do.
+	ReplaceObservedCalls(ctx context.Context, id string, calls []ObservedCall) error
 }
 
 // ScopeSuggester proposes repositories for a requirement. Two implementations

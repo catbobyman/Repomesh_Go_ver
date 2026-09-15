@@ -25,7 +25,7 @@ const cardColumns = `id, name, url, description, topics, languages,
 	fingerprint, profiled_at, metadata, test_commands, test_paths`
 
 func (c *PostgresCatalog) Add(ctx context.Context, card RepositoryCard) error {
-	payload, err := json.Marshal(cardMetadata(card.AutoCard))
+	payload, err := json.Marshal(metadataPayload(card.AutoCard, card.ObservedCalls))
 	if err != nil {
 		return err
 	}
@@ -84,9 +84,13 @@ func (c *PostgresCatalog) UpdateAutoCard(ctx context.Context, id string, card Au
 	if err != nil {
 		return err
 	}
+	// The new payload is the base; the observed block is carried over from
+	// the old metadata so a scan refresh never wipes runtime evidence.
 	tag, err := c.pool.Exec(ctx, `
 		UPDATE repomesh_scan.repositories
-		SET metadata = $2, languages = $3, fingerprint = $4, profiled_at = now()
+		SET metadata = jsonb_set($2::jsonb, '{observedCalls}',
+			COALESCE(metadata->'observedCalls', '[]'::jsonb), true),
+		    languages = $3, fingerprint = $4, profiled_at = now()
 		WHERE id = $1`, id, payload, jsonSlice(languages), fingerprint)
 	if err != nil {
 		return err
@@ -130,6 +134,7 @@ func scanCard(row rowScanner) (*RepositoryCard, error) {
 		return nil, err
 	}
 	card.AutoCard = autoCardFromPayload(payload)
+	card.ObservedCalls = observedCallsFromPayload(payload)
 	return &card, nil
 }
 
@@ -138,6 +143,60 @@ func cardMetadata(card *AutoCard) map[string]any {
 		return map[string]any{}
 	}
 	return autoCardPayload(*card)
+}
+
+// metadataPayload assembles the metadata document: the card payload plus,
+// when present, the runtime-observed call block (mechanism 6).
+func metadataPayload(card *AutoCard, observed []ObservedCall) map[string]any {
+	payload := cardMetadata(card)
+	if len(observed) > 0 {
+		payload["observedCalls"] = observed
+	}
+	return payload
+}
+
+// observedCallsFromPayload decodes the runtime-observation block back into
+// typed calls; absent or malformed yields nil — honest "nothing observed".
+func observedCallsFromPayload(raw map[string]any) []ObservedCall {
+	items, ok := raw["observedCalls"].([]any)
+	if !ok || len(items) == 0 {
+		return nil
+	}
+	calls := make([]ObservedCall, 0, len(items))
+	for _, item := range items {
+		table, ok := item.(map[string]any)
+		if !ok {
+			continue
+		}
+		target, _ := table["target"].(string)
+		count := 0
+		if number, ok := table["calls"].(float64); ok {
+			count = int(number)
+		}
+		calls = append(calls, ObservedCall{Target: target, Calls: count})
+	}
+	return calls
+}
+
+// ReplaceObservedCalls writes the runtime-observed call block (mechanism 6
+// import). The block is a sibling of the card inside metadata: a re-scan
+// refresh must not erase it, and a re-import replaces it wholesale.
+func (c *PostgresCatalog) ReplaceObservedCalls(ctx context.Context, id string, calls []ObservedCall) error {
+	encoded, err := json.Marshal(calls)
+	if err != nil {
+		return err
+	}
+	tag, err := c.pool.Exec(ctx, `
+		UPDATE repomesh_scan.repositories
+		SET metadata = jsonb_set(metadata, '{observedCalls}', $2, true)
+		WHERE id = $1`, id, encoded)
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() == 0 {
+		return pgx.ErrNoRows
+	}
+	return nil
 }
 
 func jsonSlice(values []string) []byte {

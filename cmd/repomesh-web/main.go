@@ -6,8 +6,10 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -16,6 +18,8 @@ import (
 	"repomesh.local/repomesh/internal/database"
 	"repomesh.local/repomesh/internal/models"
 	"repomesh.local/repomesh/internal/projects"
+	"repomesh.local/repomesh/internal/reposcan"
+	"repomesh.local/repomesh/internal/scan"
 	"repomesh.local/repomesh/internal/web"
 )
 
@@ -59,6 +63,7 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 	var auth web.Auth
 	var projectAPI web.Projects
 	var modelAPI web.Models
+	var scanAPI web.Scan
 	var certFile, keyFile string
 	if *authConfig != "" {
 		startup, cancel := context.WithTimeout(ctx, 30*time.Second)
@@ -78,8 +83,45 @@ func run(ctx context.Context, args []string, stdout, stderr io.Writer) int {
 		runtime.Service.SetModelSaveDestinationResolver(modelService.ResolveDestination)
 		modelAPI = web.Models{Service: modelService}
 		certFile, keyFile = runtime.Deployment.TLSCertificateFile, runtime.Deployment.TLSKeyFile
+
+		// Scan block: repository scanning + scope selection (D5/D8, design
+		// doc 仓库扫描终版设计). Fetcher per platform via the router; the
+		// catalog lives in the same PostgreSQL database.
+		scanCatalog := scan.NewPostgresCatalog(runtime.Pool())
+		scanService := scan.New(scan.Config{
+			ScopeAssistEnabled: envBool("REPOMESH_SCOPE_ASSIST_ENABLED", true),
+		}, scanCatalog)
+		for _, channel := range scan.DefaultChannels() {
+			scanService.RegisterChannel(channel)
+		}
+		fetcher := &reposcan.Router{
+			GitHub: &reposcan.GitHubFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITHUB_TOKEN")},
+			GitLab: &reposcan.GitLabFetcher{Token: os.Getenv("REPOMESH_REPOSITORY_SCAN_GITLAB_TOKEN")},
+			Extra:  parsePlatformMap(os.Getenv("REPOMESH_REPOSITORY_SCAN_PLATFORMS")),
+		}
+		scanAPI = web.Scan{API: &scan.HTTP{
+			Service:       scanService,
+			Store:         scanCatalog,
+			Runner:        &scan.Runner{Fetcher: fetcher, Store: scanCatalog, IncludeForks: envBool("REPOMESH_REPOSITORY_SCAN_INCLUDE_FORKS", false)},
+			Jobs:          scan.NewJobRegistry(),
+			Suggester:     scan.KeywordSuggester{Store: scanCatalog},
+			Fetcher:       fetcher,
+			Allowlist:     splitList(os.Getenv("REPOMESH_REPOSITORY_SCAN_ALLOWED_HOSTS")),
+			PlatformExtra: parsePlatformMap(os.Getenv("REPOMESH_REPOSITORY_SCAN_PLATFORMS")),
+			Authenticate: func(r *http.Request) error {
+				if r.Method == http.MethodGet {
+					return nil // reads stay open, matching the other catalog reads
+				}
+				if runtime.Deployment.Origin == "" || r.Header.Get("Origin") != runtime.Deployment.Origin {
+					return errors.New("origin rejected")
+				}
+				_, err := runtime.Service.AuthenticateProjectRequest(
+					r.Context(), web.SessionCookie(r), r.Header.Get("X-CSRF-Token"), true)
+				return err
+			},
+		}}
 	}
-	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, modelAPI, certFile, keyFile); err != nil {
+	if err := web.RunConfigured(ctx, *addr, *assets, auth, projectAPI, modelAPI, scanAPI, certFile, keyFile); err != nil {
 		fmt.Fprintln(stderr, "web stopped:", err)
 		return 1
 	}
@@ -163,4 +205,34 @@ func envOr(name, fallback string) string {
 		return value
 	}
 	return fallback
+}
+
+func envBool(name string, fallback bool) bool {
+	switch strings.ToLower(strings.TrimSpace(os.Getenv(name))) {
+	case "1", "true", "yes", "on":
+		return true
+	case "0", "false", "no", "off":
+		return false
+	}
+	return fallback
+}
+
+func splitList(value string) []string {
+	var items []string
+	for _, item := range strings.Split(value, ",") {
+		if trimmed := strings.TrimSpace(item); trimmed != "" {
+			items = append(items, trimmed)
+		}
+	}
+	return items
+}
+
+func parsePlatformMap(value string) map[string]string {
+	mapping := map[string]string{}
+	for _, pair := range strings.Split(value, ",") {
+		if host, platform, found := strings.Cut(strings.TrimSpace(pair), "="); found {
+			mapping[strings.ToLower(host)] = strings.ToLower(platform)
+		}
+	}
+	return mapping
 }
