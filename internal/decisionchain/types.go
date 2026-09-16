@@ -20,12 +20,22 @@ import (
 
 // Event is the producer-side write shape (方案清单 §3 写路径①). One scope
 // confirmation becomes one decision node with step=confirmation.
+// Step/Status/ActorType/UpstreamRef are optional overrides — zero values
+// keep the confirmation defaults; UpstreamRef links the triggering decision
+// node (双轴挂钩：重规划节点指回 BLOCKED 上报).
 type Event struct {
-	Requirement    string   // raw requirement text, normalized here
-	Actor          string   // session username
-	IdempotencyKey string   // producer idempotency key, stored as event_id
-	RepositoryIDs  []string // selected repository ids, resolved to names here
-	Accepted       bool     // true = confirmed, false = rejected
+	Requirement    string         // raw requirement text, normalized here
+	Actor          string         // session username
+	ActorType      string         // optional: llm|human|service (default human)
+	IdempotencyKey string         // producer idempotency key, stored as event_id
+	RepositoryIDs  []string       // selected repository ids, resolved to names here
+	Accepted       bool           // true = confirmed, false = rejected
+	Step           DecisionStep   // optional; default confirmation
+	Status         DecisionStatus // optional; default derived from Accepted
+	UpstreamRef    string         // optional: parent decision node id (uuid)
+	Action         string         // optional; default 范围圈定确认
+	Rationale      string         // optional; default truncated requirement
+	ContextRef     map[string]any // optional; default {"sourceIds": [...]}
 }
 
 // Config is the module assembly; every field maps to a design decision.
@@ -76,6 +86,16 @@ const (
 	StatusMerged           DecisionStatus = "merged"
 	StatusClosed           DecisionStatus = "closed"
 )
+
+// Valid reports whether the status is one of the contract states.
+func (s DecisionStatus) Valid() bool {
+	switch s {
+	case StatusProposed, StatusAdjusted, StatusConfirmed, StatusRejected,
+		StatusChangesRequested, StatusBlocked, StatusSuperseded, StatusMerged, StatusClosed:
+		return true
+	}
+	return false
+}
 
 // NodeSource tells a live event from a manual backfill.
 type NodeSource string
@@ -145,9 +165,9 @@ func NewUUIDv4() string {
 // Service assembles the decision chain module on the shared connection pool.
 // The zero-value is unusable; build it with New.
 type Service struct {
-	pool  *pgxpool.Pool
-	cfg   Config
-	store Store
+	pool   *pgxpool.Pool
+	cfg    Config
+	store  Store
 	client *http.Client
 
 	// Authenticate guards every decision endpoint (session + CSRF via the
@@ -179,20 +199,38 @@ func (s *Service) Record(ctx context.Context, e Event) error {
 	if !s.Enabled() {
 		return ErrDisabled
 	}
+	w, err := s.buildNodeWrite(ctx, e, s.cfg.ResolveName)
+	if err != nil {
+		return err
+	}
+	_, err = s.store.Record(ctx, w)
+	return err
+}
+
+func (s *Service) buildNodeWrite(ctx context.Context, e Event,
+	resolve func(ctx context.Context, id string) (string, bool)) (nodeWrite, error) {
+	return buildNodeWrite(ctx, e, resolve)
+}
+
+// buildNodeWrite normalizes and resolves one event into the store write
+// shape. resolve is optional — nil keeps raw ids (the replan sink feeds
+// already-normalized names).
+func buildNodeWrite(ctx context.Context, e Event,
+	resolve func(ctx context.Context, id string) (string, bool)) (nodeWrite, error) {
 	normalized := NormalizeRequirement(e.Requirement)
 	if normalized == "" {
-		return fmt.Errorf("decisionchain: requirement text is required")
+		return nodeWrite{}, fmt.Errorf("decisionchain: requirement text is required")
 	}
 	if e.IdempotencyKey == "" {
-		return fmt.Errorf("decisionchain: idempotency key is required")
+		return nodeWrite{}, fmt.Errorf("decisionchain: idempotency key is required")
 	}
 	names := make([]string, 0, len(e.RepositoryIDs))
 	for _, id := range e.RepositoryIDs {
 		if id == "" {
 			continue
 		}
-		if s.cfg.ResolveName != nil {
-			if name, ok := s.cfg.ResolveName(ctx, id); ok && name != "" {
+		if resolve != nil {
+			if name, ok := resolve(ctx, id); ok && name != "" {
 				names = append(names, name)
 				continue
 			}
@@ -203,24 +241,52 @@ func (s *Service) Record(ctx context.Context, e Event) error {
 	if !e.Accepted {
 		status = StatusRejected
 	}
+	if e.Status.Valid() {
+		status = e.Status
+	}
+	step := StepConfirmation
+	if e.Step.Valid() {
+		step = e.Step
+	}
+	actorType := "human"
+	switch e.ActorType {
+	case "llm", "service":
+		actorType = e.ActorType
+	case "human", "":
+	default:
+		return nodeWrite{}, fmt.Errorf("decisionchain: unknown actor type %q", e.ActorType)
+	}
 	actor := e.Actor
 	if actor == "" {
 		actor = "unknown"
 	}
-	_, err := s.store.Record(ctx, nodeWrite{
+	action := e.Action
+	if action == "" {
+		action = "范围圈定确认"
+	}
+	rationale := e.Rationale
+	if rationale == "" {
+		rationale = truncate(normalized, 200)
+	}
+	contextRef := e.ContextRef
+	if contextRef == nil {
+		contextRef = map[string]any{"sourceIds": e.RepositoryIDs}
+	}
+	return nodeWrite{
 		EventID:              e.IdempotencyKey,
 		RequirementText:      normalized,
 		RequirementKey:       RequirementKey(normalized),
-		Step:                 StepConfirmation,
+		Step:                 step,
 		Status:               status,
+		ActorType:            actorType,
 		ActorID:              actor,
-		Action:               "范围圈定确认",
-		Rationale:            truncate(normalized, 200),
-		ContextRef:           map[string]any{"sourceIds": e.RepositoryIDs},
+		Action:               action,
+		Rationale:            rationale,
+		ContextRef:           contextRef,
 		AffectedRepositories: names,
 		Source:               SourceEvent,
-	})
-	return err
+		ParentNodeID:         e.UpstreamRef,
+	}, nil
 }
 
 // Enabled reports the feature toggle (feature_settings row 'decision_chain',

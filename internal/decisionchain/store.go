@@ -13,7 +13,9 @@ type nodeWrite struct {
 	RequirementKey       string
 	Step                 DecisionStep
 	Status               DecisionStatus
+	ActorType            string // llm|human|service
 	ActorID              string
+	ParentNodeID         string // upstream decision node id, "" = chain root
 	Action               string
 	Rationale            string
 	ContextRef           map[string]any
@@ -34,9 +36,9 @@ type Filter struct {
 // ScoredNode pairs a node with its recall score and, for structural hits,
 // the repository names that intersected.
 type ScoredNode struct {
-	Node                 DecisionNode `json:"node"`
-	Score                float64      `json:"score"`
-	MatchedRepositories  []string     `json:"matchedRepositories,omitempty"`
+	Node                DecisionNode `json:"node"`
+	Score               float64      `json:"score"`
+	MatchedRepositories []string     `json:"matchedRepositories,omitempty"`
 }
 
 // Store persists decision nodes and their embeddings. The service depends on

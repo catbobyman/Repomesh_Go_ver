@@ -1,6 +1,8 @@
 package scan
 
 import (
+	"context"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -115,5 +117,66 @@ func TestScopeSubmitSurvivesAPanickingSeam(t *testing.T) {
 		strings.NewReader(`{"requirement":"x","repositoryIds":["t"],"idempotencyKey":"k9"}`)))
 	if recorder.Code != http.StatusOK {
 		t.Fatalf("status = %d, want 200: %s", recorder.Code, recorder.Body.String())
+	}
+}
+
+type listStore struct {
+	CatalogStore
+	cards []RepositoryCard
+}
+
+func (s listStore) List(ctx context.Context) ([]RepositoryCard, error) {
+	return s.cards, nil
+}
+
+func TestRepositoryDependentsEndpoint(t *testing.T) {
+	handler := &HTTP{Store: listStore{cards: []RepositoryCard{
+		{ID: "gw", Name: "gateway", AutoCard: &AutoCard{DepEvidence: []DepEvidence{
+			{Name: "sdk", Mechanism: MechanismBuild, Confidence: ConfidenceConfirmed},
+		}}},
+		{ID: "sdk", Name: "sdk"},
+	}}}
+	mux := http.NewServeMux()
+	mux.HandleFunc("GET /api/repositories/dependents", handler.handleRepositoryDependents)
+	server := httptest.NewServer(mux)
+	defer server.Close()
+
+	resp, err := server.Client().Get(server.URL + "/api/repositories/dependents?name=sdk")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		t.Fatalf("dependents = %d, want 200", resp.StatusCode)
+	}
+	var body struct {
+		Target     string `json:"target"`
+		Dependents []struct {
+			Repository string   `json:"repository"`
+			Mechanisms []string `json:"mechanisms"`
+			Confirmed  bool     `json:"confirmed"`
+		} `json:"dependents"`
+	}
+	if err := json.NewDecoder(resp.Body).Decode(&body); err != nil {
+		t.Fatal(err)
+	}
+	if body.Target != "sdk" || len(body.Dependents) != 1 ||
+		body.Dependents[0].Repository != "gateway" || !body.Dependents[0].Confirmed {
+		t.Fatalf("response = %+v", body)
+	}
+
+	if resp, err = server.Client().Get(server.URL + "/api/repositories/dependents"); err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+	if resp.StatusCode != http.StatusBadRequest {
+		t.Fatalf("missing name = %d, want 400", resp.StatusCode)
+	}
+	if resp, err = server.Client().Get(server.URL + "/api/repositories/dependents?name=ghost"); err != nil {
+		t.Fatal(err)
+	}
+	resp.Body.Close()
+	if resp.StatusCode != http.StatusNotFound {
+		t.Fatalf("unknown repo = %d, want 404", resp.StatusCode)
 	}
 }

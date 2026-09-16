@@ -61,6 +61,17 @@ func scanNode(row pgx.Row, extra ...any) (DecisionNode, error) {
 	return n, nil
 }
 
+// RecordPlanRevisedInTx 双轴挂钩（协议 §2.4）：在计划换代的事务里落一条
+// 决策单（status=adjusted，upstream_ref 指 BLOCKED 节点）——计划轴与决策轴
+// 同事务提交，要么同时生效要么同时回滚。Event 需自带 Step/Status/UpstreamRef。
+func (p *PostgresStore) RecordPlanRevisedInTx(ctx context.Context, tx pgx.Tx, e Event) (DecisionNode, error) {
+	w, err := buildNodeWrite(ctx, e, nil)
+	if err != nil {
+		return DecisionNode{}, err
+	}
+	return p.recordTx(ctx, tx, w)
+}
+
 // Record inserts one node; idempotent by event_id. Version assignment is
 // serialized per (requirement_key, step) by a transaction-scoped advisory
 // lock, so the partial unique index stays a pure backstop (F9 修正：重试
@@ -75,7 +86,14 @@ func (p *PostgresStore) recordOnce(ctx context.Context, w nodeWrite) (DecisionNo
 		return DecisionNode{}, err
 	}
 	defer tx.Rollback(ctx)
+	stored, err := p.recordTx(ctx, tx, w)
+	if err != nil {
+		return DecisionNode{}, err
+	}
+	return stored, tx.Commit(ctx)
+}
 
+func (p *PostgresStore) recordTx(ctx context.Context, tx pgx.Tx, w nodeWrite) (DecisionNode, error) {
 	// Serialize same-chain writers so max+1 cannot race.
 	if _, err := tx.Exec(ctx,
 		`SELECT pg_advisory_xact_lock(hashtextextended($1, 0))`,
@@ -110,12 +128,12 @@ func (p *PostgresStore) recordOnce(ctx context.Context, w nodeWrite) (DecisionNo
 	tag, err := tx.Exec(ctx, `
 		INSERT INTO public.decision_chain_nodes (
 		  id, event_id, requirement_text, requirement_key, actor_type, actor_id,
-		  action, rationale, context_ref, step, version, status,
+		  parent_node_id, action, rationale, context_ref, step, version, status,
 		  affected_repositories, source
-		) VALUES ($1, $2, $3, $4, 'human', $5, $6, $7, $8, $9, $10, $11, $12, $13)
+		) VALUES ($1, $2, $3, $4, COALESCE(NULLIF($5, ''), 'human'), $6, NULLIF($7, '')::uuid, $8, $9, $10, $11, $12, $13, $14, $15)
 		ON CONFLICT (event_id) WHERE event_id IS NOT NULL DO NOTHING`,
-		id, w.EventID, w.RequirementText, w.RequirementKey, w.ActorID,
-		w.Action, w.Rationale, contextRef, string(w.Step), version,
+		id, w.EventID, w.RequirementText, w.RequirementKey, w.ActorType, w.ActorID,
+		w.ParentNodeID, w.Action, w.Rationale, contextRef, string(w.Step), version,
 		string(w.Status), repos, string(w.Source))
 	if err != nil {
 		return DecisionNode{}, err
@@ -131,7 +149,7 @@ func (p *PostgresStore) recordOnce(ctx context.Context, w nodeWrite) (DecisionNo
 	if err != nil {
 		return DecisionNode{}, err
 	}
-	return stored, tx.Commit(ctx)
+	return stored, nil
 }
 
 func (p *PostgresStore) byEventID(ctx context.Context, tx pgx.Tx, eventID string) (DecisionNode, error) {
@@ -349,4 +367,36 @@ func formatVector(vec []float32) string {
 		buf = strconv.AppendFloat(buf, float64(v), 'g', -1, 32)
 	}
 	return string(append(buf, ']'))
+}
+
+// RecordFeedback records one escalation-ladder hop (blocked report, TM
+// escalation, or TM close) in its own transaction and returns the node id.
+func (p *PostgresStore) RecordFeedback(ctx context.Context, e Event) (DecisionNode, error) {
+	w, err := buildNodeWrite(ctx, e, nil)
+	if err != nil {
+		return DecisionNode{}, err
+	}
+	return p.recordOnce(ctx, w)
+}
+
+// BlockedSince lists blocked feedback nodes for a requirement since the
+// given instant (collection window query, 协议 §2 步骤 3).
+func (p *PostgresStore) BlockedSince(ctx context.Context, requirementKey string, since time.Time) ([]DecisionNode, error) {
+	rows, err := p.pool.Query(ctx, `SELECT `+nodeColumns+`
+		FROM public.decision_chain_nodes n
+		WHERE n.requirement_key = $1 AND n.status = 'blocked' AND n.created_at >= $2
+		ORDER BY n.created_at`, requirementKey, since)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	out := []DecisionNode{}
+	for rows.Next() {
+		node, err := scanNode(rows)
+		if err != nil {
+			return nil, err
+		}
+		out = append(out, node)
+	}
+	return out, rows.Err()
 }

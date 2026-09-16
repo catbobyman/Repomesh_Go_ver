@@ -245,3 +245,68 @@ func TestPostgresConcurrentConfirmationsGetDistinctVersions(t *testing.T) {
 		t.Fatalf("got %d distinct versions, want %d", len(seen), writers)
 	}
 }
+
+func TestRecordPlanRevisedInTx(t *testing.T) {
+	pool := testdb.Open(t)
+	store := NewPostgresStore(pool)
+	ctx := context.Background()
+
+	// 触发源：一条 BLOCKED 上报节点。
+	blocked, err := store.Record(ctx, nodeWrite{
+		EventID: "dec-block-t3", RequirementText: "网关改造需求",
+		RequirementKey: RequirementKey("网关改造需求"),
+		Step:           StepConfirmation, Status: StatusBlocked, ActorType: "human",
+		ActorID: "tm-1", Action: "范围圈定确认", Rationale: "发现需要连带 SDK",
+		ContextRef:           map[string]any{},
+		AffectedRepositories: []string{"gateway"}, Source: SourceEvent,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// 同事务落 adjusted 修订节点，upstream 指 BLOCKED。
+	tx, err := pool.Begin(ctx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	adjusted, err := store.RecordPlanRevisedInTx(ctx, tx, Event{
+		Requirement: "网关改造需求", Actor: "leader", ActorType: "llm",
+		IdempotencyKey: "dec-adj-t3", RepositoryIDs: []string{"gateway", "sdk"},
+		Accepted: true, Status: StatusAdjusted, UpstreamRef: blocked.ID,
+	})
+	if err != nil {
+		tx.Rollback(ctx)
+		t.Fatal(err)
+	}
+	if err := tx.Commit(ctx); err != nil {
+		t.Fatal(err)
+	}
+
+	got, err := store.Get(ctx, adjusted.ID)
+	if err != nil || got == nil {
+		t.Fatalf("adjusted node missing: %v", err)
+	}
+	if got.Status != StatusAdjusted || got.ParentNodeID != blocked.ID || got.ActorType != "llm" {
+		t.Fatalf("adjusted node = %+v", got)
+	}
+	if len(got.AffectedRepositories) != 2 {
+		t.Fatalf("repos = %v", got.AffectedRepositories)
+	}
+
+	// 回滚验证：事务内落、回滚后不存在的节点确实不存在。
+	tx2, _ := pool.Begin(ctx)
+	if _, err := store.RecordPlanRevisedInTx(ctx, tx2, Event{
+		Requirement: "网关改造需求", Actor: "leader",
+		IdempotencyKey: "dec-adj-rollback", Accepted: true, Status: StatusAdjusted,
+	}); err != nil {
+		tx2.Rollback(ctx)
+		t.Fatal(err)
+	}
+	tx2.Rollback(ctx)
+	var n int
+	if err := pool.QueryRow(ctx,
+		`SELECT count(*) FROM public.decision_chain_nodes WHERE event_id = 'dec-adj-rollback'`,
+	).Scan(&n); err != nil || n != 0 {
+		t.Fatalf("rolled-back node visible: n=%d err=%v", n, err)
+	}
+}

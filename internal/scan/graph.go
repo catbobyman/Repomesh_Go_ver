@@ -194,6 +194,20 @@ func (g Graph) Order(cards []RepositoryCard) (ordered, cyclic []string) {
 	return ordered, cyclic
 }
 
+// Dependents returns the edges pointing at the target — the reverse
+// dependencies that define a change's blast radius (重规划协议 §2 步骤 4b),
+// deterministic by source repository.
+func (g Graph) Dependents(targetID string) []Edge {
+	var out []Edge
+	for _, edge := range g.Edges {
+		if edge.ToID == targetID {
+			out = append(out, edge)
+		}
+	}
+	sort.Slice(out, func(i, j int) bool { return out[i].FromID < out[j].FromID })
+	return out
+}
+
 func sortedKeys(set map[string]bool) []string {
 	keys := make([]string, 0, len(set))
 	for key := range set {

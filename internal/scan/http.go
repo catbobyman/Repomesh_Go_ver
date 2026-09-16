@@ -6,6 +6,7 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	"sort"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -97,6 +98,7 @@ func (h *HTTP) RegisterRoutes(mux *http.ServeMux) {
 	}
 	mux.HandleFunc("GET /api/repositories", h.handleRepositoryList)
 	mux.HandleFunc("GET /api/repositories/url-type", h.handleURLType)
+	mux.HandleFunc("GET /api/repositories/dependents", h.handleRepositoryDependents)
 	mux.HandleFunc("POST /api/repositories", h.guarded(h.handleRepositoryCreate))
 	mux.HandleFunc("POST /api/scan-jobs", h.guarded(h.handleScanJobCreate))
 	mux.HandleFunc("GET /api/scan-jobs/{id}", h.handleScanJobGet)
@@ -344,6 +346,60 @@ func (h *HTTP) handleScopeCheck(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	writeJSON(w, http.StatusOK, report)
+}
+
+// handleRepositoryDependents serves the replan protocol's Step 4b input:
+// who depends on the change-main repository — every edge into it, with
+// mechanisms and whether any confirmed edge backs the dependency.
+func (h *HTTP) handleRepositoryDependents(w http.ResponseWriter, r *http.Request) {
+	name := strings.TrimSpace(r.URL.Query().Get("name"))
+	if name == "" {
+		writeError(w, http.StatusBadRequest, "name is required")
+		return
+	}
+	cards, err := h.Store.List(r.Context())
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	registry := BuildAliasRegistry(cards)
+	target, ok := registry.Resolve(name)
+	if !ok {
+		writeError(w, http.StatusNotFound, "未知仓库: "+name)
+		return
+	}
+	byID := make(map[string]RepositoryCard, len(cards))
+	for _, card := range cards {
+		byID[card.ID] = card
+	}
+	type dependent struct {
+		Repository string   `json:"repository"`
+		Mechanisms []string `json:"mechanisms"`
+		Confirmed  bool     `json:"confirmed"`
+	}
+	merged := map[string]*dependent{}
+	for _, edge := range BuildGraph(cards, registry).Dependents(target.ID) {
+		d := merged[edge.FromID]
+		if d == nil {
+			source := byID[edge.FromID]
+			d = &dependent{Repository: source.Name}
+			merged[edge.FromID] = d
+		}
+		d.Mechanisms = append(d.Mechanisms, string(edge.Mechanism))
+		if edge.Confidence == ConfidenceConfirmed {
+			d.Confirmed = true
+		}
+	}
+	dependents := make([]dependent, 0, len(merged))
+	for _, d := range merged {
+		d.Mechanisms = dedupeStrings(d.Mechanisms)
+		sort.Strings(d.Mechanisms)
+		dependents = append(dependents, *d)
+	}
+	sort.Slice(dependents, func(i, j int) bool {
+		return dependents[i].Repository < dependents[j].Repository
+	})
+	writeJSON(w, http.StatusOK, map[string]any{"target": target.Name, "dependents": dependents})
 }
 
 // handleScopeSubmit implements D-8: the submission boundary. Valid ids are
